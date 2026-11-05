@@ -1,0 +1,120 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Tokens" parameters={{ previewTabs: { canvas: { hidden: true } } }} />
+
+# Tokens
+
+Propellant components render under a `[data-propellant]` boundary and paint with semantic
+tokens named by role: label, fill, separator and grouped background. Use the
+**Theme** toolbar to compare light, dark and the system setting. The Propellant site lists every
+token with its values and measures contrast live.
+
+<div data-propellant style={{ display: 'grid', gap: 32 }}>
+
+## Surfaces
+
+<div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+  {[
+    ['--bg-grouped', 'Page'],
+    ['--bg', 'Content'],
+    ['--bg-secondary', 'Well'],
+    ['--bg-elevated', 'Floating'],
+  ].map(([token, label]) => (
+    <div key={token} style={{ width: 150 }}>
+      <div
+        style={{
+          height: 56,
+          borderRadius: 'var(--corner-lg)',
+          background: `var(${token})`,
+          boxShadow: 'inset 0 0 0 1px var(--separator)',
+        }}
+      />
+      <div style={{ fontWeight: 600, fontSize: 13, marginTop: 6 }}>{label}</div>
+      <code style={{ fontSize: 11 }}>{token}</code>
+    </div>
+  ))}
+</div>
+
+## Labels
+
+<div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+  {[
+    ['--label', 'Primary'],
+    ['--label-secondary', 'Secondary'],
+    ['--label-tertiary', 'Tertiary'],
+    ['--label-quaternary', 'Disabled'],
+    ['--tint', 'Interactive'],
+  ].map(([token, label]) => (
+    <div key={token} style={{ color: `var(${token})` }}>
+      <div style={{ fontWeight: 600 }}>{label} Aa</div>
+      <code style={{ fontSize: 11 }}>{token}</code>
+    </div>
+  ))}
+</div>
+
+## Status
+
+<div style={{ display: 'grid', gap: 10 }}>
+  {['critical', 'warning', 'success'].map((name) => (
+    <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div
+        style={{
+          padding: '6px 12px',
+          borderRadius: 'var(--corner-md)',
+          background: `var(--${name}-fill)`,
+          color: `var(--${name})`,
+          fontWeight: 600,
+        }}
+      >
+        {name}
+      </div>
+      <code style={{ fontSize: 11 }}>
+        --{name}, --{name}-fill, --{name}-solid
+      </code>
+    </div>
+  ))}
+</div>
+
+## Corners
+
+<div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+  {['sm', 'md', 'lg', 'xl', 'capsule'].map((size) => (
+    <div key={size} style={{ textAlign: 'center' }}>
+      <div
+        style={{
+          width: 72,
+          height: 48,
+          borderRadius: `var(--corner-${size})`,
+          background: 'var(--fill)',
+        }}
+      />
+      <code style={{ fontSize: 11 }}>--corner-{size}</code>
+    </div>
+  ))}
+</div>
+
+## Text styles
+
+<div style={{ display: 'grid', gap: 8 }}>
+  {[
+    ['text-large-title', 'Applications'],
+    ['text-title1', 'Assign judges'],
+    ['text-title2', 'Program overview'],
+    ['text-title3', 'Scoring rubric'],
+    ['text-headline', 'Northwind Robotics'],
+    ['text-body', 'Judges see a startup after its application is complete.'],
+    ['text-callout', 'Scores stay private until the round closes.'],
+    ['text-subheadline', 'Series A, Boston, MA'],
+    ['text-footnote', 'Edited 4 minutes ago'],
+    ['text-caption', '3 of 3 judges'],
+  ].map(([style, sample]) => (
+    <div key={style} style={{ display: 'flex', alignItems: 'baseline', gap: 16 }}>
+      <code style={{ fontSize: 11, width: 130, flex: 'none' }}>{style}</code>
+      <span className={style} style={{ color: 'var(--label)' }}>
+        {sample}
+      </span>
+    </div>
+  ))}
+</div>
+
+</div>
