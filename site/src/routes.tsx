@@ -25,7 +25,7 @@ export const SECTIONS = ['Start', 'Brand', 'Foundations', 'Build', 'Guidelines']
 
 export const ROUTES: SiteRoute[] = [
   { id: 'overview', title: 'Overview', section: 'Start', Page: Overview },
-  { id: 'usage', title: 'Usage', section: 'Start', Page: Usage },
+  { id: 'usage', title: 'Using Propellant', section: 'Start', Page: Usage },
   { id: 'brand', title: 'Brand guidelines', section: 'Brand', Page: Brand },
   { id: 'logo', title: 'Logo', section: 'Brand', Page: LogoGuide },
   { id: 'color', title: 'Color', section: 'Foundations', Page: Color },

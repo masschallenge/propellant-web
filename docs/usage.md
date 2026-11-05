@@ -1,6 +1,23 @@
 # Using Propellant
 
-Propellant can be used three ways:
+Propellant gives your product the MassChallenge look, ready to build with: our colors, type and
+spacing, plus the buttons, forms and app frame that screens are made of. Install it once and every
+page starts on brand, with keyboard support and contrast already handled, so your team spends its
+time on the product instead of rebuilding the same pieces.
+
+## What you get
+
+Propellant comes in two layers. Tokens are our design decisions given names, such as `--tint` for
+the color of links and actions or `--corner-lg` for a rounded corner. Any website can use them.
+Components are ready made React pieces, such as `Button` and `AppShell`, built from those tokens.
+
+Because every product draws from the same source, MassChallenge looks and works the same
+everywhere, and a change we make here reaches every team that installs the next version. You can
+start small, too: Propellant only styles the parts of a page you hand to it.
+
+## Pick your setup
+
+Find the row that matches what you are building. The rest of this guide follows it.
 
 | You are building | Use |
 | --- | --- |
@@ -28,9 +45,9 @@ The package is published as `@masschallenge/propellant-web`.
 
 ### 1. Load the styles
 
-Propellant's components are styled with Tailwind CSS 4. Import Tailwind, the scoped tokens and the
-utilities in your global stylesheet, and point Tailwind at the package source so it generates the
-classes the components use:
+Our components are styled with Tailwind CSS 4. In your global stylesheet, import Tailwind, the
+scoped tokens and the utilities. Then point Tailwind at the package source with `@source`, so it
+generates the classes the components use:
 
 ```css
 @import 'tailwindcss';
@@ -41,12 +58,13 @@ classes the components use:
 
 Adjust the `@source` path so it is relative to the stylesheet.
 
-The stylesheet includes the Propellant Sans and Oswald fonts, so there is nothing else to load.
+The stylesheet brings the Propellant Sans and Oswald fonts with it, so there is nothing else to
+load.
 
 ### 2. Compile the package
 
-The package ships TypeScript source. Vite compiles it with no extra setup. In Next.js, add it to
-`transpilePackages`:
+Propellant ships as TypeScript source, which your build tool turns into JavaScript. Vite does this
+with no setup. In Next.js, add the package to `transpilePackages`:
 
 ```js
 const nextConfig = {
@@ -58,8 +76,8 @@ export default nextConfig;
 
 ### 3. Render inside the boundary
 
-Tokens apply inside an element with the `data-propellant` attribute. Put it near the root of the
-part of the page Propellant should style:
+Tokens apply only inside an element with the `data-propellant` attribute. Put it near the root of
+the part of the page Propellant should style:
 
 ```tsx
 import { Button } from '@masschallenge/propellant-web';
@@ -71,13 +89,14 @@ export const Example = () => (
 );
 ```
 
-Everything outside the boundary keeps its existing styles, so a product can adopt Propellant one
+Everything outside the boundary keeps its existing styles, so a product can move to Propellant one
 page at a time.
 
 ### 4. Frame the application
 
-Signed in applications use `AppShell`: a sidebar for places, a toolbar for context and one main
-landmark. On windows narrower than 1024px the sidebar becomes an overlay behind the toolbar button.
+Signed in applications use `AppShell`: a `Sidebar` for places, a `Toolbar` for context and one main
+area for the page. On windows narrower than 1024px, the sidebar becomes an overlay that opens from
+a toolbar button.
 
 ```tsx
 import {
@@ -111,12 +130,12 @@ export const Layout = ({ children }: { children: React.ReactNode }) => (
 );
 ```
 
-`SidebarItem` and `Button` render plain links by default. Pass your router's link component with
-`linkAs` to keep client side navigation.
+`SidebarItem` and `Button` render plain links by default. Pass your router's link component to
+`linkAs` to keep client side navigation, where pages change without a full reload.
 
-### 5. Choose the appearance
+### 5. Choose light or dark
 
-`AppShell` takes `appearance`:
+`AppShell` takes an `appearance` value:
 
 | Value | Effect |
 | --- | --- |
@@ -131,7 +150,8 @@ element inside it.
 
 ### With Tailwind CSS
 
-Load the styles as in step 1, then use tokens in arbitrary values and the text style utilities:
+Load the styles as in step 1. Then use tokens in arbitrary values (Tailwind classes with a value in
+square brackets) and the text style utilities:
 
 ```html
 <section data-propellant class="bg-[var(--bg-grouped)] px-[var(--page-margin)] py-12">
@@ -148,7 +168,7 @@ Public pages may set their main headline in the brand display face:
 
 ### With your own CSS
 
-Import the token stylesheet and use the custom properties directly:
+Import the token stylesheet and use the CSS custom properties (the `var(--name)` values) directly:
 
 ```css
 @import '@masschallenge/propellant-web/styles.scoped.css';
@@ -167,7 +187,7 @@ To apply the tokens to a whole site without a boundary element, import
 
 ## Tokens
 
-Use tokens by role, never the raw values behind them:
+Use tokens by their role, never the raw values behind them:
 
 | Kind | Examples |
 | --- | --- |
@@ -178,12 +198,13 @@ Use tokens by role, never the raw values behind them:
 | Motion | `--spring-snappy`, `--spring-smooth`, `--ease-standard` |
 | Layout | `--control-md`, `--row`, `--page-margin`, `--width-form`, `--space-4` |
 
-The documentation site lists every token with its light, dark, touch and reduced motion values.
+The token reference on the documentation site lists every token with its light, dark, touch and
+reduced motion values.
 
-## Responsibilities that stay with you
+## What stays with you
 
-Propellant's components handle focus, keyboard support, contrast and announcements. A product
-still needs to:
+Our components handle focus, keyboard support, contrast and announcements for screen readers. A
+few things only your product can do:
 
 - give every page one `h1` and a sensible heading order,
 - write labels and button text that say what happens,
@@ -192,5 +213,6 @@ still needs to:
 
 ## Versioning
 
-Propellant follows semantic versioning. Install a tagged version and read the changelog before
-moving to a new major version.
+Propellant follows semantic versioning: the first number of a version changes only when an update
+can break your code. Install a tagged version and read the changelog before moving to a new major
+version.
