@@ -14,6 +14,8 @@ The first public release.
   system appearance mode, touch sizes for coarse pointers, reduced motion and reduced
   transparency support. Tokens are scoped to a `[data-propellant]` boundary, with an unscoped
   stylesheet for sites that adopt them everywhere.
+- The Propellant mark: lockups, marks and an app icon in `assets/brand`, in color, white and
+  black.
 - Propellant Sans (Lato 2.0) at four weights and Oswald for brand headlines, with eleven text
   styles available as Tailwind CSS utilities.
 - Components: actions (Button, IconButton, SocialButton), inputs (TextField, Textarea, Checkbox,

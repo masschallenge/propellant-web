@@ -1,6 +1,7 @@
 import { addons } from 'storybook/manager-api';
 import { create } from 'storybook/theming';
 import pkg from '../package.json';
+import lockup from '../assets/brand/propellant-lockup-color.svg';
 
 const tint = '#065e6f';
 const label = '#1e282b';
@@ -11,6 +12,7 @@ addons.setConfig({
   theme: create({
     base: 'light',
     brandTitle: `Propellant ${pkg.version}`,
+    brandImage: lockup,
     brandTarget: '_self',
     colorPrimary: tint,
     colorSecondary: tint,

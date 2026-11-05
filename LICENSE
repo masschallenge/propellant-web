@@ -24,10 +24,11 @@ SOFTWARE.
 
 Trademarks
 
-The MassChallenge name and logos, including the files in assets/logos and the
-logo images embedded in src/assets/logos.ts, are trademarks of MassChallenge,
-Inc. They are not licensed under the MIT License above. You may use them only
-to identify MassChallenge and only as described in docs/brand.md.
+The MassChallenge and Propellant names and logos, including the files in
+assets/logos and assets/brand and the logo images embedded in
+src/assets/logos.ts, are trademarks of MassChallenge, Inc. They are not
+licensed under the MIT License above. You may use them only to identify
+MassChallenge and Propellant and only as described in docs/brand.md.
 
 Fonts
 

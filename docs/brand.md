@@ -136,3 +136,24 @@ The `Logo` component renders at 24px tall by default. Size it with a height clas
   text style.
 - Use one icon per idea across a product.
 - An icon that acts alone, without a visible label, needs an accessible name.
+
+## The Propellant mark
+
+Propellant has its own mark, which identifies the design system: its documentation, Storybook, this
+repository and the package. It is drawn from the same parts as the rest of the brand. Like the
+MassChallenge logo, it pairs a gray stem with a teal bowl and sets the name beside a thin divider.
+It is built from Propellant's own capsule shapes, and the stem breaks into two fading capsules, the
+exhaust that gives the system its name.
+
+| File | Use it for |
+| --- | --- |
+| `assets/brand/propellant-lockup-color.svg` | The default, on white and light backgrounds. |
+| `assets/brand/propellant-lockup-white.svg` | Deep teal, dark surfaces and dark mode. |
+| `assets/brand/propellant-lockup-black.svg` | Single color print and light backgrounds the color version does not suit. |
+| `assets/brand/propellant-mark-*.svg` | The mark alone, in the same three treatments, where the name is already clear. |
+| `assets/brand/propellant-icon.svg` | Favicons and app icons: the mark on a deep teal tile with concentric corners. |
+
+- Use the Propellant mark only to refer to the design system. Never use it in place of the
+  MassChallenge logo in a product or website, and never place the two marks so they read as one.
+- The clear space, minimum size and things to avoid for the MassChallenge logo apply to this mark
+  too. Its smallest size is 16px tall for the mark and the icon, and 24px tall for the lockup.

@@ -1,6 +1,7 @@
 import { Button, ListRow, ListSection } from '../../../src/index';
 import { components, tokens, version } from 'virtual:propellant-site-data';
 import { PageBody, Prose, Section } from '../parts/Page';
+import { PropellantBrand } from '../parts/PropellantBrand';
 
 const RULES = [
   {
@@ -34,6 +35,7 @@ export const Overview = () => {
   return (
     <PageBody>
       <header className="flex flex-col gap-5 max-w-[var(--width-reading)] pt-4">
+        <PropellantBrand kind="mark" className="size-20" />
         <p className="m-0 text-subheadline font-semibold text-[var(--label-secondary)]">
           MassChallenge design system, version {version}
         </p>

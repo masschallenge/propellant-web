@@ -9,6 +9,7 @@ import {
 } from '../../src/index';
 import { version } from 'virtual:propellant-site-data';
 import { moduleForSlug } from './catalog';
+import { PropellantBrand } from './parts/PropellantBrand';
 import { ComponentPage } from './pages/ComponentPage';
 import { ROUTES, SECTIONS } from './routes';
 import { useHashRoute } from './useHashRoute';
@@ -35,11 +36,9 @@ const SiteSidebar = ({ currentId }: { currentId: string }) => (
     header={
       <a
         href="#overview"
-        className="flex flex-col no-underline rounded-[var(--corner-md)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-color)]"
+        className="flex flex-col gap-1 no-underline rounded-[var(--corner-md)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-color)]"
       >
-        <span className="font-[family-name:var(--type-family-brand)] font-medium uppercase text-[1.375rem] leading-none tracking-[0.02em] text-[var(--label)]">
-          Propellant
-        </span>
+        <PropellantBrand kind="lockup" className="h-8 w-auto self-start" />
         <span className="text-footnote text-[var(--label-tertiary)] tabular-nums">
           Version {version}
         </span>

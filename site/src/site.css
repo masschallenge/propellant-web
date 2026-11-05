@@ -19,3 +19,24 @@ body {
 html[data-theme='dark'] body {
   background: var(--bg-grouped, #0b0f11);
 }
+
+.propellant-on-dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .propellant-on-light {
+    display: none;
+  }
+  html:not([data-theme='light']) .propellant-on-dark {
+    display: block;
+  }
+}
+
+html[data-theme='dark'] .propellant-on-light {
+  display: none;
+}
+
+html[data-theme='dark'] .propellant-on-dark {
+  display: block;
+}

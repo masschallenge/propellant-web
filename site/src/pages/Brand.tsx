@@ -1,4 +1,7 @@
 import { Table } from '../../../src/index';
+import lockupColor from '../../../assets/brand/propellant-lockup-color.svg';
+import lockupWhite from '../../../assets/brand/propellant-lockup-white.svg';
+import icon from '../../../assets/brand/propellant-icon.svg';
 import { Code, PageBody, PageHeading, Prose, Rules, Section, Subsection } from '../parts/Page';
 
 const PALETTE = [
@@ -97,6 +100,37 @@ export const Brand = () => (
         </a>
         .
       </Prose>
+    </Section>
+
+    <Section title="The Propellant mark">
+      <Prose>
+        Propellant has its own mark, which identifies the design system: this site, Storybook, the
+        repository and the package. Like the MassChallenge logo, it pairs a gray stem with a teal
+        bowl and sets the name beside a thin divider. It is built from Propellant&apos;s capsule
+        shapes, and the stem breaks into two fading capsules, the exhaust that gives the system its
+        name.
+      </Prose>
+      <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(min(100%,13rem),1fr))]">
+        <div className="flex min-h-28 items-center justify-center rounded-[var(--corner-lg)] bg-[var(--gray-0)] p-6 shadow-[inset_0_0_0_1px_var(--gray-100)]">
+          <img src={lockupColor} alt="Propellant lockup in color" className="h-10 w-auto" />
+        </div>
+        <div className="flex min-h-28 items-center justify-center rounded-[var(--corner-lg)] bg-[var(--teal-900)] p-6">
+          <img src={lockupWhite} alt="Propellant lockup in white" className="h-10 w-auto" />
+        </div>
+        <div className="flex min-h-28 items-center justify-center rounded-[var(--corner-lg)] bg-[var(--gray-0)] p-6 shadow-[inset_0_0_0_1px_var(--gray-100)]">
+          <img src={icon} alt="Propellant app icon" className="size-16" />
+        </div>
+      </div>
+      <Rules
+        items={[
+          'Use the Propellant mark only to refer to the design system. Never use it in place of the MassChallenge logo in a product or website.',
+          'The clear space and things to avoid for the MassChallenge logo apply to this mark too. Its smallest size is 16px tall for the mark and the icon, and 24px tall for the lockup.',
+          <>
+            The files are in <Code>assets/brand</Code>: lockups and marks in color, white and black,
+            and the app icon.
+          </>,
+        ]}
+      />
     </Section>
 
     <Section title="Color" wide>

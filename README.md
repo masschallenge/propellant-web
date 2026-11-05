@@ -1,3 +1,8 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/propellant-lockup-white.svg" />
+  <img src="assets/brand/propellant-lockup-color.svg" alt="Propellant" height="64" />
+</picture>
+
 # Propellant for the web
 
 Propellant is the MassChallenge design system. This repository is its web implementation: design
