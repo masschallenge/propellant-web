@@ -89,7 +89,7 @@ export const LogoGuide = () => (
   <PageBody>
     <PageHeading
       title="Logo"
-      lede="The logo is the most recognizable part of the MassChallenge brand. Use the supplied files or the Logo component, and never redraw, retype or recolor it."
+      lede="The logo is the most recognizable part of the MassChallenge brand, so we treat it with care. Use the files we supply or the Logo component, and never redraw, retype or recolor it."
     />
 
     <Section title="Lockups" wide>
@@ -120,9 +120,10 @@ export const LogoGuide = () => (
       </Grid>
       <div className="max-w-[var(--width-reading)] flex flex-col gap-4">
         <Prose>
-          The horizontal lockup is the MC monogram, a thin vertical divider and the MASSCHALLENGE
-          wordmark. Keep the three parts together, at the proportions in the files. Use the monogram
-          on its own only where the MassChallenge name is already clear from the context.
+          A lockup is a fixed arrangement of the logo&apos;s parts. The horizontal lockup is the MC
+          monogram, a thin vertical divider and the MASSCHALLENGE wordmark. Keep the three parts
+          together, at the proportions in the files. Use the monogram on its own only where the
+          MassChallenge name is already clear from the context.
         </Prose>
       </div>
     </Section>
@@ -177,8 +178,9 @@ export const LogoGuide = () => (
       </Grid>
       <div className="max-w-[var(--width-reading)] flex flex-col gap-4">
         <Prose>
-          The one color treatments are the same artwork in a single color, so the gap between the M
-          and the C stays open. Each treatment exists for both lockups.
+          A treatment is the color version of the logo you pick for a background. The one color
+          treatments are the same artwork in a single color, so the gap between the M and the C
+          stays open. Each treatment exists for both lockups.
         </Prose>
         <CodeBlock label="Logo component">{`import { Logo } from '@masschallenge/propellant-web';
 
@@ -186,8 +188,8 @@ export const LogoGuide = () => (
 <Logo treatment="white" />
 <Logo lockup="monogram" treatment="black" className="h-8" />`}</CodeBlock>
         <Prose>
-          For anything that is not a React page, such as an email, a document or a favicon, use the
-          image files.{' '}
+          For anything that is not a React page, such as an email, a document or a favicon (the
+          small icon in a browser tab), use the image files.{' '}
           <a href={FILES_URL} className="text-[var(--tint)]">
             Get the logo files
           </a>
@@ -198,9 +200,9 @@ export const LogoGuide = () => (
 
     <Section title="Clear space">
       <Prose>
-        Keep space around the logo free of text, images and edges. The clear space on every side is
-        half the height of the logo. A horizontal logo shown 32px tall needs 16px of clear space all
-        around.
+        Give the logo room to breathe. Keep the space around it free of text, images and edges. The
+        clear space on every side is half the height of the logo. A horizontal logo shown 32px tall
+        needs 16px of clear space all around.
       </Prose>
       <figure className="m-0 flex flex-col gap-3">
         <div className="flex justify-center rounded-[var(--corner-lg)] bg-[var(--gray-0)] p-8 shadow-[inset_0_0_0_1px_var(--gray-100)]">

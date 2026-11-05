@@ -1,8 +1,8 @@
 # MassChallenge brand guidelines
 
-These guidelines cover how the MassChallenge brand appears in web applications and websites
-built with Propellant: the name, the logo, color, type and voice. Propellant puts most of them
-into code, so a product that uses its components and tokens follows them by default.
+How MassChallenge shows up in our web products and websites: the name, the logo, color, type and
+voice. Most of it is already built into Propellant, so when you use its components and tokens (the
+named values for color, type and spacing), you follow these guidelines without extra work.
 
 ## The name
 
@@ -12,10 +12,12 @@ into code, so a product that uses its components and tokens follows them by defa
 
 ## Logo
 
-The logo is the most recognizable part of the brand. Use the supplied files or the `Logo`
-component, and never redraw, retype or recolor it.
+The logo is the most recognizable part of the MassChallenge brand, so we treat it with care. Use
+the files we supply or the `Logo` component, and never redraw, retype or recolor it.
 
 ### Lockups
+
+A lockup is a fixed arrangement of the logo's parts. There are two.
 
 | Lockup | Use it for | Files |
 | --- | --- | --- |
@@ -44,13 +46,14 @@ the palette below.
 | White | The brand teal, dark surfaces, dark mode and photographs dark enough to keep the logo legible. | `*-white.png`, `<Logo treatment="white" />` |
 | Black | Places where only one dark color is available, such as single color print, and light backgrounds that the full color logo does not suit. | `*-black.png`, `<Logo treatment="black" />` |
 
-The one color treatments are the same artwork in a single color, so the gap between the M and
-the C stays open.
+A treatment is the color version of the logo you pick for a background. The one color treatments
+are the same artwork in a single color, so the gap between the M and the C stays open. Each
+treatment exists for both lockups.
 
 ### Clear space
 
-Keep space around the logo free of text, images and edges. The clear space on every side is half
-the height of the logo. A horizontal logo shown 32px tall needs 16px of clear space all around.
+Give the logo room to breathe. Keep the space around it free of text, images and edges. The clear
+space on every side is half the height of the logo. A horizontal logo shown 32px tall needs 16px of clear space all around.
 
 ### Minimum size
 
@@ -102,11 +105,12 @@ The `Logo` component renders at 24px tall by default. Size it with a height clas
   for headings, names or numbers.
 - Magenta means something is wrong or cannot be undone. Never use it decoratively.
 - Yellow highlights. Always set dark text on it.
-- Neutrals carry a slight teal tint, so grays and teals sit together comfortably.
+- Our grays carry a slight teal tint, so they sit comfortably next to the teals.
 - Pair every status color with a word or a symbol, never color alone.
-- Text meets a contrast of at least 4.5:1, and the edges of controls at least 3:1, in light and
-  dark themes. Propellant's tokens are tuned for this, so use the tokens rather than the hex
-  values above in interfaces.
+- Text stands out from its background by a contrast ratio of at least 4.5:1, and the edges of
+  controls by at least 3:1, in light and dark themes. Propellant's semantic tokens (named for their
+  job, not their color) are tuned for this, so in interfaces use the tokens rather than the hex
+  values above.
 
 ## Typography
 
@@ -118,17 +122,35 @@ The `Logo` component renders at 24px tall by default. Size it with a height clas
 - Use sentence case for titles, labels and buttons. Capitals belong only to Oswald headlines and
   the wordmark.
 - Use the eleven named text styles in Propellant rather than choosing sizes by eye.
-- Use tabular figures wherever numbers line up in columns.
+- Use tabular figures (digits of equal width) wherever numbers line up in columns.
 - Keep lines of running text to about 68 characters.
 
 ## Voice
 
-- Write plainly, the way a knowledgeable person talks. Prefer short sentences.
-- Use the words the people using the product use: programs, startups, applications, mentors,
-  judges.
+MassChallenge sounds bold and human. On our website we say "We back the rare humans with the grit
+to solve the toughest challenges" and "It takes a community to raise a startup." Our products
+should sound like the same people: direct, plain spoken and on the side of the community we serve.
+In a product the stakes are practical, so keep the confidence and drop the slogans.
+
+- Get to the point. Use short sentences and everyday words, the way you would explain it to a
+  colleague.
+- Write as a person, not a system. Use "we" for MassChallenge and "you" for the person reading.
+- Be confident without hype. Skip buzzwords such as leverage, seamless and robust, and skip
+  exclamation marks.
+- Write for the whole community. Use the words the people using the product use: programs,
+  startups, applications, mentors, judges.
+- Use sentence case for every title, label and button.
 - Put a verb on every button that says what happens, such as Save changes or Submit application.
 - When something goes wrong, say what happened and how to fix it. Do not apologize or blame.
 - Use commas, colons and periods. Do not use em dashes or en dashes.
+
+### Do and don't
+
+| Don't write | Write |
+| --- | --- |
+| Leverage our seamless platform to unlock your startup's full potential! | Find mentors who know your market. |
+| Users must complete all required fields prior to submission. | Add your company website to submit your application. |
+| Oops! Something went wrong. | We could not save your changes. Check your connection and try again. |
 
 ## Iconography
 
@@ -139,11 +161,12 @@ The `Logo` component renders at 24px tall by default. Size it with a height clas
 
 ## The Propellant mark
 
-Propellant has its own mark, which identifies the design system: its documentation, Storybook, this
-repository and the package. It is drawn from the same parts as the rest of the brand. Like the
-MassChallenge logo, it pairs a gray stem with a teal bowl and sets the name beside a thin divider.
-It is built from Propellant's own capsule shapes, and the stem breaks into two fading capsules, the
-exhaust that gives the system its name.
+Propellant has a mark of its own. It stands for the design system and nothing else: its
+documentation, Storybook (our workshop for trying out components), this repository and the package.
+It is drawn from the same parts as the rest of the brand. Like the MassChallenge logo, it pairs a
+gray stem with a teal bowl and sets the name beside a thin divider. It is built from Propellant's
+own capsule shapes, and the stem breaks into two fading capsules: the exhaust that gives the system
+its name.
 
 | File | Use it for |
 | --- | --- |
@@ -156,4 +179,4 @@ exhaust that gives the system its name.
 - Use the Propellant mark only to refer to the design system. Never use it in place of the
   MassChallenge logo in a product or website, and never place the two marks so they read as one.
 - The clear space, minimum size and things to avoid for the MassChallenge logo apply to this mark
-  too. Its smallest size is 16px tall for the mark and the icon, and 24px tall for the lockup.
+  too. Keep the mark and the icon at least 16px tall, and the lockup at least 24px tall.

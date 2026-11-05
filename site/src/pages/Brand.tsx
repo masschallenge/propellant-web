@@ -70,6 +70,24 @@ const TYPEFACES = [
   },
 ];
 
+const VOICE_EXAMPLES = [
+  {
+    id: 'hype',
+    avoid: "Leverage our seamless platform to unlock your startup's full potential!",
+    write: 'Find mentors who know your market.',
+  },
+  {
+    id: 'system',
+    avoid: 'Users must complete all required fields prior to submission.',
+    write: 'Add your company website to submit your application.',
+  },
+  {
+    id: 'error',
+    avoid: 'Oops! Something went wrong.',
+    write: 'We could not save your changes. Check your connection and try again.',
+  },
+];
+
 const Swatch = ({ token }: { token: string }) => (
   <span
     aria-hidden="true"
@@ -82,7 +100,7 @@ export const Brand = () => (
   <PageBody>
     <PageHeading
       title="Brand guidelines"
-      lede="How the MassChallenge brand appears in web applications and websites: the name, color, type and voice. Propellant puts most of this into code, so a product built with its components and tokens follows it by default."
+      lede="How MassChallenge shows up in our web products and websites: the name, color, type and voice. Most of it is already built into Propellant, so when you use its components and tokens (the named values for color, type and spacing), you follow these guidelines without extra work."
     />
 
     <Section title="The name">
@@ -94,7 +112,7 @@ export const Brand = () => (
         ]}
       />
       <Prose>
-        The logo has its own page, covering lockups, treatments, clear space and minimum sizes.{' '}
+        The logo has its own page. It covers lockups, treatments, clear space and minimum sizes.{' '}
         <a href="#logo" className="text-[var(--tint)]">
           Read the logo guidelines
         </a>
@@ -104,11 +122,11 @@ export const Brand = () => (
 
     <Section title="The Propellant mark">
       <Prose>
-        Propellant has its own mark, which identifies the design system: this site, Storybook, the
-        repository and the package. Like the MassChallenge logo, it pairs a gray stem with a teal
-        bowl and sets the name beside a thin divider. It is built from Propellant&apos;s capsule
-        shapes, and the stem breaks into two fading capsules, the exhaust that gives the system its
-        name.
+        Propellant has a mark of its own. It stands for the design system and nothing else: this
+        site, Storybook (our workshop for trying out components), the repository and the package.
+        Like the MassChallenge logo, it pairs a gray stem with a teal bowl and sets the name beside
+        a thin divider. It is built from Propellant&apos;s capsule shapes, and the stem breaks into
+        two fading capsules: the exhaust that gives the system its name.
       </Prose>
       <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(min(100%,13rem),1fr))]">
         <div className="flex min-h-28 items-center justify-center rounded-[var(--corner-lg)] bg-[var(--gray-0)] p-6 shadow-[inset_0_0_0_1px_var(--gray-100)]">
@@ -123,8 +141,8 @@ export const Brand = () => (
       </div>
       <Rules
         items={[
-          'Use the Propellant mark only to refer to the design system. Never use it in place of the MassChallenge logo in a product or website.',
-          'The clear space and things to avoid for the MassChallenge logo apply to this mark too. Its smallest size is 16px tall for the mark and the icon, and 24px tall for the lockup.',
+          'Use the Propellant mark only to refer to the design system. Never use it in place of the MassChallenge logo in a product or website, and never place the two marks so they read as one.',
+          'The clear space and things to avoid for the MassChallenge logo apply to this mark too. Keep the mark and the icon at least 16px tall, and the lockup at least 24px tall.',
           <>
             The files are in <Code>assets/brand</Code>: lockups and marks in color, white and black,
             and the app icon.
@@ -163,15 +181,16 @@ export const Brand = () => (
             'Teal means you can act on something: buttons, links, selected controls and focus. Do not use it for headings, names or numbers.',
             'Magenta means something is wrong or cannot be undone. Never use it decoratively.',
             'Yellow highlights. Always set dark text on it.',
-            'Neutrals carry a slight teal tint, so grays and teals sit together comfortably.',
+            'Our grays carry a slight teal tint, so they sit comfortably next to the teals.',
             'Pair every status color with a word or a symbol, never color alone.',
             <>
-              Text meets a contrast of at least 4.5:1, and the edges of controls at least 3:1, in
-              light and dark themes. Use the semantic tokens on the{' '}
+              Text stands out from its background by a contrast ratio of at least 4.5:1, and the
+              edges of controls by at least 3:1, in light and dark themes. In interfaces, use the
+              semantic tokens (named for their job, not their color) on the{' '}
               <a href="#color" className="text-[var(--tint)]">
                 color page
               </a>{' '}
-              rather than the hex values above in interfaces.
+              rather than the hex values above.
             </>,
           ]}
         />
@@ -209,22 +228,46 @@ export const Brand = () => (
             </a>{' '}
             rather than choosing sizes by eye.
           </>,
-          'Use tabular figures wherever numbers line up in columns.',
+          'Use tabular figures (digits of equal width) wherever numbers line up in columns.',
           'Keep lines of running text to about 68 characters.',
         ]}
       />
     </Section>
 
     <Section title="Voice">
+      <Prose>
+        MassChallenge sounds bold and human. On our website we say &ldquo;We back the rare humans
+        with the grit to solve the toughest challenges&rdquo; and &ldquo;It takes a community to
+        raise a startup.&rdquo; Our products should sound like the same people: direct, plain spoken
+        and on the side of the community we serve. In a product the stakes are practical, so keep
+        the confidence and drop the slogans.
+      </Prose>
       <Rules
         items={[
-          'Write plainly, the way a knowledgeable person talks. Prefer short sentences.',
-          'Use the words the people using the product use: programs, startups, applications, mentors, judges.',
+          'Get to the point. Use short sentences and everyday words, the way you would explain it to a colleague.',
+          'Write as a person, not a system. Use "we" for MassChallenge and "you" for the person reading.',
+          'Be confident without hype. Skip buzzwords such as leverage, seamless and robust, and skip exclamation marks.',
+          'Write for the whole community. Use the words the people using the product use: programs, startups, applications, mentors, judges.',
+          'Use sentence case for every title, label and button.',
           'Put a verb on every button that says what happens, such as Save changes or Submit application.',
           'When something goes wrong, say what happened and how to fix it. Do not apologize or blame.',
           'Use commas, colons and periods. Do not use em dashes or en dashes.',
         ]}
       />
+      <Subsection title="Do and don't">
+        <div className="overflow-x-auto">
+          <Table
+            caption="Voice in practice"
+            size="sm"
+            rows={VOICE_EXAMPLES}
+            rowId={(row) => row.id}
+            columns={[
+              { key: 'avoid', header: "Don't write", cell: (row) => row.avoid },
+              { key: 'write', header: 'Write', cell: (row) => row.write },
+            ]}
+          />
+        </div>
+      </Subsection>
     </Section>
 
     <Section title="Iconography">
