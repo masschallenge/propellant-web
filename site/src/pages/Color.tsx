@@ -17,12 +17,12 @@ const TEXT_ROLES: ColorRole[] = [
 const SURFACE_ROLES: ColorRole[] = [
   { name: '--bg-grouped', use: 'The page behind groups', kind: 'surface', on: '--bg' },
   { name: '--bg', use: 'Groups, tables, fields', kind: 'surface', on: '--bg-grouped' },
-  { name: '--bg-secondary', use: 'Wells inside a group', kind: 'surface' },
+  { name: '--bg-secondary', use: 'Inset areas inside a group', kind: 'surface' },
   { name: '--bg-elevated', use: 'Menus, popovers, sheets', kind: 'surface', on: '--bg-grouped' },
 ];
 
 const FILL_ROLES: ColorRole[] = [
-  { name: '--fill', use: 'Gray controls, pressed', kind: 'fill' },
+  { name: '--fill', use: 'Gray controls while pressed', kind: 'fill' },
   { name: '--fill-secondary', use: 'Gray buttons and tokens', kind: 'fill' },
   { name: '--fill-tertiary', use: 'Hover on plain controls', kind: 'fill' },
   { name: '--tint-fill', use: 'Tinted buttons, selected tokens', kind: 'fill' },
@@ -33,7 +33,7 @@ const FILL_ROLES: ColorRole[] = [
 
 const LINE_ROLES: ColorRole[] = [
   { name: '--separator', use: 'Hairlines between rows', kind: 'line' },
-  { name: '--separator-strong', use: 'Section rules', kind: 'line' },
+  { name: '--separator-strong', use: 'Lines between sections', kind: 'line' },
   { name: '--control-border', use: 'Edges of fields and checkboxes', kind: 'line', minimum: 3 },
 ];
 
@@ -75,7 +75,7 @@ const SOLID_ROLES: ColorRole[] = [
   },
   {
     name: '--masquerade',
-    use: 'Viewing as another person',
+    use: 'Showing you are viewing as someone else',
     kind: 'solid',
     on: '--on-masquerade',
     minimum: 4.5,
@@ -86,21 +86,28 @@ export const Color = () => (
   <PageBody>
     <PageHeading
       title="Color"
-      lede="Neutrals lean slightly toward the brand teal, text colors stay opaque so contrast is guaranteed, and fills are translucent so one control style sits correctly on any surface."
+      lede="Color tells people what they can click, what needs their attention and what went well. This page shows the colors we use, the one job each of them does, and the rules that keep text easy to read in light and dark mode."
     />
 
-    <Section title="Roles, not swatches">
+    <Section title="Colors by job, not by shade">
       <Prose>
-        Components never name a hex value. They use roles: label, fill, separator, grouped
-        background. A role resolves to a primitive from the palette, and the dark theme points the
-        same role at a different primitive, so a component written once works in both themes.
+        Components never use a raw color code. They use roles instead, such as label, fill,
+        separator or grouped background. Each role is a token: a named setting, like{' '}
+        <Code>--label</Code>, that the code refers to instead of a fixed value. A role points at a
+        primitive, one color from the palette, and dark mode points the same role at a different
+        primitive. So a component written once works in both themes.
+      </Prose>
+      <Prose>
+        Our grays lean slightly toward the brand teal. Text colors are solid, so their contrast (how
+        strongly text stands out from what is behind it) is guaranteed. Fills are see through, so
+        one control style sits correctly on any surface.
       </Prose>
       <Rules
         items={[
-          'Use the tint only on things a person can act on. A teal title makes every teal link mean less.',
-          'Pair every status color with a glyph or a word. Color alone never carries meaning.',
-          'Quaternary label is for disabled text only. It does not meet text contrast on purpose.',
-          'Use the solid status colors for full width banners and filled buttons. Everywhere else, use the text color on its fill.',
+          'Use the tint, our teal accent, only on things a person can act on. A teal title makes every teal link mean less.',
+          'Pair every status color with an icon or a word. Color alone never carries meaning, since not everyone sees it the same way.',
+          'The quaternary (fourth level) label is for disabled text only. It is faint on purpose and does not meet the contrast minimum for text.',
+          'Use the solid status colors for full width banners and filled buttons. Everywhere else, use the status text color on its matching fill.',
         ]}
       />
     </Section>
@@ -108,54 +115,57 @@ export const Color = () => (
     <Section title="Text" wide>
       <ColorBoard
         roles={TEXT_ROLES}
-        caption="Text roles with contrast against the content surface"
+        caption="Text colors, with how strongly each stands out on the content background"
       />
     </Section>
 
     <Section title="Surfaces" wide>
       <Prose>
-        Content sits on <Code>--bg</Code> inside a page of <Code>--bg-grouped</Code>. That step in
-        lightness is the separation, so content groups need no border and no shadow. Things that
-        float, such as menus and sheets, use <Code>--bg-elevated</Code>, which is also lighter in
-        dark mode so depth still reads.
+        Content sits on <Code>--bg</Code> inside a page of <Code>--bg-grouped</Code>. The small step
+        in lightness between them is enough to set a group apart, so groups need no border and no
+        shadow. Things that float above the page, such as menus and sheets, use{' '}
+        <Code>--bg-elevated</Code>. It is lighter in dark mode too, so you can still tell what sits
+        on top.
       </Prose>
       <ColorBoard roles={SURFACE_ROLES} caption="Surface roles" />
     </Section>
 
     <Section title="Fills and lines" wide>
-      <ColorBoard roles={FILL_ROLES} caption="Translucent fills" />
+      <ColorBoard roles={FILL_ROLES} caption="See through fills" />
       <ColorBoard
         roles={LINE_ROLES}
-        caption="Separators and control edges, with control border contrast against the content surface"
+        caption="Separators and control edges, with how strongly the control border stands out on the content background"
       />
     </Section>
 
-    <Section title="Solid colors and their ink" wide>
+    <Section title="Solid colors and the text on them" wide>
       <ColorBoard
         roles={SOLID_ROLES}
-        caption="Solid colors with the contrast of the text drawn on them"
+        caption="Solid colors, with the contrast of the text drawn on top"
       />
     </Section>
 
     <Section title="Brand colors, one job each">
       <Subsection title="Teal">
         <Prose>
-          The website's teals. Light mode uses the primary, a deep teal. Dark mode lightens the
-          website's bright teal one step, so teal text keeps 4.5:1 on tinted fills over every
-          surface, and filled controls use dark ink because white on bright teal fails contrast.
+          These are the website's teals. Light mode uses the primary, a deep teal. Dark mode
+          lightens the website's bright teal one step, so teal text keeps a contrast ratio of 4.5:1
+          (the minimum for readable text) on tinted fills over every surface. Filled controls in
+          dark mode use dark text, because white on bright teal is too hard to read.
         </Prose>
       </Subsection>
       <Subsection title="Magenta">
         <Prose>
-          The website's secondary color fills destructive buttons, and one step darker it colors
-          critical text, so error text keeps 4.5:1 on its own tinted fill. It reads as red pink, so
-          it works for errors, and it is never used decoratively.
+          The website's secondary color fills destructive buttons, the ones that delete or undo
+          something. One step darker, it colors critical text, so error text keeps 4.5:1 on its own
+          tinted fill. It reads as a red pink, which suits errors, and we never use it as
+          decoration.
         </Prose>
       </Subsection>
       <Subsection title="Yellow">
         <Prose>
           Yellow has one job: highlighting search matches and marking new items, always with dark
-          ink.
+          text on top.
         </Prose>
         <p className="m-0 text-body text-[var(--label)]">
           Results for{' '}
@@ -174,8 +184,8 @@ export const Color = () => (
           <Badge>Draft</Badge>
         </div>
         <Prose>
-          There is no separate notice status. Orange and mustard are hard to tell apart, and harder
-          with red green color blindness, so warning covers both.
+          There is no separate notice status. Orange and mustard are hard to tell apart, and even
+          harder for people with red green color blindness, so warning covers both.
         </Prose>
       </Subsection>
     </Section>

@@ -22,7 +22,7 @@ export const ComponentIndex = () => {
     <PageBody>
       <PageHeading
         title="Components"
-        lede="Each page shows live examples and the props read from the TypeScript source."
+        lede="Components are the ready made building blocks of our products: buttons, fields, tables, menus and more. Each page shows live examples you can try, and the props (the settings a component accepts) read straight from the TypeScript source."
       />
       <SearchField
         aria-label="Filter components"
@@ -55,7 +55,7 @@ export const ComponentIndex = () => {
           </Section>
         );
       })}
-      {matches.length ? null : <Note>No components match that filter.</Note>}
+      {matches.length ? null : <Note>No components match that filter. Try a shorter word.</Note>}
     </PageBody>
   );
 };

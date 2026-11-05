@@ -26,7 +26,7 @@ export const ComponentPage = ({ entry }: { entry: ComponentModule }) => {
             ))}
           </div>
         ) : (
-          <Note>This component has no examples yet.</Note>
+          <Note>We have not added examples for this component yet.</Note>
         )}
       </Section>
 

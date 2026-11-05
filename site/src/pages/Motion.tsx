@@ -7,13 +7,13 @@ const SPRINGS = [
     name: 'Snappy',
     token: '--spring-snappy',
     className: 'ease-[var(--spring-snappy)] duration-[var(--spring-snappy-duration)]',
-    use: 'Direct manipulation: switches, segmented thumbs, disclosure chevrons.',
+    use: 'Things a person moves directly: switches, segmented control thumbs, disclosure arrows.',
   },
   {
     name: 'Smooth',
     token: '--spring-smooth',
     className: 'ease-[var(--spring-smooth)] duration-[var(--spring-smooth-duration)]',
-    use: 'Things that appear: popovers, sheets, the inspector.',
+    use: 'Things that appear: popovers, sheets, the inspector panel.',
   },
   {
     name: 'Bouncy',
@@ -29,10 +29,15 @@ export const Motion = () => {
     <PageBody>
       <PageHeading
         title="Motion"
-        lede="Motion in Propellant is built from springs. CSS can express a spring as a linear() easing sampled from the physics, so Propellant needs no animation library."
+        lede="Good motion shows people where things came from and where they went, then gets out of the way. Ours is built from springs, so movement feels physical and settles naturally instead of stopping dead."
       />
 
       <Section title="Three springs" wide>
+        <Prose>
+          An easing is the curve that sets how something speeds up and slows down as it moves. CSS
+          can express a spring as a <Code>linear()</Code> easing sampled from the physics, so
+          Propellant needs no animation library. Press play to compare them.
+        </Prose>
         <div className="flex flex-col gap-4 p-5 rounded-[var(--corner-lg)] bg-[var(--bg)]">
           {SPRINGS.map((spring) => (
             <div key={spring.name} className="flex flex-col gap-1.5">
@@ -65,21 +70,23 @@ export const Motion = () => {
       <Section title="Rules">
         <Rules
           items={[
-            'Press feedback never animates. Every control highlights the moment it is pressed.',
-            'Color changes that are not presses fade with --ease-standard over --duration-fade, 150ms.',
-            'Exits are quicker than entrances and use --ease-exit.',
-            'One orchestrated movement per interaction. Nothing moves to decorate.',
+            'Feedback on press never animates. Every control highlights the moment it is pressed.',
+            'Other color changes fade with --ease-standard over --duration-fade, 150ms.',
+            'Things leave faster than they arrive, using --ease-exit.',
+            'One coordinated movement per interaction. Nothing moves just to decorate.',
           ]}
         />
       </Section>
 
       <Section title="Reduced motion">
         <Prose>
-          Reduced motion removes travel, not status. Under <Code>prefers-reduced-motion</Code> the
-          spring durations collapse to a single millisecond, so a sheet appears in place and a
-          switch knob lands without sliding. Spinners and progress indicators keep moving, because a
-          frozen spinner looks like a hung page. Components therefore never wrap a progress
-          indicator in <Code>motion-safe:</Code>.
+          Some people turn on reduced motion in their system settings because movement makes them
+          unwell or distracts them. For them we remove travel, not status. Under{' '}
+          <Code>prefers-reduced-motion</Code> the spring durations collapse to a single millisecond,
+          so a sheet appears in place and a switch knob lands without sliding. Spinners and progress
+          indicators keep moving, because a frozen spinner looks like a page that has stopped
+          working. That is why components never wrap a progress indicator in{' '}
+          <Code>motion-safe:</Code>.
         </Prose>
       </Section>
     </PageBody>

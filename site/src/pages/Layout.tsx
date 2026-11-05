@@ -27,14 +27,14 @@ export const Layout = () => (
   <PageBody>
     <PageHeading
       title="Layout and density"
-      lede="Most work in MassChallenge applications happens at a desk. Controls default to the density of a desktop app and grow to touch size when the pointer is a finger."
+      lede="Most work in MassChallenge products happens at a desk, so we size controls and spacing to fit a lot on screen without feeling cramped. On a touch screen, the same controls grow so a finger can hit them easily."
     />
 
     <Section title="Three control sizes">
       <Prose>
-        Regular, 32px, is the default. Small is for dense tables and toolbars; large is for the
-        single main action on a sparse page. On a coarse pointer every size grows, so the same
-        markup works on a tablet.
+        Regular, 32px, is the default. Small is for dense tables and toolbars. Large is for the
+        single main action on a page with little else on it. On a coarse pointer (a finger rather
+        than a mouse) every size grows, so the same markup works on a tablet.
       </Prose>
       <div className="flex flex-wrap items-center gap-3 p-5 rounded-[var(--corner-lg)] bg-[var(--bg)]">
         <Button size="sm">Small</Button>
@@ -54,28 +54,28 @@ export const Layout = () => (
       </div>
       <Rules
         items={[
-          'Small controls keep a 28px invisible hit area, or 44px on touch, through a pseudo element. WCAG 2.2 AA asks for 24px.',
+          'Small controls keep a 28px invisible hit area, or 44px on touch, through a pseudo element. The newer WCAG 2.2 AA asks for at least 24px, so we clear it with room to spare.',
           'Rows are 36px in dense tables, 44px in lists and 56px for two line rows.',
-          'Spacing is on a 4px grid. The common steps are 4, 8, 12, 16, 20, 24, 32 and 48.',
+          'Spacing comes in multiples of 4px. The common steps are 4, 8, 12, 16, 20, 24, 32 and 48.',
         ]}
       />
-      <TokenTable tokens={pick(SIZE_TOKENS)} caption="Control, row and chrome sizes" />
+      <TokenTable tokens={pick(SIZE_TOKENS)} caption="Control, row and frame sizes" />
     </Section>
 
-    <Section title="Widths">
+    <Section title="How wide things get">
       <Prose>
-        Forms stop at 640px, running text at about 68 characters, and tables use the full width of
-        the content column. Page margins grow with the window: 16px on a phone, 24px from 768px,
-        32px from 1280px.
+        Forms stop at 640px and running text at about 68 characters, so lines stay easy to read.
+        Tables use the full width of the content column. Page margins grow with the window: 16px on
+        a phone, 24px from 768px, 32px from 1280px.
       </Prose>
       <TokenTable tokens={pick(WIDTH_TOKENS)} caption="Page margins and content widths" />
     </Section>
 
-    <Section title="Why not 44px everywhere">
+    <Section title="Why we do not use 44px everywhere">
       <Prose>
-        A 44px minimum is a touch target. On a desktop it makes tables, toolbars and forms feel
-        inflated. Propellant meets WCAG 2.2 AA target sizes everywhere through an invisible hit
-        area, and returns to touch sizes through <Code>@media (pointer: coarse)</Code>.
+        44px is a size made for fingers. On a desktop it makes tables, toolbars and forms feel
+        bloated. Propellant meets WCAG 2.2 AA target sizes everywhere through an invisible hit area,
+        and switches to touch sizes through <Code>@media (pointer: coarse)</Code>.
       </Prose>
     </Section>
   </PageBody>

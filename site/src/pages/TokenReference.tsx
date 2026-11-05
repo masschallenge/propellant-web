@@ -46,7 +46,7 @@ export const TokenReference = () => {
     <PageBody>
       <PageHeading
         title="Token reference"
-        lede="Every custom property in the package, read from the token files when this site was built. Values that change with the theme, the pointer, the window or a motion preference are listed under each condition."
+        lede="Tokens are the named settings behind every color, size and movement in Propellant. This is the full list, read from the token files when this site was built, so it always matches the code. Where a value changes with the theme, the pointer, the window size or a motion preference, each version is listed."
       />
       <div className="flex flex-wrap items-center gap-3">
         <SearchField
@@ -70,9 +70,10 @@ export const TokenReference = () => {
         />
       </div>
       <Prose>
-        Components use semantic tokens. Primitives are the palette those roles point at; reach for
-        one only inside the token files. Component tokens exist only where a component's value
-        differs per theme or is computed.
+        Components use semantic tokens, the ones named for their job, such as <Code>--label</Code>.
+        Primitive tokens are the raw palette those roles point at; use one only inside the token
+        files. Component tokens exist only where a component needs a value that differs per theme or
+        is calculated.
       </Prose>
       <p role="status" className="m-0 text-footnote text-[var(--label-tertiary)] tabular-nums">
         {visible.length} of {tokens.length} tokens

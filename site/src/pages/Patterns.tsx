@@ -92,21 +92,21 @@ export const Patterns = () => (
   <PageBody>
     <PageHeading
       title="Patterns"
-      lede="How the components combine on common screens: settings, review queues, status and the moments when there is nothing to show yet."
+      lede="Patterns are proven ways to put components together for screens we build again and again. Start here for settings, forms, review queues, status messages and the moments when there is nothing to show yet."
     />
 
     <Section title="Settings as grouped lists" wide>
       <Prose>
-        Most configuration is a short list of named values: a round's rubric, how many judges, who
-        gets emailed. A grouped list reads faster than a column of bordered fields, puts the value
-        next to its name, and lets a switch or stepper act immediately.
+        Most settings are a short list of named values: a round's rubric, how many judges, who gets
+        emailed. A grouped list reads faster than a column of boxed fields. It puts each value next
+        to its name, and a switch or stepper takes effect right away.
       </Prose>
       <RoundSettings />
       <Rules
         items={[
           'Group related settings under a short section title. Put the explanation in the section footer, not under every row.',
-          'Rows that open another screen show a chevron. Rows that change a value in place show the control and no chevron.',
-          'Destructive actions get their own section at the bottom, centered and in the critical color.',
+          'Rows that open another screen show a chevron (a small arrow). Rows that change a value in place show the control and no chevron.',
+          'Destructive actions, the ones that delete or cannot be undone, get their own section at the bottom, centered and in the critical color.',
         ]}
       />
     </Section>
@@ -114,7 +114,8 @@ export const Patterns = () => (
     <Section title="Forms that collect text" wide>
       <Prose>
         When people type, use fields with a visible label above and a hint below. Keep a form to one
-        column under 640px wide, and put secondary options behind a disclosure.
+        column under 640px wide, and tuck secondary options behind a disclosure, a section that
+        opens when clicked.
       </Prose>
       <form
         className="flex flex-col gap-4 max-w-[var(--width-form)] p-5 rounded-[var(--corner-lg)] bg-[var(--bg)]"
@@ -140,8 +141,9 @@ export const Patterns = () => (
 
     <Section title="Review queues" wide>
       <Prose>
-        Tables carry most of the work. They sit on the content surface with no outer border, use
-        dense rows, right align numbers in tabular figures, and pair every status with a word.
+        Tables carry most of the work. They sit on the content background with no outer border and
+        use dense rows. Numbers are right aligned in tabular figures so they line up, and every
+        status gets a word, not just a color.
       </Prose>
       <div className="overflow-x-auto">
         <Table
@@ -189,8 +191,8 @@ export const Patterns = () => (
       <Rules
         items={[
           'Banners sit at the top of the content they describe, not floating over it.',
-          'Critical banners are announced right away; the others are announced politely.',
-          'Toasts confirm an action the person just took and leave on their own. Anything a person must act on is a banner.',
+          'Screen readers announce critical banners right away; the others wait until the reader is free.',
+          'Toasts, brief pop up messages, confirm an action the person just took and leave on their own. Anything a person must act on is a banner.',
         ]}
       />
     </Section>

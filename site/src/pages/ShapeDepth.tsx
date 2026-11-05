@@ -4,7 +4,7 @@ const RADII = [
   {
     token: '--corner-sm',
     value: '4px',
-    use: 'Checkboxes, inline code, keys',
+    use: 'Checkboxes, inline code, keyboard keys',
     className: 'rounded-[var(--corner-sm)]',
   },
   {
@@ -37,18 +37,19 @@ const LEVELS = [
   {
     title: 'Content',
     detail:
-      'Groups, tables, fields and cards. No shadow and no border: a white group on the grouped page is enough.',
+      'Groups, tables, fields and cards. No shadow and no border: a white group on the slightly darker page behind it is enough.',
     className: 'bg-[var(--bg)]',
   },
   {
     title: 'Floating',
-    detail: 'Menus, popovers, tooltips and toasts. A half pixel ring and a soft 24px shadow.',
+    detail:
+      'Menus, popovers, tooltips and toasts (brief pop up messages). A half pixel outline and a soft 24px shadow.',
     className: 'bg-[var(--bg-elevated)] shadow-[var(--shadow-float)]',
   },
   {
     title: 'Modal',
     detail:
-      'Sheets and dialogs over a scrim. A deeper 64px shadow, and a lighter surface in dark mode.',
+      'Sheets and dialogs over a scrim, the dimmed layer that covers the page. A deeper 64px shadow, and a lighter surface in dark mode.',
     className: 'bg-[var(--bg-elevated)] shadow-[var(--shadow-sheet)]',
   },
 ];
@@ -57,10 +58,10 @@ export const ShapeDepth = () => (
   <PageBody>
     <PageHeading
       title="Shape and depth"
-      lede="Five corner radii, concentric nesting, and three levels of depth. Most of the separation in Propellant comes from surfaces, not from lines and shadows."
+      lede="How rounded things are and how high they seem to sit tells people what they can touch and what sits on top. We use five corner sizes and three levels of depth, and we separate content mostly with background color, not with lines and shadows."
     />
 
-    <Section title="Corners" wide>
+    <Section title="Five corner sizes" wide>
       <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-3">
         {RADII.map((radius) => (
           <div
@@ -81,11 +82,12 @@ export const ShapeDepth = () => (
       </div>
     </Section>
 
-    <Section title="Nested shapes are concentric">
+    <Section title="Shapes inside shapes share a center">
       <Prose>
-        The inner radius equals the outer radius minus the inset. A 12px menu with a 4px inset holds
-        8px rows; a capsule track holds a capsule thumb. It is what makes nested controls look
-        machined rather than stacked.
+        When one rounded shape sits inside another, the inner corner radius (how rounded it is)
+        equals the outer radius minus the gap between them. A 12px menu with a 4px inset holds 8px
+        rows; a capsule track holds a capsule thumb. That is what makes nested controls look
+        precisely made rather than piled up.
       </Prose>
       <div className="flex flex-wrap gap-6 items-end">
         <figure className="m-0 flex flex-col gap-2">
@@ -104,8 +106,8 @@ export const ShapeDepth = () => (
       </div>
       <Rules
         items={[
-          'Buttons in a horizontal row are capsules. Buttons stacked vertically in a sheet may be rounded rectangles.',
-          'Fields are rounded rectangles at 8px, because text needs square shoulders to align.',
+          'Buttons in a horizontal row are capsules (fully rounded ends). Buttons stacked vertically in a sheet may be rounded rectangles.',
+          'Fields are rounded rectangles at 8px, because text lines up better against squarer corners.',
           'Checkboxes are 4px squares and radios are circles.',
         ]}
       />
@@ -124,21 +126,22 @@ export const ShapeDepth = () => (
         ))}
       </div>
       <Prose>
-        Leaving borders and shadows off content keeps pages calm: depth is reserved for things that
-        float, so a menu or sheet stands out the moment it appears.
+        Depth, or elevation, is how high something seems to sit above the page. Leaving borders and
+        shadows off content keeps pages calm. We save depth for things that float, so a menu or
+        sheet stands out the moment it appears.
       </Prose>
     </Section>
 
-    <Section title="Hairlines and materials">
+    <Section title="Thin lines and frosted bars">
       <Prose>
-        <Code>--hairline</Code> is one pixel on standard displays and half a pixel on high density
-        ones. Row separators are inset to start where the text starts.
+        <Code>--hairline</Code> is our thinnest line: one pixel on standard displays and half a
+        pixel on high density ones. Row separators are inset, so they start where the text starts.
       </Prose>
       <Prose>
-        The toolbar and sidebar use a bar material: the surface at partial opacity with{' '}
-        <Code>backdrop-filter: saturate(180%) blur(20px)</Code>. Content scrolls under it and stays
-        faintly visible, which tells a person the bar floats above the page. When the person asks
-        for reduced transparency, both materials turn opaque.
+        The toolbar and sidebar use a bar material, a frosted glass effect: the surface at partial
+        opacity with <Code>backdrop-filter: saturate(180%) blur(20px)</Code>. Content scrolls under
+        it and stays faintly visible, which tells a person the bar floats above the page. When
+        someone turns on reduced transparency in their system settings, both materials turn solid.
       </Prose>
     </Section>
   </PageBody>
