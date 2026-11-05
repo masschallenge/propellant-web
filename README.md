@@ -5,23 +5,27 @@
 
 # Propellant for the web
 
-Propellant is the MassChallenge design system. This repository is its web implementation: design
-tokens, React components, an application shell, and the brand and usage guidelines behind them.
-It is used for MassChallenge web applications and websites.
+Propellant is how MassChallenge looks, sounds and works on the web. It is the shared kit our teams
+use to build every MassChallenge website and product: our colors and fonts, ready made pieces like
+buttons and forms, and the guidance for putting them together. When everyone builds from the same
+parts, people get the same clear, accessible experience wherever they meet us.
+
+This repository holds the web version: design tokens (the named colors, sizes and spacing),
+React components, an application layout, and the brand and usage guidelines behind them.
 
 Propellant was inspired by Apple's Human Interface Guidelines and Google's Material Design.
 Apple and Human Interface Guidelines are trademarks of Apple Inc. Google and Material Design are
 trademarks of Google LLC. Propellant is not affiliated with, sponsored by or endorsed by Apple or
 Google.
 
-## What is included
+## What is inside
 
-- **Tokens** for color, type, shape, depth, motion and layout, in light and dark themes, with touch
-  sizes on coarse pointers and reduced motion support.
-- **Components** for actions, inputs, navigation, overlays, feedback and data display, each with
-  keyboard support, accessible names and tests.
-- **An application shell** with a sidebar, a toolbar and a responsive overlay for narrow windows.
-- **The MassChallenge logo** as a component and as image files in three treatments.
+- **Design tokens** for color, type, shape, depth, motion and layout, in light and dark mode. Controls
+  grow for touch screens, and motion calms down for people who ask their device to reduce it.
+- **Components** for buttons, forms, navigation, menus, messages and tables. Each one works with a
+  keyboard, makes sense to screen readers and comes with tests.
+- **An application layout** with a sidebar and a toolbar that adapts to narrow windows.
+- **The MassChallenge logo** as a component and as image files in three versions.
 - **Guidelines** for using Propellant and for the MassChallenge brand.
 
 ## Install
@@ -47,8 +51,8 @@ export const Example = () => (
 );
 ```
 
-Read the [usage guide](docs/usage.md) for applications, websites and pages that use only the
-tokens.
+The [usage guide](docs/usage.md) walks through apps, websites and pages that only need our colors
+and type.
 
 ## Documentation
 
@@ -88,7 +92,7 @@ docker run --rm --ipc=host -v "$PWD":/work -w /work mcr.microsoft.com/playwright
 
 ## License
 
-The code is released under the [MIT License](LICENSE). The MassChallenge name and logos are
-trademarks of MassChallenge, Inc. and are not covered by that license; see
+The code is free to use under the [MIT License](LICENSE). The MassChallenge and Propellant names
+and logos are trademarks of MassChallenge, Inc. and are not covered by that license; see
 [the brand guidelines](docs/brand.md) for how they may be used. The fonts are licensed under the
 SIL Open Font License 1.1.
