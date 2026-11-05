@@ -1,0 +1,10 @@
+node_modules/
+coverage/
+storybook-static/
+site/dist/
+playwright-report/
+test-results/
+.cache/
+*.tsbuildinfo
+.storybook/settings.json
+.DS_Store

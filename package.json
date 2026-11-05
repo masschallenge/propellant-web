@@ -1,0 +1,110 @@
+{
+  "name": "@masschallenge/propellant-web",
+  "version": "1.0.0",
+  "description": "Propellant, the MassChallenge design system for the web: design tokens, React components and an application shell.",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/masschallenge/propellant-web.git"
+  },
+  "homepage": "https://github.com/masschallenge/propellant-web#readme",
+  "bugs": {
+    "url": "https://github.com/masschallenge/propellant-web/issues"
+  },
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "react",
+    "tailwindcss",
+    "masschallenge"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./dist/styles.css",
+    "./styles.scoped.css": "./dist/styles.scoped.css",
+    "./utilities.css": "./utilities.css",
+    "./version": "./version.mjs",
+    "./assets/*": "./assets/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "assets",
+    "base",
+    "dist",
+    "src",
+    "tokens",
+    "styles.css",
+    "utilities.css",
+    "version.mjs",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/build.mjs --watch",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --config vitest.unit.config.ts",
+    "test:stories": "node scripts/build.mjs && vitest run --project storybook",
+    "test:coverage:stories": "node scripts/build.mjs && vitest run --project storybook --coverage",
+    "test:vr": "playwright test --config playwright.vr.config.ts",
+    "test:vr:update": "playwright test --config playwright.vr.config.ts --update-snapshots",
+    "storybook": "node scripts/build.mjs && storybook dev -p 6006 --no-open",
+    "build-storybook": "node scripts/build.mjs && storybook build",
+    "site": "node scripts/build.mjs && vite --config site/vite.config.ts",
+    "site:build": "node scripts/build.mjs && vite build --config site/vite.config.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@playwright/test": "1.62.0",
+    "@storybook/addon-a11y": "^10.6.5",
+    "@storybook/addon-docs": "^10.6.5",
+    "@storybook/addon-vitest": "^10.6.5",
+    "@storybook/react-vite": "^10.6.5",
+    "@tailwindcss/vite": "^4.3.3",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^25.9.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.2",
+    "@vitest/browser": "4.1.12",
+    "@vitest/browser-playwright": "4.1.12",
+    "@vitest/coverage-v8": "4.1.12",
+    "axe-core": "4.12.1",
+    "eslint": "^9.39.4",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prefer-arrow-functions": "^3.10.1",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^16.4.0",
+    "jsdom": "^29.1.1",
+    "playwright": "1.62.0",
+    "postcss": "^8.5.31",
+    "postcss-import": "^16.2.0",
+    "prettier": "^3.8.4",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "storybook": "^10.6.5",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.1",
+    "vite": "^8.3.5",
+    "vitest": "4.1.12"
+  }
+}
