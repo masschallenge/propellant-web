@@ -108,7 +108,11 @@ export const Overview = () => {
 
       <Section title="Where to go next">
         <ListSection>
-          <ListRow title="Usage" subtitle="Add Propellant to your website or app" href="#usage" />
+          <ListRow
+            title="Using Propellant"
+            subtitle="Add Propellant to your website or app"
+            href="#usage"
+          />
           <ListRow title="Brand" subtitle="Our name, colors, type and voice" href="#brand" />
           <ListRow title="Logo" subtitle="How to use the MassChallenge logo well" href="#logo" />
           <ListRow title="Color" subtitle="Our colors and when to use each one" href="#color" />
