@@ -1,0 +1,18 @@
+:root {
+  --sb-facebook-bg: #1877f2;
+  --sb-facebook-bg-hover: #0f63d6;
+  --sb-dribbble-bg: #ea4c89;
+  --sb-dribbble-bg-hover: #e62b72;
+  --sb-linkedin-bg: #0a66c2;
+  --sb-linkedin-bg-hover: #084f97;
+  --sb-black-bg: #0a0a0a;
+  --sb-black-bg-hover: #232323;
+
+  --sb-on-brand-fg: #ffffff;
+}
+
+[data-theme='dark'] {
+  --sb-black-bg: #f2f2f2;
+  --sb-black-bg-hover: #dcdcdc;
+  --sb-on-brand-fg: #0a0a0a;
+}

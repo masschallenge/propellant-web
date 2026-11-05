@@ -1,0 +1,64 @@
+:root {
+  --spring-snappy: linear(
+    0,
+    0.134 7.1%,
+    0.376 14.3%,
+    0.599 21.4%,
+    0.765 28.6%,
+    0.874 35.7%,
+    0.939 42.9%,
+    0.975 50%,
+    0.992 57.1%,
+    1 64.3%,
+    1.003 75%,
+    1.001 96.4%,
+    1
+  );
+  --spring-snappy-duration: 415ms;
+  --spring-smooth: linear(
+    0,
+    0.144 7.1%,
+    0.385 14.3%,
+    0.594 21.4%,
+    0.745 28.6%,
+    0.845 35.7%,
+    0.908 42.9%,
+    0.947 50%,
+    0.969 57.1%,
+    0.983 64.3%,
+    0.995 78.6%,
+    1
+  );
+  --spring-smooth-duration: 475ms;
+  --spring-bouncy: linear(
+    0,
+    0.182 7.1%,
+    0.5 14.3%,
+    0.768 21.4%,
+    0.934 28.6%,
+    1.014 35.7%,
+    1.038 42.9%,
+    1.034 50%,
+    1.023 57.1%,
+    1.011 64.3%,
+    1.002 75%,
+    0.999 89.3%,
+    1
+  );
+  --spring-bouncy-duration: 675ms;
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 1, 1);
+  --duration-instant: 100ms;
+  --duration-fade: 150ms;
+  --duration-exit: 200ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --spring-snappy-duration: 1ms;
+    --spring-smooth-duration: 1ms;
+    --spring-bouncy-duration: 1ms;
+    --duration-exit: 1ms;
+  }
+}

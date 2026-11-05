@@ -1,0 +1,32 @@
+.propellant-field {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  border-radius: var(--corner-md);
+  background: var(--bg);
+  box-shadow: var(--shadow-none);
+}
+.propellant-field-ring {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 var(--hairline) var(--control-border);
+  transition: box-shadow var(--duration-fade) var(--ease-standard);
+}
+.propellant-field:focus-within > .propellant-field-ring,
+.propellant-field[data-open='true'] > .propellant-field-ring {
+  box-shadow: inset 0 0 0 var(--stroke-strong) var(--focus-color);
+}
+.propellant-field[data-invalid='true'] > .propellant-field-ring {
+  box-shadow: inset 0 0 0 var(--hairline) var(--critical);
+}
+.propellant-field[data-invalid='true']:focus-within > .propellant-field-ring,
+.propellant-field[data-invalid='true'][data-open='true'] > .propellant-field-ring {
+  box-shadow: inset 0 0 0 var(--stroke-strong) var(--focus-color-critical);
+}
+.propellant-field:focus-visible,
+.propellant-field:focus {
+  outline: none;
+}

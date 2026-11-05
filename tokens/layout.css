@@ -1,0 +1,80 @@
+:root {
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0-5: 2px;
+  --space-1: 4px;
+  --space-1-5: 6px;
+  --space-2: 8px;
+  --space-2-5: 10px;
+  --space-3: 12px;
+  --space-3-5: 14px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  --control-sm: 28px;
+  --control-md: 32px;
+  --control-lg: 40px;
+  --hit-target: 28px;
+
+  --row-dense: 36px;
+  --row: 44px;
+  --row-tall: 56px;
+
+  --toolbar-height: 52px;
+  --sidebar-width: 240px;
+  --inspector-width: 360px;
+
+  --avatar-xs: 20px;
+  --avatar-sm: 28px;
+  --avatar-md: 36px;
+  --avatar-lg: 48px;
+  --avatar-xl: 64px;
+
+  --icon-sm: 16px;
+  --icon-md: 18px;
+  --icon-lg: 20px;
+  --icon-xl: 32px;
+  --icon-stroke: 1.75px;
+  --icon-stroke-bold: 2px;
+
+  --margin-compact: 16px;
+  --margin-regular: 24px;
+  --margin-wide: 32px;
+  --page-margin: var(--margin-compact);
+  --width-form: 640px;
+  --width-reading: 68ch;
+  --width-page: 1280px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --page-margin: var(--margin-regular);
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --page-margin: var(--margin-wide);
+  }
+}
+
+@media (pointer: coarse) {
+  :root {
+    --control-sm: 36px;
+    --control-md: 44px;
+    --control-lg: 50px;
+    --hit-target: 44px;
+    --row-dense: 44px;
+    --row: 52px;
+    --row-tall: 64px;
+  }
+}

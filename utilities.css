@@ -1,0 +1,94 @@
+@utility text-label {
+  &:where([data-propellant], [data-propellant] *) {
+    color: var(--label);
+  }
+}
+@utility text-label-secondary {
+  &:where([data-propellant], [data-propellant] *) {
+    color: var(--label-secondary);
+  }
+}
+@utility text-label-tertiary {
+  &:where([data-propellant], [data-propellant] *) {
+    color: var(--label-tertiary);
+  }
+}
+@utility text-label-quaternary {
+  &:where([data-propellant], [data-propellant] *) {
+    color: var(--label-quaternary);
+  }
+}
+@utility text-tint {
+  &:where([data-propellant], [data-propellant] *) {
+    color: var(--tint);
+  }
+}
+@utility text-critical {
+  &:where([data-propellant], [data-propellant] *) {
+    color: var(--critical);
+  }
+}
+@utility text-warning {
+  &:where([data-propellant], [data-propellant] *) {
+    color: var(--warning);
+  }
+}
+@utility text-success {
+  &:where([data-propellant], [data-propellant] *) {
+    color: var(--success);
+  }
+}
+
+@theme inline {
+  --text-display: var(--type-display-size);
+  --text-display--line-height: var(--type-display-line);
+  --text-display--font-weight: var(--type-display-weight);
+  --text-display--letter-spacing: var(--type-display-tracking);
+  --text-large-title: var(--type-large-title-size);
+  --text-large-title--line-height: var(--type-large-title-line);
+  --text-large-title--font-weight: var(--type-large-title-weight);
+  --text-large-title--letter-spacing: var(--type-large-title-tracking);
+  --text-title1: var(--type-title1-size);
+  --text-title1--line-height: var(--type-title1-line);
+  --text-title1--font-weight: var(--type-title1-weight);
+  --text-title1--letter-spacing: var(--type-title1-tracking);
+  --text-title2: var(--type-title2-size);
+  --text-title2--line-height: var(--type-title2-line);
+  --text-title2--font-weight: var(--type-title2-weight);
+  --text-title2--letter-spacing: var(--type-title2-tracking);
+  --text-title3: var(--type-title3-size);
+  --text-title3--line-height: var(--type-title3-line);
+  --text-title3--font-weight: var(--type-title3-weight);
+  --text-title3--letter-spacing: var(--type-title3-tracking);
+  --text-headline: var(--type-headline-size);
+  --text-headline--line-height: var(--type-headline-line);
+  --text-headline--font-weight: var(--type-headline-weight);
+  --text-headline--letter-spacing: var(--type-headline-tracking);
+  --text-body: var(--type-body-size);
+  --text-body--line-height: var(--type-body-line);
+  --text-body--font-weight: var(--type-body-weight);
+  --text-body--letter-spacing: var(--type-body-tracking);
+  --text-callout: var(--type-callout-size);
+  --text-callout--line-height: var(--type-callout-line);
+  --text-callout--font-weight: var(--type-callout-weight);
+  --text-callout--letter-spacing: var(--type-callout-tracking);
+  --text-subheadline: var(--type-subheadline-size);
+  --text-subheadline--line-height: var(--type-subheadline-line);
+  --text-subheadline--font-weight: var(--type-subheadline-weight);
+  --text-subheadline--letter-spacing: var(--type-subheadline-tracking);
+  --text-footnote: var(--type-footnote-size);
+  --text-footnote--line-height: var(--type-footnote-line);
+  --text-footnote--font-weight: var(--type-footnote-weight);
+  --text-footnote--letter-spacing: var(--type-footnote-tracking);
+  --text-caption: var(--type-caption-size);
+  --text-caption--line-height: var(--type-caption-line);
+  --text-caption--font-weight: var(--type-caption-weight);
+  --text-caption--letter-spacing: var(--type-caption-tracking);
+}
+
+html [data-propellant] {
+  font-family: var(--type-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'kern', 'liga';
+}

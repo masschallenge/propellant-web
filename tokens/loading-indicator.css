@@ -1,0 +1,9 @@
+:root {
+  --spin-size-sm: 32px;
+  --spin-size-md: 48px;
+  --spin-size-lg: 56px;
+  --spin-size-xl: 64px;
+
+  --spin-duration: 800ms;
+  --spin-dot-cycle: 1200ms;
+}

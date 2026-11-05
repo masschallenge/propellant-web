@@ -1,0 +1,51 @@
+:root {
+  --shadow-none: 0 0 #0000;
+  --shadow-thumb:
+    0 0 0 0.5px rgb(30 40 43 / 0.06), 0 1px 2px rgb(30 40 43 / 0.14), 0 2px 6px rgb(30 40 43 / 0.06);
+  --shadow-float:
+    0 0 0 0.5px rgb(30 40 43 / 0.14), 0 1px 3px rgb(30 40 43 / 0.08),
+    0 8px 24px rgb(30 40 43 / 0.12);
+  --shadow-sheet: 0 0 0 0.5px rgb(30 40 43 / 0.12), 0 24px 64px rgb(30 40 43 / 0.22);
+
+  --material-bar: rgb(255 255 255 / 0.72);
+  --material-bar-opaque: var(--gray-0);
+  --material-sidebar: rgb(235 240 241 / 0.82);
+  --material-sidebar-opaque: var(--gray-75);
+  --material-blur: saturate(180%) blur(20px);
+
+  --opacity-disabled: 0.4;
+
+  --layer-base: 0;
+  --layer-sticky: 100;
+  --layer-dropdown: 200;
+  --layer-overlay: 300;
+  --layer-sheet: 400;
+  --layer-toast: 500;
+  --layer-tooltip: 600;
+}
+
+[data-theme='dark'] {
+  --shadow-thumb: 0 0 0 0.5px rgb(255 255 255 / 0.06), 0 1px 3px rgb(0 0 0 / 0.4);
+  --shadow-float:
+    0 0 0 0.5px rgb(255 255 255 / 0.08), 0 1px 3px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.5);
+  --shadow-sheet: 0 0 0 0.5px rgb(255 255 255 / 0.08), 0 24px 64px rgb(0 0 0 / 0.6);
+
+  --material-bar: rgb(21 27 28 / 0.72);
+  --material-bar-opaque: var(--gray-850);
+  --material-sidebar: rgb(17 23 26 / 0.82);
+  --material-sidebar-opaque: var(--gray-900);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --material-bar: var(--material-bar-opaque);
+    --material-sidebar: var(--material-sidebar-opaque);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  [data-theme='dark'] {
+    --material-bar: var(--material-bar-opaque);
+    --material-sidebar: var(--material-sidebar-opaque);
+  }
+}

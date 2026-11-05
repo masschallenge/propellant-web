@@ -1,0 +1,21 @@
+.propellant-scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--separator) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+.propellant-scroll-thin::-webkit-scrollbar {
+  height: 4px;
+}
+.propellant-scroll-thin::-webkit-scrollbar-thumb {
+  background: var(--separator);
+  border-radius: 2px;
+}
+.propellant-scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.propellant-scroll-hidden {
+  scrollbar-width: none;
+}
+.propellant-scroll-hidden::-webkit-scrollbar {
+  display: none;
+}

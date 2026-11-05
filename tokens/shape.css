@@ -1,0 +1,18 @@
+:root {
+  --corner-sm: 4px;
+  --corner-md: 8px;
+  --corner-lg: 12px;
+  --corner-xl: 16px;
+  --corner-capsule: 9999px;
+
+  --hairline: 1px;
+  --stroke-strong: 2px;
+  --focus-width: 2px;
+  --focus-offset: 2px;
+}
+
+@media (min-resolution: 2dppx) {
+  :root {
+    --hairline: 0.5px;
+  }
+}

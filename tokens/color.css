@@ -1,0 +1,182 @@
+:root {
+  --teal-950: #033a45;
+  --teal-900: #044451;
+  --teal-800: #065e6f;
+  --teal-600: #068da4;
+  --teal-500: #0b9dae;
+  --teal-400: #0facbd;
+  --teal-300: #3fc6d4;
+  --teal-100: #d9f6fa;
+  --teal-50: #f3fbfc;
+  --teal-ink: #06272e;
+
+  --gray-0: #ffffff;
+  --gray-25: #f8fafb;
+  --gray-50: #f3f6f7;
+  --gray-75: #ebf0f1;
+  --gray-100: #dbe1e3;
+  --gray-150: #cad0d2;
+  --gray-200: #a3adaf;
+  --gray-250: #99a2a4;
+  --gray-300: #848f92;
+  --gray-400: #6e787b;
+  --gray-450: #687275;
+  --gray-500: #4b575b;
+  --gray-600: #3a4447;
+  --gray-650: #343d40;
+  --gray-700: #283032;
+  --gray-800: #1e282b;
+  --gray-850: #151b1c;
+  --gray-900: #11171a;
+  --gray-950: #0b0f11;
+  --gray-1000: #000000;
+
+  --magenta-300: #f286b7;
+  --magenta-600: #bf0261;
+  --magenta-700: #a30253;
+  --magenta-800: #8a0246;
+  --orange-300: #fbb37e;
+  --orange-500: #e8590c;
+  --orange-700: #b4470b;
+  --orange-ink: #2a1002;
+  --green-300: #9bd46f;
+  --green-500: #75c24a;
+  --green-700: #2f6b1f;
+  --green-ink: #143a05;
+  --yellow-400: #ffc801;
+  --amber-700: #b54708;
+  --amber-800: #9e3d06;
+}
+
+:root,
+[data-theme='light'] {
+  --label: var(--gray-800);
+  --label-secondary: var(--gray-500);
+  --label-tertiary: var(--gray-450);
+  --label-quaternary: var(--gray-250);
+
+  --bg-grouped: var(--gray-50);
+  --bg: var(--gray-0);
+  --bg-secondary: var(--gray-50);
+  --bg-elevated: var(--gray-0);
+
+  --separator: var(--gray-100);
+  --separator-strong: var(--gray-150);
+  --control-border: var(--gray-300);
+  --control-thumb: var(--gray-0);
+
+  --fill: rgb(104 114 117 / 0.16);
+  --fill-secondary: rgb(104 114 117 / 0.12);
+  --fill-tertiary: rgb(104 114 117 / 0.07);
+
+  --tint: var(--teal-800);
+  --tint-hover: var(--teal-900);
+  --tint-pressed: var(--teal-950);
+  --on-tint: var(--gray-0);
+  --tint-fill: rgb(6 94 111 / 0.1);
+  --tint-fill-hover: rgb(6 94 111 / 0.16);
+
+  --critical: var(--magenta-700);
+  --critical-solid: var(--magenta-600);
+  --critical-solid-hover: var(--magenta-700);
+  --critical-solid-pressed: var(--magenta-800);
+  --on-critical: var(--gray-0);
+  --critical-fill: rgb(191 2 97 / 0.09);
+  --critical-fill-hover: rgb(191 2 97 / 0.15);
+
+  --warning: var(--amber-800);
+  --warning-solid: var(--orange-500);
+  --on-warning: var(--orange-ink);
+  --warning-fill: rgb(232 89 12 / 0.12);
+
+  --success: var(--green-700);
+  --success-solid: var(--green-500);
+  --on-success: var(--green-ink);
+  --success-fill: rgb(117 194 74 / 0.18);
+
+  --highlight: var(--yellow-400);
+  --on-highlight: var(--gray-800);
+
+  --masquerade: var(--amber-700);
+  --on-masquerade: var(--gray-0);
+
+  --brand-surface: var(--teal-900);
+  --on-brand-surface: var(--gray-0);
+  --brand-accent: var(--teal-400);
+
+  --scrim: rgb(11 15 17 / 0.4);
+  --focus-color: var(--tint);
+  --focus-color-critical: var(--critical);
+
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --label: var(--gray-75);
+  --label-secondary: var(--gray-200);
+  --label-tertiary: var(--gray-300);
+  --label-quaternary: var(--gray-500);
+
+  --bg-grouped: var(--gray-950);
+  --bg: var(--gray-850);
+  --bg-secondary: var(--gray-900);
+  --bg-elevated: var(--gray-800);
+
+  --separator: var(--gray-700);
+  --separator-strong: var(--gray-650);
+  --control-border: var(--gray-400);
+  --control-thumb: var(--gray-600);
+
+  --fill: rgb(150 165 168 / 0.24);
+  --fill-secondary: rgb(150 165 168 / 0.17);
+  --fill-tertiary: rgb(150 165 168 / 0.1);
+
+  --tint: var(--teal-300);
+  --tint-hover: var(--teal-400);
+  --tint-pressed: var(--teal-500);
+  --on-tint: var(--teal-ink);
+  --tint-fill: rgb(15 172 189 / 0.18);
+  --tint-fill-hover: rgb(15 172 189 / 0.26);
+
+  --critical: var(--magenta-300);
+  --critical-solid: var(--magenta-600);
+  --critical-solid-hover: var(--magenta-700);
+  --critical-solid-pressed: var(--magenta-800);
+  --on-critical: var(--gray-0);
+  --critical-fill: rgb(191 2 97 / 0.24);
+  --critical-fill-hover: rgb(191 2 97 / 0.32);
+
+  --warning: var(--orange-300);
+  --warning-solid: var(--orange-500);
+  --on-warning: var(--orange-ink);
+  --warning-fill: rgb(232 89 12 / 0.2);
+
+  --success: var(--green-300);
+  --success-solid: var(--green-500);
+  --on-success: var(--green-ink);
+  --success-fill: rgb(117 194 74 / 0.18);
+
+  --highlight: var(--yellow-400);
+  --on-highlight: var(--gray-800);
+
+  --masquerade: var(--amber-800);
+  --on-masquerade: var(--gray-0);
+
+  --brand-surface: var(--gray-900);
+  --on-brand-surface: var(--gray-75);
+  --brand-accent: var(--teal-400);
+
+  --scrim: rgb(0 0 0 / 0.6);
+  --focus-color: var(--tint);
+  --focus-color-critical: var(--critical);
+
+  color-scheme: dark;
+}
+
+@media (forced-colors: active) {
+  :root {
+    --control-border: ButtonBorder;
+    --focus-color: Highlight;
+    --focus-color-critical: Highlight;
+  }
+}
