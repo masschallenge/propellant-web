@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+@import '../dist/styles.scoped.css';
+@import '../utilities.css';
+@source '../src';
+
+html body[data-propellant] {
+  background: var(--bg-grouped);
+}
+
+html body[data-propellant] .docs-story,
+html body[data-propellant] .sbdocs-preview {
+  background: var(--bg-grouped);
+}
