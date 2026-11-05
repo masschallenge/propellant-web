@@ -10,6 +10,9 @@ tokens, React components, an application shell, and the brand and usage guidelin
 It is used for MassChallenge web applications and websites.
 
 Propellant was inspired by Apple's Human Interface Guidelines and Google's Material Design.
+Apple and Human Interface Guidelines are trademarks of Apple Inc. Google and Material Design are
+trademarks of Google LLC. Propellant is not affiliated with, sponsored by or endorsed by Apple or
+Google.
 
 ## What is included
 

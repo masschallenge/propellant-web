@@ -30,6 +30,16 @@ src/assets/logos.ts, are trademarks of MassChallenge, Inc. They are not
 licensed under the MIT License above. You may use them only to identify
 MassChallenge and Propellant and only as described in docs/brand.md.
 
+All other names, logos and trademarks that appear in this repository belong to
+their respective owners. This includes the third-party logos drawn by the
+SocialButton component in src/SocialButton (such as those of Apple, Google,
+Microsoft, LinkedIn, Facebook, X, Figma and Dribbble), and the names Apple,
+Human Interface Guidelines, Google and Material Design. They are not licensed
+under the MIT License above, and their inclusion does not imply any
+affiliation with, sponsorship by or endorsement by their owners. Anyone who
+uses these logos is responsible for following each owner's branding and usage
+guidelines.
+
 Fonts
 
 The font files in assets/fonts are licensed under the SIL Open Font License,
