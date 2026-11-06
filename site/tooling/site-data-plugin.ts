@@ -68,7 +68,8 @@ export const siteDataPlugin = (packageDir: string): Plugin => ({
   },
 });
 
-const escapeScript = (code: string) => code.replace(/<\/script/gi, '<\\/script');
+const escapeScript = (code: string) =>
+  code.replace(/<\/script/gi, '<\\/script').replaceAll('\uFFFD', '\\uFFFD');
 
 export const toArtifactPage = ({
   title,

@@ -32,6 +32,17 @@ describe('toArtifactPage', () => {
     expect(page).toContain('const markup = "<\\/script>";');
     expect(page).not.toContain('<html');
   });
+
+  it('writes the replacement character as an escape so the page stays plain text', () => {
+    const page = toArtifactPage({
+      title: 'Propellant',
+      description: 'Design system',
+      css: '',
+      script: 'const fallback = `\uFFFD`;',
+    });
+    expect(page).not.toContain('\uFFFD');
+    expect(page).toContain('const fallback = `\\uFFFD`;');
+  });
 });
 
 describe('siteDataPlugin', () => {
