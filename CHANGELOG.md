@@ -28,4 +28,7 @@ The first public release.
 - Layout: AppShell with Sidebar and Toolbar, PageContainer, PageHeader, Separator and
   AuthLayout.
 - The MassChallenge logo as a `Logo` component and as image files in full color, white and black.
+- A website stylesheet, `dist/website.css`, with plain class names for headings, text, links,
+  buttons and brand sections, plus a guide for WordPress, Squarespace, Webflow, Wix, HubSpot and
+  plain HTML.
 - A usage guide, brand guidelines with logo usage, a documentation site and Storybook.

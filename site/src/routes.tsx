@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react';
 import { Overview } from './pages/Overview';
 import { Usage } from './pages/Usage';
+import { Websites } from './pages/Websites';
 import { Brand } from './pages/Brand';
 import { LogoGuide } from './pages/LogoGuide';
 import { Color } from './pages/Color';
@@ -26,6 +27,7 @@ export const SECTIONS = ['Start', 'Brand', 'Foundations', 'Build', 'Guidelines']
 export const ROUTES: SiteRoute[] = [
   { id: 'overview', title: 'Overview', section: 'Start', Page: Overview },
   { id: 'usage', title: 'Using Propellant', section: 'Start', Page: Usage },
+  { id: 'websites', title: 'Websites and site builders', section: 'Start', Page: Websites },
   { id: 'brand', title: 'Brand guidelines', section: 'Brand', Page: Brand },
   { id: 'logo', title: 'Logo', section: 'Brand', Page: LogoGuide },
   { id: 'color', title: 'Color', section: 'Foundations', Page: Color },

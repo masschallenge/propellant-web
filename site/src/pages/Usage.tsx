@@ -3,6 +3,11 @@ import { Code, CodeBlock, Note, PageBody, PageHeading, Prose, Rules, Section } f
 
 const WAYS = [
   {
+    id: 'builder',
+    building: 'A site in WordPress, Squarespace, Webflow, Wix, HubSpot or plain HTML',
+    use: 'One stylesheet and a few class names, no install. Follow the websites guide.',
+  },
+  {
     id: 'react',
     building: 'A React application',
     use: 'Components, tokens and the text style utilities',
@@ -70,7 +75,13 @@ export const Usage = () => (
           ]}
         />
       </div>
-      <Note>Propellant needs Node 22 or later and, for components, React 19.</Note>
+      <Note>
+        Building with a website builder or plain HTML? Skip the rest of this page and follow{' '}
+        <a href="#websites" className="text-[var(--tint)]">
+          Websites and site builders
+        </a>{' '}
+        instead. Everything below needs Node 22 or later and, for components, React 19.
+      </Note>
     </Section>
 
     <Section title="Install">

@@ -21,6 +21,7 @@ Find the row that matches what you are building. The rest of this guide follows 
 
 | You are building | Use |
 | --- | --- |
+| A site in WordPress, Squarespace, Webflow, Wix, HubSpot or plain HTML | One stylesheet and a few class names, no install. Follow the [websites guide](websites.md). |
 | A React application | Components, tokens and the text style utilities. |
 | A website styled with Tailwind CSS | Tokens and utilities, plus components where the site uses React. |
 | A website with its own CSS | Tokens only, through CSS custom properties. |

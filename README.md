@@ -51,12 +51,14 @@ export const Example = () => (
 );
 ```
 
-The [usage guide](docs/usage.md) walks through apps, websites and pages that only need our colors
-and type.
+The [usage guide](docs/usage.md) walks through apps and sites with a build step. Building in
+WordPress, Squarespace or another site builder? The [websites guide](docs/websites.md) needs no
+install: one stylesheet and a few class names.
 
 ## Documentation
 
 - [Usage guide](docs/usage.md)
+- [Websites and site builders](docs/websites.md): WordPress, Squarespace, Webflow, Wix, HubSpot and plain HTML
 - [Brand guidelines](docs/brand.md), including logo usage
 - [Contributing](CONTRIBUTING.md)
 - [Changelog](CHANGELOG.md)

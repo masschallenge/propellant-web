@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Propellant on a plain HTML page</title>
+    <link rel="stylesheet" href="../dist/website.css" />
+    <style>
+      body {
+        margin: 0;
+      }
+      .section {
+        padding: var(--space-16) var(--space-6);
+      }
+      .content {
+        max-width: 40rem;
+        margin: 0 auto;
+        display: grid;
+        gap: var(--space-4);
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+      }
+    </style>
+  </head>
+  <body class="propellant-text">
+    <section class="section propellant-brand-band">
+      <div class="content">
+        <img
+          src="../assets/logos/masschallenge-logo-horizontal-white.png"
+          alt="MassChallenge"
+          height="32"
+        />
+        <h1 class="propellant-headline">Back the rare humans</h1>
+        <p class="propellant-body">
+          A sample page built with nothing but HTML and one Propellant stylesheet.
+        </p>
+        <div class="actions">
+          <a class="propellant-button" href="#apply">Apply to an accelerator</a>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="content">
+        <h2 class="propellant-title-1">Founders need more than capital</h2>
+        <p class="propellant-body">
+          Headings, body text, links and buttons all come from Propellant classes, so they match
+          every other MassChallenge site. <a class="propellant-link" href="#more">Learn more</a>.
+        </p>
+        <div class="actions">
+          <a class="propellant-button" href="#apply">Apply now</a>
+          <a class="propellant-button propellant-button-secondary" href="#partner"
+            >Partner with us</a
+          >
+        </div>
+        <p class="propellant-caption">Since 2009, building a global network of founders.</p>
+      </div>
+    </section>
+  </body>
+</html>
