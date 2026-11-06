@@ -27,7 +27,7 @@ const RULES = [
   {
     title: 'Built for everyone',
     detail:
-      'Every piece meets the WCAG 2.1 AA accessibility standard: readable contrast, full keyboard use and labels that screen readers can announce, in light and dark mode.',
+      'Every piece is designed to meet the WCAG 2.1 AA accessibility standard and checked by automated tests: readable contrast, full keyboard use and labels that screen readers can announce, in light and dark mode.',
   },
 ];
 

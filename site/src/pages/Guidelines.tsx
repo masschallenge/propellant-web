@@ -17,9 +17,11 @@ export const Accessibility = () => (
         when everyone can get in the door.
       </Prose>
       <Prose>
-        Propellant is built to WCAG 2.1 AA, the widely used standard for accessible websites. The
-        sections below are the promises every component keeps, so you can count on them without
-        rebuilding them yourself.
+        Propellant is designed to meet WCAG 2.1 AA, the widely used standard for accessible
+        websites, and automated tests check every component for contrast and common accessibility
+        problems. The sections below are the commitments we design every component to keep. No
+        automated test catches everything, so try your own pages with a keyboard and a screen reader
+        too.
       </Prose>
     </Section>
     <Section title="Contrast">

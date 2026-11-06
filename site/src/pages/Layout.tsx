@@ -74,8 +74,9 @@ export const Layout = () => (
     <Section title="Why we do not use 44px everywhere">
       <Prose>
         44px is a size made for fingers. On a desktop it makes tables, toolbars and forms feel
-        bloated. Propellant meets WCAG 2.2 AA target sizes everywhere through an invisible hit area,
-        and switches to touch sizes through <Code>@media (pointer: coarse)</Code>.
+        bloated. Propellant is designed to meet WCAG 2.2 AA target sizes everywhere through an
+        invisible hit area, and switches to touch sizes through{' '}
+        <Code>@media (pointer: coarse)</Code>.
       </Prose>
     </Section>
   </PageBody>
