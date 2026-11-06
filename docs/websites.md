@@ -1,55 +1,106 @@
 # Using Propellant on websites
 
-You can bring the MassChallenge look to a site built with any website builder, such as WordPress,
-Squarespace, Webflow, Wix or HubSpot, or with plain HTML. This guide shows how.
+You can give any website the MassChallenge look, whether it is built with WordPress, Squarespace,
+Webflow, Wix, HubSpot or plain HTML. You do not need to be a developer.
 
-Start with your builder's own design settings. Every major builder lets you choose fonts, colors,
-button styles and a logo without writing code, and those settings survive theme updates and are
-easy for anyone on your team to change later. Only reach for the Propellant stylesheet when you
-need something the settings cannot do, and keep custom code to a minimum: overrides written
-against a theme's internals tend to break when the theme or builder updates.
+The approach is the same everywhere:
 
-## Step 1: Set up your theme
+1. **Set up the builder's own style settings first.** Every builder has a place to choose fonts,
+   colors and button styles once for the whole site. Settings are easy for the next person to find
+   and change, and they survive theme updates. For most sites, this is all you need.
+2. **Add the logo** through the builder's logo setting.
+3. **Use custom CSS only for what the settings cannot do**, such as the Oswald brand headline. Each
+   guide gives you exact code to copy and paste, and keeps it as small as possible, because custom
+   code is easy to forget and can break when a builder updates.
 
-Open your builder's design or style settings and enter these values. For most sites, this step is
-all you need.
+## Pick your builder
 
-| Setting | Value |
-| --- | --- |
-| Body font | Lato, which most builders offer in their font lists |
-| Heading font | Lato for section headings. Oswald, in capitals, for one big headline per page |
-| Text color | `#1E282B` |
-| Link and button color | `#065E6F`, with white button text |
-| Button shape | Fully rounded ends (a capsule), sometimes called a pill shape |
-| Dark sections | `#044451` background, with white text and white buttons |
-| Accent on dark sections | `#0FACBD` |
-| Highlight | `#FFC801`, always with dark text |
-| Page background | White |
+- [Squarespace](websites/squarespace.md)
+- [WordPress](websites/wordpress.md)
+- [Webflow](websites/webflow.md)
+- [Wix](websites/wix.md)
+- [HubSpot](websites/hubspot.md)
+- [Plain HTML](websites/html.md)
 
-Propellant Sans, the font in our products, is our name for Lato 2.0, so Lato from a builder's font
-list is a close match. Write headings and buttons in sentence case, and see the
-[brand guidelines](brand.md) for the full palette and voice.
+Using something else? Read the [Squarespace guide](websites/squarespace.md) for the idea, then find
+the same settings in your builder: almost every builder has a place for site fonts, site colors,
+button styles and the logo.
 
-## Step 2: Add the logo
+## The website spec
 
-Upload the official logo through your builder's logo or site identity setting, rather than placing
-it as an image in a page. Use the full color file on light headers and the white file on dark ones:
+Every guide sets these same values. Keep this page open while you work: each value is ready to
+copy.
 
-- `assets/logos/masschallenge-logo-horizontal-color.png`
-- `assets/logos/masschallenge-logo-horizontal-white.png`
-- `assets/logos/masschallenge-logo-monogram-color.png` for small spaces, such as a site icon
+### Colors
 
-The [brand guidelines](brand.md) cover clear space, minimum size and which version to use where.
+| Use it for | Name | Hex |
+| --- | --- | --- |
+| Page background | White | `#FFFFFF` |
+| Alternate section background | Mist | `#F3F6F7` |
+| Body text and headings | Ink | `#1E282B` |
+| Secondary text, such as captions | Slate | `#4B575B` |
+| Links and buttons | Teal | `#065E6F` |
+| Button hover, and dark brand sections | Deep teal | `#044451` |
+| Accents on dark sections only | Bright teal | `#0FACBD` |
+| Secondary buttons and tinted sections | Pale teal | `#D9F6FA` |
+| Lines and dividers | Line | `#DBE1E3` |
+| Highlights, always with Ink text | Yellow | `#FFC801` |
+| Errors | Magenta | `#A30253` |
 
-## Step 3 (optional): Add the Propellant stylesheet
+On Deep teal sections, use White text, White buttons with Deep teal text, and Bright teal for
+accents. Never put Teal text on Deep teal.
 
-Your theme settings cover the basics. The stylesheet adds the exact Propellant fonts and a few
-ready made classes for the moments the settings cannot reach, such as a brand headline in Oswald
-or a deep teal section. It only styles the elements you add a class to, so it never changes the
-rest of your site.
+### Fonts
 
-Add this line to the head of your pages, using your builder's setting for code in the page head
-(see your builder below):
+| Font | Use it for | Where to get it |
+| --- | --- | --- |
+| Lato | Everything except the big headline | Built into most builders, and on Google Fonts |
+| Oswald | The big headline only, in capitals | Built into most builders, and on Google Fonts |
+
+Propellant Sans, the font in our products, is our name for Lato 2.0, so Lato is the right choice
+on websites.
+
+### Text styles
+
+Sizes are for desktop, with the mobile size in brackets. Line height is a multiple of the font
+size; if your builder asks for a percentage, multiply by 100 (1.5 is 150%).
+
+| Style | Font | Weight | Size | Line height | Letter spacing | Case |
+| --- | --- | --- | --- | --- | --- | --- |
+| Heading 1 (the big headline) | Oswald | 500 (Medium) | 64px (40px) | 1.0 | 1% (0.01em) | ALL CAPS |
+| Heading 2 | Lato | 700 (Bold) | 40px (30px) | 1.15 | 0 | Sentence case |
+| Heading 3 | Lato | 700 (Bold) | 30px (24px) | 1.2 | 0 | Sentence case |
+| Heading 4 | Lato | 700 (Bold) | 24px (20px) | 1.25 | 0 | Sentence case |
+| Paragraph large | Lato | 400 (Regular) | 20px (18px) | 1.5 | 0 | Sentence case |
+| Paragraph | Lato | 400 (Regular) | 17px (16px) | 1.6 | 0 | Sentence case |
+| Paragraph small | Lato | 400 (Regular) | 14px | 1.5 | 0 | Sentence case |
+| Button | Lato | 700 (Bold) | 16px | 1.0 | 0 | Sentence case |
+
+Only Heading 1 is in capitals. Everything else, buttons included, is sentence case: capital first
+letter, the rest lower case except names.
+
+### Buttons
+
+| Button | Background | Text | Hover background | Shape |
+| --- | --- | --- | --- | --- |
+| Primary | Teal `#065E6F` | White `#FFFFFF` | Deep teal `#044451` | Pill (fully rounded ends) |
+| Secondary | Pale teal `#D9F6FA` | Teal `#065E6F` | `#C4EEF4` | Pill |
+| On a Deep teal section | White `#FFFFFF` | Deep teal `#044451` | Pale teal `#D9F6FA` | Pill |
+
+Padding: about 14px top and bottom, 28px left and right. No borders, no shadows, no capitals.
+
+### Layout
+
+- Keep paragraphs to about 720px wide, roughly 68 characters a line.
+- Give sections about 96px of space above and below on desktop, 64px on mobile.
+- Round images and cards by 12px. Buttons are pills.
+- Use the logo files from the [brand guidelines](brand.md), never a copy from somewhere else.
+
+## The Propellant stylesheet
+
+Some guides use a small stylesheet that loads the exact fonts and adds a few ready made classes,
+such as `propellant-headline` and `propellant-button`. It only styles elements you add a class to,
+so it never changes the rest of your site. Load it with this line, wherever a guide tells you to:
 
 ```html
 <link
@@ -58,102 +109,26 @@ Add this line to the head of your pages, using your builder's setting for code i
 />
 ```
 
-The `@v1.0.0` part pins your site to one release, so it never changes under you. When a new
-version comes out, update the number and check your pages.
-
-Then add class names to the elements you want styled:
+The `@v1.0.0` part pins your site to one release, so it never changes under you. A complete
+example page is in [`examples/website.html`](../examples/website.html).
 
 | Class | What it does |
 | --- | --- |
-| `propellant-headline` | The big brand headline, in Oswald capitals. Use it once or twice per page. |
-| `propellant-title-1`, `propellant-title-2`, `propellant-title-3` | Section headings, from largest to smallest. |
-| `propellant-body` | Paragraph text. |
-| `propellant-caption` | Small print, such as dates and notes. |
+| `propellant-headline` | Heading 1 from the spec: the big brand headline, in Oswald capitals. |
+| `propellant-title-1`, `propellant-title-2`, `propellant-title-3` | Heading 2, Heading 3 and Heading 4 from the spec. |
+| `propellant-body` | Paragraph from the spec. |
+| `propellant-caption` | Paragraph small, in Slate, for dates and notes. |
 | `propellant-text` | Body font and text color for a whole section. |
 | `propellant-link` | A teal, underlined link. |
-| `propellant-button` | The main button: a teal capsule. Works on links and buttons. |
-| `propellant-button propellant-button-secondary` | A quieter, light teal button for the second choice. |
-| `propellant-brand-band` | A deep teal section with white text. Buttons and links inside it switch to white. |
-
-```html
-<section class="propellant-brand-band">
-  <h1 class="propellant-headline">Back the rare humans</h1>
-  <a class="propellant-button" href="/apply">Apply now</a>
-</section>
-```
-
-## Your builder
-
-### WordPress
-
-1. **Theme settings first.** In a block theme, open **Appearance**, then **Editor**, then
-   **Styles**, and set the fonts, colors and button style from step 1. In a classic theme, use
-   **Appearance**, then **Customize**. Upload the logo in the site identity or Site Logo setting.
-2. **Optional stylesheet.** If your theme's settings do not reach far enough, a developer can load
-   the stylesheet from a child theme so it survives theme updates:
-
-   ```php
-   add_action('wp_enqueue_scripts', function () {
-       wp_enqueue_style(
-           'propellant',
-           'https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/dist/website.css',
-           [],
-           null
-       );
-   });
-   ```
-
-   Editors can then add a class to any block under **Advanced**, then **Additional CSS class(es)**.
-
-### Squarespace
-
-1. **Site Styles first.** Open the site's design or **Site Styles** panel and set the fonts,
-   colors and button shape from step 1. Upload the logo in the header settings. This covers most
-   sites completely.
-2. **Optional stylesheet.** On plans that include **Code Injection**, you can add the link from
-   step 3 to the header. Squarespace's built in blocks do not take class names, so use the classes
-   only inside a **Code** block for the occasional special section.
-
-### Webflow
-
-1. **Variables and styles first.** Add the colors and fonts from step 1 as variables, then style
-   the body, headings, links and a button class in the Style panel. Everything built afterwards
-   inherits them.
-2. **Optional stylesheet.** With a paid plan, you can add the link from step 3 under **Site
-   settings**, then **Custom code**, then **Head code**, and type a Propellant class name into an
-   element's selector field. Custom code only runs on the published site.
-
-### Wix
-
-1. **Theme settings first.** In the editor's site design or theme settings, set the fonts, colors
-   and button design from step 1, and upload the logo.
-2. **Optional stylesheet.** Wix's editor does not take class names on its elements, so the
-   stylesheet only helps inside an **Embed HTML** element. Most Wix sites should not need it.
-
-### HubSpot
-
-1. **Theme settings first.** Edit your theme's settings to set the fonts, colors and button styles
-   from step 1, and upload the logo in the brand or website settings.
-2. **Optional stylesheet.** Add the link from step 3 to the site header HTML setting, then use the
-   classes in custom modules or templates.
-
-### Plain HTML
-
-Add the link from step 3 to the `<head>` of each page and use the classes. A complete working page
-is in [`examples/website.html`](../examples/website.html).
-
-### Any other builder
-
-Look for the builder's design, style or theme settings and enter the values from step 1. If it
-also has a setting for code in the page head and lets you add class names to elements, you can use
-the stylesheet for special sections. If it does not, the theme settings alone are enough.
+| `propellant-button` | The primary pill button. |
+| `propellant-button propellant-button-secondary` | The secondary button. |
+| `propellant-brand-band` | A Deep teal section with White text and buttons. |
 
 ## Keep it maintainable
 
-- **Prefer settings to code.** Anything set in your builder's design settings is visible to the
-  next person and survives updates. Custom CSS is easy to forget and easy to break.
-- **Avoid overriding your theme.** If a theme's style fights a Propellant class, change the theme
-  setting instead of writing a more specific CSS rule against the theme's internals.
-- **Pin the version.** Keep the `@v1.0.0` in the stylesheet link, and update it on purpose.
-- **Check the published site.** In most builders, code in the page head only runs on the published
-  site, not in the editor preview.
+- **Settings before code.** If something can be set in the builder's style settings, set it there.
+- **Keep custom CSS short and labeled.** Paste only the snippets from these guides, and keep the
+  comment line at the top of each so the next person knows where it came from.
+- **Do not fight the theme.** If a theme setting and a snippet disagree, change the setting.
+- **Check the published site and a phone.** Some code only runs on the published site, and every
+  builder has a mobile view worth checking.

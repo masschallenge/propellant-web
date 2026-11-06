@@ -1,7 +1,15 @@
 import type { ComponentType } from 'react';
 import { Overview } from './pages/Overview';
 import { Usage } from './pages/Usage';
-import { Websites } from './pages/Websites';
+import {
+  HtmlGuide,
+  HubSpotGuide,
+  SquarespaceGuide,
+  WebflowGuide,
+  WebsitesOverview,
+  WixGuide,
+  WordPressGuide,
+} from './pages/WebsiteGuides';
 import { Brand } from './pages/Brand';
 import { LogoGuide } from './pages/LogoGuide';
 import { Color } from './pages/Color';
@@ -22,12 +30,18 @@ export interface SiteRoute {
   Page: ComponentType;
 }
 
-export const SECTIONS = ['Start', 'Brand', 'Foundations', 'Build', 'Guidelines'];
+export const SECTIONS = ['Start', 'Websites', 'Brand', 'Foundations', 'Build', 'Guidelines'];
 
 export const ROUTES: SiteRoute[] = [
   { id: 'overview', title: 'Overview', section: 'Start', Page: Overview },
   { id: 'usage', title: 'Using Propellant', section: 'Start', Page: Usage },
-  { id: 'websites', title: 'Websites and site builders', section: 'Start', Page: Websites },
+  { id: 'websites', title: 'Websites overview', section: 'Websites', Page: WebsitesOverview },
+  { id: 'websites-squarespace', title: 'Squarespace', section: 'Websites', Page: SquarespaceGuide },
+  { id: 'websites-wordpress', title: 'WordPress', section: 'Websites', Page: WordPressGuide },
+  { id: 'websites-webflow', title: 'Webflow', section: 'Websites', Page: WebflowGuide },
+  { id: 'websites-wix', title: 'Wix', section: 'Websites', Page: WixGuide },
+  { id: 'websites-hubspot', title: 'HubSpot', section: 'Websites', Page: HubSpotGuide },
+  { id: 'websites-html', title: 'Plain HTML', section: 'Websites', Page: HtmlGuide },
   { id: 'brand', title: 'Brand guidelines', section: 'Brand', Page: Brand },
   { id: 'logo', title: 'Logo', section: 'Brand', Page: LogoGuide },
   { id: 'color', title: 'Color', section: 'Foundations', Page: Color },
