@@ -11,6 +11,7 @@ const packageVersion = JSON.parse(
 ).version;
 
 const readScoped = () => readFile(resolve(packageDir, 'dist/styles.scoped.css'), 'utf8');
+const readWebsite = () => readFile(resolve(packageDir, 'dist/website.css'), 'utf8');
 
 beforeAll(async () => {
   await build();
@@ -39,5 +40,21 @@ describe('scoped build', () => {
   it('follows the system appearance only where a page opts in', async () => {
     const scoped = await readScoped();
     expect(scoped).toContain("html:has([data-appearance='system']) [data-propellant]");
+  });
+});
+
+describe('website build', () => {
+  it('carries the fonts, the tokens and the website classes', async () => {
+    const website = await readWebsite();
+    expect(website).toContain('@font-face');
+    expect(website).toMatch(/:root[^{]*\{[^}]*--tint:/);
+    expect(website).toContain('.propellant-button {');
+    expect(website).toContain('.propellant-headline {');
+  });
+
+  it('leaves the rest of a site alone', async () => {
+    const website = await readWebsite();
+    expect(website).not.toMatch(/autofill|propellant-field|propellant-scroll|\[data-propellant\]/);
+    expect(website).not.toMatch(/(^|\n)\s*(input|select|textarea|body|html)\b[^{]*\{/);
   });
 });

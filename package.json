@@ -26,6 +26,7 @@
     ".": "./src/index.ts",
     "./styles.css": "./dist/styles.css",
     "./styles.scoped.css": "./dist/styles.scoped.css",
+    "./website.css": "./dist/website.css",
     "./utilities.css": "./utilities.css",
     "./version": "./version.mjs",
     "./assets/*": "./assets/*",

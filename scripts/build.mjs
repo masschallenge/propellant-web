@@ -7,6 +7,7 @@ import postcssImport from 'postcss-import';
 
 const packageDir = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const entry = resolve(packageDir, 'styles.css');
+const websiteClasses = resolve(packageDir, 'website.css');
 const packageJsonPath = resolve(packageDir, 'package.json');
 const distDir = resolve(packageDir, 'dist');
 
@@ -109,6 +110,21 @@ export const scopeCss = (css) => {
   return root.toString();
 };
 
+const isTokenSelector = (selector) =>
+  selector === ':root' || /^\[data-theme=['"](dark|light)['"]\]$/.test(selector);
+
+export const websiteCss = (css, classes) => {
+  const root = postcss.parse(css);
+  root.walkRules((rule) => {
+    if (isKeyframeStep(rule)) return;
+    if (!rule.selectors.every(isTokenSelector)) rule.remove();
+  });
+  root.walkAtRules('media', (media) => {
+    if (!media.nodes?.length) media.remove();
+  });
+  return `${root.toString().trim()}\n\n${classes.trim()}\n`;
+};
+
 export const build = async () => {
   const { version } = JSON.parse(await readFile(packageJsonPath, 'utf8'));
   const source =
@@ -117,7 +133,11 @@ export const build = async () => {
   await mkdir(distDir, { recursive: true });
   await writeFile(resolve(distDir, 'styles.css'), imported.css);
   await writeFile(resolve(distDir, 'styles.scoped.css'), scopeCss(imported.css));
-  console.log('propellant: built dist/styles.css and dist/styles.scoped.css');
+  await writeFile(
+    resolve(distDir, 'website.css'),
+    websiteCss(imported.css, await readFile(websiteClasses, 'utf8')),
+  );
+  console.log('propellant: built dist/styles.css, dist/styles.scoped.css and dist/website.css');
 };
 
 const runsAsScript = import.meta.url === `file://${process.argv[1]}`;

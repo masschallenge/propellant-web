@@ -1,0 +1,129 @@
+.propellant-text {
+  font-family: var(--type-family);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+  font-weight: var(--type-body-weight);
+  color: var(--label);
+}
+
+.propellant-headline {
+  font-family: var(--type-family-brand);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 0.95;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.propellant-title-1 {
+  font-family: var(--type-family);
+  font-size: var(--type-title1-size);
+  line-height: var(--type-title1-line);
+  font-weight: var(--type-title1-weight);
+}
+
+.propellant-title-2 {
+  font-family: var(--type-family);
+  font-size: var(--type-title2-size);
+  line-height: var(--type-title2-line);
+  font-weight: var(--type-title2-weight);
+}
+
+.propellant-title-3 {
+  font-family: var(--type-family);
+  font-size: var(--type-title3-size);
+  line-height: var(--type-title3-line);
+  font-weight: var(--type-title3-weight);
+}
+
+.propellant-body {
+  font-family: var(--type-family);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+  font-weight: var(--type-body-weight);
+}
+
+.propellant-caption {
+  font-family: var(--type-family);
+  font-size: var(--type-footnote-size);
+  line-height: var(--type-footnote-line);
+  font-weight: var(--type-footnote-weight);
+  color: var(--label-secondary);
+}
+
+.propellant-link {
+  color: var(--tint);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.propellant-link:hover {
+  color: var(--tint-hover);
+}
+
+.propellant-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border: 0;
+  border-radius: var(--corner-capsule);
+  background: var(--tint);
+  color: var(--on-tint);
+  font-family: var(--type-family);
+  font-size: var(--type-headline-size);
+  line-height: var(--type-headline-line);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--duration-fade) var(--ease-standard);
+}
+
+.propellant-button:hover {
+  background: var(--tint-hover);
+  color: var(--on-tint);
+}
+
+.propellant-button:active {
+  background: var(--tint-pressed);
+}
+
+.propellant-button:focus-visible,
+.propellant-link:focus-visible {
+  outline: var(--focus-width) solid var(--focus-color);
+  outline-offset: var(--focus-offset);
+}
+
+.propellant-button-secondary,
+.propellant-button-secondary:hover {
+  color: var(--tint);
+}
+
+.propellant-button-secondary {
+  background: var(--tint-fill);
+}
+
+.propellant-button-secondary:hover {
+  background: var(--tint-fill-hover);
+}
+
+.propellant-brand-band {
+  background: var(--brand-surface);
+  color: var(--on-brand-surface);
+}
+
+.propellant-brand-band .propellant-button {
+  background: var(--on-brand-surface);
+  color: var(--brand-surface);
+}
+
+.propellant-brand-band .propellant-link {
+  color: var(--on-brand-surface);
+}
+
+.propellant-brand-band .propellant-button:hover {
+  background: var(--on-brand-surface);
+  color: var(--brand-surface);
+  opacity: 0.9;
+}
