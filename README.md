@@ -71,6 +71,15 @@ yarn storybook    # component workshop on http://localhost:6006
 yarn site:build   # the documentation site as one HTML file in site/dist
 ```
 
+## Getting help
+
+- **Bugs, questions and ideas:** open an issue on GitHub. The [contributing guide](CONTRIBUTING.md)
+  explains how we handle them.
+- **Security problems:** report them privately, as described in [SECURITY.md](SECURITY.md).
+- **Using the MassChallenge name or logo:** read the [brand guidelines](docs/brand.md). For
+  anything they do not cover, contact MassChallenge through
+  [masschallenge.org](https://masschallenge.org).
+
 ## Development
 
 ```bash

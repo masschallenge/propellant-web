@@ -4,10 +4,31 @@ Thank you for helping build Propellant. Every product and website that uses it g
 you do, so we are glad you are here. This guide walks you through proposing a change, and the few
 rules that keep the system consistent for everyone who depends on it.
 
+## Who looks after Propellant
+
+The MassChallenge team owns and maintains Propellant. We read every issue and decide what goes
+into each release. Propellant is built first for MassChallenge products and websites, so we
+prioritize what they need.
+
+## How we handle contributions
+
+- **Bug reports and questions are always welcome.** Open an issue and include what you expected,
+  what happened, and the browser or builder you used.
+- **Ideas for new components or changes start as an issue.** We discuss them there before anyone
+  writes code, so nobody spends time on something we cannot take.
+- **Pull requests from outside the team are by invitation.** If we agree a change is a good fit in
+  an issue, we will say so and you are welcome to open a pull request. We may close pull requests
+  that were not discussed first. That is not a judgment on the work, only a way to keep the system
+  focused.
+- **Brand changes come from the MassChallenge brand team.** Changes to the logo, colors, fonts or
+  voice are not open to outside proposals, and we publish them when they are announced.
+- **Security problems are never reported in a public issue.** Follow [SECURITY.md](SECURITY.md)
+  instead.
+
 ## Before you start
 
-- For anything bigger than a small fix, open an issue first. A short conversation up front saves
-  you from building something we would have steered differently.
+- Open an issue first, even for a small fix. A short conversation up front saves you from building
+  something we would have steered differently.
 - Every component should serve a real need in a MassChallenge product or website. Tell us where it
   will be used.
 
