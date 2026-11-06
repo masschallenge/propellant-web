@@ -127,6 +127,7 @@
   --teal-500: #0b9dae;
   --teal-400: #0facbd;
   --teal-300: #3fc6d4;
+  --teal-150: #c4eef4;
   --teal-100: #d9f6fa;
   --teal-50: #f3fbfc;
   --teal-ink: #06272e;
@@ -650,16 +651,16 @@
 
 .propellant-text {
   font-family: var(--type-family);
-  font-size: var(--type-body-size);
-  line-height: var(--type-body-line);
-  font-weight: var(--type-body-weight);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  font-weight: 400;
   color: var(--label);
 }
 
 .propellant-headline {
   font-family: var(--type-family-brand);
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  line-height: 0.95;
+  font-size: 4rem;
+  line-height: 1;
   font-weight: 500;
   letter-spacing: 0.01em;
   text-transform: uppercase;
@@ -667,37 +668,37 @@
 
 .propellant-title-1 {
   font-family: var(--type-family);
-  font-size: var(--type-title1-size);
-  line-height: var(--type-title1-line);
-  font-weight: var(--type-title1-weight);
+  font-size: 2.5rem;
+  line-height: 1.15;
+  font-weight: 700;
 }
 
 .propellant-title-2 {
   font-family: var(--type-family);
-  font-size: var(--type-title2-size);
-  line-height: var(--type-title2-line);
-  font-weight: var(--type-title2-weight);
+  font-size: 1.875rem;
+  line-height: 1.2;
+  font-weight: 700;
 }
 
 .propellant-title-3 {
   font-family: var(--type-family);
-  font-size: var(--type-title3-size);
-  line-height: var(--type-title3-line);
-  font-weight: var(--type-title3-weight);
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-weight: 700;
 }
 
 .propellant-body {
   font-family: var(--type-family);
-  font-size: var(--type-body-size);
-  line-height: var(--type-body-line);
-  font-weight: var(--type-body-weight);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  font-weight: 400;
 }
 
 .propellant-caption {
   font-family: var(--type-family);
-  font-size: var(--type-footnote-size);
-  line-height: var(--type-footnote-line);
-  font-weight: var(--type-footnote-weight);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-weight: 400;
   color: var(--label-secondary);
 }
 
@@ -716,15 +717,15 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  padding: var(--space-3) var(--space-6);
+  padding: 0.875rem 1.75rem;
   border: 0;
   border-radius: var(--corner-capsule);
   background: var(--tint);
   color: var(--on-tint);
   font-family: var(--type-family);
-  font-size: var(--type-headline-size);
-  line-height: var(--type-headline-line);
-  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1;
+  font-weight: 700;
   text-decoration: none;
   cursor: pointer;
   transition: background-color var(--duration-fade) var(--ease-standard);
@@ -751,11 +752,11 @@
 }
 
 .propellant-button-secondary {
-  background: var(--tint-fill);
+  background: var(--teal-100);
 }
 
 .propellant-button-secondary:hover {
-  background: var(--tint-fill-hover);
+  background: var(--teal-150);
 }
 
 .propellant-brand-band {
@@ -773,7 +774,29 @@
 }
 
 .propellant-brand-band .propellant-button:hover {
-  background: var(--on-brand-surface);
+  background: var(--teal-100);
   color: var(--brand-surface);
-  opacity: 0.9;
+}
+
+@media (max-width: 640px) {
+  .propellant-headline {
+    font-size: 2.5rem;
+  }
+
+  .propellant-title-1 {
+    font-size: 1.875rem;
+  }
+
+  .propellant-title-2 {
+    font-size: 1.5rem;
+  }
+
+  .propellant-title-3 {
+    font-size: 1.25rem;
+  }
+
+  .propellant-text,
+  .propellant-body {
+    font-size: 1rem;
+  }
 }
