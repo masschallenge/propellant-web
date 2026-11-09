@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { imageFitClass } from '../internal/imageFit';
 
 export interface Crumb {
   label: string;
@@ -166,7 +167,7 @@ export const Breadcrumb = ({
               >
                 {activeOption?.avatar ? (
                   <img
-                    className="flex-none w-5 h-5 rounded-full object-cover"
+                    className={`flex-none w-5 h-5 rounded-full ${imageFitClass()} bg-[var(--bg-secondary)]`}
                     src={activeOption.avatar}
                     alt=""
                   />
@@ -205,7 +206,7 @@ export const Breadcrumb = ({
                         </span>
                         {option.avatar ? (
                           <img
-                            className="flex-none w-7 h-7 rounded-full object-cover"
+                            className={`flex-none w-7 h-7 rounded-full ${imageFitClass()} bg-[var(--bg-secondary)]`}
                             src={option.avatar}
                             alt=""
                           />
