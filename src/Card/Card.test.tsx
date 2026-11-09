@@ -29,6 +29,17 @@ describe('Card surface', () => {
     expect(card.className).not.toMatch(/(^|\s)border(\s|$)/);
   });
 
+  it('takes the warning surface when toned as a warning', () => {
+    const { container } = render(
+      <Card title="Draft application" tone="warning">
+        Body
+      </Card>,
+    );
+    const card = container.firstElementChild as HTMLElement;
+    expect(card.className).toContain('bg-[var(--warning-fill)]');
+    expect(card.className).not.toContain('bg-[var(--bg)]');
+  });
+
   it('renders as another element and forwards attributes', () => {
     render(
       <Card as="article" aria-label="Cohort summary" data-setup-card="cohort">

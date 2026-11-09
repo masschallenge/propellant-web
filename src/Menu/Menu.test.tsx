@@ -201,3 +201,40 @@ describe('Menu rows', () => {
     expect(screen.getByRole('menu')).toBeInTheDocument();
   });
 });
+
+describe('Menu selection and layering', () => {
+  it('exposes the selected choice as a checked radio item', async () => {
+    render(
+      <Menu
+        trigger={<button type="button">Program</button>}
+        items={[
+          { label: 'Boston 2026', selected: true },
+          { label: 'Israel 2026', selected: false },
+          { label: 'Manage programs' },
+        ]}
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'Program' }));
+    expect(screen.getByRole('menuitemradio', { name: 'Boston 2026' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
+    expect(screen.getByRole('menuitemradio', { name: 'Israel 2026' })).toHaveAttribute(
+      'aria-checked',
+      'false',
+    );
+    expect(screen.getByRole('menuitem', { name: 'Manage programs' })).not.toHaveAttribute(
+      'aria-checked',
+    );
+  });
+
+  it('opens inside the nearest layer host so it stacks above a modal overlay', async () => {
+    render(
+      <div data-propellant-layer-host="" data-testid="host">
+        <Menu trigger={<button type="button">Account</button>} items={[{ label: 'Log out' }]} />
+      </div>,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'Account' }));
+    expect(screen.getByTestId('host')).toContainElement(screen.getByRole('menu'));
+  });
+});
