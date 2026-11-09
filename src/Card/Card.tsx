@@ -10,6 +10,13 @@ export interface CardMenuItem {
   onSelect?: () => void;
 }
 
+export type CardTone = 'default' | 'warning';
+
+const TONE_SURFACE: Record<CardTone, string> = {
+  default: 'bg-[var(--bg)]',
+  warning: 'bg-[var(--warning-fill)]',
+};
+
 export interface CardProps extends Omit<React.ComponentPropsWithoutRef<'section'>, 'title'> {
   title?: ReactNode;
   description?: ReactNode;
@@ -23,6 +30,7 @@ export interface CardProps extends Omit<React.ComponentPropsWithoutRef<'section'
   footer?: ReactNode;
   flush?: boolean;
   interactive?: boolean;
+  tone?: CardTone;
   as?: React.ElementType;
   children?: ReactNode;
 }
@@ -67,6 +75,7 @@ export const Card = ({
   footer,
   flush = false,
   interactive = false,
+  tone = 'default',
   as: Element = 'section',
   className,
   children,
@@ -101,7 +110,8 @@ export const Card = ({
   return (
     <Element
       className={joinClasses(
-        'flex flex-col rounded-[var(--corner-lg)] bg-[var(--bg)] text-[var(--label)]',
+        'flex flex-col rounded-[var(--corner-lg)] text-[var(--label)]',
+        TONE_SURFACE[tone],
         !isOpen && 'overflow-hidden',
         interactive &&
           'cursor-pointer transition-colors duration-[var(--duration-instant)] ease-[var(--ease-standard)] hover:bg-[linear-gradient(var(--fill-tertiary),var(--fill-tertiary))] active:bg-[linear-gradient(var(--fill-secondary),var(--fill-secondary))] active:transition-none',

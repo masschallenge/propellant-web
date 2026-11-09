@@ -59,6 +59,10 @@
   --type-footnote-weight: 400;
   --type-footnote-tracking: 0.008em;
 
+  --type-eyebrow-size: 0.875rem;
+  --type-eyebrow-weight: 900;
+  --type-eyebrow-tracking: 0.1em;
+
   --type-caption-size: 0.75rem;
   --type-caption-line: 1rem;
   --type-caption-weight: 500;

@@ -157,6 +157,7 @@ export const AppShell = ({
             <div
               ref={overlayRef}
               id={sidebarId}
+              data-propellant-layer-host=""
               role="dialog"
               aria-modal="true"
               aria-label={sidebarLabel}

@@ -102,14 +102,21 @@ interface MenuRowProps {
   onClose: () => void;
 }
 
+const menuItemRole = (item: MenuItem) => {
+  if (item.checkbox) return 'menuitemcheckbox';
+  return item.selected === undefined ? 'menuitem' : 'menuitemradio';
+};
+
 const MenuRow = ({ item, onClose }: MenuRowProps) => {
   const hasSubmenu = Boolean(item.submenu && item.submenu.length);
   const isDestructive = item.destructive ?? item.danger ?? false;
   return (
     <li role="none" className={hasSubmenu ? 'relative group/sub' : undefined}>
       <button
-        role={item.checkbox ? 'menuitemcheckbox' : 'menuitem'}
-        aria-checked={item.checkbox ? Boolean(item.selected) : undefined}
+        role={menuItemRole(item)}
+        aria-checked={
+          item.checkbox || item.selected !== undefined ? Boolean(item.selected) : undefined
+        }
         aria-haspopup={hasSubmenu ? 'menu' : undefined}
         type="button"
         disabled={item.disabled}
@@ -234,7 +241,10 @@ export const Menu = ({
       ? Array.from(panelRef.current.querySelectorAll<HTMLElement>(ITEM_SELECTOR))
       : [];
 
+  const [layerHost, setLayerHost] = React.useState<Element | null>(null);
+
   const open = (target: FocusTarget) => {
+    setLayerHost(wrapperRef.current?.closest('[data-propellant-layer-host]') ?? null);
     setInitialFocus(target);
     setIsOpen(true);
   };
@@ -311,7 +321,7 @@ export const Menu = ({
         'aria-expanded': isOpen,
       })}
       {isOpen ? (
-        <AnchoredLayer>
+        <AnchoredLayer host={layerHost}>
           <ul
             ref={panelRef}
             role="menu"
