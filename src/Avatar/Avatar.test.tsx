@@ -24,6 +24,20 @@ describe('Avatar', () => {
     expect(screen.getByText('TS').className).toContain('bg-[var(--fill-secondary)]');
   });
 
+  it('shows an uploaded photo whole, never cropped, on a quiet background', () => {
+    render(<Avatar src="/photo.png" alt="Amara Koroma" />);
+    const photo = screen.getByRole('img', { name: 'Amara Koroma' });
+    expect(photo).toHaveClass('object-contain', 'bg-[var(--bg-secondary)]');
+    expect(photo).not.toHaveClass('object-cover');
+  });
+
+  it('crops to fill only when the image is designated as auto croppable', () => {
+    render(<Avatar src="/illustration.png" alt="Illustration" autoCrop />);
+    const image = screen.getByRole('img', { name: 'Illustration' });
+    expect(image).toHaveClass('object-cover');
+    expect(image).not.toHaveClass('object-contain');
+  });
+
   it('prefers a photo over initials', () => {
     render(<Avatar src="/judge.png" initials="AK" alt="Amara Koroma" />);
     const photo = screen.getByRole('img', { name: 'Amara Koroma' });
