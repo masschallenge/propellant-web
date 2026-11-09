@@ -4,6 +4,25 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+### Added
+
+- `tone="warning"` on `Card`, for cards that need attention, such as a draft.
+- `--cal-ev-brand-ac` for the edge of brand calendar events, following light and dark themes.
+- `--type-eyebrow-size`, `--type-eyebrow-weight` and `--type-eyebrow-tracking` for uppercase
+  eyebrow labels.
+- `--toolbar-menu-max-width` for menus in the toolbar, such as a program switcher.
+- A design-first step in CONTRIBUTING: new components and visual changes start from an approved
+  design.
+
+### Fixed
+
+- `Menu` items with `selected` are now radio items with `aria-checked`, so screen readers announce
+  which choice is current.
+- A `Menu` opened from the compact `AppShell` sidebar now opens above the sidebar instead of
+  underneath it. Menus open inside the nearest `data-propellant-layer-host`.
+
 ## 1.0.0 (2026-11-05)
 
 The first public release.

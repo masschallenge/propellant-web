@@ -32,6 +32,13 @@ prioritize what they need.
 - Every component should serve a real need in a MassChallenge product or website. Tell us where it
   will be used.
 
+## Design comes first
+
+Any new component or visual change starts as an approved design, made in a design tool such as
+Figma or Claude Design, before any code is written. The pull request is desk checked against that
+design, and the review by the MassChallenge design lead is the final check before it is merged. Link
+the design in the pull request.
+
 ## Making a change
 
 1. Fork the repository and create a branch.
