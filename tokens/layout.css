@@ -30,6 +30,7 @@
   --row-tall: 56px;
 
   --toolbar-height: 52px;
+  --toolbar-menu-max-width: min(320px, 60vw);
   --sidebar-width: 240px;
   --inspector-width: 360px;
 

@@ -105,6 +105,7 @@ describe('AppShell', () => {
     await userEvent.click(toggle);
     const overlay = screen.getByRole('dialog', { name: 'Navigation' });
     expect(overlay).toHaveAttribute('aria-modal', 'true');
+    expect(overlay).toHaveAttribute('data-propellant-layer-host');
     expect(within(overlay).getByRole('link', { name: 'Overview' })).toHaveFocus();
     await userEvent.keyboard('{Escape}');
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();

@@ -243,6 +243,8 @@ html [data-propellant] {
   --cal-ev-brand-bg: color-mix(in srgb, var(--teal-400) 16%, var(--bg));
 
   --cal-ev-brand-fg: var(--teal-900);
+
+  --cal-ev-brand-ac: var(--teal-600);
 }
 
 [data-theme='dark'] [data-propellant], [data-propellant][data-theme='dark'], html [data-propellant] [data-theme='dark'] {
@@ -449,6 +451,10 @@ html [data-propellant] {
   --type-footnote-weight: 400;
   --type-footnote-tracking: 0.008em;
 
+  --type-eyebrow-size: 0.875rem;
+  --type-eyebrow-weight: 900;
+  --type-eyebrow-tracking: 0.1em;
+
   --type-caption-size: 0.75rem;
   --type-caption-line: 1rem;
   --type-caption-weight: 500;
@@ -651,6 +657,7 @@ html [data-propellant] {
   --row-tall: 56px;
 
   --toolbar-height: 52px;
+  --toolbar-menu-max-width: min(320px, 60vw);
   --sidebar-width: 240px;
   --inspector-width: 360px;
 
@@ -731,16 +738,19 @@ html:has([data-appearance='system']) [data-propellant]:not([data-theme='light'])
 html [data-propellant] {
   --cal-ev-brand-bg: color-mix(in srgb, var(--teal-400) 16%, var(--bg));
   --cal-ev-brand-fg: var(--teal-900);
+  --cal-ev-brand-ac: var(--teal-600);
 }
 
 [data-theme='dark'] [data-propellant], [data-propellant][data-theme='dark'], html [data-propellant] [data-theme='dark'] {
   --cal-ev-brand-fg: var(--label);
+  --cal-ev-brand-ac: var(--teal-400);
 }
 
 @media (prefers-color-scheme: dark) {
 
 html:has([data-appearance='system']) [data-propellant]:not([data-theme='light']) {
   --cal-ev-brand-fg: var(--label);
+  --cal-ev-brand-ac: var(--teal-400);
 }
 }
 

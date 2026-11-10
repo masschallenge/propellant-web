@@ -1,8 +1,10 @@
 :root {
   --cal-ev-brand-bg: color-mix(in srgb, var(--teal-400) 16%, var(--bg));
   --cal-ev-brand-fg: var(--teal-900);
+  --cal-ev-brand-ac: var(--teal-600);
 }
 
 [data-theme='dark'] {
   --cal-ev-brand-fg: var(--label);
+  --cal-ev-brand-ac: var(--teal-400);
 }
