@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
+import { imageFitClass } from '../internal/imageFit';
 
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type AvatarStatus = 'online' | 'offline';
@@ -15,6 +16,7 @@ export interface AvatarProps extends React.ComponentPropsWithoutRef<'span'> {
   status?: AvatarStatus;
   verified?: boolean;
   companyBadge?: { src: string; alt?: string };
+  autoCrop?: boolean;
 }
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
@@ -81,6 +83,7 @@ export const Avatar = ({
   status,
   verified = false,
   companyBadge,
+  autoCrop = false,
   className,
   ...rest
 }: AvatarProps) => {
@@ -101,7 +104,8 @@ export const Avatar = ({
           alt={alt}
           className={joinClasses(
             face,
-            'object-cover',
+            imageFitClass(autoCrop),
+            !autoCrop && 'bg-[var(--bg-secondary)]',
             !ring && 'shadow-[inset_0_0_0_var(--hairline)_var(--separator)]',
           )}
         />

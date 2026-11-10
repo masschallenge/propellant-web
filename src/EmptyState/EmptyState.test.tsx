@@ -59,4 +59,17 @@ describe('EmptyState', () => {
     expect(frame.className).toContain('rounded-[var(--corner-lg)]');
     expect(frame.className).not.toContain('shadow');
   });
+
+  it('shows tile images whole unless a tile is designated as auto croppable', () => {
+    const { container } = render(
+      <EmptyState
+        title="No mentors yet"
+        visual="avatar-grid"
+        tiles={[{ src: '/uploaded.png' }, { src: '/stock.png', autoCrop: true }]}
+      />,
+    );
+    const [uploaded, stock] = Array.from(container.querySelectorAll('img'));
+    expect(uploaded).toHaveClass('object-contain');
+    expect(stock).toHaveClass('object-cover');
+  });
 });

@@ -2,6 +2,7 @@ import * as React from 'react';
 import type { ReactNode } from 'react';
 import { Avatar } from '../Avatar/Avatar';
 import { StatusIcon } from '../StatusIcon/StatusIcon';
+import { imageFitClass } from '../internal/imageFit';
 
 export type EmptyStateVisual =
   'icon' | 'illustration' | 'file' | 'avatar-radius' | 'avatar-row' | 'avatar-grid';
@@ -10,6 +11,7 @@ export interface EmptyStateTile {
   src?: string;
   icon?: ReactNode;
   brand?: boolean;
+  autoCrop?: boolean;
 }
 
 export interface EmptyStateProps {
@@ -63,7 +65,11 @@ const Tile = ({ tile }: { tile: EmptyStateTile }) => (
       tile.brand ? 'text-[var(--label-secondary)]' : 'text-[var(--label-tertiary)]',
     )}
   >
-    {tile.src ? <img src={tile.src} alt="" className="w-full h-full object-cover" /> : tile.icon}
+    {tile.src ? (
+      <img src={tile.src} alt="" className={`w-full h-full ${imageFitClass(tile.autoCrop)}`} />
+    ) : (
+      tile.icon
+    )}
   </span>
 );
 

@@ -60,6 +60,7 @@ install: one stylesheet and a few class names.
 - [Usage guide](docs/usage.md)
 - [Websites and site builders](docs/websites.md): WordPress, Squarespace, Webflow, Wix, HubSpot and plain HTML
 - [Brand guidelines](docs/brand.md), including logo usage
+- [Images and uploads](docs/images.md): how to handle photos and logos people upload
 - [Contributing](CONTRIBUTING.md)
 - [Changelog](CHANGELOG.md)
 

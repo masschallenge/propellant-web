@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { Badge } from '../Badge/Badge';
 import { ErrorGlyph, FIELD_LABEL_TONE } from '../TextField/fieldText';
 import { INDICATOR_SIZES } from '../Checkbox/selectionControl';
+import { imageFitClass } from '../internal/imageFit';
 
 export interface RadioCardLink {
   label: string;
@@ -268,7 +269,7 @@ export const RadioCardGroup = ({
         {controlOnRight ? null : mark}
         {option.avatar ? (
           <img
-            className="flex-none w-10 h-10 rounded-full object-cover bg-[var(--bg-secondary)]"
+            className={`flex-none w-10 h-10 rounded-full ${imageFitClass()} bg-[var(--bg-secondary)]`}
             src={option.avatar}
             alt=""
           />

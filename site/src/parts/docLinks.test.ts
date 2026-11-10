@@ -5,6 +5,7 @@ describe('docRouteFor', () => {
   it('maps the guides that have a page on the site', () => {
     expect(docRouteFor('docs/websites.md')).toBe('websites');
     expect(docRouteFor('docs/brand.md')).toBe('brand');
+    expect(docRouteFor('docs/images.md')).toBe('images');
     expect(docRouteFor('docs/websites/squarespace.md')).toBe('websites-squarespace');
   });
 

@@ -4,6 +4,21 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+### Added
+
+- An images and uploads guideline: uploaded photos and logos are never cropped by the interface,
+  people crop once at upload, and the crop step starts uncropped unless a face is detected in a
+  profile photo. It recommends shapes and minimum sizes for each kind of upload.
+- `autoCrop` on `Avatar` and on `EmptyState` tiles, for images designated as safe to crop.
+
+### Changed
+
+- Components that show photos and logos (`Avatar`, `Breadcrumb`, `Card`, `Menu`, `PageHeader`,
+  `PopUpButton`, `RadioCardGroup`, `Sheet` and `EmptyState` tiles) now show the whole image on a
+  quiet background instead of cropping it to fill the frame.
+
 ## 1.0.0 (2026-11-05)
 
 The first public release.

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
 import { Button } from '../Button/Button';
+import { imageFitClass } from '../internal/imageFit';
 
 export interface PageHeaderProps {
   title: string;
@@ -63,7 +64,8 @@ export const PageHeader = ({
         src={avatarSrc}
         alt={avatarAlt}
         className={joinClasses(
-          'block rounded-full object-cover shadow-[0_0_0_4px_var(--bg)]',
+          'block rounded-full shadow-[0_0_0_4px_var(--bg)] bg-[var(--bg-secondary)]',
+          imageFitClass(),
           hasBanner ? 'w-24 h-24' : 'w-20 h-20',
         )}
       />
