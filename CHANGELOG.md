@@ -4,6 +4,13 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## 1.1.1 (2026-11-10)
+
+### Fixed
+
+- The install commands and CDN links in the README, the usage guide, the website guides and the
+  site's Usage page now point at the current release instead of v1.0.0.
+
 ## 1.1.0 (2026-11-10)
 
 ### Added
