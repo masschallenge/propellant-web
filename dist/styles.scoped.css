@@ -878,5 +878,5 @@ html [data-propellant] .propellant-scroll-hidden::-webkit-scrollbar {
   display: none;
 }
 html [data-propellant] {
-  --propellant-version: '1.0.0';
+  --propellant-version: '1.1.0';
 }
