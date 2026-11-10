@@ -16,7 +16,7 @@ Add this line inside the `<head>` of every page, before your own stylesheets:
 ```html
 <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/dist/website.css"
+  href="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/dist/website.css"
 />
 ```
 
@@ -50,7 +50,7 @@ Copy this into a new file named `index.html`, open it in a browser, and change t
     <title>Your page title</title>
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/dist/website.css"
+      href="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/dist/website.css"
     />
     <style>
       body { margin: 0; }
@@ -64,7 +64,7 @@ Copy this into a new file named `index.html`, open it in a browser, and change t
     <section class="propellant-brand-band">
       <div class="content">
         <img
-          src="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/assets/logos/masschallenge-logo-horizontal-white.png"
+          src="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-white.png"
           alt="MassChallenge"
           height="32"
         />
