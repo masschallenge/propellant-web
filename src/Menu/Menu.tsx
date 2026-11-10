@@ -9,6 +9,7 @@ import {
   anchoredPanelStyle,
   useAnchoredPosition,
 } from '../internal/anchoredLayer';
+import { imageFitClass } from '../internal/imageFit';
 
 export interface MenuItem {
   separator?: boolean;
@@ -151,7 +152,7 @@ const MenuRow = ({ item, onClose }: MenuRowProps) => {
         ) : null}
         {item.avatar ? (
           <img
-            className="flex-none w-[var(--icon-lg)] h-[var(--icon-lg)] rounded-full object-cover"
+            className={`flex-none w-[var(--icon-lg)] h-[var(--icon-lg)] rounded-full ${imageFitClass()} bg-[var(--bg-secondary)]`}
             src={item.avatar}
             alt=""
           />

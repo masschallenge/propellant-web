@@ -11,6 +11,7 @@ import {
 } from '../internal/anchoredLayer';
 import { FieldHint, FieldLabel } from '../TextField/fieldText';
 import { Token } from '../Token/Token';
+import { imageFitClass } from '../internal/imageFit';
 
 export interface PopUpButtonOption {
   value: string;
@@ -283,7 +284,7 @@ export const PopUpButton = ({
       >
         {option.avatar ? (
           <img
-            className="flex-none w-5 h-5 rounded-full object-cover bg-[var(--bg-secondary)]"
+            className={`flex-none w-5 h-5 rounded-full ${imageFitClass()} bg-[var(--bg-secondary)]`}
             src={option.avatar}
             alt=""
           />
@@ -364,7 +365,7 @@ export const PopUpButton = ({
                 icon={
                   option.avatar ? (
                     <img
-                      className="block w-3.5 h-3.5 rounded-full object-cover"
+                      className={`block w-3.5 h-3.5 rounded-full ${imageFitClass()} bg-[var(--bg-secondary)]`}
                       src={option.avatar}
                       alt=""
                     />
@@ -449,7 +450,7 @@ export const PopUpButton = ({
           <span className="propellant-field-ring" aria-hidden="true" />
           {selectedOption?.avatar ? (
             <img
-              className="flex-none w-5 h-5 rounded-full object-cover bg-[var(--bg-secondary)]"
+              className={`flex-none w-5 h-5 rounded-full ${imageFitClass()} bg-[var(--bg-secondary)]`}
               src={selectedOption.avatar}
               alt=""
             />

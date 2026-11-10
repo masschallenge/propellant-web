@@ -2,6 +2,7 @@ import * as React from 'react';
 import type { ReactNode } from 'react';
 import { Badge } from '../Badge/Badge';
 import { IconButton } from '../IconButton/IconButton';
+import { imageFitClass } from '../internal/imageFit';
 
 export interface CardMenuItem {
   label: string;
@@ -130,7 +131,7 @@ export const Card = ({
             {media ? (
               typeof media === 'string' ? (
                 <img
-                  className="flex-none w-[var(--avatar-lg)] h-[var(--avatar-lg)] rounded-full object-cover"
+                  className={`flex-none w-[var(--avatar-lg)] h-[var(--avatar-lg)] rounded-full ${imageFitClass()} bg-[var(--bg-secondary)]`}
                   src={media}
                   alt=""
                 />

@@ -2,6 +2,7 @@ import * as React from 'react';
 import type { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { IconButton } from '../IconButton/IconButton';
+import { imageFitClass } from '../internal/imageFit';
 
 const openSheetStack: object[] = [];
 
@@ -170,7 +171,11 @@ export const Sheet = ({
   const descriptionId = `${sheetId}-desc`;
 
   const lead = avatar ? (
-    <img className="flex-none w-10 h-10 rounded-full object-cover" src={avatar} alt="" />
+    <img
+      className={`flex-none w-10 h-10 rounded-full ${imageFitClass()} bg-[var(--bg-secondary)]`}
+      src={avatar}
+      alt=""
+    />
   ) : !hideIcon ? (
     <span
       className={joinClasses(

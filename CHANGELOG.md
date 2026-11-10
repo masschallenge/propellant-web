@@ -15,6 +15,16 @@ property and from `@masschallenge/propellant-web/version`.
 - `--toolbar-menu-max-width` for menus in the toolbar, such as a program switcher.
 - A design-first step in CONTRIBUTING: new components and visual changes start from an approved
   design.
+- An images and uploads guideline: uploaded photos and logos are never cropped by the interface,
+  people crop once at upload, and the crop step starts uncropped unless a face is detected in a
+  profile photo. It recommends shapes and minimum sizes for each kind of upload.
+- `autoCrop` on `Avatar` and on `EmptyState` tiles, for images designated as safe to crop.
+
+### Changed
+
+- Components that show photos and logos (`Avatar`, `Breadcrumb`, `Card`, `Menu`, `PageHeader`,
+  `PopUpButton`, `RadioCardGroup`, `Sheet` and `EmptyState` tiles) now show the whole image on a
+  quiet background instead of cropping it to fill the frame.
 
 ### Fixed
 

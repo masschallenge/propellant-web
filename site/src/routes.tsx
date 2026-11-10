@@ -22,6 +22,7 @@ import { TokenReference } from './pages/TokenReference';
 import { ComponentIndex } from './pages/ComponentIndex';
 import { Patterns } from './pages/Patterns';
 import { Accessibility, Writing } from './pages/Guidelines';
+import { ImagesGuide } from './pages/ImagesGuide';
 
 export interface SiteRoute {
   id: string;
@@ -55,4 +56,5 @@ export const ROUTES: SiteRoute[] = [
   { id: 'patterns', title: 'Patterns', section: 'Build', Page: Patterns },
   { id: 'accessibility', title: 'Accessibility', section: 'Guidelines', Page: Accessibility },
   { id: 'writing', title: 'Writing', section: 'Guidelines', Page: Writing },
+  { id: 'images', title: 'Images and uploads', section: 'Guidelines', Page: ImagesGuide },
 ];

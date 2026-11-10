@@ -4,6 +4,7 @@ const DOC_ROUTES: Record<string, string> = {
   'docs/usage.md': 'usage',
   'docs/brand.md': 'brand',
   'docs/websites.md': 'websites',
+  'docs/images.md': 'images',
 };
 
 const resolvePath = (fromDocument: string, target: string) => {

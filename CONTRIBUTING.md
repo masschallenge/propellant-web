@@ -64,6 +64,9 @@ These keep the code easy to read for the next person, who may be you in six mont
   `rounded-[var(--corner-lg)]`. Never use a raw color or a magic pixel value.
 - Keep every accessibility contract: roles, names, keyboard support, focus return and the privacy
   classes on personal data.
+- Never crop an image someone uploaded. Show images whole with `imageFitClass()` from
+  `src/internal/imageFit`, and crop to fill only for images we own, through an explicit `autoCrop`
+  option. The [images guide](docs/images.md) explains the rule.
 
 ## Tokens
 
