@@ -29,11 +29,11 @@ defaults permission. To change site wide code you need the Website settings perm
 
 **Download the logo files.** Save these from our logo folder to your computer:
 
-- https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/assets/logos/masschallenge-logo-horizontal-color.png
+- https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-color.png
   (the main logo, for White and Mist backgrounds)
-- https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/assets/logos/masschallenge-logo-horizontal-white.png
+- https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-white.png
   (for Deep teal backgrounds)
-- https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/assets/logos/masschallenge-logo-monogram-color.png
+- https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-monogram-color.png
   (the MC monogram, for the site icon)
 
 The monogram also comes in `-white` and `-black` versions. Read the
@@ -437,7 +437,7 @@ HTML (Option A) on its own, outside any `<style>` tags:
 ```html
 <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/dist/website.css"
+  href="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/dist/website.css"
 />
 ```
 

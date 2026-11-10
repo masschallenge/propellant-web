@@ -36,11 +36,11 @@ guide comes from it.
 **The logo files.** Download these from our public file store (right click each link, then save):
 
 - Horizontal logo, full color, for White and Mist backgrounds:
-  [masschallenge-logo-horizontal-color.png](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/assets/logos/masschallenge-logo-horizontal-color.png)
+  [masschallenge-logo-horizontal-color.png](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-color.png)
 - Horizontal logo, white, for Deep teal backgrounds:
-  [masschallenge-logo-horizontal-white.png](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/assets/logos/masschallenge-logo-horizontal-white.png)
+  [masschallenge-logo-horizontal-white.png](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-white.png)
 - Monogram, full color, for the site icon:
-  [masschallenge-logo-monogram-color.png](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/assets/logos/masschallenge-logo-monogram-color.png)
+  [masschallenge-logo-monogram-color.png](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-monogram-color.png)
 
 There are also `-black` versions of both lockups, and a `-white` monogram, at the same address. Use
 these files only, never a copy of the logo from somewhere else. The
@@ -430,7 +430,7 @@ This needs a paid Core, Growth, Agency or Freelancer Workspace, or an active Sit
    <!-- Propellant website styles: see github.com/masschallenge/propellant-web -->
    <link
      rel="stylesheet"
-     href="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/dist/website.css"
+     href="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/dist/website.css"
    />
    ```
 

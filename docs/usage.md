@@ -33,11 +33,11 @@ Propellant needs Node 22 or later and, for components, React 19.
 Install the package from GitHub at a released version:
 
 ```bash
-npm install github:masschallenge/propellant-web#v1.0.0
+npm install github:masschallenge/propellant-web#v1.1.1
 ```
 
 ```bash
-yarn add github:masschallenge/propellant-web#v1.0.0
+yarn add github:masschallenge/propellant-web#v1.1.1
 ```
 
 The package is published as `@masschallenge/propellant-web`.

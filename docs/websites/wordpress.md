@@ -34,11 +34,11 @@ version at the bottom of any dashboard screen, or under **Dashboard > Updates**.
 
 - The [website spec](../websites.md) in another tab. Every value in this guide comes from it.
 - The logo files, downloaded to your computer. Open each link and save the image:
-  - [Horizontal logo, color](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/assets/logos/masschallenge-logo-horizontal-color.png)
+  - [Horizontal logo, color](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-color.png)
     for white and light backgrounds.
-  - [Horizontal logo, white](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/assets/logos/masschallenge-logo-horizontal-white.png)
+  - [Horizontal logo, white](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-white.png)
     for Deep teal and dark backgrounds.
-  - [Monogram, color](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/assets/logos/masschallenge-logo-monogram-color.png)
+  - [Monogram, color](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-monogram-color.png)
     for the site icon (the small picture in the browser tab).
   - The same folder also has `-black` versions, and a `masschallenge-logo-monogram-white.png`.
 
@@ -604,7 +604,7 @@ adds ready made class names. In a classic theme, put this line at the very top o
 CSS**:
 
 ```css
-@import url("https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/dist/website.css");
+@import url("https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/dist/website.css");
 ```
 
 Then type class names into a block's **Advanced > Additional CSS class(es)** box:
@@ -657,7 +657,7 @@ styles (Mist and Deep teal) that anyone can pick from a Group or Cover block's *
 ```php
 <?php
 const PROPELLANT_STYLESHEET =
-	'https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/dist/website.css';
+	'https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/dist/website.css';
 
 add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style( 'propellant-website', PROPELLANT_STYLESHEET, array(), null );
@@ -729,13 +729,13 @@ you installed in the Font Library so there is only one copy.
               "fontFamily": "Lato",
               "fontWeight": "400",
               "fontStyle": "normal",
-              "src": "https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/assets/fonts/propellant-sans-400-latin.woff2"
+              "src": "https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/fonts/propellant-sans-400-latin.woff2"
             },
             {
               "fontFamily": "Lato",
               "fontWeight": "700",
               "fontStyle": "normal",
-              "src": "https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/assets/fonts/propellant-sans-700-latin.woff2"
+              "src": "https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/fonts/propellant-sans-700-latin.woff2"
             }
           ]
         },
@@ -748,7 +748,7 @@ you installed in the Font Library so there is only one copy.
               "fontFamily": "Oswald",
               "fontWeight": "400 700",
               "fontStyle": "normal",
-              "src": "https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.0.0/assets/fonts/oswald-latin-variable.woff2"
+              "src": "https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/fonts/oswald-latin-variable.woff2"
             }
           ]
         }

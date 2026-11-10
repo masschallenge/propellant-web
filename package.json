@@ -1,6 +1,6 @@
 {
   "name": "@masschallenge/propellant-web",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Propellant, the MassChallenge design system for the web: design tokens, React components and an application shell.",
   "license": "MIT",
   "type": "module",
