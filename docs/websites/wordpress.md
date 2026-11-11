@@ -171,7 +171,7 @@ spec colors so nobody has to type a hex code again.
    | Name | Hex | Use it for |
    | --- | --- | --- |
    | White | `#FFFFFF` | Page background |
-   | Mist | `#F3F6F7` | Alternate section background |
+   | Mist | `#F3FBFC` | Alternate section background |
    | Ink | `#1E282B` | Body text and headings |
    | Slate | `#4B575B` | Secondary text, such as captions |
    | Teal | `#065E6F` | Links and buttons |
@@ -180,7 +180,7 @@ spec colors so nobody has to type a hex code again.
    | Pale teal | `#D9F6FA` | Secondary buttons and tinted sections |
    | Line | `#DBE1E3` | Lines and dividers |
    | Yellow | `#FFC801` | Highlights, always with Ink text |
-   | Magenta | `#A30253` | Errors |
+   | Magenta | `#BF0261` | Errors |
 
 3. Click **Done**.
 
@@ -190,7 +190,7 @@ change each one to the closest spec color. Names vary by theme. If yours uses na
 Contrast and Accent, set **Base** to White `#FFFFFF` and **Contrast** to Ink `#1E282B`, then look at
 where each Accent appears on your site and give it the spec color for that job (for example, an
 accent used for links becomes Teal `#065E6F`, and a light background accent becomes Mist
-`#F3F6F7`).
+`#F3FBFC`).
 
 #### Step 6: Set the colors for each element
 
@@ -269,7 +269,7 @@ panels differ from theme to theme. WordPress itself always gives you **Site Iden
    | Button text | White `#FFFFFF` |
    | Button hover background | Deep teal `#044451` |
    | Border, Divider | Line `#DBE1E3` |
-   | Alternate background, Light background | Mist `#F3F6F7` |
+   | Alternate background, Light background | Mist `#F3FBFC` |
 
    Turn off any dark mode switch, so the colors stay as set.
 
@@ -390,7 +390,7 @@ Open a page with **Pages > Add New Page** (or edit an existing one).
 
 ### A Mist section
 
-Follow the same steps, then set **Color > Background** to **Mist** `#F3F6F7` from the palette. Use
+Follow the same steps, then set **Color > Background** to **Mist** `#F3FBFC` from the palette. Use
 Mist to separate sections that sit next to each other. Do not stack two Mist sections in a row.
 
 ### A Deep teal section
@@ -672,7 +672,7 @@ add_action( 'init', function () {
 		'name'       => 'propellant-mist',
 		'label'      => 'Mist section',
 		'style_data' => array(
-			'color' => array( 'background' => '#F3F6F7', 'text' => '#1E282B' ),
+			'color' => array( 'background' => '#F3FBFC', 'text' => '#1E282B' ),
 		),
 	) );
 	register_block_style( array( 'core/group', 'core/cover' ), array(
@@ -706,7 +706,7 @@ you installed in the Font Library so there is only one copy.
     "color": {
       "palette": [
         { "slug": "base", "name": "White", "color": "#FFFFFF" },
-        { "slug": "mist", "name": "Mist", "color": "#F3F6F7" },
+        { "slug": "mist", "name": "Mist", "color": "#F3FBFC" },
         { "slug": "contrast", "name": "Ink", "color": "#1E282B" },
         { "slug": "slate", "name": "Slate", "color": "#4B575B" },
         { "slug": "teal", "name": "Teal", "color": "#065E6F" },
@@ -715,7 +715,7 @@ you installed in the Font Library so there is only one copy.
         { "slug": "pale-teal", "name": "Pale teal", "color": "#D9F6FA" },
         { "slug": "line", "name": "Line", "color": "#DBE1E3" },
         { "slug": "yellow", "name": "Yellow", "color": "#FFC801" },
-        { "slug": "magenta", "name": "Magenta", "color": "#A30253" }
+        { "slug": "magenta", "name": "Magenta", "color": "#BF0261" }
       ]
     },
     "typography": {

@@ -105,7 +105,7 @@ button hover color from the buttons table.
 | Variable name | Hex | Use it for |
 | --- | --- | --- |
 | `Colors/White` | `#FFFFFF` | Page background, text on Deep teal |
-| `Colors/Mist` | `#F3F6F7` | Alternate section background |
+| `Colors/Mist` | `#F3FBFC` | Alternate section background |
 | `Colors/Ink` | `#1E282B` | Body text and headings |
 | `Colors/Slate` | `#4B575B` | Secondary text, such as captions |
 | `Colors/Teal` | `#065E6F` | Links and buttons |
@@ -115,7 +115,7 @@ button hover color from the buttons table.
 | `Colors/Pale teal hover` | `#C4EEF4` | Secondary button hover |
 | `Colors/Line` | `#DBE1E3` | Lines and dividers |
 | `Colors/Yellow` | `#FFC801` | Highlights, always with Ink text |
-| `Colors/Magenta` | `#A30253` | Errors |
+| `Colors/Magenta` | `#BF0261` | Errors |
 
 If your site already has swatches, Webflow has turned them into color variables. You can leave
 them or delete the ones you no longer use.

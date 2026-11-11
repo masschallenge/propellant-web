@@ -33,6 +33,15 @@ describe('ColorPicker swatch picker', () => {
     expect(onChange).toHaveBeenLastCalledWith('#123456');
     expect(screen.queryByLabelText('Opacity percent')).not.toBeInTheDocument();
   });
+
+  it('offers the brand chart colors in chart order as the default swatches', () => {
+    render(<ColorPicker variant="swatch-picker" />);
+    const chartOrder = ['Teal', 'Yellow', 'Slate', 'Bright teal', 'Deep teal', 'Gray 300'];
+    const swatches = chartOrder.map((name) => screen.getByRole('button', { name }));
+    const swatchColors = swatches.map((swatch) => swatch.style.background);
+    expect(new Set(swatchColors).size).toBe(chartOrder.length);
+    expect(screen.queryByRole('button', { name: 'Magenta' })).not.toBeInTheDocument();
+  });
 });
 
 describe('ColorPicker full panel', () => {

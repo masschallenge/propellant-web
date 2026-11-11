@@ -77,12 +77,12 @@ then have a Text color option that picks which section type's colors to use.
    | Secondary | Deep teal | `#044451` |
    | Accent 1 | Bright teal | `#0FACBD` |
    | Accent 2 | Pale teal | `#D9F6FA` |
-   | Accent 3 | Mist | `#F3F6F7` |
+   | Accent 3 | Mist | `#F3FBFC` |
    | Additional | Ink | `#1E282B` |
    | Additional | Slate | `#4B575B` |
    | Additional | Line | `#DBE1E3` |
    | Additional | Yellow | `#FFC801` |
-   | Additional | Magenta | `#A30253` |
+   | Additional | Magenta | `#BF0261` |
 
    Click **Add** to make each additional color. Click **Save**.
 
@@ -115,7 +115,7 @@ Open **Foundation**, then **Colors**. Enter these:
 | Elevate setting | Spec color | Hex | What Elevate uses it for |
 | --- | --- | --- | --- |
 | Base color 1 | White | `#FFFFFF` | Page background (Light section 1) |
-| Base color 2 | Mist | `#F3F6F7` | Alternate background (Light section 2) |
+| Base color 2 | Mist | `#F3FBFC` | Alternate background (Light section 2) |
 | Base color 3 | Ink | `#1E282B` | Text and headings |
 | Accent color 1 | Pale teal | `#D9F6FA` | Tinted background (Light section 3) |
 | Accent color 2 | Bright teal | `#0FACBD` | Accents on dark sections |
@@ -128,7 +128,7 @@ switch between the four section types, and enter these values for each:
 
 | Setting | Light section 1 | Light section 2 | Light section 3 | Dark section 1 |
 | --- | --- | --- | --- | --- |
-| Section background color | White `#FFFFFF` | Mist `#F3F6F7` | Pale teal `#D9F6FA` | Deep teal `#044451` |
+| Section background color | White `#FFFFFF` | Mist `#F3FBFC` | Pale teal `#D9F6FA` | Deep teal `#044451` |
 | Default text color | Ink `#1E282B` | Ink `#1E282B` | Ink `#1E282B` | White `#FFFFFF` |
 | Accent text color | Teal `#065E6F` | Teal `#065E6F` | Teal `#065E6F` | Bright teal `#0FACBD` |
 | Caption text color | Slate `#4B575B` | Slate `#4B575B` | Slate `#4B575B` | White `#FFFFFF` |
@@ -272,7 +272,7 @@ Everything below uses the drag and drop editor. Each page is made of **sections*
 2. Open the **Styles** tab in the sidebar.
 3. Under **Background**, choose **Color** and enter the hex code:
    - White section: `#FFFFFF`
-   - Mist section: `#F3F6F7`
+   - Mist section: `#F3FBFC`
    - Deep teal section: `#044451`
 4. Under **Alignment and spacing**, set the top and bottom padding to **96px**.
 5. Click the **mobile** icon at the top of the editor, select the same section, and set the top and

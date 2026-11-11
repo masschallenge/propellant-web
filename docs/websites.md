@@ -36,7 +36,7 @@ copy.
 | Use it for | Name | Hex |
 | --- | --- | --- |
 | Page background | White | `#FFFFFF` |
-| Alternate section background | Mist | `#F3F6F7` |
+| Alternate section background | Mist | `#F3FBFC` |
 | Body text and headings | Ink | `#1E282B` |
 | Secondary text, such as captions | Slate | `#4B575B` |
 | Links and buttons | Teal | `#065E6F` |
@@ -45,7 +45,7 @@ copy.
 | Secondary buttons and tinted sections | Pale teal | `#D9F6FA` |
 | Lines and dividers | Line | `#DBE1E3` |
 | Highlights, always with Ink text | Yellow | `#FFC801` |
-| Errors | Magenta | `#A30253` |
+| Errors | Magenta | `#BF0261` |
 
 On Deep teal sections, use White text, White buttons with Deep teal text, and Bright teal for
 accents. Never put Teal text on Deep teal.
