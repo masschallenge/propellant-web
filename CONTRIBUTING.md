@@ -49,6 +49,31 @@ the design in the pull request.
    the README, then look at every changed image before you commit it.
 6. Add an entry to `CHANGELOG.md` and open a pull request that explains why the change is needed.
 
+## Reviews
+
+- Every change reaches `main` through a pull request. Nobody pushes to `main` directly.
+- The dev team owns every file (see `.github/CODEOWNERS`), so a member of the dev team reviews and
+  approves each pull request before it is merged.
+- A visual change also needs the design lead's approval, checked against the design linked in the
+  pull request. That review is the final check before merging.
+- CI must be green: lint, type check, unit tests, story tests and visual baselines.
+- Keep pull requests small and focused on one change, so they are quick to review and easy to undo.
+
+## Releases
+
+Propellant follows semantic versioning. A patch release fixes something without changing how it is
+used, a minor release adds something, and a major release changes or removes something that
+products depend on.
+
+1. Open a release pull request that sets the version in `package.json`, moves the changes in
+   `CHANGELOG.md` under the new version and date, and rebuilds `dist/` with `yarn build`.
+2. Once it is reviewed and merged, tag the merge commit on `main` as `vX.Y.Z` and push the tag.
+   The tag is the release. Nothing is published to a package registry.
+3. Products pick up a release by changing the tag they depend on, for example
+   `github:masschallenge/propellant-web#vX.Y.Z`, in a pull request of their own, reviewed by that
+   product's team. They never depend on a branch.
+4. Never move or delete a tag once it is pushed. If a release is wrong, publish a new patch release.
+
 ## Code standards
 
 These keep the code easy to read for the next person, who may be you in six months.
