@@ -6,15 +6,11 @@ voice, messaging, contact and legal details, and the graphic devices. Most of th
 already built into Propellant, so when you use its components and tokens (the named values for
 color, type and spacing), you follow these guidelines without extra work.
 
-These standards were set on 2026-11-11 from what masschallenge.org shows today, and they will
-evolve from here. Every fact below was read from masschallenge.org on that date, and the source
-page is linked where it matters.
-
 ## The name
 
 - Write MassChallenge as one word with a capital M and a capital C.
 - Do not abbreviate it to MC in running text. The MC monogram is a logo, not a word.
-- Do not add a trademark symbol to the name or the logo. The website uses none.
+- Do not add a trademark symbol to the name or the logo.
 
 ## Logo
 
@@ -23,10 +19,7 @@ the files we supply or the `Logo` component, and never redraw, retype or recolor
 
 ### Files
 
-The logo files are PNG today. No vector original was found on masschallenge.org (its media
-library's 182 SVG files and seven pages were checked), and one is being sought. Until it is found,
-the PNG files in `assets/logos` are the standard. Do not trace or redraw them to make a vector
-version.
+The logo files are in `assets/logos`. Use them as supplied, and do not trace or redraw them.
 
 ### Lockups
 
@@ -143,9 +136,6 @@ The CMYK values in this guide are calculated from the sRGB values with the Artif
 (US web coated), relative colorimetric intent, rounded to whole percent. They are a starting point,
 not a measured match, so check a printed proof before a large run.
 
-Pantone matches are not set; print from the CMYK values. Do not pick or quote a Pantone color for
-the brand until one is set here.
-
 ### Charts
 
 Use the chart colors in this order, everywhere: Teal, Yellow, Slate, Bright teal, Deep teal, Gray
@@ -204,9 +194,6 @@ everywhere, including the graphic devices below.
 | Google Workspace | Lato, from Google Fonts. | Oswald, from Google Fonts. |
 | Email | Lato, falling back to Arial, Helvetica, sans-serif. | Not part of the email standard. |
 
-The website sets its headlines in Oswald capitals and its body in a sans serif, which matches this
-standard.
-
 - Use sentence case for titles, labels and buttons. Capitals belong only to Oswald headlines, the
   wordmark and the labels of the graphic devices below.
 - Use the eleven named text styles in Propellant rather than choosing sizes by eye.
@@ -215,13 +202,13 @@ standard.
 
 ## Voice
 
-MassChallenge sounds bold and ambitious. The home page of our website leads with "We back the rare
-humans with the grit to solve the toughest challenges," and the About page calls us "a global
-network turning bold ideas into outcomes that matter." Our products should sound like the same
+MassChallenge sounds bold and ambitious. Our primary line is "We back the rare humans with the grit
+to solve the toughest challenges," and we are "a global network turning bold ideas into outcomes
+that matter." Our products should sound like the same
 people: direct, plain spoken and on the side of the founders we serve. In a product the stakes are
 practical, so keep the confidence and drop the slogans.
 
-What the website's voice shows us:
+What that sounds like:
 
 - **Bold and ambitious.** "Rare humans", "grit", "toughest challenges".
 - **Founder first.** "We back the rare humans with the grit to solve the toughest challenges."
@@ -229,11 +216,8 @@ What the website's voice shows us:
   people and power that move markets".
 - **Short declarative headlines in capitals.** On public pages, in Oswald.
 
-"It takes a community to raise a startup." is not a MassChallenge line. It is a testimonial on the
-home page from Rick Whittaker, CEO and CoFounder of AirShare. Never present it as a tagline or as
-our words. Quote it only as his, with his name.
-
-The website uses "leverage" once and uses em dashes. This standard drops both.
+"It takes a community to raise a startup." is not a MassChallenge line. It is a founder's testimonial. Never present it
+as a tagline or as our words.
 
 - Get to the point. Use short sentences and everyday words, the way you would explain it to a
   colleague.
@@ -257,25 +241,20 @@ The website uses "leverage" once and uses em dashes. This standard drops both.
 
 ## Messaging
 
-A first pass, taken from masschallenge.org on 2026-11-11. Quote these lines as written.
+Quote these lines as written.
 
 ### Primary line
 
 "We back the rare humans with the grit to solve the toughest challenges."
-
-Source: the home page hero, [masschallenge.org](https://masschallenge.org/).
 
 ### Positioning
 
 - "Born in Massachusetts. Built for the world."
 - "A global network turning bold ideas into outcomes that matter."
 
-Source: the [About page](https://masschallenge.org/about-us/).
-
 ### Boilerplate
 
-Quoted from the [About page](https://masschallenge.org/about-us/), with its dashes replaced by
-commas and no other change. Each version adds to the one before.
+Each version adds to the one before. Use the shortest that fits.
 
 **Short**
 
@@ -302,7 +281,7 @@ commas and no other change. Each version adds to the one before.
 
 ### Approved figures
 
-As of 2026-11-11. Source: the [About page](https://masschallenge.org/about-us/).
+As of November 2026.
 
 | Figure | Value |
 | --- | --- |
@@ -313,15 +292,10 @@ As of 2026-11-11. Source: the [About page](https://masschallenge.org/about-us/).
 | Jobs created | 90K |
 | Partners | More than 500 |
 
-- Always show the as-of date with a figure, for example "more than 5,000 startups (as of
-  2026-11-11)", or in a source note under a chart or slide.
-- **Open conflict, not resolved:** a graphic on the website says "77K direct jobs created by
-  alumni", while the About page says 90K jobs. Use 90K until the brand team confirms which is
-  right.
+Always show the as-of date with a figure, for example "more than 5,000 startups (as of November
+2026)", or in a note under a chart or slide.
 
 ### Challenge Areas
-
-From the website navigation:
 
 - Healthcare and Life Sciences
 - Security and Resiliency
@@ -331,31 +305,28 @@ From the website navigation:
 
 ### Accelerators
 
-From "Our accelerators" in the website navigation: Traction, Challenge and Breakthrough Bio.
+Traction, Challenge and Breakthrough Bio.
 Corporate Partners is the partnership offer, not an accelerator.
 
 ### Audiences
 
-The website's "Our network" names three: Founders, Experts and Collaborators. In products, keep
+Our network has three audiences: Founders, Experts and Collaborators. In products, keep
 the words people use there: startups, applications, mentors, judges and programs. A mentor or a
 judge is one kind of expert.
 
 ### Leadership
 
-Cait Brumme, CEO of MassChallenge (quoted on the About page).
+Cait Brumme, CEO of MassChallenge.
 
 ### Naming rules
 
 - Write the name as in [The name](#the-name): MassChallenge, one word, no trademark symbol.
-- Write the Challenge Areas with "and" in running text. Use "&" only in tight labels, as the home
-  page hero does.
-- Write the Challenge Areas and the accelerator names as the website navigation does, above.
+- Write the Challenge Areas with "and" in running text. Use "&" only in tight labels.
+- Write the Challenge Areas and the accelerator names exactly as listed above.
 - Say founders, experts and collaborators when talking about the network, and the product words
   (startups, mentors, judges) inside a product.
 
 ## Contact, social and legal
-
-From the website header and footer, as of 2026-11-11.
 
 ### Contact
 
@@ -368,7 +339,7 @@ Email: [contact@masschallenge.org](mailto:contact@masschallenge.org)
 | LinkedIn | [linkedin.com/company/masschallenge](https://www.linkedin.com/company/masschallenge) |
 | Instagram | [instagram.com/masschallenge](https://www.instagram.com/masschallenge/) |
 | X | [x.com/MassChallenge](https://x.com/MassChallenge) |
-| YouTube | MassChallenge publishes videos on its YouTube channel, authored "MassChallenge". |
+| YouTube | The MassChallenge YouTube channel. |
 
 ### Footer links
 
@@ -376,18 +347,15 @@ Email: [contact@masschallenge.org](mailto:contact@masschallenge.org)
 | --- | --- |
 | Careers | [masschallenge.org/careers](https://masschallenge.org/careers/) |
 | Ways to Support | [masschallenge.org/give](https://masschallenge.org/give/) |
-| Join the Network | A HubSpot form. |
 | Privacy Policy | [masschallenge.org/privacy-notice](https://masschallenge.org/privacy-notice/) |
 | Terms of Use | [masschallenge.org/website-terms-of-use](https://masschallenge.org/website-terms-of-use/) |
 
 ### Copyright and trademarks
 
 - Copyright line: "© MassChallenge 2026". Use the current year.
-- Do not put a trademark symbol on the name or the logo. The website uses none.
+- Do not put a trademark symbol on the name or the logo.
 
 ### Offices
-
-From the [About page](https://masschallenge.org/about-us/):
 
 | Office | Address |
 | --- | --- |
@@ -399,114 +367,55 @@ From the [About page](https://masschallenge.org/about-us/):
 
 ## Graphic devices
 
-The graphics in use on masschallenge.org today are now the standard graphic devices. The examples
-below are hotlinked from masschallenge.org; open them there rather than copying them into a
-project.
+These are the standard graphic devices. Build them from the palette and the logo files, and never
+redraw the logo. The brand guide at
+[propellant.masschallenge.org/brand](https://propellant.masschallenge.org/brand/#logo) shows each
+one.
 
 ### Teal duotone
 
 A photo washed in a gradient from Deep teal to Bright teal. Use it for backgrounds behind text and
 for section headers.
 
-The website's graphics carry no separate example of the duotone. These photos on the website use it:
-
-- [challenge-areas.png](https://masschallenge.org/wp-content/uploads/2025/10/challenge-areas.png)
-- [corp-innovation-1.png](https://masschallenge.org/wp-content/uploads/2025/10/corp-innovation-1.png)
-- [home.png](https://masschallenge.org/wp-content/uploads/2025/10/home.png)
-- [network.png](https://masschallenge.org/wp-content/uploads/2025/10/network.png)
-- [Website-Hero-Images-2.png](https://masschallenge.org/wp-content/uploads/2025/11/Website-Hero-Images-2.png)
-- [about.png](https://masschallenge.org/wp-content/uploads/2025/11/about.png)
-- [accelerators-1.png](https://masschallenge.org/wp-content/uploads/2025/11/accelerators-1.png)
-- [climate.png](https://masschallenge.org/wp-content/uploads/2025/11/climate.png)
-- [corp-inno.png](https://masschallenge.org/wp-content/uploads/2025/11/corp-inno.png)
-- [food-systems-hero-1.png](https://masschallenge.org/wp-content/uploads/2025/11/food-systems-hero-1.png)
-- [founders-2.png](https://masschallenge.org/wp-content/uploads/2025/11/founders-2.png)
-- [photo-filter-1.png](https://masschallenge.org/wp-content/uploads/2025/11/photo-filter-1.png)
-- [programs.png](https://masschallenge.org/wp-content/uploads/2025/11/programs.png)
-- [s-and-r.png](https://masschallenge.org/wp-content/uploads/2025/11/s-and-r.png)
-- [hero-mobi-e1766028067188.png](https://masschallenge.org/wp-content/uploads/2025/12/hero-mobi-e1766028067188.png)
-- [uses-sr.png](https://masschallenge.org/wp-content/uploads/2026/05/uses-sr.png)
-
 ### Hexagon network frame
 
-A circular photo crop set inside a pale teal network of hexagons and lines.
-
-- [Screenshot-2025-11-05-at-6.52.12-PM-1024x725.png](https://masschallenge.org/wp-content/uploads/2025/11/Screenshot-2025-11-05-at-6.52.12-PM-1024x725.png)
-- [geo-website-1.png](https://masschallenge.org/wp-content/uploads/2025/11/geo-website-1.png)
-- [geo-website-2.png](https://masschallenge.org/wp-content/uploads/2025/11/geo-website-2.png)
+A circular photo crop set inside a pale teal network of hexagons and lines. Use it for a single
+photo beside text.
 
 ### Geometric pattern
 
 The brand pattern: Bright teal and Pale teal triangles, with an Oswald label in capitals on top,
-such as "ACCELERATOR" or "CHALLENGE".
+such as "ACCELERATOR" or "CHALLENGE". Use it for covers and headers.
 
-The website sets that label in White, which does not pass: White on Bright teal is 2.7:1 and on
-Pale teal 1.1:1, below the 3:1 that even large text needs. Set the label in Ink (5.4:1 on Bright
-teal, 13.2:1 on Pale teal), or put it in White on a solid Deep teal panel (10.7:1).
-
-- [Accelerator-website-cover-768x432.png](https://masschallenge.org/wp-content/uploads/2026/01/Accelerator-website-cover-768x432.png)
-- [Challenge-website-cover-768x432.png](https://masschallenge.org/wp-content/uploads/2026/01/Challenge-website-cover-768x432.png)
+Set the label in Ink (5.4:1 on Bright teal, 13.2:1 on Pale teal), or in White on a solid Deep teal
+panel (10.7:1). Never set it in White straight on the triangles: White on Bright teal is only 2.7:1
+and on Pale teal 1.1:1, below the 3:1 that even large text needs.
 
 ### Co-brand lockup
 
 The MassChallenge logo, a plus sign and the partner's logo, on white with a thin teal border. The
 other form is a teal panel with the white MassChallenge logo beside the partner's logo.
 
-- [buhler-masschallenge-casestudy-1200.png](https://masschallenge.org/wp-content/uploads/2019/04/buhler-masschallenge-casestudy-1200.png)
-- [blog-Barry-Callebaut-03.png](https://masschallenge.org/wp-content/uploads/2019/10/blog-Barry-Callebaut-03.png)
-- [Columbia-Threadneedle-Web-Image-01_0-1024x683.jpg](https://masschallenge.org/wp-content/uploads/2019/11/Columbia-Threadneedle-Web-Image-01_0-1024x683.jpg)
-- [Columbia-Threadneedle-Web-Image-thumb.jpg](https://masschallenge.org/wp-content/uploads/2019/11/Columbia-Threadneedle-Web-Image-thumb.jpg)
-- [MassMutual-Web-Image-02.png](https://masschallenge.org/wp-content/uploads/2020/10/MassMutual-Web-Image-02.png)
-- [Copy-of-Untitled-Design-1200-×-800-px-768x512.png.webp](https://masschallenge.org/wp-content/uploads/2023/01/Copy-of-Untitled-Design-1200-%C3%97-800-px-768x512.png.webp)
-- [pandemicx-white-house-masschallenge.png.webp](https://masschallenge.org/wp-content/uploads/2023/01/pandemicx-white-house-masschallenge.png.webp)
-- [bridge-masschallenge-benin.jpg.webp](https://masschallenge.org/wp-content/uploads/2023/05/bridge-masschallenge-benin.jpg.webp)
-- [NoPalm-Buhler-768x512.png.webp](https://masschallenge.org/wp-content/uploads/2023/11/NoPalm-Buhler-768x512.png.webp)
-- [Mc-netsuite.png.webp](https://masschallenge.org/wp-content/uploads/2023/12/Mc-netsuite.png.webp)
-- [CorporateInnovation_Blog-768x512.png.webp](https://masschallenge.org/wp-content/uploads/2024/05/CorporateInnovation_Blog-768x512.png.webp)
-- [Adaptilens-Feature-768x512.png.webp](https://masschallenge.org/wp-content/uploads/2024/06/Adaptilens-Feature-768x512.png.webp)
-
 ### Program lockup
 
 The MC monogram, a thin vertical divider and the program name in capitals, such as "MC | RESOLVE
-2026". Another on the website reads "SMU Cox | MC".
-
-- [RESOLVE-‘26-1-1024x218.png](https://masschallenge.org/wp-content/uploads/2026/04/RESOLVE-%E2%80%9826-1-1024x218.png)
-- [SMU-cox-1024x1024.png](https://masschallenge.org/wp-content/uploads/2026/10/SMU-cox-1024x1024.png)
+2026".
 
 ### Stat callouts
 
 A large number with a short label in capitals. Set the number in Deep teal on light backgrounds and
-Bright teal on dark ones, never in Magenta, which is kept for things that are wrong. Use the
-[approved figures](#approved-figures), with their as-of date.
-
-- [FT24_Finale_Infographic-1024x536.png.webp](https://masschallenge.org/wp-content/uploads/2024/06/FT24_Finale_Infographic-1024x536.png.webp)
-- [USES_StatsV3-05-1024x737.png.webp](https://masschallenge.org/wp-content/uploads/2025/01/USES_StatsV3-05-1024x737.png.webp)
-- [USES_StatsV3-06-1024x737.png.webp](https://masschallenge.org/wp-content/uploads/2025/01/USES_StatsV3-06-1024x737.png.webp)
+Bright teal on dark ones, with the label in Ink or White. Never use Magenta, which is kept for
+things that are wrong. Use the [approved figures](#approved-figures), with their as-of date.
 
 ### Program timelines
 
-Dots on a line, with dates above and below it.
-
-- [ProgramTimeline_Decarb2_2022x23-1536x256.png.webp](https://masschallenge.org/wp-content/uploads/2022/11/ProgramTimeline_Decarb2_2022x23-1536x256.png.webp)
-- [BAESystems_2025_ProgramTimeline_V2-1024x189.png.webp](https://masschallenge.org/wp-content/uploads/2025/05/BAESystems_2025_ProgramTimeline_V2-1024x189.png.webp)
-- [Screenshot-2026-05-26-at-2.28.25-PM-1240x259.png.webp](https://masschallenge.org/wp-content/uploads/2026/05/Screenshot-2026-05-26-at-2.28.25-PM-1240x259.png.webp)
+Dots on a line, with each step above or below its dot. Color the dots in the
+[chart order](#charts). The words beside each dot carry the meaning, so the colors never have to.
 
 ### Icons
 
-Single color line icons from the Noun Project, in Teal on light backgrounds and Bright teal on dark
-ones. The website's graphics carry no separate icon example yet. The Noun Project licence
-MassChallenge holds is not known, so confirm it before using these icons somewhere new.
-
-### Off-palette colors on the website
-
-Some pages on the website use colors outside the palette. When those pages are redone, map them
-like this:
-
-| Seen on the website | Use instead |
-| --- | --- |
-| Icon tints `#00708E`, `#00BBC3`, `#5CE1E6` and `#0EABBC` | Teal or Bright teal |
-| Crimson stat numbers | Deep teal on light backgrounds, Bright teal on dark ones |
-| Orange, purple and green timeline colors | The [chart order](#charts) |
+Single color line icons with rounded ends, in Teal on light backgrounds and Bright teal on dark
+ones, always beside a word.
 
 ## Iconography
 

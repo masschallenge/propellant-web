@@ -8,24 +8,21 @@ property and from `@masschallenge/propellant-web/version`.
 
 ### Changed
 
-- The brand guidelines in `docs/brand.md` state the new MassChallenge brand standards, set on
-  2026-11-11 from masschallenge.org: print CMYK and the token for every palette and logo color,
-  how the CMYK values were calculated and that Pantone matches are not set, the supporting
+- The brand guidelines in `docs/brand.md` state the MassChallenge brand standards: print CMYK and
+  the token for every palette and logo color, how the CMYK values were calculated, the supporting
   neutrals Gray 100 and Gray 300, the chart color order and the standard mix of colors, and where
-  each font applies on the web, in Office, in Google Workspace and in email. The logo files are
-  noted as PNG while a vector original is sought.
+  each font applies on the web, in Office, in Google Workspace and in email.
 - New sections in the brand guidelines: Messaging (primary line, positioning, boilerplate, approved
   figures with their as-of date, Challenge Areas, accelerators, audiences and naming rules),
-  Contact, social and legal, and Graphic devices, with examples on masschallenge.org and a mapping
-  for off-palette colors on the website.
+  Contact, social and legal, and Graphic devices.
 - The website guides use the standard Mist `#F3FBFC` and Magenta `#BF0261` instead of `#F3F6F7`
   and `#A30253`, and the plain HTML guide maps Mist to `--teal-50`.
 - The site's brand page states the typefaces' scope and the trademark rule as the standard does.
 - `ColorPicker`'s default brand swatches are the chart colors in chart order (Teal, Yellow, Slate,
   Bright teal, Deep teal, Gray 300), named as the palette names them. They replace Accent teal,
   Pink, Lime, Mustard and a duplicate Orange, and leave Magenta for errors.
-- The geometric pattern's label is set in Ink, or in White on a solid Deep teal panel, because
-  the website's White label fails contrast on the pattern.
+- The geometric pattern's label is set in Ink, or in White on a solid Deep teal panel, so it
+  passes contrast on both triangle colors.
 
 ### Fixed
 
