@@ -105,7 +105,7 @@ CSS stays in step with Propellant:
 | Slate | `var(--label-secondary)` |
 | Teal | `var(--tint)` |
 | Deep teal | `var(--brand-surface)` |
-| Mist | `var(--bg-grouped)` |
+| Mist | `var(--teal-50)` |
 | White | `var(--bg)` |
 | Line | `var(--separator)` |
 | Yellow | `var(--highlight)` |

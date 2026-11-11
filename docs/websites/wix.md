@@ -81,7 +81,7 @@ lightest for backgrounds and the darkest for text, and builds a range of shades 
    | Accent color 4 | Bright teal | `#0FACBD` |
 
    If your panel shows fewer accent slots, fill them in this order and stop when you run out.
-   If it shows more, use Mist `#F3F6F7` and Slate `#4B575B` next.
+   If it shows more, use Mist `#F3FBFC` and Slate `#4B575B` next.
 
 4. Open **Advanced Settings** (at the bottom of the color panel). Click the color box next to each
    item and set:
@@ -89,7 +89,7 @@ lightest for backgrounds and the darkest for text, and builds a range of shades 
    | Group | Item | Spec color | Hex |
    | --- | --- | --- | --- |
    | General | Primary background | White | `#FFFFFF` |
-   | General | Secondary background | Mist | `#F3F6F7` |
+   | General | Secondary background | Mist | `#F3FBFC` |
    | General | Lines and dividers | Line | `#DBE1E3` |
    | Text | Titles and paragraphs | Ink | `#1E282B` |
    | Text | Subtitles | Slate | `#4B575B` |
@@ -104,8 +104,8 @@ lightest for backgrounds and the darkest for text, and builds a range of shades 
    If the panel also asks for button text colors, use White `#FFFFFF` on primary buttons and Teal
    `#065E6F` on secondary buttons.
 
-5. Save the remaining spec colors so they are one click away later: Mist `#F3F6F7`, Slate
-   `#4B575B`, Line `#DBE1E3`, Yellow `#FFC801` and Magenta `#A30253`. In any color picker, use
+5. Save the remaining spec colors so they are one click away later: Mist `#F3FBFC`, Slate
+   `#4B575B`, Line `#DBE1E3`, Yellow `#FFC801` and Magenta `#BF0261`. In any color picker, use
    **My colors** and the add option (a plus sign) to save each one.
 
 Only use Bright teal on Deep teal sections, and only use Yellow behind Ink text. Magenta is for
@@ -227,7 +227,7 @@ apps. You can add more, up to 25.
    | Studio color | What Wix uses it for | Spec color | Hex |
    | --- | --- | --- | --- |
    | Color 1 | Primary background | White | `#FFFFFF` |
-   | Color 2 | Secondary background | Mist | `#F3F6F7` |
+   | Color 2 | Secondary background | Mist | `#F3FBFC` |
    | Color 3 | Disabled items | Line | `#DBE1E3` |
    | Color 4 | Secondary text | Slate | `#4B575B` |
    | Color 5 | Primary text | Ink | `#1E282B` |
@@ -246,7 +246,7 @@ apps. You can add more, up to 25.
    | Pale teal | `#D9F6FA` |
    | Secondary hover | `#C4EEF4` |
    | Yellow | `#FFC801` |
-   | Magenta | `#A30253` |
+   | Magenta | `#BF0261` |
 
 #### Step 2: Set the fonts
 
@@ -371,7 +371,7 @@ final call to action.
 
 **Mist section** (for alternating sections):
 
-- The same steps, with Mist `#F3F6F7`. In Studio it is Color 2.
+- The same steps, with Mist `#F3FBFC`. In Studio it is Color 2.
 
 **Deep teal section** (the brand band):
 

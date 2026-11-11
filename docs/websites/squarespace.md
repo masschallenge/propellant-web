@@ -213,7 +213,7 @@ We use three themes, one for each kind of section in the spec:
 | Palette position | Spec color | Hex |
 | --- | --- | --- |
 | 1 (lightest) | White | `#FFFFFF` |
-| 2 | Mist | `#F3F6F7` |
+| 2 | Mist | `#F3FBFC` |
 | 3 | Teal | `#065E6F` |
 | 4 | Deep teal | `#044451` |
 | 5 (darkest) | Ink | `#1E282B` |
@@ -241,7 +241,7 @@ closest row.
 
 | Part | Lightest 1 (White) | Light 1 (Mist) | Darkest 1 (Deep teal) |
 | --- | --- | --- | --- |
-| Background | White `#FFFFFF` | Mist `#F3F6F7` | Deep teal `#044451` |
+| Background | White `#FFFFFF` | Mist `#F3FBFC` | Deep teal `#044451` |
 | All four headings | Ink `#1E282B` | Ink `#1E282B` | White `#FFFFFF` |
 | Paragraph (Large) and (Medium) | Ink `#1E282B` | Ink `#1E282B` | White `#FFFFFF` |
 | Paragraph (Small) | Slate `#4B575B` | Slate `#4B575B` | White `#FFFFFF` |
