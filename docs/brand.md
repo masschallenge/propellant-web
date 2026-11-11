@@ -393,9 +393,9 @@ From the [About page](https://masschallenge.org/about-us/):
 | --- | --- |
 | Boston, MA | 10 Fan Pier Blvd, 3rd Floor, Boston, MA 02210 USA |
 | Dallas, TX | 3060 Pegasus Park Dr, Building 6, Dallas, TX 75247 |
-| Israel | 10 Jaffa Street, Jerusalem, 9434251 |
+| Israel | 10 Jaffa Street, Jerusalem, 9434251, Israel |
 | Switzerland | Chemin du Closel 5, 1020 Renens, Switzerland |
-| United Kingdom | Royal Docks Centre for Sustainability, 4-6 University Way, London E162RD |
+| United Kingdom | Royal Docks Centre for Sustainability, 4-6 University Way, London E16 2RD, United Kingdom |
 
 ## Graphic devices
 
@@ -437,8 +437,12 @@ A circular photo crop set inside a pale teal network of hexagons and lines.
 
 ### Geometric pattern
 
-The brand pattern: Bright teal and Pale teal triangles, with a white Oswald label in capitals on
-top, such as "ACCELERATOR" or "CHALLENGE".
+The brand pattern: Bright teal and Pale teal triangles, with an Oswald label in capitals on top,
+such as "ACCELERATOR" or "CHALLENGE".
+
+The website sets that label in White, which does not pass: White on Bright teal is 2.7:1 and on
+Pale teal 1.1:1, below the 3:1 that even large text needs. Set the label in Ink (5.4:1 on Bright
+teal, 13.2:1 on Pale teal), or put it in White on a solid Deep teal panel (10.7:1).
 
 - [Accelerator-website-cover-768x432.png](https://masschallenge.org/wp-content/uploads/2026/01/Accelerator-website-cover-768x432.png)
 - [Challenge-website-cover-768x432.png](https://masschallenge.org/wp-content/uploads/2026/01/Challenge-website-cover-768x432.png)
