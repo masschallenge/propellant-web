@@ -61,12 +61,12 @@ const TYPEFACES = [
   {
     id: 'sans',
     name: 'Propellant Sans',
-    use: 'All interface and body text. It is Lato 2.0 at 400, 500, 600 and 700, plus 400 italic, shipped with Propellant.',
+    use: 'All text: interfaces, documents, slides, sheets and email. It is Lato 2.0 at 400, 500, 600 and 700, plus 400 italic, shipped with Propellant.',
   },
   {
     id: 'oswald',
     name: 'Oswald',
-    use: 'Display headlines on public websites and pages, set in capitals. Never inside signed in applications.',
+    use: 'Display headlines, set in capitals, on public pages, slides, social graphics and document titles. Never inside signed in product screens.',
   },
 ];
 
@@ -108,7 +108,7 @@ export const Brand = () => (
         items={[
           'Write MassChallenge as one word with a capital M and a capital C.',
           'Do not abbreviate it to MC in running text. The MC monogram is a logo, not a word.',
-          'Do not add a trademark symbol in interfaces.',
+          'Do not add a trademark symbol to the name or the logo. The website uses none.',
         ]}
       />
       <Prose>
@@ -236,11 +236,12 @@ export const Brand = () => (
 
     <Section title="Voice">
       <Prose>
-        MassChallenge sounds bold and human. On our website we say &ldquo;We back the rare humans
-        with the grit to solve the toughest challenges&rdquo; and &ldquo;It takes a community to
-        raise a startup.&rdquo; Our products should sound like the same people: direct, plain spoken
-        and on the side of the community we serve. In a product the stakes are practical, so keep
-        the confidence and drop the slogans.
+        MassChallenge sounds bold and ambitious. The home page of our website leads with &ldquo;We
+        back the rare humans with the grit to solve the toughest challenges,&rdquo; and the About
+        page calls us &ldquo;a global network turning bold ideas into outcomes that matter.&rdquo;
+        Our products should sound like the same people: direct, plain spoken and on the side of the
+        founders we serve. In a product the stakes are practical, so keep the confidence and drop
+        the slogans.
       </Prose>
       <Rules
         items={[

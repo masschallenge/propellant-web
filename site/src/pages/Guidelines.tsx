@@ -13,8 +13,8 @@ export const Accessibility = () => (
         staff who run programs. Some use a screen reader, which reads the page aloud. Some move
         through a page with a keyboard instead of a mouse. Some see color differently, and some are
         on a small screen in bright light. If a form or a score sheet does not work for them, they
-        miss their chance to take part. It takes a community to raise a startup, and that only works
-        when everyone can get in the door.
+        miss their chance to take part. Our network of founders, experts and collaborators only
+        works when everyone can get in the door.
       </Prose>
       <Prose>
         Propellant is designed to meet WCAG 2.1 AA, the widely used standard for accessible
