@@ -34,12 +34,13 @@ describe('ColorPicker swatch picker', () => {
     expect(screen.queryByLabelText('Opacity percent')).not.toBeInTheDocument();
   });
 
-  it('names the default brand swatches with the brand palette names', () => {
+  it('offers the brand chart colors in chart order as the default swatches', () => {
     render(<ColorPicker variant="swatch-picker" />);
-    expect(screen.getByRole('button', { name: 'Deep teal' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Bright teal' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Magenta' })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'Pink' })).not.toBeInTheDocument();
+    const chartOrder = ['Teal', 'Yellow', 'Slate', 'Bright teal', 'Deep teal', 'Gray 300'];
+    const swatches = chartOrder.map((name) => screen.getByRole('button', { name }));
+    const swatchColors = swatches.map((swatch) => swatch.style.background);
+    expect(new Set(swatchColors).size).toBe(chartOrder.length);
+    expect(screen.queryByRole('button', { name: 'Magenta' })).not.toBeInTheDocument();
   });
 });
 

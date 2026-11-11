@@ -48,12 +48,12 @@ export interface ColorPickerProps {
 }
 
 const BRAND_SWATCHES: ColorPickerSwatch[] = [
-  { color: 'var(--teal-900)', label: 'Deep teal' },
+  { color: 'var(--teal-800)', label: 'Teal' },
+  { color: 'var(--yellow-400)', label: 'Yellow' },
+  { color: 'var(--gray-500)', label: 'Slate' },
   { color: 'var(--teal-400)', label: 'Bright teal' },
-  { color: 'var(--green-500)', label: 'Lime' },
-  { color: 'var(--magenta-600)', label: 'Magenta' },
-  { color: 'var(--orange-500)', label: 'Mustard' },
-  { color: 'var(--orange-500)', label: 'Orange' },
+  { color: 'var(--teal-900)', label: 'Deep teal' },
+  { color: 'var(--gray-300)', label: 'Gray 300' },
 ];
 
 const HUE_SPECTRUM = 'linear-gradient(to right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)';

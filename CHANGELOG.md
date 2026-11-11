@@ -21,8 +21,11 @@ property and from `@masschallenge/propellant-web/version`.
 - The website guides use the standard Mist `#F3FBFC` and Magenta `#BF0261` instead of `#F3F6F7`
   and `#A30253`, and the plain HTML guide maps Mist to `--teal-50`.
 - The site's brand page states the typefaces' scope and the trademark rule as the standard does.
-- `ColorPicker`'s default brand swatches are named Bright teal and Magenta, matching the palette,
-  instead of Accent teal and Pink.
+- `ColorPicker`'s default brand swatches are the chart colors in chart order (Teal, Yellow, Slate,
+  Bright teal, Deep teal, Gray 300), named as the palette names them. They replace Accent teal,
+  Pink, Lime, Mustard and a duplicate Orange, and leave Magenta for errors.
+- The geometric pattern's label is set in Ink, or in White on a solid Deep teal panel, because
+  the website's White label fails contrast on the pattern.
 
 ### Fixed
 
