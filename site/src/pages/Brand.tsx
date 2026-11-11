@@ -108,7 +108,7 @@ export const Brand = () => (
         items={[
           'Write MassChallenge as one word with a capital M and a capital C.',
           'Do not abbreviate it to MC in running text. The MC monogram is a logo, not a word.',
-          'Do not add a trademark symbol to the name or the logo. The website uses none.',
+          'Do not add a trademark symbol to the name or the logo.',
         ]}
       />
       <Prose>

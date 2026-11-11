@@ -204,7 +204,7 @@ export const Typography = () => (
           Apply to Boston 2026
         </p>
         <p className="m-0 text-body text-[var(--label-secondary)]">
-          Public pages carry the website's voice. Applications stay quiet.
+          Public pages carry the brand voice. Applications stay quiet.
         </p>
       </div>
     </Section>

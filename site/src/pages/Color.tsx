@@ -148,18 +148,17 @@ export const Color = () => (
     <Section title="Brand colors, one job each">
       <Subsection title="Teal">
         <Prose>
-          These are the website's teals. Light mode uses the primary, a deep teal. Dark mode
-          lightens the website's bright teal one step, so teal text keeps a contrast ratio of 4.5:1
-          (the minimum for readable text) on tinted fills over every surface. Filled controls in
-          dark mode use dark text, because white on bright teal is too hard to read.
+          These are the brand's teals. Light mode uses the primary, a deep teal. Dark mode lightens
+          Bright teal one step, so teal text keeps a contrast ratio of 4.5:1 (the minimum for
+          readable text) on tinted fills over every surface. Filled controls in dark mode use dark
+          text, because white on bright teal is too hard to read.
         </Prose>
       </Subsection>
       <Subsection title="Magenta">
         <Prose>
-          The website's secondary color fills destructive buttons, the ones that delete or undo
-          something. One step darker, it colors critical text, so error text keeps 4.5:1 on its own
-          tinted fill. It reads as a red pink, which suits errors, and we never use it as
-          decoration.
+          Magenta fills destructive buttons, the ones that delete or undo something. One step
+          darker, it colors critical text, so error text keeps 4.5:1 on its own tinted fill. It
+          reads as a red pink, which suits errors, and we never use it as decoration.
         </Prose>
       </Subsection>
       <Subsection title="Yellow">
