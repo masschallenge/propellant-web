@@ -4,6 +4,32 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+### Changed
+
+- The brand guidelines in `docs/brand.md` state the new MassChallenge brand standards, set on
+  2026-11-11 from masschallenge.org: print CMYK and the token for every palette and logo color,
+  how the CMYK values were calculated and that Pantone matches are not set, the supporting
+  neutrals Gray 100 and Gray 300, the chart color order and the standard mix of colors, and where
+  each font applies on the web, in Office, in Google Workspace and in email. The logo files are
+  noted as PNG while a vector original is sought.
+- New sections in the brand guidelines: Messaging (primary line, positioning, boilerplate, approved
+  figures with their as-of date, Challenge Areas, accelerators, audiences and naming rules),
+  Contact, social and legal, and Graphic devices, with examples on masschallenge.org and a mapping
+  for off-palette colors on the website.
+- The website guides use the standard Mist `#F3FBFC` and Magenta `#BF0261` instead of `#F3F6F7`
+  and `#A30253`, and the plain HTML guide maps Mist to `--teal-50`.
+- The site's brand page states the typefaces' scope and the trademark rule as the standard does.
+- `ColorPicker`'s default brand swatches are named Bright teal and Magenta, matching the palette,
+  instead of Accent teal and Pink.
+
+### Fixed
+
+- "It takes a community to raise a startup" is a founder testimonial, not a MassChallenge line.
+  The brand guidelines and the site's brand and accessibility pages no longer present it as our
+  voice.
+
 ## 1.1.1 (2026-11-10)
 
 ### Fixed
