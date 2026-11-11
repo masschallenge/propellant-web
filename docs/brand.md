@@ -174,8 +174,8 @@ page or screen:
 
 ### Using color
 
-These rules are for products and interfaces. The graphic devices below follow their own
-descriptions, including the off-palette mapping.
+These rules are written for products and interfaces, and the Magenta and Yellow rules hold
+everywhere, including the graphic devices below.
 
 - Teal means you can act on something: buttons, links, selected controls and focus. Do not use it
   for headings, names or numbers.
@@ -471,8 +471,9 @@ The MC monogram, a thin vertical divider and the program name in capitals, such 
 
 ### Stat callouts
 
-A large number with a short label in capitals. Use the [approved figures](#approved-figures), with
-their as-of date.
+A large number with a short label in capitals. Set the number in Deep teal on light backgrounds and
+Bright teal on dark ones, never in Magenta, which is kept for things that are wrong. Use the
+[approved figures](#approved-figures), with their as-of date.
 
 - [FT24_Finale_Infographic-1024x536.png.webp](https://masschallenge.org/wp-content/uploads/2024/06/FT24_Finale_Infographic-1024x536.png.webp)
 - [USES_StatsV3-05-1024x737.png.webp](https://masschallenge.org/wp-content/uploads/2025/01/USES_StatsV3-05-1024x737.png.webp)
@@ -500,7 +501,7 @@ like this:
 | Seen on the website | Use instead |
 | --- | --- |
 | Icon tints `#00708E`, `#00BBC3`, `#5CE1E6` and `#0EABBC` | Teal or Bright teal |
-| Crimson stat numbers | Magenta on light backgrounds, Bright teal on dark ones |
+| Crimson stat numbers | Deep teal on light backgrounds, Bright teal on dark ones |
 | Orange, purple and green timeline colors | The [chart order](#charts) |
 
 ## Iconography
