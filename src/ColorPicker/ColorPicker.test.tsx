@@ -33,6 +33,14 @@ describe('ColorPicker swatch picker', () => {
     expect(onChange).toHaveBeenLastCalledWith('#123456');
     expect(screen.queryByLabelText('Opacity percent')).not.toBeInTheDocument();
   });
+
+  it('names the default brand swatches with the brand palette names', () => {
+    render(<ColorPicker variant="swatch-picker" />);
+    expect(screen.getByRole('button', { name: 'Deep teal' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Bright teal' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Magenta' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Pink' })).not.toBeInTheDocument();
+  });
 });
 
 describe('ColorPicker full panel', () => {
