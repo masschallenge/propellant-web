@@ -188,6 +188,13 @@ describe('website layout', () => {
     );
   });
 
+  it('lets the notch show below a hero, keeping the photo and overlay inside it', () => {
+    expect(declarationsOf('.propellant-hero').overflow).toBeUndefined();
+    expect(declarationsOf('.propellant-hero::before').inset).toBe('0');
+    expect(declarationsOf('.propellant-hero-image').inset).toBe('0');
+    expect(declarationsOf('.propellant-notch::after').top).toBe('100%');
+  });
+
   it('lays the hero overlay from the dark text side toward the subject', () => {
     expect(declarationsOf('.propellant-hero::before').background).toBe(
       'linear-gradient(to right, var(--mc-hero-overlay-text-side), var(--mc-hero-overlay-subject-side))',

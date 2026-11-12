@@ -76,7 +76,6 @@
   --propellant-section-color: var(--mc-navy);
   position: relative;
   isolation: isolate;
-  overflow: hidden;
   background-position: center;
   background-size: cover;
 }
