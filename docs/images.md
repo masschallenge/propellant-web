@@ -76,3 +76,55 @@ In your own code:
   quiet background behind it, such as `bg-[var(--bg-secondary)]`.
 - Use `object-cover` (or `background-size: cover`) only for images designated as auto croppable.
 - Never set both a width and a height on an image without an `object-fit`, which stretches it.
+
+## Brand photography
+
+The photos MassChallenge chooses for websites, social posts, slides and print follow the
+MassChallenge brand guidelines from MassChallenge Marketing. Everything above about uploads still
+applies; this part is about which photos to use and how to treat them.
+
+### Treatments
+
+| Treatment | Use it for |
+| --- | --- |
+| 01 Overlay | Heroes, social posts and event graphics. A thin hero overlay, a gradient from Navy black `#051925` to Ocean `#037AA6` at 15 to 30% opacity, so warm light glows through. The side with the text is darker and the subject's side stays clear. |
+| 02 Full color | Content photos, spaces and people. No overlay and no duotone. |
+| 03 Accent rescue | A cool photo with no warmth gets one warm accent, Yellow, Orange or Lime, on a tag, a rule or a subhead. |
+
+The full frame cool duotone is retired, and so are overlays so heavy that the subject disappears.
+
+### Warmth and real work
+
+- Every image carries some warmth: skin tones, natural or lamp light, wood, brick or city lights.
+- Show real work and real people: labs, workbenches, prototypes and conversations.
+- Judge by eye. If the warm areas go gray or blue under an overlay, the overlay is too heavy.
+
+### Shooting
+
+- Natural light and balanced exposure, with a soft flash for dark rooms.
+- Mostly candid, with the occasional founder hero portrait.
+- Asymmetric frames that leave room for text, and a range of shots that includes wide ones.
+- Shoot RAW and edit only exposure and contrast. No artistic filters and no black and white.
+
+### Avoid
+
+- People on phones or looking bored, visible alcohol, crowds from behind and cluttered
+  compositions.
+- Black and white photos.
+- Generic stock: handshakes, posed smiles, and abstract technology with no people.
+- Obviously AI generated images: waxy skin, warped hands or text, impossible lighting, glowing
+  suns, lens flares and holograms.
+
+Never present an AI generated image as a real founder, partner or event.
+
+### Where photos come from
+
+1. Our own professional event photography comes first.
+2. Licensed stock photography that MassChallenge holds a license for may be used, as long as it
+   looks believable and follows the rules on this page. Ask MassChallenge Marketing for it.
+3. Location photos for each site (US sites by city, international sites by country) follow the same
+   rules.
+
+Text over a photo goes only on a calm, high contrast area. The hero overlay adds a little depth,
+but at 15 to 30% it cannot rescue text on a bright area, so use it only where the text side is
+already dark and calm. Otherwise move the text, or set it on a solid Navy, Black or Deep Teal block.

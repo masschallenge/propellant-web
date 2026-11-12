@@ -31,6 +31,12 @@ describe('scoped build', () => {
     );
   });
 
+  it('exposes the brand palette under the boundary', async () => {
+    const { definedNames } = auditScopedCss(await readScoped());
+    expect(definedNames.has('--mc-navy')).toBe(true);
+    expect(definedNames.has('--mc-gradient')).toBe(true);
+  });
+
   it('leaves font faces global so the fonts load once', async () => {
     const scoped = await readScoped();
     expect((scoped.match(/@font-face/g) ?? []).length).toBeGreaterThan(0);
@@ -48,8 +54,11 @@ describe('website build', () => {
     const website = await readWebsite();
     expect(website).toContain('@font-face');
     expect(website).toMatch(/:root[^{]*\{[^}]*--tint:/);
+    expect(website).toMatch(/:root[^{]*\{[^}]*--mc-teal: #00708e;/);
     expect(website).toContain('.propellant-button {');
     expect(website).toContain('.propellant-headline {');
+    expect(website).toContain('.propellant-eyebrow {');
+    expect(website).toContain('.propellant-notch::after {');
   });
 
   it('leaves the rest of a site alone', async () => {

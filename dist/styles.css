@@ -168,6 +168,29 @@
   --yellow-400: #ffc801;
   --amber-700: #b54708;
   --amber-800: #9e3d06;
+
+  --mc-blue: #0eabbc;
+  --mc-gray: #808285;
+  --mc-navy: #10263f;
+  --mc-black: #222222;
+  --mc-warm-white: #f8f8f5;
+  --mc-deep-teal: #004f73;
+  --mc-teal: #00708e;
+  --mc-cyan: #54eeff;
+  --mc-cyan-print: #00cfe8;
+  --mc-ocean: #037aa6;
+  --mc-yellow: #ffc801;
+  --mc-orange: #ff6b35;
+  --mc-orange-print: #f58242;
+  --mc-raspberry: #d14170;
+  --mc-raspberry-print: #d83b80;
+  --mc-lime: #c6f135;
+  --mc-lime-print: #91d438;
+  --mc-navy-black: #051925;
+  --mc-light-tint: #f3fafc;
+  --mc-gradient: linear-gradient(135deg, var(--mc-navy), var(--mc-ocean));
+  --mc-hero-overlay-text-side: rgb(5 25 37 / 0.3);
+  --mc-hero-overlay-subject-side: rgb(3 122 166 / 0.15);
 }
 
 :root,
@@ -306,7 +329,7 @@
 :root {
   --type-family:
     'Propellant Sans', 'Lato', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --type-family-brand: 'Oswald', 'Arial Narrow', sans-serif;
+  --type-family-brand: 'Oswald', 'Aptos Narrow', sans-serif;
   --type-family-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
   --type-weight-regular: 400;

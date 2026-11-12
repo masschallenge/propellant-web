@@ -48,11 +48,11 @@ export interface ColorPickerProps {
 }
 
 const BRAND_SWATCHES: ColorPickerSwatch[] = [
-  { color: 'var(--teal-800)', label: 'Teal' },
-  { color: 'var(--yellow-400)', label: 'Yellow' },
-  { color: 'var(--gray-500)', label: 'Slate' },
-  { color: 'var(--teal-400)', label: 'Bright teal' },
-  { color: 'var(--teal-900)', label: 'Deep teal' },
+  { color: 'var(--mc-teal)', label: 'Teal' },
+  { color: 'var(--mc-yellow)', label: 'Yellow' },
+  { color: 'var(--mc-navy)', label: 'Navy' },
+  { color: 'var(--mc-blue)', label: 'MC Blue' },
+  { color: 'var(--mc-deep-teal)', label: 'Deep Teal' },
   { color: 'var(--gray-300)', label: 'Gray 300' },
 ];
 

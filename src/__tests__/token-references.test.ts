@@ -18,6 +18,7 @@ const styleSources = read([
   ...filesUnder(path.join(packageDir, 'tokens'), /\.css$/),
   ...filesUnder(path.join(packageDir, 'base'), /\.css$/),
   path.join(packageDir, 'utilities.css'),
+  path.join(packageDir, 'website.css'),
 ]);
 const componentSources = read(filesUnder(path.join(packageDir, 'src'), /\.tsx?$/));
 

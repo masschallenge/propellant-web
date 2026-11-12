@@ -1,7 +1,8 @@
 # WordPress
 
-This guide gives a WordPress site the MassChallenge look: Lato for text, the Oswald headline, our
-teal palette, pill shaped buttons and the logo in the right places. Most of it is point and click.
+This guide gives a WordPress site the MassChallenge look: Lato for text, Oswald headlines in
+capitals, the brand palette, pill shaped Oswald buttons, dark and light sections and the logo in the
+right places. Most of it is point and click.
 Plan on about an hour the first time, and less if your theme is already close.
 
 WordPress comes in a few shapes, and the steps depend on yours. Find your setup in the table, then
@@ -37,7 +38,7 @@ version at the bottom of any dashboard screen, or under **Dashboard > Updates**.
   - [Horizontal logo, color](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-color.png)
     for white and light backgrounds.
   - [Horizontal logo, white](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-white.png)
-    for Deep teal and dark backgrounds.
+    for Navy, Black, Deep Teal and other dark backgrounds.
   - [Monogram, color](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-monogram-color.png)
     for the site icon (the small picture in the browser tab).
   - The same folder also has `-black` versions, and a `masschallenge-logo-monogram-white.png`.
@@ -79,7 +80,8 @@ The Font Library installs fonts on your own site, so visitors do not load them f
 2. Click the **Install Fonts** tab. The first time, click **Allow access to Google Fonts**.
 3. Search for **Lato**. Click it, tick **400 (Regular)** and **700 (Bold)**, also tick **400 Italic**
    if you use italics, then click **Install**.
-4. Search for **Oswald**. Click it, tick **500 (Medium)**, then click **Install**.
+4. Search for **Oswald**. Click it, tick **400 (Regular)**, **600 (SemiBold)** and **700 (Bold)**,
+   then click **Install**.
 5. Click the **Library** tab and check both fonts are listed.
 
 If you would rather not connect to Google, download Lato and Oswald from Google Fonts on your
@@ -104,6 +106,8 @@ get both the desktop and mobile sizes from the spec.
 | Heading 2 | 30px | 40px |
 | Heading 3 | 24px | 30px |
 | Heading 4 | 20px | 24px |
+| Eyebrow | 14px | 14px (turn **Custom fluid values** off and enter 14px) |
+| Big stat | 48px | 72px |
 | Paragraph large | 18px | 20px |
 | Paragraph | 16px | 17px |
 | Paragraph small | 14px | 14px (turn **Custom fluid values** off and enter 14px) |
@@ -124,45 +128,38 @@ captions and buttons.
    | Font | Lato |
    | Size | Paragraph |
    | Appearance (the weight) | Regular (400) |
-   | Line height | 1.6 |
+   | Line height | 1.5 |
    | Letter spacing | 0 |
    | Letter case | None (no change) |
 
-2. Go back and click **Headings**. Choose the **All** tab and set **Font** to Lato, **Appearance** to
-   Bold (700) and **Letter case** to none. Every heading level now starts from Lato Bold.
-3. Choose the **H1** tab. This is the big brand headline:
-
-   | Setting | Value |
-   | --- | --- |
-   | Font | Oswald |
-   | Size | Heading 1 |
-   | Appearance | Medium (500) |
-   | Line height | 1 |
-   | Letter spacing | 0.01em (pick the **em** unit) |
-   | Letter case | Uppercase |
-
-4. Set the other heading levels the same way. Each one is Lato, Bold (700), letter spacing 0 and no
-   letter case change:
+2. Go back and click **Headings**. Choose the **All** tab and set **Font** to Oswald, **Appearance**
+   to SemiBold (600), **Letter spacing** to 0 and **Letter case** to Uppercase. Every heading level
+   now starts from Oswald SemiBold capitals.
+3. Set each heading level's size and line height on its own tab:
 
    | Tab | Size | Line height |
    | --- | --- | --- |
-   | H2 | Heading 2 | 1.15 |
-   | H3 | Heading 3 | 1.2 |
-   | H4 | Heading 4 | 1.25 |
+   | H1 (the headline) | Heading 1 | 1 |
+   | H2 | Heading 2 | 1 |
+   | H3 (subhead) | Heading 3 | 1.1 |
+   | H4 | Heading 4 | 1.15 |
 
-5. Go back and click **Captions**: Lato, size **Paragraph small**, Regular (400), line height 1.5.
-6. Go back and click **Buttons**: Lato, size **Button**, Bold (700), line height 1, letter spacing 0,
-   letter case none. Buttons are sentence case, never capitals.
-7. Leave **Links** on the default, so links match the text around them.
-8. Click **Save**.
+4. Go back and click **Captions**: Lato, size **Paragraph small**, Regular (400), line height 1.5.
+5. Go back and click **Buttons**: Oswald, size **Button**, SemiBold (600), line height 1, letter
+   spacing 0.05em (pick the **em** unit), letter case Uppercase.
+6. Leave **Links** on the default, so links match the text around them.
+7. Click **Save**.
+
+Type headings and button labels in normal sentence case: the capitals come from the style, so the
+words stay readable to screen readers and search engines. Paragraphs are never in capitals.
 
 Paragraph large is for the odd standout paragraph, such as the line under a headline. Pick the
-**Paragraph large** size on that paragraph when you write it, and set its line height to 1.5.
+**Paragraph large** size on that paragraph when you write it.
 
 #### Step 5: Add the color palette
 
-The palette is the set of colors offered in every color picker on the site. You will add all eleven
-spec colors so nobody has to type a hex code again.
+The palette is the set of colors offered in every color picker on the site. You will add the spec
+colors so nobody has to type a hex code again.
 
 1. In **Styles**, click **Colors**, then **Palette**.
 2. Under **Custom**, click **+** to add a color. Click the new color, type its name and enter the
@@ -170,27 +167,32 @@ spec colors so nobody has to type a hex code again.
 
    | Name | Hex | Use it for |
    | --- | --- | --- |
-   | White | `#FFFFFF` | Page background |
-   | Mist | `#F3FBFC` | Alternate section background |
-   | Ink | `#1E282B` | Body text and headings |
-   | Slate | `#4B575B` | Secondary text, such as captions |
-   | Teal | `#065E6F` | Links and buttons |
-   | Deep teal | `#044451` | Button hover, and dark brand sections |
-   | Bright teal | `#0FACBD` | Accents on Deep teal sections only |
-   | Pale teal | `#D9F6FA` | Secondary buttons and tinted sections |
+   | White | `#FFFFFF` | Light section background |
+   | Warm White | `#F8F8F5` | Alternate light section background |
+   | Light tint | `#F3FAFC` | The angled tint on a light section |
+   | Navy | `#10263F` | Dark section background |
+   | Black | `#222222` | Body text, and dark section background |
+   | Deep Teal | `#004F73` | Dark section background |
+   | Teal | `#00708E` | Headings, links and buttons on light |
+   | Cyan | `#54EEFF` | Text, links and outlines on dark sections only |
+   | MC Blue | `#0EABBC` | Graphic shapes only, never text |
+   | Slate | `#4B575B` | Secondary text on light, such as captions |
    | Line | `#DBE1E3` | Lines and dividers |
-   | Yellow | `#FFC801` | Highlights, always with Ink text |
-   | Magenta | `#BF0261` | Errors |
+   | Yellow | `#FFC801` | One warm accent: tags, rules and stats, with Black text |
+   | Error | `#BF0261` | Form errors only |
 
 3. Click **Done**.
+
+The other warm accents (Orange, Raspberry and Lime) are for graphics, not for site text, so they
+are not in the palette. Use one warm accent per page, in small doses.
 
 Your theme also has its own **Theme** colors, and its header, footer and patterns use them. To keep
 those parts on brand, open the three dots menu next to **Theme**, choose **Edit colors**, and
 change each one to the closest spec color. Names vary by theme. If yours uses names such as Base,
-Contrast and Accent, set **Base** to White `#FFFFFF` and **Contrast** to Ink `#1E282B`, then look at
-where each Accent appears on your site and give it the spec color for that job (for example, an
-accent used for links becomes Teal `#065E6F`, and a light background accent becomes Mist
-`#F3FBFC`).
+Contrast and Accent, set **Base** to White `#FFFFFF` and **Contrast** to Black `#222222`, then look
+at where each Accent appears on your site and give it the spec color for that job (for example, an
+accent used for links becomes Teal `#00708E`, a light background accent becomes Warm White
+`#F8F8F5`, and a dark background accent becomes Navy `#10263F`).
 
 #### Step 6: Set the colors for each element
 
@@ -199,47 +201,51 @@ accent used for links becomes Teal `#065E6F`, and a light background accent beco
    | Element | Setting | Color |
    | --- | --- | --- |
    | Background | | White `#FFFFFF` |
-   | Text | | Ink `#1E282B` |
-   | Links | Default | Teal `#065E6F` |
-   | Headings | All | Ink `#1E282B` |
+   | Text | | Black `#222222` |
+   | Links | Default | Teal `#00708E` |
+   | Headings | All | Teal `#00708E` |
+   | Headings | H1 | Black `#222222` |
    | Captions | Text | Slate `#4B575B` |
    | Buttons | Text | White `#FFFFFF` |
-   | Buttons | Background | Teal `#065E6F` |
+   | Buttons | Background | Teal `#00708E` |
 
 2. Click **Save**.
 
 #### Step 7: Style the primary and secondary buttons
 
 The Button block comes with two built in "block style variations": **Fill** and **Outline**. A block
-style variation is a ready made look you can pick for a single block. We set Fill as the primary
-button and turn Outline into our secondary button, so anyone editing a page can switch between them
-with one click.
+style variation is a ready made look you can pick for a single block. Fill is the primary button
+and Outline is the secondary button, so anyone editing a page can switch between them with one
+click.
 
 1. In **Styles**, click **Blocks**, then search for and click **Button**.
 2. Set the default (Fill) look:
-   - **Color:** Text White `#FFFFFF`, Background Teal `#065E6F`.
-   - **Typography:** Lato, size Button, Bold (700), line height 1, letter case none.
+   - **Color:** Text White `#FFFFFF`, Background Teal `#00708E`.
+   - **Typography:** Oswald, size Button, SemiBold (600), line height 1, letter spacing 0.05em,
+     letter case Uppercase.
    - **Dimensions > Padding:** 14px top and bottom, 28px left and right. Click the link icon to set
      the sides separately.
-   - **Border & Shadow:** border width 0, no shadow, and **Radius** 9999px. A radius bigger than the
-     button makes the ends fully round, which is the pill shape.
-3. If the panel shows a **Hover** state, choose it and set Background to Deep teal `#044451`. Many
-   versions do not offer hover for all buttons at once. In that case the hover snippet in Part 4
-   adds it.
+   - **Border & Shadow:** border 2px, solid, Teal `#00708E`, no shadow, and **Radius** 9999px. A
+     radius bigger than the button makes the ends fully round, which is the pill shape. Never use
+     a smaller radius: square cornered buttons are retired.
+3. If the panel shows a **Hover** state, choose it and set Background to none (transparent) and
+   Text to Teal `#00708E`, so the fill clears to a Teal outline. Many versions do not offer hover
+   for all buttons at once. In that case the button snippet in Part 4 adds it.
 4. Find the style variations (shown as **Fill** and **Outline**, near the top of the Button panel)
    and click **Outline**. Set:
-   - **Color:** Text Teal `#065E6F`, Background Pale teal `#D9F6FA`.
-   - **Border:** width 0. Keep the same radius, padding and typography as above.
+   - **Color:** Text Teal `#00708E`, Background none (transparent).
+   - **Border:** 2px, solid, Teal `#00708E`. Keep the same radius, padding and typography as above.
+   - **Hover**, if offered: Background Teal `#00708E`, Text White `#FFFFFF`.
 5. Click **Save**.
 
-The secondary button will still be called "Outline" in the editor. Tell your team that Outline means
-the secondary button.
+The secondary button is still called "Outline" in the editor, which matches how it looks.
 
 #### Step 8: Set the page width, images and sections
 
 1. In **Styles**, click **Layout** and set **Content** width to 720px. This keeps paragraphs to
    about 68 characters a line. Leave **Wide** as it is.
-2. In **Styles > Blocks**, click **Image**, open **Border & Shadow** and set **Radius** to 12px.
+2. In **Styles > Blocks**, click **Image**, open **Border & Shadow** and set **Radius** to 0. Photos
+   and cards have square corners.
 3. Click **Save**.
 
 #### Step 9: Check on a phone
@@ -261,26 +267,27 @@ panels differ from theme to theme. WordPress itself always gives you **Site Iden
    | Common theme label | Spec color |
    | --- | --- |
    | Background color | White `#FFFFFF` |
-   | Text color, Body text | Ink `#1E282B` |
-   | Heading color | Ink `#1E282B` |
-   | Primary, Accent, Link color | Teal `#065E6F` |
-   | Link hover, Accent hover | Deep teal `#044451` |
-   | Button background | Teal `#065E6F` |
+   | Text color, Body text | Black `#222222` |
+   | Heading color | Teal `#00708E` |
+   | Primary, Accent, Link color | Teal `#00708E` |
+   | Link hover, Accent hover | Deep Teal `#004F73` |
+   | Button background | Teal `#00708E` |
    | Button text | White `#FFFFFF` |
-   | Button hover background | Deep teal `#044451` |
+   | Button hover background | White `#FFFFFF`, with Teal text if the theme lets you set it |
    | Border, Divider | Line `#DBE1E3` |
-   | Alternate background, Light background | Mist `#F3FBFC` |
+   | Alternate background, Light background | Warm White `#F8F8F5` |
+   | Dark background, Footer background | Navy `#10263F` |
 
    Turn off any dark mode switch, so the colors stay as set.
 
 3. Look for a **Typography** or **Fonts** panel. If you find one, set body text to Lato, Regular
-   (400), 17px, line height 1.6, and headings to Lato, Bold (700). Then set H1 to Oswald, Medium
-   (500), 64px, line height 1, letter spacing 0.01em, uppercase. Use the H2 to H4 sizes and line
-   heights from the spec. If your theme has separate mobile sizes, enter the sizes in brackets from
-   the spec (H1 40px, H2 30px, H3 24px, H4 20px, text 16px).
+   (400), 17px, line height 1.5, and headings to Oswald, SemiBold (600), uppercase, letter spacing
+   0. Then set H1 to 64px with line height 1, and use the H2 to H4 sizes and line heights from the
+   spec. If your theme has separate mobile sizes, enter the sizes in brackets from the spec (H1
+   40px, H2 30px, H3 24px, H4 20px, text 16px).
 4. Look for a **Buttons** panel. If you find one, set the corner radius as high as it goes (or
-   9999px), padding to 14px top and bottom and 28px left and right, and font to Lato Bold (700) at
-   16px with no capitals.
+   9999px), padding to 14px top and bottom and 28px left and right, a 2px Teal border, and font to
+   Oswald SemiBold (600) at 16px, uppercase, letter spacing 0.05em.
 5. Click **Publish**.
 
 No Typography panel? That is common in classic themes. Use the "Classic theme fonts and text"
@@ -303,27 +310,28 @@ builds. Set them once and the builder's widgets follow. In Elementor:
 
    | Elementor slot | Spec color |
    | --- | --- |
-   | Primary (used by headings) | Ink `#1E282B` |
-   | Secondary | Slate `#4B575B` |
-   | Text | Ink `#1E282B` |
-   | Accent (used by buttons) | Teal `#065E6F` |
+   | Primary (used by headings) | Teal `#00708E` |
+   | Secondary | Navy `#10263F` |
+   | Text | Black `#222222` |
+   | Accent (used by buttons) | Teal `#00708E` |
 
 3. Under **Design System > Global Fonts**, set:
 
    | Elementor slot | Font |
    | --- | --- |
-   | Primary (headings) | Lato, 700 |
-   | Secondary | Lato, 700 |
-   | Text | Lato, 400, line height 1.6 |
-   | Accent (buttons) | Lato, 700, 16px, no text transform |
+   | Primary (headings) | Oswald, 600, uppercase, line height 1 |
+   | Secondary (eyebrows) | Oswald, 400, 14px, uppercase, letter spacing 0.3em |
+   | Text | Lato, 400, line height 1.5 |
+   | Accent (buttons) | Oswald, 600, 16px, uppercase, letter spacing 0.05em |
 
-   Add one more global font named **Heading 1**: Oswald, 500, line height 1, letter spacing 0.01em,
-   uppercase. Pick it on your big headline only.
+   Add one more global font named **Big stat**: Oswald, 700, line height 1. Pick it on large
+   numbers only.
 
 4. Under **Theme Style**, set **Typography** for body text and H1 to H4 with the sizes from the
    spec (Elementor lets you switch to tablet and mobile sizes with the device icon next to each
-   size). Set **Buttons** to Teal `#065E6F` background, White text, Deep teal `#044451` on hover, a
-   large border radius for pill ends, and 14px by 28px padding.
+   size). Set **Buttons** to Teal `#00708E` background, White text and a 2px Teal border, with a
+   transparent background and Teal text on hover, a large border radius for pill ends, and 14px by
+   28px padding.
 5. Click **Update**.
 
 Other page builders have the same ideas under different names, usually "global colors", "global
@@ -346,13 +354,14 @@ it and never stretch it. Save that as a PNG.
    site icon in **Settings > General > Site Icon** (WordPress 6.5 or later) or in the Site Logo
    block's settings.
 3. Select the Site Logo block in your header and set its **Image width** to about 240px. That shows
-   the logo about 32px tall. Never go below 180px wide (24px tall): below that the name is hard to
-   read, so use the monogram instead.
+   the logo about 32px tall. Never go below 180px wide (24px tall): the brand minimum is 160px wide,
+   and below 24px tall the name is hard to read, so use the monogram instead.
 4. In the block's settings, turn on **Link image to home** if your theme offers it.
 5. Click **Save**.
 
-If your header has a Deep teal background, use `masschallenge-logo-horizontal-white.png` there. The
-color logo is only for white and light backgrounds.
+If your header has a Navy, Black or Deep Teal background, use
+`masschallenge-logo-horizontal-white.png` there. The color logo is only for White and Warm White
+backgrounds.
 
 ### Setup B: classic themes
 
@@ -372,81 +381,121 @@ site icon).
 
 ### On every setup
 
-Keep clear space around the logo of at least half its height. Do not add a shadow, recolor it or
-put it inside a box. The [brand guidelines](../brand.md) have the full rules.
+Keep clear space around the logo equal to the height of the "M" in the MASSCHALLENGE wordmark, on
+every side, and align it to a corner or the top edge of its area. Do not add a shadow, recolor it
+or put it inside a box. The [brand guidelines](../brand.md) have the full rules.
 
 ## Part 3: Build on brand pages
 
 These steps use the block editor, which all block themes and most classic themes use for pages.
 Open a page with **Pages > Add New Page** (or edit an existing one).
 
-### A White section
+### The section rhythm
+
+Alternate dark sections (Navy, Black or Deep Teal) with light ones (White or Warm White) down the
+page. Mark each change with the notch, a small triangle that points down from one section into the
+next, in the color of the section above it. The notch and the angled tint need the section snippet
+in Part 4.
+
+### A White or Warm White section
 
 1. Click **+** (the block inserter) and add a **Group** block.
 2. In the block settings on the right, open the **Styles** tab (the half filled circle).
-3. Under **Color**, leave **Background** empty. It shows the site background, White.
+3. Under **Color**, leave **Background** empty for White, or choose **Warm White** `#F8F8F5`.
 4. Under **Dimensions > Padding**, set top and bottom to 96px.
 5. Add your heading, paragraphs and buttons inside the Group.
 
-### A Mist section
+### A light section with an angled edge
 
-Follow the same steps, then set **Color > Background** to **Mist** `#F3FBFC` from the palette. Use
-Mist to separate sections that sit next to each other. Do not stack two Mist sections in a row.
+Follow the same steps with **Background** empty, then open **Advanced** and type
+`propellant-section-angled` in **Additional CSS class(es)**. With the section snippet from Part 4,
+the pale tint `#F3FAFC` rises on a gentle angle from White behind the content. Use a Teal headline
+and a Teal primary button in it.
 
-### A Deep teal section
+### A Navy, Black or Deep Teal section
 
-1. Add a **Group** block, or a **Cover** block if you want a photo behind the text.
-2. Group: set **Color > Background** to **Deep teal** `#044451`, **Text** to **White**, and **Link**
-   to **White**. Cover: add your image, then set the **Overlay** color to **Deep teal** and raise the
-   overlay opacity until the text is easy to read.
+1. Add a **Group** block.
+2. Set **Color > Background** to **Navy** `#10263F`, **Black** `#222222` or **Deep Teal**
+   `#004F73`, **Text** to **White**, **Heading** to **White** and **Link** to **Cyan** `#54EEFF`.
 3. Set top and bottom **Padding** to 96px.
-4. For accents, such as a small line of text above the headline, use **Bright teal** `#0FACBD`.
-   Never put Teal text on Deep teal.
-5. If you added the hover snippet from Part 4, open **Advanced** and type `propellant-brand-band` in
-   **Additional CSS class(es)**. The snippet then styles the buttons in this section for you.
+4. For accents, such as the payoff of a two toned headline, use **Cyan** `#54EEFF`. Never put Teal
+   text on a dark section.
+5. Open **Advanced** and type `propellant-section-navy`, `propellant-section-black` or
+   `propellant-section-deep-teal` in **Additional CSS class(es)**, to match the background. With
+   the button snippet from Part 4, the buttons in the section turn into Cyan outlines. Add
+   `propellant-notch` as well (separated by a space) to draw the notch below the section.
 
-### The Heading 1 headline
+### A hero with a photo
 
-Add a **Heading** block and choose **H1** in its toolbar. It picks up Oswald capitals from Step 4.
-Type it in normal sentence case: the capitals come from the style, so the words stay readable to
-screen readers and search engines. Use one H1 per page.
+1. Add a **Cover** block and choose a photo by the [images guide](../images.md#brand-photography).
+2. Set the **Overlay** to a gradient: open the overlay color, choose **Gradient**, and make it a
+   linear gradient from Navy black `#051925` on the side where the text sits to Ocean `#037AA6` on
+   the side of the subject.
+3. Set **Overlay opacity** between 15 and 30. Warm light should still glow through the photo; if
+   warm areas turn gray or blue, the overlay is too heavy.
+4. Place the text over a calm area of the photo. If it is hard to read, move it, or put it on a
+   solid Navy, Black or Deep Teal Group inside the Cover instead.
+
+### The eyebrow and the headline
+
+1. Add a **Paragraph** block above the headline for the eyebrow. In its **Typography** settings,
+   set the font to Oswald, size **Eyebrow**, Regular (400), letter spacing 0.3em and letter case
+   Uppercase.
+2. Add a **Heading** block and choose **H1** in its toolbar. It picks up Oswald capitals from
+   Step 4. Type it in normal sentence case. Use one H1 per page.
+3. For a two toned headline, select the payoff words, click the arrow in the toolbar, choose
+   **Highlight**, and set the text color to Teal `#00708E` on light sections or Cyan `#54EEFF` on
+   dark ones.
+
+Save the eyebrow as a pattern (below), so nobody has to set it by hand again.
+
+### Numbered blocks and white cards
+
+- **Numbered block.** A Group with a 6px Black top border (**Border & Shadow**, top side only,
+  Black `#222222`), then an H2 with the number (such as 01) in Teal, an H3 title and a paragraph.
+- **White card.** Inside a dark section, a Group with a White background, Black text, Teal headings
+  and no radius. Put an H3 title and a paragraph in it.
 
 ### Primary and secondary buttons
 
-1. Add a **Buttons** block. It starts with one button. That is your primary button: Teal with
-   White text, as a pill.
+1. Add a **Buttons** block. It starts with one button. That is your primary button: a Teal pill
+   with White text.
 2. Click the **+** inside the Buttons block to add a second button.
 3. Select the second button, open **Styles** in its settings (or **Change block style** in its
-   toolbar) and choose **Outline**. That is your secondary button: Pale teal with Teal text.
+   toolbar) and choose **Outline**. That is your secondary button: a Teal outline with Teal text.
 4. Write button labels in sentence case with a verb, such as "Apply now" or "Meet the startups".
+   The capitals come from the style. For a "see all" link, you can end the label with an arrow (→).
 
-### Buttons on Deep teal
+### Buttons on dark sections
 
-On a Deep teal section, buttons are White with Deep teal text and turn Pale teal on hover.
+On a Navy, Black or Deep Teal section, buttons are a Cyan outline with White text and fill with
+Teal on hover.
 
-- **With the hover snippet** (Part 4) and the `propellant-brand-band` class on the section: just
-  add a Buttons block. It turns white on its own.
-- **Without code:** select the button and set **Color > Text** to **Deep teal** and **Background**
-  to **White**. On WordPress 7.1 or later, choose the **Hover** state at the top of the button's
-  settings and set **Background** to **Pale teal** `#D9F6FA`.
+- **With the button snippet** (Part 4) and a section class such as `propellant-section-navy` on
+  the section: just add a Buttons block. It turns into a Cyan outline on its own.
+- **Without code:** select the button and choose the **Outline** style, then set **Color > Text**
+  to **White** and **Border** color to **Cyan** `#54EEFF`. On WordPress 7.1 or later, choose the
+  **Hover** state at the top of the button's settings and set **Background** to **Teal** `#00708E`.
 
 ### Save sections to reuse
 
 Once a section looks right, select the Group, open the three dots menu in its toolbar and choose
-**Create pattern**. Name it, for example "Deep teal section", and leave **Synced** off so each copy
+**Create pattern**. Name it, for example "Navy section", and leave **Synced** off so each copy
 can have its own words. It now appears in the inserter under **Patterns** for everyone.
 
 ### Build a sample home page
 
-1. **Hero (Deep teal):** a Deep teal Group with the white horizontal logo or no logo (the header
-   already has one), an H1 headline, one Paragraph large sentence and a Buttons block with one
-   White button.
-2. **About (White):** a White Group with an H2, two short paragraphs and a primary plus a
+1. **Hero (Navy):** a Cover block with a photo and the hero overlay, an eyebrow, an H1 headline,
+   one Paragraph large sentence and a Buttons block with one button. Add `propellant-notch` to it.
+2. **About (Warm White):** a Warm White Group with an H2, two short paragraphs and a primary plus a
    secondary button.
-3. **Highlights (Mist):** a Mist Group with a **Columns** block of three columns. In each column,
-   add an Image (rounded to 12px by Step 8), an H3 and a short paragraph.
-4. **Call to action (Deep teal):** reuse your Deep teal pattern with a short H2 and one button.
-5. Click **Publish**, then view the page on a computer and a phone.
+3. **Highlights (Navy):** a Navy Group with a **Columns** block of three columns. In each column,
+   add a white card with an Image (square cornered by Step 8), an H3 and a short paragraph. Add
+   `propellant-notch` to the Group.
+4. **How it works (White, angled):** a light section with the angled edge, an H2 and three numbered
+   blocks.
+5. **Call to action (Deep Teal):** reuse your dark section pattern with a short H2 and one button.
+6. Click **Publish**, then view the page on a computer and a phone.
 
 ## Part 4: Custom CSS (only what settings cannot do)
 
@@ -456,9 +505,10 @@ it came from.
 
 What the settings cannot do, and these snippets fix:
 
-- **Button hover colors for all buttons at once.** Many WordPress versions only let you set button
-  hover one button at a time, or not at all.
-- **Buttons on Deep teal without styling each one by hand.**
+- **Button hovers and outlines for all buttons at once.** Many WordPress versions only let you set
+  button hover one button at a time, or not at all.
+- **Buttons on dark sections without styling each one by hand.**
+- **The notch and the angled tint** between sections.
 - **Phone sizes** when your theme has fluid type switched off.
 - **Fonts and text in classic themes** that have no Typography panel.
 
@@ -473,33 +523,70 @@ What the settings cannot do, and these snippets fix:
 Paste each snippet below anything already in the box. CSS saved here stays when your theme
 updates, but is cleared if you switch themes, so keep a copy.
 
-### Snippet: button hover (setups A and B)
+### Snippet: buttons (setups A and B)
 
-Adds the spec hover colors to primary buttons, secondary (Outline) buttons, and buttons in any
-section with the `propellant-brand-band` class. It also makes buttons on those sections White with
-Deep teal text.
+Adds the spec hovers to primary buttons and secondary (Outline) buttons, and turns buttons in any
+section with a dark section class into Cyan outlines that fill with Teal on hover.
 
 ```css
 /* Propellant website styles: see github.com/masschallenge/propellant-web */
+.wp-block-button__link,
+.wp-element-button {
+  border: 2px solid #00708e;
+}
+
 .wp-block-button__link:hover,
 .wp-element-button:hover {
-  background-color: #044451;
-  color: #ffffff;
+  background-color: transparent;
+  color: #00708e;
 }
 
 .is-style-outline .wp-block-button__link:hover {
-  background-color: #c4eef4;
-  color: #065e6f;
+  background-color: #00708e;
+  color: #ffffff;
 }
 
-.propellant-brand-band .wp-block-button__link {
-  background-color: #ffffff;
-  color: #044451;
+:is(.propellant-section-navy, .propellant-section-black, .propellant-section-deep-teal)
+  .wp-block-button__link {
+  background-color: transparent;
+  border-color: #54eeff;
+  color: #ffffff;
 }
 
-.propellant-brand-band .wp-block-button__link:hover {
-  background-color: #d9f6fa;
-  color: #044451;
+:is(.propellant-section-navy, .propellant-section-black, .propellant-section-deep-teal)
+  .wp-block-button__link:hover {
+  background-color: #00708e;
+  border-color: #00708e;
+  color: #ffffff;
+}
+```
+
+### Snippet: sections (setups A and B)
+
+Draws the notch below any section with the `propellant-notch` class, in that section's own
+background color, and the angled tint on any section with the `propellant-section-angled` class.
+
+```css
+/* Propellant website styles: see github.com/masschallenge/propellant-web */
+.propellant-notch {
+  position: relative;
+}
+
+.propellant-notch::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 1;
+  width: 48px;
+  height: 24px;
+  background-color: inherit;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform: translateX(-50%);
+}
+
+.propellant-section-angled {
+  background-image: linear-gradient(174deg, #ffffff 40%, #f3fafc calc(40% + 1px));
 }
 ```
 
@@ -528,61 +615,55 @@ on any Group that has `propellant-section` in **Advanced > Additional CSS class(
 
 Loads Lato and Oswald from Google Fonts and sets every text style and the button shape from the
 spec. Keep the `@import` line at the very top of the Additional CSS box, above anything else, or the
-fonts will not load. Add the button hover snippet above as well.
+fonts will not load. Add the buttons and sections snippets above as well.
 
 ```css
 /* Propellant website styles: see github.com/masschallenge/propellant-web */
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Oswald:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Oswald:wght@400;600;700&display=swap");
 
 body {
   font-family: "Lato", sans-serif;
   font-size: 17px;
-  line-height: 1.6;
-  color: #1e282b;
+  line-height: 1.5;
+  color: #222222;
   background-color: #ffffff;
 }
 
-h1 {
+h1, h2, h3, h4 {
   font-family: "Oswald", sans-serif;
-  font-weight: 500;
-  font-size: 64px;
-  line-height: 1;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-}
-
-h2, h3, h4 {
-  font-family: "Lato", sans-serif;
-  font-weight: 700;
-  color: #1e282b;
+  font-weight: 600;
   letter-spacing: 0;
-  text-transform: none;
+  text-transform: uppercase;
+  color: #00708e;
 }
 
-h2 { font-size: 40px; line-height: 1.15; }
-h3 { font-size: 30px; line-height: 1.2; }
-h4 { font-size: 24px; line-height: 1.25; }
+h1 { font-size: 64px; line-height: 1; color: #222222; }
+h2 { font-size: 40px; line-height: 1; }
+h3 { font-size: 30px; line-height: 1.1; }
+h4 { font-size: 24px; line-height: 1.15; }
 
-a { color: #065e6f; }
+a { color: #00708e; }
+
+img { border-radius: 0; }
 
 .wp-block-button__link,
 .wp-element-button {
-  font-family: "Lato", sans-serif;
-  font-weight: 700;
+  font-family: "Oswald", sans-serif;
+  font-weight: 600;
   font-size: 16px;
   line-height: 1;
+  letter-spacing: 0.05em;
   padding: 14px 28px;
-  border: 0;
   border-radius: 9999px;
   box-shadow: none;
-  text-transform: none;
-  background-color: #065e6f;
+  text-transform: uppercase;
+  background-color: #00708e;
   color: #ffffff;
 }
 
 .is-style-outline .wp-block-button__link {
-  background-color: #d9f6fa;
-  color: #065e6f;
+  background-color: transparent;
+  color: #00708e;
 }
 
 @media (max-width: 767px) {
@@ -611,11 +692,16 @@ Then type class names into a block's **Advanced > Additional CSS class(es)** box
 
 | Block | Class | What you get |
 | --- | --- | --- |
-| H1 Heading | `propellant-headline` | Heading 1 from the spec, in Oswald capitals |
-| H2, H3, H4 Heading | `propellant-title-1`, `propellant-title-2`, `propellant-title-3` | Heading 2, 3 and 4 from the spec |
+| H1 Heading | `propellant-headline` | Heading 1 from the spec, in Oswald SemiBold capitals |
+| Paragraph above a headline | `propellant-eyebrow` | The tracked Oswald eyebrow |
+| H2, H3, H4 Heading | `propellant-title-1`, `propellant-subhead`, `propellant-title-3` | Heading 2, 3 and 4 from the spec |
 | Paragraph | `propellant-body` | Paragraph from the spec |
 | Paragraph (small print) | `propellant-caption` | Paragraph small, in Slate |
-| Group | `propellant-brand-band` | A Deep teal section with White text |
+| Paragraph with a number | `propellant-stat` | The big stat, in Oswald Bold |
+| Group | `propellant-section-navy`, `propellant-section-black`, `propellant-section-deep-teal` | A dark section with White text and Cyan links |
+| Group | `propellant-section-warm-white`, `propellant-section-angled` | A light section, plain or with the angled tint |
+| Group | `propellant-notch` | The notch below the section |
+| Group | `propellant-card` | A white card with square corners and Teal titles |
 
  Skip `propellant-button` in WordPress: the class lands
 on the wrapper around the button, not the button itself, so keep using the button settings above.
@@ -652,7 +738,7 @@ Template: twentytwentyfive
 ```
 
 `functions.php` loads the Propellant stylesheet on the site and in the editor, and adds two section
-styles (Mist and Deep teal) that anyone can pick from a Group or Cover block's **Styles** panel:
+styles (Warm White and Navy) that anyone can pick from a Group or Cover block's **Styles** panel:
 
 ```php
 <?php
@@ -669,22 +755,27 @@ add_action( 'after_setup_theme', function () {
 
 add_action( 'init', function () {
 	register_block_style( array( 'core/group', 'core/cover' ), array(
-		'name'       => 'propellant-mist',
-		'label'      => 'Mist section',
+		'name'       => 'propellant-warm-white',
+		'label'      => 'Warm White section',
 		'style_data' => array(
-			'color' => array( 'background' => '#F3FBFC', 'text' => '#1E282B' ),
+			'color' => array( 'background' => '#F8F8F5', 'text' => '#222222' ),
 		),
 	) );
 	register_block_style( array( 'core/group', 'core/cover' ), array(
-		'name'       => 'propellant-deep-teal',
-		'label'      => 'Deep teal section',
+		'name'       => 'propellant-navy',
+		'label'      => 'Navy section',
 		'style_data' => array(
-			'color'    => array( 'background' => '#044451', 'text' => '#FFFFFF' ),
+			'color'    => array( 'background' => '#10263F', 'text' => '#FFFFFF' ),
 			'elements' => array(
-				'link'   => array( 'color' => array( 'text' => '#FFFFFF' ) ),
-				'button' => array(
-					'color'  => array( 'background' => '#FFFFFF', 'text' => '#044451' ),
-					':hover' => array( 'color' => array( 'background' => '#D9F6FA' ) ),
+				'link'    => array( 'color' => array( 'text' => '#54EEFF' ) ),
+				'heading' => array( 'color' => array( 'text' => '#FFFFFF' ) ),
+				'button'  => array(
+					'color'  => array( 'background' => 'transparent', 'text' => '#FFFFFF' ),
+					'border' => array( 'color' => '#54EEFF', 'width' => '2px', 'style' => 'solid' ),
+					':hover' => array(
+						'color'  => array( 'background' => '#00708E', 'text' => '#FFFFFF' ),
+						'border' => array( 'color' => '#00708E' ),
+					),
 				),
 			),
 		),
@@ -694,7 +785,7 @@ add_action( 'init', function () {
 
 `theme.json` adds the spec palette and font families. The fonts load from the Propellant release
 (Lato ships there under the name Propellant Sans, which is Lato 2.0). This palette replaces your
-parent theme's palette, so White and Ink keep the parent's `base` and `contrast` slugs (the internal
+parent theme's palette, so White and Black keep the parent's `base` and `contrast` slugs (the internal
 names its header and footer use). Check every page after switching, and remove any Lato or Oswald
 you installed in the Font Library so there is only one copy.
 
@@ -706,16 +797,18 @@ you installed in the Font Library so there is only one copy.
     "color": {
       "palette": [
         { "slug": "base", "name": "White", "color": "#FFFFFF" },
-        { "slug": "mist", "name": "Mist", "color": "#F3FBFC" },
-        { "slug": "contrast", "name": "Ink", "color": "#1E282B" },
+        { "slug": "warm-white", "name": "Warm White", "color": "#F8F8F5" },
+        { "slug": "light-tint", "name": "Light tint", "color": "#F3FAFC" },
+        { "slug": "navy", "name": "Navy", "color": "#10263F" },
+        { "slug": "contrast", "name": "Black", "color": "#222222" },
+        { "slug": "deep-teal", "name": "Deep Teal", "color": "#004F73" },
+        { "slug": "teal", "name": "Teal", "color": "#00708E" },
+        { "slug": "cyan", "name": "Cyan", "color": "#54EEFF" },
+        { "slug": "mc-blue", "name": "MC Blue", "color": "#0EABBC" },
         { "slug": "slate", "name": "Slate", "color": "#4B575B" },
-        { "slug": "teal", "name": "Teal", "color": "#065E6F" },
-        { "slug": "deep-teal", "name": "Deep teal", "color": "#044451" },
-        { "slug": "bright-teal", "name": "Bright teal", "color": "#0FACBD" },
-        { "slug": "pale-teal", "name": "Pale teal", "color": "#D9F6FA" },
         { "slug": "line", "name": "Line", "color": "#DBE1E3" },
         { "slug": "yellow", "name": "Yellow", "color": "#FFC801" },
-        { "slug": "magenta", "name": "Magenta", "color": "#BF0261" }
+        { "slug": "error", "name": "Error", "color": "#BF0261" }
       ]
     },
     "typography": {
@@ -767,17 +860,21 @@ route, switch back to the parent theme.
 
 Check on a computer, then on a phone (or the Mobile preview).
 
-- [ ] The H1 headline is Oswald, in capitals, about 64px on a computer and 40px on a phone.
-- [ ] All other text is Lato. Headings H2 to H4 are bold and in sentence case.
-- [ ] Body text is Ink `#1E282B` on White, and paragraphs are no wider than about 720px.
-- [ ] Links are Teal `#065E6F`.
-- [ ] Primary buttons are Teal pills with White text and turn Deep teal on hover.
-- [ ] Secondary buttons are Pale teal pills with Teal text.
-- [ ] Deep teal sections have White text and White buttons with Deep teal text, and no Teal text.
-- [ ] The logo is the color version on light backgrounds and the white version on Deep teal, at
-      least 24px tall, with room around it.
+- [ ] Every heading is Oswald SemiBold, in capitals. The H1 is about 64px on a computer and 40px
+      on a phone.
+- [ ] Paragraphs are Lato, in sentence case, with a line height of 1.5.
+- [ ] Body text is Black `#222222` on White or Warm White, and paragraphs are no wider than about
+      720px.
+- [ ] Links and headings H2 to H4 are Teal `#00708E` on light sections.
+- [ ] Primary buttons are Teal pills in Oswald capitals with White text, and clear to a Teal
+      outline on hover.
+- [ ] Secondary buttons are Teal outlines with Teal text, and fill with Teal on hover.
+- [ ] Dark sections have White text, Cyan links and Cyan outline buttons, and no Teal text.
+- [ ] Dark and light sections alternate, with a notch where they meet.
+- [ ] The logo is the color version on White and Warm White and the white version on dark
+      sections, at least 24px tall, with room around it.
 - [ ] The site icon shows the monogram in the browser tab.
-- [ ] Images have 12px rounded corners.
+- [ ] Images and cards have square corners.
 - [ ] On a phone, nothing runs off the side and buttons are easy to tap.
 
 ## If something looks off
@@ -791,11 +888,11 @@ Check on a computer, then on a phone (or the Mobile preview).
   snippet, so reset its colors and let the global styles do the work.
 - **Lato or Oswald is not in the font list.** Open the Font Library **Library** tab. If the font is
   missing, install it again (Step 2). If it is listed, check the weights you need (Lato 400 and 700,
-  Oswald 500) are ticked, then click **Update**.
+  Oswald 400, 600 and 700) are ticked, then click **Update**.
 - **Additional CSS or Fonts is missing from the menu.** On WordPress.com, custom CSS needs a paid
   plan. On self-hosted WordPress, update to the latest version: Additional CSS moved into the
   Styles three dots menu in 6.9, and the Font Library moved to **Appearance > Fonts** in 7.0.
 - **The logo looks squashed or blurry.** Use the original PNG from the links above, never a
   screenshot, and size it with the Site Logo block's width setting rather than by dragging.
 - **The headline is in capitals in the editor's list view and in search results.** You typed it in
-  capitals. Retype it in sentence case and let the H1 style add the capitals.
+  capitals. Retype it in sentence case and let the heading style add the capitals.

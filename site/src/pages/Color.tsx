@@ -145,13 +145,14 @@ export const Color = () => (
       />
     </Section>
 
-    <Section title="Brand colors, one job each">
+    <Section title="Interface colors, one job each">
       <Subsection title="Teal">
         <Prose>
-          These are the brand's teals. Light mode uses the primary, a deep teal. Dark mode lightens
-          Bright teal one step, so teal text keeps a contrast ratio of 4.5:1 (the minimum for
-          readable text) on tinted fills over every surface. Filled controls in dark mode use dark
-          text, because white on bright teal is too hard to read.
+          These are the interface teals, the <Code>--teal</Code> scale. Light mode uses the primary,
+          a deep teal. Dark mode lightens <Code>--teal-400</Code> one step, so teal text keeps a
+          contrast ratio of 4.5:1 (the minimum for readable text) on tinted fills over every
+          surface. Filled controls in dark mode use dark text, because white on bright teal is too
+          hard to read.
         </Prose>
       </Subsection>
       <Subsection title="Magenta">
@@ -173,6 +174,19 @@ export const Color = () => (
           </mark>
           wind Robotics
         </p>
+      </Subsection>
+      <Subsection title="The MassChallenge brand palette">
+        <Prose>
+          The brand palette from the MassChallenge brand guidelines is in the token files too, as
+          primitives with an <Code>--mc-</Code> prefix, such as <Code>--mc-navy</Code> and{' '}
+          <Code>--mc-teal</Code>. Websites and brand material use them. Components do not: the
+          product keeps its interface teal, <Code>--tint</Code>, until a later release moves it to
+          the new Teal. The{' '}
+          <a href="#brand" className="text-[var(--tint)]">
+            brand guidelines
+          </a>{' '}
+          list every color and its job.
+        </Prose>
       </Subsection>
       <Subsection title="Status">
         <div className="flex flex-wrap gap-2">
