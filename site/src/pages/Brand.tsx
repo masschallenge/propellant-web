@@ -3,70 +3,25 @@ import lockupColor from '../../../assets/brand/propellant-lockup-color.svg';
 import lockupWhite from '../../../assets/brand/propellant-lockup-white.svg';
 import icon from '../../../assets/brand/propellant-icon.svg';
 import { Code, PageBody, PageHeading, Prose, Rules, Section, Subsection } from '../parts/Page';
-
-const PALETTE = [
-  {
-    id: 'deep-teal',
-    name: 'Deep teal',
-    hex: '#044451',
-    token: '--teal-900',
-    role: 'Brand surfaces, such as the panel of a sign in page',
-  },
-  {
-    id: 'teal',
-    name: 'Teal',
-    hex: '#065E6F',
-    token: '--teal-800',
-    role: 'The primary interactive color in light mode',
-  },
-  {
-    id: 'mid-teal',
-    name: 'Mid teal',
-    hex: '#068DA4',
-    token: '--teal-600',
-    role: 'Supporting accents',
-  },
-  {
-    id: 'bright-teal',
-    name: 'Bright teal',
-    hex: '#0FACBD',
-    token: '--teal-400',
-    role: 'Accents on dark surfaces',
-  },
-  {
-    id: 'pale-teal',
-    name: 'Pale teal',
-    hex: '#D9F6FA',
-    token: '--teal-100',
-    role: 'Tinted backgrounds',
-  },
-  { id: 'mist', name: 'Mist', hex: '#F3FBFC', token: '--teal-50', role: 'The lightest tint' },
-  {
-    id: 'magenta',
-    name: 'Magenta',
-    hex: '#BF0261',
-    token: '--magenta-600',
-    role: 'Destructive actions and errors',
-  },
-  {
-    id: 'yellow',
-    name: 'Yellow',
-    hex: '#FFC801',
-    token: '--yellow-400',
-    role: 'Highlights, such as search matches and new items',
-  },
-];
+import {
+  APPROVED_PAIRINGS,
+  CHART_ORDER,
+  CORE_COLORS,
+  SUPPORTING_COLORS,
+  WARM_ACCENTS,
+} from '../parts/brandPalette';
+import type { BrandColor } from '../parts/brandPalette';
 
 const TYPEFACES = [
   {
-    id: 'sans',
-    name: 'Propellant Sans',
-    use: 'All text: interfaces, documents, slides, sheets and email. It is Lato 2.0 at 400, 500, 600 and 700, plus 400 italic, shipped with Propellant.',
-  },
-  {
     id: 'oswald',
     name: 'Oswald',
-    use: 'Display headlines, set in capitals, on public pages, slides, social graphics and document titles. Never inside signed in product screens.',
+    use: 'Headlines, always in capitals: SemiBold for headlines and subheads, Regular with wide tracking for eyebrows, Bold for big stats only. Never inside signed in product screens.',
+  },
+  {
+    id: 'sans',
+    name: 'Lato (Propellant Sans)',
+    use: 'Reading text, at a line height of 1.5. In Propellant it is Propellant Sans: Lato 2.0 at 400, 500, 600 and 700, plus 400 italic.',
   },
 ];
 
@@ -96,11 +51,50 @@ const Swatch = ({ token }: { token: string }) => (
   />
 );
 
+const PaletteTable = ({ caption, colors }: { caption: string; colors: BrandColor[] }) => (
+  <div className="overflow-x-auto">
+    <Table
+      caption={caption}
+      size="sm"
+      rows={colors}
+      rowId={(row) => row.id}
+      columns={[
+        {
+          key: 'name',
+          header: 'Name',
+          cell: (row) => (
+            <span className="inline-flex items-center gap-3">
+              <Swatch token={row.token} />
+              {row.name}
+            </span>
+          ),
+        },
+        {
+          key: 'hex',
+          header: 'Hex',
+          cell: (row) => (
+            <span className="inline-flex flex-col gap-0.5">
+              <Code>{row.hex}</Code>
+              {row.printSubstitute ? (
+                <span className="text-footnote text-[var(--label-secondary)]">
+                  Print <Code>{row.printSubstitute}</Code>
+                </span>
+              ) : null}
+            </span>
+          ),
+        },
+        { key: 'token', header: 'Token', cell: (row) => <Code>{row.token}</Code> },
+        { key: 'use', header: 'Use it for', cell: (row) => row.use },
+      ]}
+    />
+  </div>
+);
+
 export const Brand = () => (
   <PageBody>
     <PageHeading
       title="Brand guidelines"
-      lede="How MassChallenge shows up in our web products and websites: the name, color, type and voice. Most of it is already built into Propellant, so when you use its components and tokens (the named values for color, type and spacing), you follow these guidelines without extra work."
+      lede="How MassChallenge shows up in our web products and websites: the name, color, type and voice. The standard is the MassChallenge brand guidelines from MassChallenge Marketing, and Propellant applies them. Most of it is already built into Propellant, so when you use its components and tokens (the named values for color, type and spacing), you follow these guidelines without extra work."
     />
 
     <Section title="The name">
@@ -112,7 +106,7 @@ export const Brand = () => (
         ]}
       />
       <Prose>
-        The logo has its own page. It covers lockups, treatments, clear space and minimum sizes.{' '}
+        The logo has its own page. It covers versions, treatments, clear space and minimum sizes.{' '}
         <a href="#logo" className="text-[var(--tint)]">
           Read the logo guidelines
         </a>
@@ -152,41 +146,37 @@ export const Brand = () => (
     </Section>
 
     <Section title="Color" wide>
-      <div className="overflow-x-auto">
-        <Table
-          caption="Brand palette"
-          size="sm"
-          rows={PALETTE}
-          rowId={(row) => row.id}
-          columns={[
-            {
-              key: 'name',
-              header: 'Name',
-              cell: (row) => (
-                <span className="inline-flex items-center gap-3">
-                  <Swatch token={row.token} />
-                  {row.name}
-                </span>
-              ),
-            },
-            { key: 'hex', header: 'Hex', cell: (row) => <Code>{row.hex}</Code> },
-            { key: 'token', header: 'Token', cell: (row) => <Code>{row.token}</Code> },
-            { key: 'role', header: 'Role', cell: (row) => row.role },
-          ]}
-        />
-      </div>
+      <PaletteTable caption="Core colors" colors={CORE_COLORS} />
+      <PaletteTable caption="Supporting blues" colors={SUPPORTING_COLORS} />
+      <Prose>
+        The MC Gradient runs from Navy to Ocean, at any angle (<Code>--mc-gradient</Code>).
+      </Prose>
+      <div
+        aria-hidden="true"
+        className="h-16 max-w-[var(--width-reading)] bg-[image:var(--mc-gradient)]"
+      />
+      <Subsection title="Warm accents">
+        <Prose>
+          Use one warm accent per piece, in small doses: a word, a tag, a rule or a stat. Never as a
+          large background. For print, use the listed substitute.
+        </Prose>
+        <PaletteTable caption="Warm accents" colors={WARM_ACCENTS} />
+      </Subsection>
       <Subsection title="Using color">
         <Rules
           items={[
-            'Teal means you can act on something: buttons, links, selected controls and focus. Do not use it for headings, names or numbers.',
-            'Magenta means something is wrong or cannot be undone. Never use it decoratively.',
-            'Yellow highlights. Always set dark text on it.',
-            'Our grays carry a slight teal tint, so they sit comfortably next to the teals.',
-            'Pair every status color with a word or a symbol, never color alone.',
+            'Cyan only on dark backgrounds: Navy, Black and Deep Teal.',
+            'MC Blue is for the logo and shapes, not text. On light backgrounds, colored text is Teal.',
+            'Orange takes dark text, never white.',
+            'Raspberry, Orange and Lime are decoration. They never signal status, and the status colors (error, warning and success) are never decoration.',
+            'CMYK values are approximate until confirmed with a printer proof.',
             <>
-              Text stands out from its background by a contrast ratio of at least 4.5:1, and the
-              edges of controls by at least 3:1, in light and dark themes. In interfaces, use the
-              semantic tokens (named for their job, not their color) on the{' '}
+              Charts use the colors in this order: {CHART_ORDER.join(', ')}. Label the data
+              directly.
+            </>,
+            <>
+              The signed in products keep their interface teal, <Code>--tint</Code>, for now. A
+              later release moves it to the new Teal. In interfaces, use the semantic tokens on the{' '}
               <a href="#color" className="text-[var(--tint)]">
                 color page
               </a>{' '}
@@ -194,6 +184,28 @@ export const Brand = () => (
             </>,
           ]}
         />
+      </Subsection>
+      <Subsection title="Approved pairings">
+        <div className="overflow-x-auto">
+          <Table
+            caption="Approved pairings, verified for contrast"
+            size="sm"
+            rows={APPROVED_PAIRINGS}
+            rowId={(row) => row.id}
+            columns={[
+              {
+                key: 'pairing',
+                header: 'Pairing',
+                cell: (row) => `${row.foreground} on ${row.background}`,
+              },
+              {
+                key: 'ratio',
+                header: 'Contrast ratio',
+                cell: (row) => `${row.ratio.toFixed(1)}:1`,
+              },
+            ]}
+          />
+        </div>
       </Subsection>
     </Section>
 
@@ -210,19 +222,24 @@ export const Brand = () => (
           ]}
         />
       </div>
-      <div className="flex flex-col gap-4 rounded-[var(--corner-lg)] bg-[var(--bg)] p-6">
-        <p className="m-0 font-[family-name:var(--type-family-brand)] font-medium uppercase text-[2.5rem] leading-none tracking-[0.01em] text-[var(--label)]">
-          Oswald headlines
+      <div className="flex flex-col gap-3 bg-[var(--mc-navy)] p-6">
+        <p className="m-0 font-[family-name:var(--type-family-brand)] font-normal uppercase text-callout tracking-[0.3em] text-[var(--gray-0)]">
+          Eyebrow
         </p>
-        <p className="m-0 text-title3 text-[var(--label)]">
-          Propellant Sans sets every label, paragraph and number in a product.
+        <p className="m-0 font-[family-name:var(--type-family-brand)] font-semibold uppercase text-[2.5rem] leading-none text-[var(--gray-0)]">
+          Oswald headlines <span className="text-[var(--mc-cyan)]">in two tones</span>
+        </p>
+        <p className="m-0 text-title3 font-normal leading-normal text-[var(--gray-0)]">
+          Lato carries the reading text, in sentence case.
         </p>
       </div>
       <Rules
         items={[
-          'Use sentence case for titles, labels and buttons. Capitals belong only to Oswald headlines and the wordmark.',
+          'Gotham, Bebas, Arial, Montserrat and Open Sans are retired. In Office and email, fall back to Aptos Narrow Bold in capitals for headers and Aptos for body text.',
+          'Never set body copy in Oswald or in capitals.',
+          'In the signed in products nothing changes: Oswald is never used, and titles, labels and buttons are in sentence case.',
           <>
-            Use the eleven named text styles on the{' '}
+            In products, use the eleven named text styles on the{' '}
             <a href="#typography" className="text-[var(--tint)]">
               typography page
             </a>{' '}
@@ -274,7 +291,8 @@ export const Brand = () => (
     <Section title="Iconography">
       <Rules
         items={[
-          'Icons sit beside text: their stroke follows the weight of the text and their size follows its text style.',
+          'In brand material, icons are single color line icons, in Teal on light backgrounds and Cyan on dark ones, always beside a word.',
+          'In products, icons sit beside text: their stroke follows the weight of the text and their size follows its text style.',
           'Use one icon per idea across a product.',
           'An icon that acts alone, without a visible label, needs an accessible name.',
         ]}

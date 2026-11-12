@@ -145,13 +145,14 @@ export const Color = () => (
       />
     </Section>
 
-    <Section title="Brand colors, one job each">
+    <Section title="Interface colors, one job each">
       <Subsection title="Teal">
         <Prose>
-          These are the brand's teals. Light mode uses the primary, a deep teal. Dark mode lightens
-          Bright teal one step, so teal text keeps a contrast ratio of 4.5:1 (the minimum for
-          readable text) on tinted fills over every surface. Filled controls in dark mode use dark
-          text, because white on bright teal is too hard to read.
+          These are the interface teals, the <Code>--teal</Code> scale. Light mode uses the primary,
+          a deep teal. Dark mode lightens <Code>--teal-400</Code> one step, so teal text keeps a
+          contrast ratio of 4.5:1 (the minimum for readable text) on tinted fills over every
+          surface. Filled controls in dark mode use dark text, because white on bright teal is too
+          hard to read.
         </Prose>
       </Subsection>
       <Subsection title="Magenta">

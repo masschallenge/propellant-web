@@ -6,8 +6,8 @@ import { Code, CodeBlock, Note, PageBody, PageHeading, Prose, Rules, Section } f
 const FILES_URL = 'https://github.com/masschallenge/propellant-web/tree/main/assets/logos';
 
 const LOGO_COLORS = [
-  { id: 'gray', part: 'M and wordmark', hex: '#828486' },
-  { id: 'teal', part: 'C and divider', hex: '#17ACBC' },
+  { id: 'gray', part: 'M and wordmark', name: 'MC Gray', hex: '#808285', token: '--mc-gray' },
+  { id: 'blue', part: 'C and divider', name: 'MC Blue', hex: '#0EABBC', token: '--mc-blue' },
 ];
 
 const TREATMENTS: {
@@ -19,30 +19,33 @@ const TREATMENTS: {
   {
     treatment: 'color',
     title: 'Full color',
-    use: 'White and light neutral backgrounds, such as the page and content surfaces.',
-    surface: 'bg-[var(--gray-0)] shadow-[inset_0_0_0_1px_var(--gray-100)]',
+    use: 'White and Warm White only.',
+    surface: 'bg-[var(--mc-warm-white)] shadow-[inset_0_0_0_1px_var(--gray-100)]',
   },
   {
     treatment: 'white',
     title: 'White',
-    use: 'The brand teal, dark surfaces, dark mode and photographs dark enough to keep the logo legible.',
-    surface: 'bg-[var(--teal-900)]',
+    use: 'Navy, Black, Deep Teal, Teal, MC Blue, and photographs with enough contrast.',
+    surface: 'bg-[var(--mc-navy)]',
   },
   {
     treatment: 'black',
     title: 'Black',
-    use: 'Single color print, and light backgrounds that the full color logo does not suit.',
+    use: 'One color print, and light backgrounds that the full color logo does not suit.',
     surface: 'bg-[var(--yellow-400)]',
   },
 ];
 
 const SIZES = [
+  { id: 'vertical', version: 'Vertical', screen: '60px wide', print: '20mm wide' },
   {
     id: 'horizontal',
-    lockup: 'Horizontal',
-    minimum: '24px. Below this the wordmark stops being readable; use the monogram instead.',
+    version: 'Horizontal',
+    screen:
+      '160px wide. At the default 24px tall it is about 178px wide. Below 24px tall, use the MC mark instead.',
+    print: '30mm wide',
   },
-  { id: 'monogram', lockup: 'Monogram', minimum: '16px.' },
+  { id: 'monogram', version: 'MC mark', screen: '16px tall', print: '8mm' },
 ];
 
 const MISUSES = [
@@ -92,14 +95,15 @@ export const LogoGuide = () => (
       lede="The logo is the most recognizable part of the MassChallenge brand, so we treat it with care. Use the files we supply or the Logo component, and never redraw, retype or recolor it."
     />
 
-    <Section title="Lockups" wide>
+    <Section title="Versions" wide>
       <Grid>
         <Tile
           surface="bg-[var(--gray-0)] shadow-[inset_0_0_0_1px_var(--gray-100)]"
           caption={
             <>
-              <strong className="font-semibold">Horizontal.</strong> The default. Headers, sign in
-              pages, footers, documents and anywhere the full name should be read.
+              <strong className="font-semibold">Horizontal.</strong> Where width is plentiful and
+              height is tight: headers, footers, sponsor slides and banners. Propellant uses it in
+              product headers and sign in pages.
             </>
           }
         >
@@ -109,9 +113,8 @@ export const LogoGuide = () => (
           surface="bg-[var(--gray-0)] shadow-[inset_0_0_0_1px_var(--gray-100)]"
           caption={
             <>
-              <strong className="font-semibold">Monogram.</strong> Small spaces where the horizontal
-              lockup would fall below its minimum size: favicons, app icons, avatars and compact
-              navigation.
+              <strong className="font-semibold">MC mark.</strong> Where the audience already knows
+              us. In Propellant: compact navigation, favicons, app icons and avatars.
             </>
           }
         >
@@ -120,10 +123,15 @@ export const LogoGuide = () => (
       </Grid>
       <div className="max-w-[var(--width-reading)] flex flex-col gap-4">
         <Prose>
-          A lockup is a fixed arrangement of the logo&apos;s parts. The horizontal lockup is the MC
-          monogram, a thin vertical divider and the MASSCHALLENGE wordmark. Keep the three parts
-          together, at the proportions in the files. Use the monogram on its own only where the
-          MassChallenge name is already clear from the context.
+          The vertical logo is the default for most layouts, and local logos are for work tied to
+          one site: US sites use the city and international sites use the country. Both come from
+          MassChallenge Marketing; Propellant ships the horizontal logo and the MC mark only. Never
+          draw or assemble a vertical or local logo, and never type a location next to the logo.
+        </Prose>
+        <Prose>
+          The horizontal logo is the MC mark, a thin vertical divider and the MASSCHALLENGE
+          wordmark. Keep the parts together, at the proportions in the files. Use the MC mark on its
+          own only where the MassChallenge name is already clear from the context.
         </Prose>
       </div>
     </Section>
@@ -144,19 +152,22 @@ export const LogoGuide = () => (
                   <span
                     aria-hidden="true"
                     className="inline-block size-6 shrink-0 rounded-[var(--corner-sm)]"
-                    style={{ background: row.hex }}
+                    style={{ background: `var(${row.token})` }}
                   />
                   {row.part}
                 </span>
               ),
             },
+            { key: 'name', header: 'Color', cell: (row) => row.name },
             { key: 'hex', header: 'Hex', cell: (row) => <Code>{row.hex}</Code> },
           ]}
         />
       </div>
       <Prose>
-        These are the colors of the logo files. They belong to the logo only; interface colors come
-        from the brand palette and the tokens.
+        These are the official logo colors. The image files Propellant ships today measure{' '}
+        <Code>#828486</Code> and <Code>#17ACBC</Code>, a shade off. Do not recolor them: official
+        artwork from MassChallenge Marketing will replace them. MC Gray is for the logo only, and MC
+        Blue is never used for text.
       </Prose>
     </Section>
 
@@ -180,7 +191,9 @@ export const LogoGuide = () => (
         <Prose>
           A treatment is the color version of the logo you pick for a background. The one color
           treatments are the same artwork in a single color, so the gap between the M and the C
-          stays open. Each treatment exists for both lockups.
+          stays open. Each treatment exists for both versions Propellant ships. Never put the white
+          logo on light colors such as Cyan, Yellow or Lime, and on a busy photograph add the hero
+          overlay or a solid color block behind it.
         </Prose>
         <CodeBlock label="Logo component">{`import { Logo } from '@masschallenge/propellant-web';
 
@@ -200,18 +213,21 @@ export const LogoGuide = () => (
 
     <Section title="Clear space">
       <Prose>
-        Give the logo room to breathe. Keep the space around it free of text, images and edges. The
-        clear space on every side is half the height of the logo. A horizontal logo shown 32px tall
-        needs 16px of clear space all around.
+        Keep a clear space around the logo equal to the height of the M in the MASSCHALLENGE
+        wordmark, on every side. Nothing enters it: no type, images, edges or other logos. In the
+        horizontal files the M is about 40% of the logo&apos;s height, so a horizontal logo shown
+        32px tall needs about 13px of clear space all around. Align the horizontal logo to a corner
+        or the top edge of its area.
       </Prose>
       <figure className="m-0 flex flex-col gap-3">
         <div className="flex justify-center rounded-[var(--corner-lg)] bg-[var(--gray-0)] p-8 shadow-[inset_0_0_0_1px_var(--gray-100)]">
-          <div className="p-4 outline-1 outline-dashed outline-[var(--teal-600)] bg-[var(--teal-50)]">
+          <div className="p-[0.8125rem] outline-1 outline-dashed outline-[var(--mc-teal)] bg-[var(--mc-light-tint)]">
             <Logo className="h-8" />
           </div>
         </div>
         <figcaption className="text-callout text-[var(--label)]">
-          The shaded area is the clear space for a logo 32px tall: 16px on every side.
+          The shaded area is the clear space for a logo 32px tall: about 13px on every side, the
+          height of the M.
         </figcaption>
       </figure>
     </Section>
@@ -219,13 +235,14 @@ export const LogoGuide = () => (
     <Section title="Minimum size">
       <div className="overflow-x-auto">
         <Table
-          caption="Smallest height on screen"
+          caption="Minimum sizes"
           size="sm"
           rows={SIZES}
           rowId={(row) => row.id}
           columns={[
-            { key: 'lockup', header: 'Lockup', cell: (row) => row.lockup },
-            { key: 'minimum', header: 'Smallest height', cell: (row) => row.minimum },
+            { key: 'version', header: 'Version', cell: (row) => row.version },
+            { key: 'screen', header: 'On screen', cell: (row) => row.screen },
+            { key: 'print', header: 'In print', cell: (row) => row.print },
           ]}
         />
       </div>
@@ -234,8 +251,9 @@ export const LogoGuide = () => (
         <Logo lockup="monogram" className="h-4" />
       </div>
       <Note>
-        Both logos above are shown at their minimum height. The Logo component renders at 24px tall
-        by default; size it with a height class such as <Code>h-8</Code> and the width follows.
+        The horizontal logo and the MC mark above are shown at the smallest height Propellant uses
+        for them. The Logo component renders at 24px tall by default; size it with a height class
+        such as <Code>h-8</Code> and the width follows.
       </Note>
     </Section>
 
@@ -264,20 +282,27 @@ export const LogoGuide = () => (
           </Tile>
         ))}
         <Tile
-          surface="bg-[var(--teal-900)]"
-          caption="Do not place the full color logo on the brand teal or dark backgrounds."
+          surface="bg-[var(--mc-navy)]"
+          caption="Do not place the full color logo on dark colors."
         >
           <Logo label="" className="h-8" />
+        </Tile>
+        <Tile
+          surface="bg-[var(--mc-cyan)]"
+          caption="Do not place the white logo on light colors such as Cyan, Yellow or Lime."
+        >
+          <Logo label="" treatment="white" className="h-8" />
         </Tile>
       </Grid>
       <div className="max-w-[var(--width-reading)]">
         <Rules
           items={[
-            'Do not rearrange the lockup, resize its parts or remove the divider.',
-            'Do not recreate the wordmark in a font or type the name in its place.',
+            'Do not outline, flip or crop the logo.',
+            'Do not rearrange, rebuild or retype the logo, resize its parts or remove the divider.',
+            'Do not create new lockups or sub-logos. Only MassChallenge Marketing creates sub-brand lockups.',
             'Do not place the logo inside a shape or container that crowds its clear space.',
-            'Do not place the logo on busy photographs; use the white treatment on a dark, quiet area.',
-            'Do not use the monogram as a letter in a word or headline.',
+            'Do not place the logo on busy photographs without the hero overlay or a solid color block behind it.',
+            'Do not use the MC mark as a letter in a word or headline.',
           ]}
         />
       </div>
