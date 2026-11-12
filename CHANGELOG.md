@@ -4,9 +4,9 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
-## Unreleased
+## 2.0.0 (2026-11-12)
 
-Planned as 2.0.0. This release applies the MassChallenge brand guidelines 2026 from MassChallenge
+This release applies the MassChallenge brand guidelines 2026 from MassChallenge
 Marketing, which now set the brand standard; Propellant applies them. It is a breaking change for
 brand documentation and for websites that use the website stylesheet. The signed in product looks
 the same: no existing token value changes, and components such as `Button`, `Card` and `AppShell`
@@ -73,8 +73,8 @@ keep their sentence case Lato buttons and rounded corners. Moving the product's 
 
 - The logo PNG files still measure `#17ACBC` and `#828486`. Official artwork from MassChallenge
   Marketing will replace them with the official MC Blue `#0EABBC` and MC Gray `#808285`.
-- The website guides still pin `v1.1.1`. The release pull request updates the pins to `v2.0.0`,
-  the first release with the new classes.
+- The install commands and CDN links in the README, the usage guide, the website guides and the
+  site's Usage page point at `v2.0.0`, the first release with the new website classes.
 
 ### Fixed
 

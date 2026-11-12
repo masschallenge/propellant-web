@@ -177,11 +177,11 @@ so it never changes the rest of your site. Load it with this line, wherever a gu
 ```html
 <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/dist/website.css"
+  href="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v2.0.0/dist/website.css"
 />
 ```
 
-The `@v1.1.1` part pins your site to one release, so it never changes under you. A complete
+The `@v2.0.0` part pins your site to one release, so it never changes under you. A complete
 example page is in [`examples/website.html`](../examples/website.html).
 
 **Type**
