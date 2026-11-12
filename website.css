@@ -1,45 +1,202 @@
 .propellant-text {
   font-family: var(--type-family);
   font-size: 1.0625rem;
-  line-height: 1.6;
+  line-height: 1.5;
   font-weight: 400;
-  color: var(--label);
+  color: var(--mc-black);
+}
+
+.propellant-section-white,
+.propellant-section-warm-white,
+.propellant-section-angled {
+  background-color: var(--propellant-section-color);
+  color: var(--mc-black);
+}
+
+.propellant-section-white {
+  --propellant-section-color: var(--gray-0);
+}
+
+.propellant-section-warm-white {
+  --propellant-section-color: var(--mc-warm-white);
+}
+
+.propellant-section-angled {
+  --propellant-section-color: var(--mc-light-tint);
+  background-image: linear-gradient(
+    174deg,
+    var(--gray-0) 40%,
+    var(--mc-light-tint) calc(40% + 1px)
+  );
+}
+
+.propellant-brand-band,
+.propellant-section-navy {
+  --propellant-section-color: var(--mc-navy);
+}
+
+.propellant-section-black {
+  --propellant-section-color: var(--mc-black);
+}
+
+.propellant-section-deep-teal {
+  --propellant-section-color: var(--mc-deep-teal);
+}
+
+.propellant-brand-band,
+.propellant-section-navy,
+.propellant-section-black,
+.propellant-section-deep-teal,
+.propellant-hero {
+  --propellant-section-accent: var(--mc-cyan);
+  --propellant-section-heading: var(--gray-0);
+  --propellant-section-muted: var(--gray-0);
+  --propellant-button-fill: transparent;
+  --propellant-button-edge: var(--mc-cyan);
+  --propellant-button-hover-fill: var(--mc-teal);
+  --propellant-button-hover-text: var(--gray-0);
+  background-color: var(--propellant-section-color);
+  color: var(--gray-0);
+}
+
+.propellant-hero {
+  --propellant-section-color: var(--mc-navy);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+}
+
+.propellant-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to right,
+    var(--mc-hero-overlay-text-side),
+    var(--mc-hero-overlay-subject-side)
+  );
+  pointer-events: none;
+}
+
+.propellant-hero-subject-left::before {
+  background: linear-gradient(
+    to left,
+    var(--mc-hero-overlay-text-side),
+    var(--mc-hero-overlay-subject-side)
+  );
+}
+
+.propellant-hero-image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.propellant-notch {
+  position: relative;
+}
+
+.propellant-notch::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 1;
+  width: 3rem;
+  height: 1.5rem;
+  background: var(--propellant-section-color, var(--gray-0));
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.propellant-card {
+  --propellant-section-accent: var(--mc-teal);
+  --propellant-section-heading: var(--mc-teal);
+  --propellant-section-muted: var(--gray-500);
+  --propellant-button-fill: var(--mc-teal);
+  --propellant-button-edge: var(--mc-teal);
+  --propellant-button-hover-fill: transparent;
+  --propellant-button-hover-text: var(--mc-teal);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border: var(--hairline) solid var(--gray-100);
+  border-radius: 0;
+  background: var(--gray-0);
+  color: var(--mc-black);
+}
+
+.propellant-photo {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0;
+}
+
+.propellant-eyebrow {
+  font-family: var(--type-family-brand);
+  font-size: 0.875rem;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
 }
 
 .propellant-headline {
   font-family: var(--type-family-brand);
   font-size: 4rem;
   line-height: 1;
-  font-weight: 500;
-  letter-spacing: 0.01em;
+  font-weight: 600;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
-.propellant-title-1 {
-  font-family: var(--type-family);
-  font-size: 2.5rem;
-  line-height: 1.15;
-  font-weight: 700;
+.propellant-section-angled .propellant-headline {
+  color: var(--mc-teal);
 }
 
-.propellant-title-2 {
-  font-family: var(--type-family);
+.propellant-headline-accent {
+  color: var(--propellant-section-accent, var(--mc-teal));
+}
+
+.propellant-title-1,
+.propellant-title-2,
+.propellant-title-3,
+.propellant-subhead {
+  font-family: var(--type-family-brand);
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--propellant-section-heading, var(--mc-teal));
+}
+
+.propellant-title-1 {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.propellant-title-2,
+.propellant-subhead {
   font-size: 1.875rem;
-  line-height: 1.2;
-  font-weight: 700;
+  line-height: 1.1;
 }
 
 .propellant-title-3 {
-  font-family: var(--type-family);
   font-size: 1.5rem;
-  line-height: 1.25;
-  font-weight: 700;
+  line-height: 1.15;
 }
 
 .propellant-body {
   font-family: var(--type-family);
   font-size: 1.0625rem;
-  line-height: 1.6;
+  line-height: 1.5;
   font-weight: 400;
 }
 
@@ -48,17 +205,65 @@
   font-size: 0.875rem;
   line-height: 1.5;
   font-weight: 400;
-  color: var(--label-secondary);
+  color: var(--propellant-section-muted, var(--gray-500));
+}
+
+.propellant-stat {
+  font-family: var(--type-family-brand);
+  font-size: 4.5rem;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--propellant-section-accent, var(--mc-teal));
+}
+
+.propellant-accent-rule {
+  display: block;
+  width: 3rem;
+  height: 0.25rem;
+  margin: 0;
+  border: 0;
+  background: var(--mc-yellow);
+}
+
+.propellant-tag {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0;
+  background: var(--mc-yellow);
+  color: var(--mc-black);
+  font-family: var(--type-family-brand);
+  font-size: 0.875rem;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.propellant-numbered {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 0.375rem solid currentColor;
+}
+
+.propellant-numbered-number {
+  font-family: var(--type-family-brand);
+  font-size: 2.5rem;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--propellant-section-accent, var(--mc-teal));
 }
 
 .propellant-link {
-  color: var(--tint);
+  color: var(--propellant-section-accent, var(--mc-teal));
   text-decoration: underline;
+  text-decoration-thickness: 1px;
   text-underline-offset: 0.15em;
 }
 
 .propellant-link:hover {
-  color: var(--tint-hover);
+  text-decoration-thickness: 2px;
 }
 
 .propellant-button {
@@ -67,64 +272,42 @@
   justify-content: center;
   gap: var(--space-2);
   padding: 0.875rem 1.75rem;
-  border: 0;
+  border: var(--stroke-strong) solid var(--propellant-button-edge, var(--mc-teal));
   border-radius: var(--corner-capsule);
-  background: var(--tint);
-  color: var(--on-tint);
-  font-family: var(--type-family);
+  background: var(--propellant-button-fill, var(--mc-teal));
+  color: var(--propellant-button-text, var(--gray-0));
+  font-family: var(--type-family-brand);
   font-size: 1rem;
   line-height: 1;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color var(--duration-fade) var(--ease-standard);
+  transition:
+    background-color var(--duration-fade) var(--ease-standard),
+    border-color var(--duration-fade) var(--ease-standard),
+    color var(--duration-fade) var(--ease-standard);
 }
 
 .propellant-button:hover {
-  background: var(--tint-hover);
-  color: var(--on-tint);
+  border-color: var(--mc-teal);
+  background: var(--propellant-button-hover-fill, transparent);
+  color: var(--propellant-button-hover-text, var(--mc-teal));
 }
 
-.propellant-button:active {
-  background: var(--tint-pressed);
+.propellant-button-secondary {
+  --propellant-button-fill: transparent;
+  --propellant-button-edge: var(--propellant-section-accent, var(--mc-teal));
+  --propellant-button-text: var(--propellant-section-heading, var(--mc-teal));
+  --propellant-button-hover-fill: var(--mc-teal);
+  --propellant-button-hover-text: var(--gray-0);
 }
 
 .propellant-button:focus-visible,
 .propellant-link:focus-visible {
-  outline: var(--focus-width) solid var(--focus-color);
+  outline: var(--focus-width) solid var(--propellant-section-accent, var(--mc-teal));
   outline-offset: var(--focus-offset);
-}
-
-.propellant-button-secondary,
-.propellant-button-secondary:hover {
-  color: var(--tint);
-}
-
-.propellant-button-secondary {
-  background: var(--teal-100);
-}
-
-.propellant-button-secondary:hover {
-  background: var(--teal-150);
-}
-
-.propellant-brand-band {
-  background: var(--brand-surface);
-  color: var(--on-brand-surface);
-}
-
-.propellant-brand-band .propellant-button {
-  background: var(--on-brand-surface);
-  color: var(--brand-surface);
-}
-
-.propellant-brand-band .propellant-link {
-  color: var(--on-brand-surface);
-}
-
-.propellant-brand-band .propellant-button:hover {
-  background: var(--teal-100);
-  color: var(--brand-surface);
 }
 
 @media (max-width: 640px) {
@@ -136,12 +319,17 @@
     font-size: 1.875rem;
   }
 
-  .propellant-title-2 {
+  .propellant-title-2,
+  .propellant-subhead {
     font-size: 1.5rem;
   }
 
   .propellant-title-3 {
     font-size: 1.25rem;
+  }
+
+  .propellant-stat {
+    font-size: 3rem;
   }
 
   .propellant-text,

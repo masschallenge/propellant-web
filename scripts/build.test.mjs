@@ -57,6 +57,8 @@ describe('website build', () => {
     expect(website).toMatch(/:root[^{]*\{[^}]*--mc-teal: #00708e;/);
     expect(website).toContain('.propellant-button {');
     expect(website).toContain('.propellant-headline {');
+    expect(website).toContain('.propellant-eyebrow {');
+    expect(website).toContain('.propellant-notch::after {');
   });
 
   it('leaves the rest of a site alone', async () => {
