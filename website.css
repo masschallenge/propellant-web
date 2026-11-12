@@ -13,6 +13,19 @@
   color: var(--mc-black);
 }
 
+.propellant-section-white,
+.propellant-section-warm-white,
+.propellant-section-angled,
+.propellant-card {
+  --propellant-section-accent: var(--mc-teal);
+  --propellant-section-heading: var(--mc-teal);
+  --propellant-section-muted: var(--gray-500);
+  --propellant-button-fill: var(--mc-teal);
+  --propellant-button-edge: var(--mc-teal);
+  --propellant-button-hover-fill: transparent;
+  --propellant-button-hover-text: var(--mc-teal);
+}
+
 .propellant-section-white {
   --propellant-section-color: var(--gray-0);
 }
@@ -117,13 +130,6 @@
 }
 
 .propellant-card {
-  --propellant-section-accent: var(--mc-teal);
-  --propellant-section-heading: var(--mc-teal);
-  --propellant-section-muted: var(--gray-500);
-  --propellant-button-fill: var(--mc-teal);
-  --propellant-button-edge: var(--mc-teal);
-  --propellant-button-hover-fill: transparent;
-  --propellant-button-hover-text: var(--mc-teal);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);

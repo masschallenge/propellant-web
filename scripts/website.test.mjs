@@ -120,6 +120,24 @@ describe('website buttons', () => {
     });
   });
 
+  it('resets the dark section colors on every light section, so they read inside a dark one', () => {
+    [
+      '.propellant-section-white',
+      '.propellant-section-warm-white',
+      '.propellant-section-angled',
+    ].forEach((selector) =>
+      expect(declarationsOf(selector)).toMatchObject({
+        '--propellant-section-accent': 'var(--mc-teal)',
+        '--propellant-section-heading': 'var(--mc-teal)',
+        '--propellant-section-muted': 'var(--gray-500)',
+        '--propellant-button-fill': 'var(--mc-teal)',
+        '--propellant-button-edge': 'var(--mc-teal)',
+        '--propellant-button-hover-fill': 'transparent',
+        '--propellant-button-hover-text': 'var(--mc-teal)',
+      }),
+    );
+  });
+
   it('turns white cards back to the light button style', () => {
     expect(declarationsOf('.propellant-card')).toMatchObject({
       '--propellant-button-fill': 'var(--mc-teal)',
