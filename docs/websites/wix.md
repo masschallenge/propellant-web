@@ -37,11 +37,11 @@ character color codes that start with `#`) straight from it.
 
 **Download the logo files.** Use only the official files. Save these to your computer:
 
-- [masschallenge-logo-horizontal-color.png](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-color.png),
+- [masschallenge-logo-horizontal-color.png](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v2.0.0/assets/logos/masschallenge-logo-horizontal-color.png),
   for white and light backgrounds.
-- [masschallenge-logo-horizontal-white.png](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-white.png),
+- [masschallenge-logo-horizontal-white.png](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v2.0.0/assets/logos/masschallenge-logo-horizontal-white.png),
   for Navy, Black and Deep Teal sections and dark photos.
-- [masschallenge-logo-monogram-color.png](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-monogram-color.png),
+- [masschallenge-logo-monogram-color.png](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v2.0.0/assets/logos/masschallenge-logo-monogram-color.png),
   for the site icon.
 
 There are also `-black` versions of both lockups (for example
@@ -635,7 +635,7 @@ Editor there is usually no way to attach class names, so this step does little t
    <!-- Propellant website styles: see github.com/masschallenge/propellant-web -->
    <link
      rel="stylesheet"
-     href="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/dist/website.css"
+     href="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v2.0.0/dist/website.css"
    />
    ```
 

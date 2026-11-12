@@ -676,7 +676,7 @@
   --phdr-banner-height: 132px;
 }
 :root {
-  --propellant-version: '1.1.1';
+  --propellant-version: '2.0.0';
 }
 
 .propellant-text {

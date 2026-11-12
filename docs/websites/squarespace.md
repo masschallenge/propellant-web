@@ -31,11 +31,11 @@ Keep it open in another tab so you can copy hex codes from it.
 and save the image to your computer:
 
 - Full color horizontal logo, for the header on White:
-  https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-color.png
+  https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v2.0.0/assets/logos/masschallenge-logo-horizontal-color.png
 - White horizontal logo, for Navy, Black and Deep Teal backgrounds:
-  https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-white.png
+  https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v2.0.0/assets/logos/masschallenge-logo-horizontal-white.png
 - Full color monogram (the MC mark on its own), for the browser icon:
-  https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-monogram-color.png
+  https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v2.0.0/assets/logos/masschallenge-logo-monogram-color.png
 - There are also `-white` and `-black` versions of the monogram, and a `-black` horizontal logo,
   at the same address with the color word changed. The [brand guidelines](../brand.md) say when to
   use each one.
@@ -617,7 +617,7 @@ cannot do on their own, such as the notch, the angled tint and the hero overlay.
 ```html
 <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/dist/website.css"
+  href="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v2.0.0/dist/website.css"
 />
 ```
 
