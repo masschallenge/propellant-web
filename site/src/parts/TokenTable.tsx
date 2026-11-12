@@ -1,10 +1,10 @@
 import type { CSSProperties } from 'react';
 import { Table } from '../../../src/index';
 import type { TokenEntry } from '../../tooling/tokens';
+import { referencesPrimitive } from './primitives';
 
 const isColorValue = (value: string) =>
-  /^(#|rgb|hsl|color-mix|oklch)/i.test(value) ||
-  /^var\(--(teal|gray|magenta|orange|green|yellow|amber)-/.test(value);
+  /^(#|rgb|hsl|color-mix|oklch|linear-gradient)/i.test(value) || referencesPrimitive(value);
 
 const previewFor = (token: TokenEntry) => {
   const value = token.values[0]?.value ?? '';

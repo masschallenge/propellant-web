@@ -174,6 +174,19 @@ export const Color = () => (
           wind Robotics
         </p>
       </Subsection>
+      <Subsection title="The MassChallenge brand palette">
+        <Prose>
+          The brand palette from the MassChallenge brand guidelines is in the token files too, as
+          primitives with an <Code>--mc-</Code> prefix, such as <Code>--mc-navy</Code> and{' '}
+          <Code>--mc-teal</Code>. Websites and brand material use them. Components do not: the
+          product keeps its interface teal, <Code>--tint</Code>, until a later release moves it to
+          the new Teal. The{' '}
+          <a href="#brand" className="text-[var(--tint)]">
+            brand guidelines
+          </a>{' '}
+          list every color and its job.
+        </Prose>
+      </Subsection>
       <Subsection title="Status">
         <div className="flex flex-wrap gap-2">
           <Badge tone="success">Scored</Badge>

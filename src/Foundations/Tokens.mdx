@@ -75,6 +75,43 @@ token with its values and measures contrast live.
   ))}
 </div>
 
+## Brand palette
+
+The MassChallenge brand palette, as primitives with an `--mc-` prefix. Websites and brand
+material use them; components keep using the semantic tokens above.
+
+<div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+  {[
+    ['--mc-blue', 'MC Blue'],
+    ['--mc-gray', 'MC Gray'],
+    ['--mc-navy', 'Navy'],
+    ['--mc-black', 'Black'],
+    ['--mc-warm-white', 'Warm White'],
+    ['--mc-deep-teal', 'Deep Teal'],
+    ['--mc-teal', 'Teal'],
+    ['--mc-cyan', 'Cyan'],
+    ['--mc-ocean', 'Ocean'],
+    ['--mc-yellow', 'Yellow'],
+    ['--mc-orange', 'Orange'],
+    ['--mc-raspberry', 'Raspberry'],
+    ['--mc-lime', 'Lime'],
+    ['--mc-light-tint', 'Light tint'],
+    ['--mc-gradient', 'MC Gradient'],
+  ].map(([token, label]) => (
+    <div key={token} style={{ width: 120 }}>
+      <div
+        style={{
+          height: 48,
+          background: `var(${token})`,
+          boxShadow: 'inset 0 0 0 1px var(--separator)',
+        }}
+      />
+      <div style={{ fontWeight: 600, fontSize: 13, marginTop: 6 }}>{label}</div>
+      <code style={{ fontSize: 11 }}>{token}</code>
+    </div>
+  ))}
+</div>
+
 ## Corners
 
 <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>

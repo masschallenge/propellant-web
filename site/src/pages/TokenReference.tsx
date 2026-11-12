@@ -3,6 +3,7 @@ import { SearchField, SegmentedControl } from '../../../src/index';
 import { foundationGroups, tokens } from 'virtual:propellant-site-data';
 import { Code, Note, PageBody, PageHeading, Prose, Section } from '../parts/Page';
 import { TokenTable } from '../parts/TokenTable';
+import { isPrimitiveToken } from '../parts/primitives';
 
 const GROUP_LABELS: Record<string, string> = {
   color: 'Color',
@@ -12,8 +13,6 @@ const GROUP_LABELS: Record<string, string> = {
   motion: 'Motion',
   layout: 'Layout',
 };
-
-const PRIMITIVE = /^--(teal|gray|magenta|orange|green|yellow|amber)-/;
 
 export const TokenReference = () => {
   const [query, setQuery] = useState('');
@@ -25,11 +24,11 @@ export const TokenReference = () => {
       tokens.filter((token) => {
         if (
           scope === 'semantic' &&
-          (PRIMITIVE.test(token.name) || !foundationGroups.includes(token.group))
+          (isPrimitiveToken(token.name) || !foundationGroups.includes(token.group))
         ) {
           return false;
         }
-        if (scope === 'primitive' && !PRIMITIVE.test(token.name)) return false;
+        if (scope === 'primitive' && !isPrimitiveToken(token.name)) return false;
         if (scope === 'component' && foundationGroups.includes(token.group)) return false;
         if (!normalizedQuery) return true;
         return (
