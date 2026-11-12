@@ -86,3 +86,11 @@ describe('interface tokens', () => {
     expect(valueOf(name, condition)).toBe(value);
   });
 });
+
+describe('brand display font', () => {
+  it('falls back to Aptos Narrow, never Arial', () => {
+    const typography = readFileSync(path.join(packageDir, 'tokens/typography.css'), 'utf8');
+    expect(typography).toContain("--type-family-brand: 'Oswald', 'Aptos Narrow', sans-serif;");
+    expect(typography).not.toMatch(/arial/i);
+  });
+});

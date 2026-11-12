@@ -422,7 +422,7 @@ html:has([data-appearance='system']) [data-propellant]:not([data-theme='light'])
 html [data-propellant] {
   --type-family:
     'Propellant Sans', 'Lato', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --type-family-brand: 'Oswald', 'Arial Narrow', sans-serif;
+  --type-family-brand: 'Oswald', 'Aptos Narrow', sans-serif;
   --type-family-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
   --type-weight-regular: 400;
