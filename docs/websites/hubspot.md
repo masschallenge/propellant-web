@@ -1,8 +1,9 @@
 # HubSpot
 
 This guide takes a HubSpot website or landing page (Content Hub) from its default look to the
-MassChallenge look: Lato and Oswald type, the teal palette, pill buttons, and White, Mist and Deep
-teal sections. Almost all of it happens in HubSpot's theme settings, with no code. Plan on about an
+MassChallenge look: Oswald headlines and Lato text, the brand palette, pill shaped Oswald buttons,
+and dark Navy sections alternating with White and Warm White ones. Almost all of it happens in
+HubSpot's theme settings, with no code. Plan on about an
 hour for the settings and logo, and a little longer if you also build a sample page.
 
 We wrote the steps for Elevate, HubSpot's current default theme, because most new HubSpot sites
@@ -30,9 +31,9 @@ defaults permission. To change site wide code you need the Website settings perm
 **Download the logo files.** Save these from our logo folder to your computer:
 
 - https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-color.png
-  (the main logo, for White and Mist backgrounds)
+  (the main logo, for White and Warm White backgrounds)
 - https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-white.png
-  (for Deep teal backgrounds)
+  (for Navy, Black and Deep Teal backgrounds)
 - https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-monogram-color.png
   (the MC monogram, for the site icon)
 
@@ -73,22 +74,25 @@ then have a Text color option that picks which section type's colors to use.
 
    | Brand kit slot | Spec color | Hex |
    | --- | --- | --- |
-   | Primary | Teal | `#065E6F` |
-   | Secondary | Deep teal | `#044451` |
-   | Accent 1 | Bright teal | `#0FACBD` |
-   | Accent 2 | Pale teal | `#D9F6FA` |
-   | Accent 3 | Mist | `#F3FBFC` |
-   | Additional | Ink | `#1E282B` |
+   | Primary | Teal | `#00708E` |
+   | Secondary | Navy | `#10263F` |
+   | Accent 1 | Cyan | `#54EEFF` |
+   | Accent 2 | Deep Teal | `#004F73` |
+   | Accent 3 | Warm White | `#F8F8F5` |
+   | Additional | Black | `#222222` |
+   | Additional | Light tint | `#F3FAFC` |
+   | Additional | MC Blue | `#0EABBC` |
    | Additional | Slate | `#4B575B` |
    | Additional | Line | `#DBE1E3` |
    | Additional | Yellow | `#FFC801` |
-   | Additional | Magenta | `#BF0261` |
+   | Additional | Error | `#BF0261` |
 
    Click **Add** to make each additional color. Click **Save**.
 
 4. In the **Fonts** section, click **Edit** next to each font and pick **Lato** for the main or
    body font and **Oswald** for the heading or display font, then save. Your account may label
-   these two fonts differently; the rule is Lato for everything, Oswald for the big headline only.
+   these two fonts differently; the rule is Oswald for headlines, eyebrows, subheads and buttons,
+   and Lato for reading text.
 5. Leave this tab open. You will add the logo here in Part 2.
 
 ### Step 2: Open the theme settings
@@ -115,11 +119,11 @@ Open **Foundation**, then **Colors**. Enter these:
 | Elevate setting | Spec color | Hex | What Elevate uses it for |
 | --- | --- | --- | --- |
 | Base color 1 | White | `#FFFFFF` | Page background (Light section 1) |
-| Base color 2 | Mist | `#F3FBFC` | Alternate background (Light section 2) |
-| Base color 3 | Ink | `#1E282B` | Text and headings |
-| Accent color 1 | Pale teal | `#D9F6FA` | Tinted background (Light section 3) |
-| Accent color 2 | Bright teal | `#0FACBD` | Accents on dark sections |
-| Accent color 3 | Teal | `#065E6F` | Buttons and links |
+| Base color 2 | Warm White | `#F8F8F5` | Alternate background (Light section 2) |
+| Base color 3 | Black | `#222222` | Text |
+| Accent color 1 | Light tint | `#F3FAFC` | Tinted background (Light section 3) |
+| Accent color 2 | Cyan | `#54EEFF` | Accents on dark sections |
+| Accent color 3 | Teal | `#00708E` | Headings, buttons and links on light |
 
 ### Step 4: Set the section colors
 
@@ -128,88 +132,97 @@ switch between the four section types, and enter these values for each:
 
 | Setting | Light section 1 | Light section 2 | Light section 3 | Dark section 1 |
 | --- | --- | --- | --- | --- |
-| Section background color | White `#FFFFFF` | Mist `#F3FBFC` | Pale teal `#D9F6FA` | Deep teal `#044451` |
-| Default text color | Ink `#1E282B` | Ink `#1E282B` | Ink `#1E282B` | White `#FFFFFF` |
-| Accent text color | Teal `#065E6F` | Teal `#065E6F` | Teal `#065E6F` | Bright teal `#0FACBD` |
+| Section background color | White `#FFFFFF` | Warm White `#F8F8F5` | Light tint `#F3FAFC` | Navy `#10263F` |
+| Default text color | Black `#222222` | Black `#222222` | Black `#222222` | White `#FFFFFF` |
+| Accent text color | Teal `#00708E` | Teal `#00708E` | Teal `#00708E` | Cyan `#54EEFF` |
 | Caption text color | Slate `#4B575B` | Slate `#4B575B` | Slate `#4B575B` | White `#FFFFFF` |
 | Link colors | Primary | Primary | Primary | Secondary |
 
-Elevate's Dark section 1 starts out using Base color 3 (now Ink) as its background, so change its
-background to Deep teal here. Never put Teal text on Deep teal.
+Elevate's Dark section 1 starts out using Base color 3 (now Black) as its background, so change its
+background to Navy here. Navy is the main dark section. For a Black or Deep Teal section, use Dark
+section 1 and change only that section's background (Part 3). Never put Teal text on a dark
+section.
 
 ### Step 5: Set the fonts and text styles
 
 Open **Foundation**, then **Fonts**.
 
-1. Set **Base font** to **Lato**. Every heading and paragraph starts from this font.
+1. Set **Base font** to **Lato**. Every paragraph starts from this font.
 2. Open **Font elements**, then **Headings** and **Body**, and set each style:
 
-   | Elevate setting | Spec style | Font | Weight | Size |
-   | --- | --- | --- | --- | --- |
-   | Heading 1 (H1) | Heading 1 | Oswald | 500 (Medium) | 64px |
-   | Heading 2 (H2) | Heading 2 | Lato | 700 (Bold) | 40px |
-   | Heading 3 (H3) | Heading 3 | Lato | 700 (Bold) | 30px |
-   | Heading 4 (H4) | Heading 4 | Lato | 700 (Bold) | 24px |
-   | Paragraph | Paragraph | Lato | 400 (Regular) | 17px |
+   | Elevate setting | Spec style | Font | Weight | Size | Color |
+   | --- | --- | --- | --- | --- | --- |
+   | Heading 1 (H1) | Heading 1 (the headline) | Oswald | 600 (SemiBold) | 64px | Default text color |
+   | Heading 2 (H2) | Heading 2 | Oswald | 600 (SemiBold) | 40px | Accent text color |
+   | Heading 3 (H3) | Heading 3 (subhead) | Oswald | 600 (SemiBold) | 30px | Accent text color |
+   | Heading 4 (H4) | Heading 4 | Oswald | 600 (SemiBold) | 24px | Accent text color |
+   | Heading 5 (H5) | Eyebrow | Oswald | 400 (Regular) | 14px | Default text color |
+   | Paragraph | Paragraph | Lato | 400 (Regular) | 17px | Default text color |
+
+   If your theme has no color per heading, leave them on the default text color. Headings 2 to 4
+   are Teal in the spec, but Black still reads well.
 
 3. Under **Other elements**, open **Caption** and set it to Lato, 400 (Regular), 14px, and set
-   **Case** to **None** (Elevate's captions start in capitals, and the spec keeps them in sentence
-   case).
-4. Leave Heading 5, Heading 6 and Block quote alone. The spec does not use them.
+   **Case** to **None** (Elevate's captions start in capitals, and the spec keeps reading text in
+   sentence case).
+4. Leave Heading 6 and Block quote alone. The spec does not use them. Heading 5 becomes the eyebrow,
+   the small label above a headline, once the Part 4 snippet adds its capitals and letter spacing.
 
 Elevate's font settings have no line height, letter spacing or capitals option for headings.
-Headings get a line height of 1.2 and paragraphs 1.55, which is close to the spec. The one thing
-you will notice is Heading 1: to show it in capitals, you can either type the headline in capitals
-or add the small snippet in Part 4. We recommend the snippet: you keep typing headlines in
-sentence case, and the capitals come from the style, which is how the brand works everywhere else.
+Headings get a line height of 1.2 and paragraphs 1.55, which is close to the spec. The thing you
+will notice is the capitals: every heading, eyebrow and button is in capitals in the spec. You can
+either type them in capitals or add the small snippet in Part 4. We recommend the snippet: you keep
+typing in sentence case, and the capitals come from the style, which is how the brand works
+everywhere else and what screen readers expect.
 
 ### Step 6: Set the buttons
 
 Open **Elements**, then **Buttons**. Elevate has four button styles. Use three of them:
 
-| Setting | Primary button | Secondary button | Accent button (for Deep teal sections) |
+| Setting | Primary button | Secondary button | Accent button (for dark sections) |
 | --- | --- | --- | --- |
-| Background | Filled | Filled | Filled |
+| Background | Filled | Outline, or Filled if there is no Outline | Outline, or Filled if there is no Outline |
 | Shape | pill | pill | pill |
-| Border | 0px | 0px | 0px |
-| Default state: Fill color | Teal `#065E6F` | Pale teal `#D9F6FA` | White `#FFFFFF` |
-| Default state: Border color | Teal `#065E6F` | Pale teal `#D9F6FA` | White `#FFFFFF` |
-| Default state: Text color | White `#FFFFFF` | Teal `#065E6F` | Deep teal `#044451` |
-| Hover state: Fill color | Deep teal `#044451` | `#C4EEF4` | Pale teal `#D9F6FA` |
-| Hover state: Border color | Deep teal `#044451` | `#C4EEF4` | Pale teal `#D9F6FA` |
-| Hover state: Text color | White `#FFFFFF` | Teal `#065E6F` | Deep teal `#044451` |
-| Text: Font | Lato, 700 (Bold), 16px | Lato, 700 (Bold), 16px | Lato, 700 (Bold), 16px |
+| Border | 2px | 2px | 2px |
+| Default state: Fill color | Teal `#00708E` | White `#FFFFFF` (if Filled) | Navy `#10263F` (if Filled) |
+| Default state: Border color | Teal `#00708E` | Teal `#00708E` | Cyan `#54EEFF` |
+| Default state: Text color | White `#FFFFFF` | Teal `#00708E` | White `#FFFFFF` |
+| Hover state: Fill color | White `#FFFFFF` | Teal `#00708E` | Teal `#00708E` |
+| Hover state: Border color | Teal `#00708E` | Teal `#00708E` | Teal `#00708E` |
+| Hover state: Text color | Teal `#00708E` | White `#FFFFFF` | White `#FFFFFF` |
+| Text: Font | Oswald, 600 (SemiBold), 16px | Oswald, 600 (SemiBold), 16px | Oswald, 600 (SemiBold), 16px |
 
 Notes:
 
-- The border color matches the fill so the button looks borderless even if someone later adds a
-  border width.
-- Elevate's primary button text starts out using Base color 2, which is now Mist, so set it to
-  White explicitly.
+- On light sections the primary button's fill clears to a Teal outline on hover, and the secondary
+  button does the opposite. On dark sections the Accent button is a Cyan outline that fills with
+  Teal on hover.
+- Elevate's primary button text starts out using Base color 2, which is now Warm White, so set it
+  to White explicitly.
 - Leave the **Tertiary button** unused. If you want it tidy, give it the same values as the
   Secondary button.
 - Elevate has no separate corner radius number: **pill** gives fully rounded ends, which is what
   the spec asks for. Other themes may show a **Corner radius** field instead; set it to a large
-  number such as 100px for a pill.
+  number such as 100px for a pill. Never use square corners: square cornered buttons are retired.
 - When you add a button to a page, pick **Medium** for **Button size**. Elevate does not show the
   exact padding, so compare it by eye with the spec (about 14px top and bottom, 28px left and
   right).
 
-Type every button label in sentence case, such as Apply now. The spec has no capitals on buttons.
+Type every button label in sentence case, such as Apply now, and add the Part 4 snippet for the
+capitals. Without the snippet, type the label in capitals.
 
 ### Step 7: Set links, forms and cards
 
-1. **Links, Primary links.** Default state: Text color Teal `#065E6F`, turn on **Show underline**,
-   Underline color Teal `#065E6F`. Hover state: Text color Deep teal `#044451`, Show underline on,
-   Underline color Deep teal `#044451`.
-2. **Links, Secondary links** (used on Deep teal sections). Default state: Text color White
-   `#FFFFFF`, Show underline on, Underline color Bright teal `#0FACBD`. Hover state: Text color
-   White `#FFFFFF`, Show underline on, Underline color White `#FFFFFF`.
+1. **Links, Primary links.** Default state: Text color Teal `#00708E`, turn on **Show underline**,
+   Underline color Teal `#00708E`. Hover state: Text color Deep Teal `#004F73`, Show underline on,
+   Underline color Deep Teal `#004F73`.
+2. **Links, Secondary links** (used on dark sections). Default state: Text color Cyan `#54EEFF`,
+   Show underline on, Underline color Cyan `#54EEFF`. Hover state: Text color White `#FFFFFF`, Show
+   underline on, Underline color White `#FFFFFF`.
 3. **Forms.** Set the field border color and the form border color to Line `#DBE1E3`, and the
-   label text color and input text color to Ink `#1E282B`.
-4. **Cards.** For each card variant you use, set **Card shape** to **Rounded** and the border
-   color to Line `#DBE1E3`. Elevate's rounded corners are not a number you can type, so they may
-   not be exactly the spec's 12px. That is fine.
+   label text color and input text color to Black `#222222`.
+4. **Cards.** For each card variant you use, set **Card shape** to **Square**, the background to
+   White `#FFFFFF` and the border color to Line `#DBE1E3`. Cards and photos have square corners.
 5. Click **Publish theme**.
 
 ### Step 8: Check the mobile sizes
@@ -244,11 +257,13 @@ phone at 51px.
 5. Choose **Yes** to make it the default logo, and click **Save**.
 
 Elevate's site header uses the brand kit logo by default. To check, open any page, click the site
-header, and look at its **Logo** field. If your header has a Deep teal background, change that one
-header's logo to `masschallenge-logo-horizontal-white.png`.
+header, and look at its **Logo** field. If your header has a Navy, Black or Deep Teal
+background, change that one header's logo to `masschallenge-logo-horizontal-white.png`.
 
-Keep the logo at least 24px tall, and leave clear space around it of half its height. If the header
-is so small that the horizontal logo would drop below 24px, use the monogram instead.
+Keep the logo at least 24px tall (160px wide), and leave clear space around it equal to the height
+of the "M" in the MASSCHALLENGE wordmark, on every side. Align it to a corner or the top edge of the
+header. If the header is so small that the horizontal logo would drop below 24px, use the monogram
+instead.
 
 ### The site icon (favicon)
 
@@ -265,15 +280,17 @@ The favicon only applies to pages hosted on HubSpot.
 Everything below uses the drag and drop editor. Each page is made of **sections**, which hold
 **rows**, which hold **columns** of **modules** (Heading, Rich text, Button, Image and so on).
 
-### Make a White, Mist or Deep teal section
+### Make a light or dark section
 
 1. In the page editor, click the section you want to style. (Hover over the section and click its
    edge, or click its name in the **Contents** tab of the left sidebar.)
 2. Open the **Styles** tab in the sidebar.
 3. Under **Background**, choose **Color** and enter the hex code:
    - White section: `#FFFFFF`
-   - Mist section: `#F3FBFC`
-   - Deep teal section: `#044451`
+   - Warm White section: `#F8F8F5`
+   - Navy section: `#10263F`
+   - Black section: `#222222`
+   - Deep Teal section: `#004F73`
 4. Under **Alignment and spacing**, set the top and bottom padding to **96px**.
 5. Click the **mobile** icon at the top of the editor, select the same section, and set the top and
    bottom padding to **64px**. Changes you make in the mobile view only apply to phones.
@@ -281,60 +298,76 @@ Everything below uses the drag and drop editor. Each page is made of **sections*
 Rows and columns have their own background settings too. Keep backgrounds on the section, so the
 whole band changes color edge to edge.
 
-**Text inside a Deep teal section.** For each Heading or Rich text module in the section, open its
-**Styles** tab and set **Text color** to **Dark section text color**. That gives you White text,
-Bright teal accents and the White secondary links you set in Part 1. On White and Mist sections,
-leave it on **Light section 1 text color** (or Light section 2).
+**Text inside a dark section.** For each Heading or Rich text module in a Navy, Black or Deep Teal
+section, open its **Styles** tab and set **Text color** to **Dark section text color**. That gives
+you White text, Cyan accents and the Cyan secondary links you set in Part 1. On White and Warm
+White sections, leave it on **Light section 1 text color** (or Light section 2).
 
-Alternate White and Mist sections down the page, and save Deep teal for one or two strong moments,
-such as the opening band or a final call to action.
+Alternate dark and light sections down the page: a Navy opening, a White or Warm White section, a
+Navy section with white cards, and so on. The notch between sections and the angled tint on light
+sections need code: the Propellant stylesheet at the end of Part 4 has them.
 
-### Add the Heading 1 headline
+**Hero with a photo.** Under **Background**, choose **Image** and pick a photo by the
+[images guide](../images.md#brand-photography). If your theme offers a background overlay, use a
+gradient from Navy black `#051925` on the text side to Ocean `#037AA6` on the subject side, at 15 to
+30% opacity. Put text only on a calm area of the photo; otherwise set the section to a solid Navy,
+Black or Deep Teal color instead.
 
-1. Drag a **Heading** module into the top section.
-2. Type the headline in sentence case, for example: Build what comes next.
+**Photos and cards.** Keep image corners square. Use the Card variants you set in Step 7 for white
+cards on dark sections.
+
+### Add the eyebrow and the headline
+
+1. Drag a **Heading** module into the top section for the eyebrow. Set **Semantic heading level**
+   to **Paragraph** if it is offered (otherwise Heading 5) and **Heading style** to **Heading 5**.
+2. Drag a second **Heading** module below it and type the headline in sentence case, for example:
+   Build what comes next.
 3. Set **Semantic heading level** to **Heading 1**. This tells search engines and screen readers it
    is the main headline.
 4. In the **Styles** tab, set **Heading style** to **Heading 1**.
+5. For a two toned headline, use a Rich text module instead, select the payoff words, and color
+   them Teal `#00708E` on light sections or Cyan `#54EEFF` on dark ones.
 
-Use one Heading 1 per page. Use Heading 2 for each section title below it.
+Use one Heading 1 per page. Use Heading 2 for each section headline below it, and Heading 3 for card
+titles and numbered blocks.
 
 ### Add buttons
 
 1. Drag a **Button** module into a column.
 2. Enter the **Button text** in sentence case and choose the **Link**.
 3. In the **Styles** tab, set **Button style**:
-   - **Primary** for the main action on a White or Mist section.
+   - **Primary** for the main action on a White or Warm White section.
    - **Secondary** for a second, quieter action next to it.
-   - **Accent** for any button on a Deep teal section (White with Deep teal text).
+   - **Accent** for any button on a dark section (a Cyan outline with White text).
 4. Set **Button size** to **Medium**.
 
 ### Build a sample home page
 
-1. **Opening band.** A Deep teal section. Add a Heading module (Heading 1, Dark section text color)
-   and a Rich text paragraph below it, also on Dark section text color. Add a Button module with
-   the Accent style.
-2. **What we do.** A White section. A Heading 2, a paragraph of no more than about 720px wide (set
-   the column narrower, or use a two column row and leave one empty), and a Primary button.
-3. **Three cards.** A Mist section with a row of three columns, each with an image, a Heading 3 and
-   a short paragraph.
+1. **Opening band.** A Navy section, with a photo if you have a good one. Add the eyebrow, a Heading
+   module (Heading 1, Dark section text color) and a Rich text paragraph below it, also on Dark
+   section text color. Add a Button module with the Accent style.
+2. **What we do.** A Warm White section. A Heading 2, a paragraph of no more than about 720px wide
+   (set the column narrower, or use a two column row and leave one empty), and a Primary button.
+3. **Three cards.** A Navy section with a row of three columns, each a white card with an image, a
+   Heading 3 and a short paragraph.
 4. **Final call to action.** A White section with a Heading 2, a Primary button and a Secondary
    button side by side.
 5. Click the mobile icon and check each section before you publish.
 
 ## Part 4: Custom CSS (optional, only what settings cannot do)
 
-You can stop at Part 3. Add code only if you want these four things, which Elevate's settings
-cannot do:
+You can stop at Part 3. Add code only if you want these things, which Elevate's settings cannot
+do:
 
-- **Heading 1 in capitals** with 1% letter spacing and a line height of 1.0. Elevate has no case,
-  letter spacing or line height setting for headings.
+- **Capitals** on every heading and button, with a line height of 1.0 on Heading 1 and Heading 2.
+  Elevate has no case, letter spacing or line height setting for headings.
+- **The eyebrow**: Heading 5 in Oswald Regular with letter spacing of 0.3em.
 - **Exact phone sizes** for Heading 1, Heading 2, Heading 4 and paragraphs. Elevate only shrinks
   headings by a fixed 80%.
-- **Exact line heights** for Heading 2 (1.15), Heading 4 (1.25) and paragraphs (1.6).
+- **Exact line heights** for Heading 3 (1.1), Heading 4 (1.15) and paragraphs (1.5).
 
-The snippet targets Elevate's own heading tags and its `hs-elevate-h1` style names, so it only
-touches headings and body text.
+The snippet targets Elevate's own heading tags, its `hs-elevate-h1` style names and its buttons, so
+it only touches headings, buttons and body text.
 
 ### Option A: Site header HTML (simplest)
 
@@ -352,22 +385,34 @@ look for the field in your account.
    ```html
    <style>
      /* Propellant website styles: see github.com/masschallenge/propellant-web */
-     body h1,
-     body .hs-elevate-h1 {
+     body :is(h1, h2, h3, h4, h5),
+     body :is(.hs-elevate-h1, .hs-elevate-h2, .hs-elevate-h3, .hs-elevate-h4, .hs-elevate-h5),
+     body .hs-elevate-button {
        text-transform: uppercase;
-       letter-spacing: 0.01em;
-       line-height: 1;
      }
+     body h1,
+     body .hs-elevate-h1,
      body h2,
      body .hs-elevate-h2 {
-       line-height: 1.15;
+       line-height: 1;
+     }
+     body h3,
+     body .hs-elevate-h3 {
+       line-height: 1.1;
      }
      body h4,
      body .hs-elevate-h4 {
-       line-height: 1.25;
+       line-height: 1.15;
+     }
+     body h5,
+     body .hs-elevate-h5 {
+       letter-spacing: 0.3em;
+     }
+     body .hs-elevate-button {
+       letter-spacing: 0.05em;
      }
      html body {
-       line-height: 1.6;
+       line-height: 1.5;
      }
      @media (max-width: 766px) {
        body h1,
@@ -429,9 +474,11 @@ only work on theme templates built to accept them. Use Option A or B instead.
 
 The [Propellant stylesheet](../websites.md#the-propellant-stylesheet) loads Lato and Oswald and
 adds ready made classes that match the spec: `propellant-headline` is Heading 1 (including the
-capitals and the 40px phone size), `propellant-title-1`, `propellant-title-2` and
-`propellant-title-3` are Heading 2, 3 and 4, `propellant-body` is Paragraph, and
-`propellant-caption` is Paragraph small in Slate. To load it, paste this line into Site header
+capitals and the 40px phone size), `propellant-eyebrow` is the eyebrow, `propellant-title-1`,
+`propellant-subhead` and `propellant-title-3` are Heading 2, 3 and 4, `propellant-body` is
+Paragraph, and `propellant-caption` is Paragraph small in Slate. It also has the patterns that
+sections cannot do on their own: `propellant-notch` for the notch below a section,
+`propellant-section-angled` for the angled tint, and `propellant-hero` for the hero overlay. To load it, paste this line into Site header
 HTML (Option A) on its own, outside any `<style>` tags:
 
 ```html
@@ -458,12 +505,15 @@ a `propellant-button` class placed inside a Rich text module. To remove the styl
 
 On desktop:
 
-- [ ] Headings and paragraphs are in Lato; only the big Heading 1 is in Oswald.
-- [ ] Heading 1 shows in capitals (with the snippet) and every other heading is in sentence case.
-- [ ] Body text is Ink, captions are Slate, and links are Teal and underlined.
-- [ ] Primary buttons are Teal pills with White text that turn Deep teal on hover.
-- [ ] Secondary buttons are Pale teal pills with Teal text.
-- [ ] Deep teal sections have White text, White buttons with Deep teal text, and no Teal text.
+- [ ] Headings, eyebrows and buttons are in Oswald, and paragraphs are in Lato.
+- [ ] Headings and buttons show in capitals (with the snippet); paragraphs are in sentence case.
+- [ ] Body text is Black, captions are Slate, and links are Teal and underlined on light sections
+      and Cyan on dark ones.
+- [ ] Primary buttons are Teal pills with White text that clear to a Teal outline on hover.
+- [ ] Secondary buttons are Teal outlines with Teal text.
+- [ ] Dark sections have White text, Cyan outline buttons, and no Teal text.
+- [ ] Dark and light sections alternate down the page.
+- [ ] Cards and images have square corners.
 - [ ] The full color logo sits in the header and links home; the favicon shows the monogram.
 
 On a phone (use the editor's mobile icon, then check the published page on a real phone):
@@ -479,8 +529,8 @@ On a phone (use the editor's mobile icon, then check the published page on a rea
   **None**).
 - **Headings are still in the old font.** You changed the brand kit but not the theme. Set the fonts
   in theme settings (Part 1, Step 5) and click **Publish theme**.
-- **Text on a Deep teal section is hard to read.** The module is still on a light text color. Set
-  its **Text color** to **Dark section text color**.
+- **Text on a dark section is hard to read.** The module is still on a light text color. Set its
+  **Text color** to **Dark section text color**.
 - **Primary button text is pale gray instead of White.** Set **Primary button**, **Default state**,
   **Text color** to `#FFFFFF`; Elevate starts it on Base color 2.
 - **The snippet does nothing.** Check that you saved the domain you are viewing (or Default

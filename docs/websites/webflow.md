@@ -3,8 +3,9 @@
 Webflow gives you everything you need to build a MassChallenge-style site without writing code.
 You store the brand colors, fonts and sizes once as variables, style every heading, paragraph and
 link at once, and make a handful of classes for buttons and sections. By the end you will have a
-site with the right fonts, colors, headline, pill buttons, White, Mist and Deep teal sections, the
-logo and a site icon, and it will look right on phones too. Plan on about two hours the first time,
+site with the right fonts, colors, Oswald headlines, pill buttons, dark Navy, Black and Deep Teal
+sections alternating with White and Warm White ones, the logo and a site icon, and it will look
+right on phones too. Plan on about two hours the first time,
 most of it in Part 1.
 
 Keep the [website spec](../websites.md) open in another tab while you work. Every value in this
@@ -35,9 +36,9 @@ guide comes from it.
 
 **The logo files.** Download these from our public file store (right click each link, then save):
 
-- Horizontal logo, full color, for White and Mist backgrounds:
+- Horizontal logo, full color, for White and Warm White backgrounds:
   [masschallenge-logo-horizontal-color.png](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-color.png)
-- Horizontal logo, white, for Deep teal backgrounds:
+- Horizontal logo, white, for Navy, Black and Deep Teal backgrounds:
   [masschallenge-logo-horizontal-white.png](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-white.png)
 - Monogram, full color, for the site icon:
   [masschallenge-logo-monogram-color.png](https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-monogram-color.png)
@@ -72,7 +73,8 @@ Lato is already built into the Webflow Designer, so you only need to add Oswald.
 
 1. Open **Site settings**, then the **Fonts** tab.
 2. Under **Google fonts**, choose **Oswald**.
-3. Tick the **500** (Medium) variant. That is the only weight the headline uses.
+3. Tick the **400** (Regular), **600** (SemiBold) and **700** (Bold) variants. Eyebrows use 400,
+   headlines, subheads and buttons 600, and the big stat 700.
 4. Click **Add font**.
 5. Go back to the Designer and refresh the page in your browser. Oswald now appears in **Style
    panel > Typography > Font**, under Google fonts.
@@ -99,23 +101,25 @@ Teal inside a Colors group. Click the value to set it.
 
 ### Step 3: Add the color variables
 
-Create one **Color** variable for each row. This is the full spec palette, plus the secondary
-button hover color from the buttons table.
+Create one **Color** variable for each row. This is the spec palette.
 
 | Variable name | Hex | Use it for |
 | --- | --- | --- |
-| `Colors/White` | `#FFFFFF` | Page background, text on Deep teal |
-| `Colors/Mist` | `#F3FBFC` | Alternate section background |
-| `Colors/Ink` | `#1E282B` | Body text and headings |
-| `Colors/Slate` | `#4B575B` | Secondary text, such as captions |
-| `Colors/Teal` | `#065E6F` | Links and buttons |
-| `Colors/Deep teal` | `#044451` | Button hover, and dark brand sections |
-| `Colors/Bright teal` | `#0FACBD` | Accents on Deep teal sections only |
-| `Colors/Pale teal` | `#D9F6FA` | Secondary buttons and tinted sections |
-| `Colors/Pale teal hover` | `#C4EEF4` | Secondary button hover |
+| `Colors/White` | `#FFFFFF` | Light section background, text on dark sections |
+| `Colors/Warm White` | `#F8F8F5` | Alternate light section background |
+| `Colors/Light tint` | `#F3FAFC` | The angled tint on a light section |
+| `Colors/Navy` | `#10263F` | Dark section background |
+| `Colors/Black` | `#222222` | Body text, and dark section background |
+| `Colors/Deep Teal` | `#004F73` | Dark section background |
+| `Colors/Teal` | `#00708E` | Headings, links and buttons on light |
+| `Colors/Cyan` | `#54EEFF` | Text, links and outlines on dark sections only |
+| `Colors/MC Blue` | `#0EABBC` | Graphic shapes only, never text |
+| `Colors/Navy black` | `#051925` | The dark end of the hero overlay |
+| `Colors/Ocean` | `#037AA6` | Gradient stop only, never a flat fill |
+| `Colors/Slate` | `#4B575B` | Secondary text on light, such as captions |
 | `Colors/Line` | `#DBE1E3` | Lines and dividers |
-| `Colors/Yellow` | `#FFC801` | Highlights, always with Ink text |
-| `Colors/Magenta` | `#BF0261` | Errors |
+| `Colors/Yellow` | `#FFC801` | One warm accent: tags, rules and stats, with Black text |
+| `Colors/Error` | `#BF0261` | Form errors only |
 
 If your site already has swatches, Webflow has turned them into color variables. You can leave
 them or delete the ones you no longer use.
@@ -140,6 +144,8 @@ the Mobile values in the next step.
 | `Type/Heading 2` | 40px | 30px |
 | `Type/Heading 3` | 30px | 24px |
 | `Type/Heading 4` | 24px | 20px |
+| `Type/Eyebrow` | 14px | 14px |
+| `Type/Big stat` | 72px | 48px |
 | `Type/Paragraph large` | 20px | 18px |
 | `Type/Paragraph` | 17px | 16px |
 | `Type/Paragraph small` | 14px | 14px |
@@ -148,11 +154,11 @@ the Mobile values in the next step.
 | `Space/Button vertical` | 14px | 14px |
 | `Space/Button horizontal` | 28px | 28px |
 | `Layout/Text width` | 720px | 720px |
-| `Radius/Card` | 12px | 12px |
 | `Radius/Pill` | 9999px | 9999px |
 
 `Radius/Pill` is a very large corner radius, which is how a web page draws fully rounded pill
-ends. `Layout/Text width` keeps paragraphs to about 68 characters a line.
+ends. Buttons are the only rounded thing on the site: cards and photos have square corners.
+`Layout/Text width` keeps paragraphs to about 68 characters a line.
 
 ### Step 6: Add the mobile sizes with a mode
 
@@ -166,8 +172,8 @@ a breakpoint, so you link each style once and it shrinks on phones automatically
    below, which includes phones held either way.
 4. Click **Create**. Every value starts as a copy of the Base (desktop) value.
 5. In the Mobile column, click each value that changes and type the Mobile number from the table
-   in Step 5: Heading 1 40px, Heading 2 30px, Heading 3 24px, Heading 4 20px, Paragraph large 18px,
-   Paragraph 16px and Section 64px. Leave the others as they are.
+   in Step 5: Heading 1 40px, Heading 2 30px, Heading 3 24px, Heading 4 20px, Big stat 48px,
+   Paragraph large 18px, Paragraph 16px and Section 64px. Leave the others as they are.
 
 You will check this on the Mobile portrait breakpoint in "Check your work".
 
@@ -184,13 +190,13 @@ These are the defaults every page inherits.
      `Fonts/Body`. (This purple dot is how you link any field to a variable.)
    - **Weight**: 400 (Normal).
    - **Size**: link to `Type/Paragraph`.
-   - **Height** (line height): type `1.6`, then choose the **-** unit so it has no unit. A unitless
+   - **Height** (line height): type `1.5`, then choose the **-** unit so it has no unit. A unitless
      line height grows and shrinks with the text.
-   - **Color**: link to `Colors/Ink`.
+   - **Color**: link to `Colors/Black`.
 4. Under **Backgrounds**, set **Color** to `Colors/White`.
 
-Set the text color here, on the Body, and not on the heading and paragraph tags. That way a Deep
-teal section can switch all its text to White in one place (Part 3).
+Set the text color here, on the Body, and not on the paragraph tags. That way a dark section can
+switch all its text to White in one place (Part 3).
 
 ### Step 8: Style All H1 to All H4 headings
 
@@ -200,25 +206,26 @@ below, and link the font and size to the variables shown.
 
 | Tag | Font | Weight | Size | Height | Letter spacing | Letter case |
 | --- | --- | --- | --- | --- | --- | --- |
-| All H1 Headings | `Fonts/Headline` | 500 (Medium) | `Type/Heading 1` | `1` (no unit) | `0.01em` | All capitals |
-| All H2 Headings | `Fonts/Body` | 700 (Bold) | `Type/Heading 2` | `1.15` (no unit) | leave empty | leave empty |
-| All H3 Headings | `Fonts/Body` | 700 (Bold) | `Type/Heading 3` | `1.2` (no unit) | leave empty | leave empty |
-| All H4 Headings | `Fonts/Body` | 700 (Bold) | `Type/Heading 4` | `1.25` (no unit) | leave empty | leave empty |
+| All H1 Headings | `Fonts/Headline` | 600 (SemiBold) | `Type/Heading 1` | `1` (no unit) | `0` | All capitals |
+| All H2 Headings | `Fonts/Headline` | 600 (SemiBold) | `Type/Heading 2` | `1` (no unit) | `0` | All capitals |
+| All H3 Headings | `Fonts/Headline` | 600 (SemiBold) | `Type/Heading 3` | `1.1` (no unit) | `0` | All capitals |
+| All H4 Headings | `Fonts/Headline` | 600 (SemiBold) | `Type/Heading 4` | `1.15` (no unit) | `0` | All capitals |
 
 To change which heading level you are styling, select the heading and change its level (H1, H2
 and so on) in the Settings panel, or add one heading of each level and select each in turn.
 
-For the H1 headline:
+For every heading:
 
 - **Letter spacing** and **letter case** are under **More type options** at the bottom of the
-  Typography section. Type `0.01em` (that is the spec's 1%) for letter spacing, and choose the
-  all capitals option (shown as **AA**) for letter case.
-- Type your headline in sentence case, such as "Founders build here". Webflow turns it into
-  capitals for you. Screen readers then read words, not letters.
+  Typography section. Choose the all capitals option (shown as **AA**) for letter case.
+- Type headings in sentence case, such as "Founders build here". Webflow turns them into capitals
+  for you. Screen readers then read words, not letters.
 - If you cannot find the letter case control, use **Style panel > Custom properties** instead:
   click **Add**, type `text-transform` as the name and `uppercase` as the value, and press Enter.
 
-Leave the color empty on all four tags, so they inherit Ink from the Body.
+Leave the color empty on All H1 Headings, so the headline inherits Black from the Body (or White
+in a dark section). Set **Color** on All H2, All H3 and All H4 Headings to `Colors/Teal`. The dark
+section classes in Step 12 turn them White.
 
 ### Step 9: Style All Paragraphs and All Links
 
@@ -226,7 +233,7 @@ Leave the color empty on all four tags, so they inherit Ink from the Body.
 **All Paragraphs**. Set:
 
 - **Size**: link to `Type/Paragraph`.
-- **Height**: `1.6` (no unit).
+- **Height**: `1.5` (no unit).
 - **Size section > Max W** (maximum width): link to `Layout/Text width`.
 
 **All Links.** Select a text link, open the Style selector field and choose **All Links**. Set:
@@ -236,6 +243,17 @@ Leave the color empty on all four tags, so they inherit Ink from the Body.
 
 Webflow treats buttons as links too, so buttons start out teal and underlined. The button classes
 in Step 11 fix that.
+
+**Eyebrow, big stat and headline accent.** Make three more classes the same way:
+
+| Class | On this element | Settings |
+| --- | --- | --- |
+| `eyebrow` | Paragraph above a headline | Font `Fonts/Headline`, Weight 400, Size `Type/Eyebrow`, Height `1.2`, Letter spacing `0.3em`, All capitals |
+| `big-stat` | Paragraph or Heading holding a number | Font `Fonts/Headline`, Weight 700, Size `Type/Big stat`, Height `1`, Color `Colors/Teal` |
+| `headline-accent` | A Span around the payoff words of a headline | Color `Colors/Teal` |
+
+To make a span, double click the headline, select the payoff words and click the **+** (wrap in
+span) button in the text toolbar.
 
 ### Step 10: Make the paragraph size classes
 
@@ -255,37 +273,42 @@ styles. Webflow buttons come from **Add panel > Links > Button**.
 **Primary button: `brand-button`.** Add a Button, click the Style selector field, type
 `brand-button` and press Enter. Set:
 
-- **Typography**: Font `Fonts/Body`, Weight 700 (Bold), Size `Type/Button`, Height `1` (no unit),
-  Color `Colors/White`, Decoration none (click the **X**).
+- **Typography**: Font `Fonts/Headline`, Weight 600 (SemiBold), Size `Type/Button`, Height `1` (no
+  unit), Letter spacing `0.05em`, All capitals, Color `Colors/White`, Decoration none (click the
+  **X**).
 - **Backgrounds**: Color `Colors/Teal`.
 - **Spacing**: padding top and bottom `Space/Button vertical`, left and right
   `Space/Button horizontal`.
-- **Borders**: Radius `Radius/Pill`. No border width and no shadow.
+- **Borders**: Radius `Radius/Pill`, Border 2px solid `Colors/Teal`. No shadow.
 
-Now the hover color. Click the dropdown arrow in the Style selector field, choose **Hover** from
-the **States** menu (a green Hover label appears), and set **Backgrounds > Color** to
-`Colors/Deep teal`. Choose **None** in the same menu to go back to the normal state.
+Now the hover. Click the dropdown arrow in the Style selector field, choose **Hover** from the
+**States** menu (a green Hover label appears), and set **Backgrounds > Color** to transparent and
+**Typography > Color** to `Colors/Teal`, so the fill clears to a Teal outline. Choose **None** in
+the same menu to go back to the normal state.
 
 **Secondary button: `brand-button` plus `is-secondary`.** Add a second Button. Type
 `brand-button`, press Enter, then type `is-secondary` and press Enter. The second class is a combo
 class: it starts with everything from `brand-button` and only changes what you set here.
 
-- **Backgrounds**: Color `Colors/Pale teal`.
+- **Backgrounds**: Color transparent.
 - **Typography**: Color `Colors/Teal`.
-- **Hover** state: Backgrounds Color `Colors/Pale teal hover`.
+- **Hover** state: Backgrounds Color `Colors/Teal`, Typography Color `Colors/White`.
 
-**Button on Deep teal: `brand-button` plus `is-on-dark`.** Add a third Button, apply
+**Button on a dark section: `brand-button` plus `is-on-dark`.** Add a third Button, apply
 `brand-button`, then the combo class `is-on-dark`:
 
-- **Backgrounds**: Color `Colors/White`.
-- **Typography**: Color `Colors/Deep teal`.
-- **Hover** state: Backgrounds Color `Colors/Pale teal`.
+- **Backgrounds**: Color transparent.
+- **Borders**: Color `Colors/Cyan`.
+- **Typography**: Color `Colors/White`.
+- **Hover** state: Backgrounds Color `Colors/Teal`, Borders Color `Colors/Teal`, Typography Color
+  `Colors/White`.
 
-Write button labels in sentence case with a verb, such as "Apply now" or "Meet the startups".
+Write button labels in sentence case with a verb, such as "Apply now" or "Meet the startups". The
+capitals come from the class. For a "see all" link you can end the label with an arrow (→).
 
 ### Step 12: Make the section classes
 
-Sections work the same way: one base class and two combo classes.
+Sections work the same way: one base class and combo classes for each color.
 
 1. From **Add panel > Structure**, add a **Box**. (In older versions of Webflow, add a **Section**
    instead and skip the next step.)
@@ -293,21 +316,56 @@ Sections work the same way: one base class and two combo classes.
 3. Click the Style selector field, type `brand-section` and press Enter. Set:
    - **Spacing**: padding top and bottom `Space/Section`.
    - **Backgrounds**: Color `Colors/White`.
-4. Add a second section with `brand-section` plus the combo class `is-mist`, and set
-   **Backgrounds > Color** to `Colors/Mist`.
-5. Add a third section with `brand-section` plus the combo class `is-deep-teal`, and set
-   **Backgrounds > Color** to `Colors/Deep teal` and **Typography > Color** to `Colors/White`.
-   Headings and paragraphs inside it turn White, because they inherit their color.
+   - **Position**: Relative, so the notch below can sit on its edge.
+4. Add sections with `brand-section` plus each combo class below:
 
-**Links on Deep teal.** Text links keep their Teal color, and Teal on Deep teal is not allowed.
-Give any text link inside a Deep teal section the class `link-on-dark` and set its
-**Typography > Color** to `Colors/White`. For a small accent on Deep teal, such as an icon or a
-short label, use `Colors/Bright teal`.
+| Combo class | Backgrounds | Typography color |
+| --- | --- | --- |
+| `is-warm-white` | Color `Colors/Warm White` | leave empty |
+| `is-angled` | A **Linear gradient** at 174 degrees: `Colors/White` from 0% to 40%, then `Colors/Light tint` from 40% to 100% (two stops at the same place make a sharp edge) | leave empty |
+| `is-navy` | Color `Colors/Navy` | `Colors/White` |
+| `is-black` | Color `Colors/Black` | `Colors/White` |
+| `is-deep-teal` | Color `Colors/Deep Teal` | `Colors/White` |
 
-### Step 13: Round images and cards
+Headings H2 to H4 are Teal from Step 8, which is too dark for a dark section. Give any heading in a
+dark section the class `heading-on-dark` with **Typography > Color** `Colors/White`. In the same
+way, use `headline-accent` plus a combo class `is-on-dark`, and `big-stat` plus `is-on-dark`, with
+**Typography > Color** `Colors/Cyan`.
+
+**Links on dark sections.** Text links keep their Teal color, and Teal on Navy, Black or Deep Teal
+is not allowed. Give any text link inside a dark section the class `link-on-dark` and set its
+**Typography > Color** to `Colors/Cyan`.
+
+**The notch.** Alternate dark and light sections down the page, and mark each change with a notch:
+a small triangle that points down from one section into the next, in the color of the section
+above it.
+
+1. Inside a section, at the end, add a **Div Block** with the class `section-notch`.
+2. Set **Position** to Absolute, **Top** 100%, **Left** 50%, **Size** 48px wide and 24px tall,
+   **Z-index** 1, and **Transforms > Move** X to -50%.
+3. Under **Custom properties**, add `clip-path` with the value `polygon(0 0, 100% 0, 50% 100%)`.
+4. Set **Backgrounds > Color** to the section's color, with combo classes such as
+   `section-notch is-navy`.
+
+**White cards.** In a dark section, add a Div Block with the class `brand-card`: Backgrounds
+`Colors/White`, Typography color `Colors/Black`, padding 24px, Radius 0. Inside it, an H3 for the
+title and a paragraph. The title stays Teal from Step 8, so give it no extra class.
+
+**Numbered blocks.** A Div Block with the class `numbered-block`: a 6px solid `Colors/Black` top
+border and 16px of top padding. Inside it, a paragraph with the class `numbered-number` (Font
+`Fonts/Headline`, Weight 600, Size `Type/Heading 2`, Color `Colors/Teal`), an H3 for the title and
+a paragraph.
+
+**Hero with a photo.** A `brand-section is-navy` with two background layers: under **Backgrounds**,
+add an **Image** layer with your photo (chosen by the [images guide](../images.md#brand-photography))
+set to Cover, then add a **Linear gradient** layer above it, at 90 degrees, from `Colors/Navy black`
+at 30% opacity on the text side to `Colors/Ocean` at 15% opacity on the subject side. Warm light
+should still glow through; if warm areas turn gray or blue, lower the opacity.
+
+### Step 13: Square images and cards
 
 Select an image, open the Style selector field and choose **All Images**. Set **Borders > Radius**
-to `Radius/Card`. Do the same on any card class you make later.
+to 0. Keep the radius at 0 on any card class you make later. Only buttons are rounded.
 
 ### Step 14 (only if needed): Mobile without modes
 
@@ -323,19 +381,20 @@ from the table in Step 5. Styles set on Mobile landscape also apply to Mobile po
 In Webflow the logo is part of the page, in the navigation bar, rather than a site setting.
 
 1. Open the **Assets** panel in the left toolbar, click the **cloud** icon and upload the
-   horizontal color logo (and the white one, if you will use a Deep teal footer).
+   horizontal color logo (and the white one, for dark sections and the footer).
 2. From **Add panel > Other**, drag a **Navbar** to the top of your page.
 3. Drag the color logo from the Assets panel into the Navbar's **Brand** link.
 4. Select the logo image and set **Style panel > Size > Height** to `32px`, with width left on
-   Auto so the proportions stay right. Never go below 24px tall; on very small spaces use the
-   monogram instead.
+   Auto so the proportions stay right. Never go below 24px tall (160px wide); on very small spaces
+   use the monogram instead.
 5. In the image's settings, set the alt text (the description screen readers announce) to
    `MassChallenge`.
 6. Select the Brand link, open **Settings panel > Link settings**, choose **Page** and pick your
    home page.
 
-Keep clear space around the logo of at least half its height (16px for a 32px logo). Do not
-stretch, recolor or add effects. On a Deep teal background, use the white logo.
+Keep clear space around the logo equal to the height of the "M" in the MASSCHALLENGE wordmark, on
+every side, and align it to a corner or the top edge of its area. Do not stretch, recolor or add
+effects. On a Navy, Black or Deep Teal background, use the white logo.
 
 To make the Navbar appear on every page, right click it and turn it into a component, then add that
 component to each page.
@@ -361,13 +420,21 @@ on a Mac, Control + Enter on Windows), start typing the name and press Enter.
 | You want | Element | Classes |
 | --- | --- | --- |
 | A White section | Box with the Section tag | `brand-section` |
-| A Mist section | Box with the Section tag | `brand-section` `is-mist` |
-| A Deep teal section | Box with the Section tag | `brand-section` `is-deep-teal` |
-| The big headline | Heading set to H1 | none (the tag does it) |
+| A Warm White section | Box with the Section tag | `brand-section` `is-warm-white` |
+| A light section with the angled tint | Box with the Section tag | `brand-section` `is-angled` |
+| A Navy, Black or Deep Teal section | Box with the Section tag | `brand-section` `is-navy`, `is-black` or `is-deep-teal` |
+| The notch below a section | Div Block | `section-notch` and the section's color |
+| The eyebrow | Paragraph | `eyebrow` |
+| The headline | Heading set to H1 | none (the tag does it) |
+| The payoff of a two toned headline | Span | `headline-accent` |
+| A big number | Paragraph | `big-stat` |
+| A white card | Div Block | `brand-card` |
+| A numbered block | Div Block | `numbered-block` |
 | A primary button | Button | `brand-button` |
 | A secondary button | Button | `brand-button` `is-secondary` |
-| A button on Deep teal | Button | `brand-button` `is-on-dark` |
-| A link on Deep teal | Text link | `link-on-dark` |
+| A button on a dark section | Button | `brand-button` `is-on-dark` |
+| A heading on a dark section | Heading | `heading-on-dark` |
+| A link on a dark section | Text link | `link-on-dark` |
 | An intro paragraph | Paragraph | `paragraph-large` |
 | A caption or note | Paragraph | `paragraph-small` |
 
@@ -376,27 +443,28 @@ comma after the first name adds it and lets you type the next one straight away.
 
 A few rules from the spec to keep in mind:
 
-- Use one H1 per page, for the big headline. Use H2, H3 and H4 for everything below it.
-- Never put Teal text or a primary button on Deep teal. Use White text and the `is-on-dark` button.
-- Yellow is for highlights only, and always with Ink text on it.
+- Use one H1 per page, for the headline. Use H2, H3 and H4 for everything below it.
+- Never put Teal text or a solid primary button on a dark section. Use White text, Cyan accents and
+  the `is-on-dark` button.
+- Use one warm accent per page, such as a Yellow tag or rule, always with Black text on Yellow.
+- Put text over a photo only on a calm, high contrast area. Otherwise move it, or set it on a solid
+  Navy, Black or Deep Teal block.
 
 ### Build a sample home page
 
 1. Add the Navbar component with the logo at the top.
-2. **Hero, on White.** Add a `brand-section`. Inside it, add a Heading set to H1 (for example
-   "Founders build here"), a paragraph with `paragraph-large`, and two Buttons: one `brand-button`
-   ("Apply now") and one `brand-button` `is-secondary` ("Learn more").
-3. **Story, on Mist.** Add a `brand-section` `is-mist` with an H2, two paragraphs and an image.
-4. **Call to action, on Deep teal.** Add a `brand-section` `is-deep-teal` with an H2, a paragraph and
-   a `brand-button` `is-on-dark` button.
-5. **Footer.** Add a `brand-section` `is-deep-teal` with the white logo and your links, each with
-   `link-on-dark`.
+2. **Hero, on Navy with a photo.** Add the hero section. Inside it, add an `eyebrow`, a Heading set
+   to H1 (for example "Founders build here") with a `headline-accent` span on the payoff, a
+   paragraph with `paragraph-large`, and a `brand-button` `is-on-dark` ("Apply now"). Add a
+   `section-notch is-navy` at the end.
+3. **How it works, on White with the angled tint.** Add a `brand-section` `is-angled` with an H2 and
+   three `numbered-block` Div Blocks, then a `brand-button` ("Learn more").
+4. **Highlights, on Navy.** Add a `brand-section` `is-navy` with an H2 and three `brand-card` Div
+   Blocks, then a `section-notch is-navy`.
+5. **Footer, on Black.** Add a `brand-section` `is-black` with the white logo and your links, each
+   with `link-on-dark`.
 6. Click **Preview** (the eye icon) to see the page as a visitor would, then switch to the Mobile
    landscape and Mobile portrait breakpoints in the canvas bar to check phones.
-
-To keep content from running edge to edge on wide screens, put a Box inside each section and give
-it a maximum width and Auto left and right margins. The spec does not set a page width, so choose
-one that suits your layout and use it for every section.
 
 ### Publish
 
@@ -444,10 +512,14 @@ This needs a paid Core, Growth, Agency or Freelancer Workspace, or an active Sit
 | On this element | Type this class | What you get |
 | --- | --- | --- |
 | Heading set to H1 | `propellant-headline` | The Oswald capitals headline |
+| Paragraph | `propellant-eyebrow` | The tracked eyebrow |
 | Button | `propellant-button` | The primary pill button |
 | Button | `propellant-button`, then `propellant-button-secondary` | The secondary button |
-| Box with the Section tag | `propellant-brand-band` | A Deep teal section with White text and White buttons |
-| Text link | `propellant-link` | A teal, underlined link |
+| Box with the Section tag | `propellant-section-navy`, `propellant-section-black` or `propellant-section-deep-teal` | A dark section with White text, Cyan links and Cyan outline buttons |
+| Box with the Section tag | `propellant-section-warm-white` or `propellant-section-angled` | A light section |
+| Box with the Section tag | `propellant-notch`, as well as a section class | The notch below the section |
+| Div Block | `propellant-card` | A white card with square corners |
+| Text link | `propellant-link` | An underlined link: Teal on light, Cyan on dark |
 | Paragraph | `propellant-body` | Paragraph text |
 | Paragraph | `propellant-caption` | Small print, such as dates and notes |
 | Section or Box | `propellant-text` | The body font and text color for a whole section |
@@ -467,12 +539,15 @@ code**, click **Save changes** and publish again.
 
 On desktop, in Preview and on the published site:
 
-- [ ] The H1 headline is Oswald, in capitals, 64px, and there is only one per page.
-- [ ] H2 to H4 and all body text are Lato, in sentence case, in Ink.
-- [ ] Links are Teal and underlined, and none sit on Deep teal.
-- [ ] Primary buttons are Teal pills with White text and turn Deep teal on hover.
-- [ ] Secondary buttons are Pale teal pills with Teal text.
-- [ ] Deep teal sections have White text, White buttons and the white logo.
+- [ ] The H1 headline is Oswald SemiBold, in capitals, 64px, and there is only one per page.
+- [ ] All headings are Oswald capitals, and all body text is Lato, in sentence case, in Black.
+- [ ] Links are Teal and underlined on light sections, and Cyan on dark ones.
+- [ ] Primary buttons are Teal pills in Oswald capitals with White text, and clear to a Teal
+      outline on hover.
+- [ ] Secondary buttons are Teal outlines that fill with Teal on hover.
+- [ ] Dark sections have White text, Cyan outline buttons and the white logo, and no Teal text.
+- [ ] Dark and light sections alternate, with a notch where they meet.
+- [ ] Cards and images have square corners.
 - [ ] Sections have about 96px of space above and below, and paragraphs stop at about 720px wide.
 - [ ] The logo is the official file, at least 24px tall, and links to the home page.
 - [ ] The site icon shows the monogram in the browser tab.
@@ -488,8 +563,8 @@ On a phone (or the Mobile landscape and Mobile portrait breakpoints):
 - **Headings are still in Webflow's default font or size.** The heading probably has a class with
   its own font or size. Select it, look at the Style selector, and remove the class (or reset the
   font and size on it) so it falls back to the All H1 to All H4 tags.
-- **Text in a Deep teal section is dark.** The color was set on a heading or paragraph tag or class
-  rather than on the Body. Clear the color there (click the blue or pink label next to Color and
+- **Text in a dark section is dark.** The color was set on a paragraph tag or class rather than on
+  the Body, or a heading has no nested White color for that section. Clear the color there (click the blue or pink label next to Color and
   choose Reset) so it inherits White from the section.
 - **Buttons are underlined or turn a different color on hover.** Buttons inherit from All Links.
   Select the button, set **Decoration** to none on `brand-button`, and check that the Hover state

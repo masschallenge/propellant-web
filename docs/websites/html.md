@@ -1,7 +1,7 @@
 # Plain HTML
 
 If you write your own HTML pages, Propellant takes one line to set up. You will end up with our
-fonts, colors, headings, buttons and brand sections on any page, in about ten minutes.
+fonts, colors, headlines, buttons and dark and light sections on any page, in about ten minutes.
 
 ## Before you start
 
@@ -25,17 +25,27 @@ and adds the class names below. It does not restyle anything you have not given 
 
 ## Part 2: Use the classes
 
+The [website spec](../websites.md#the-propellant-stylesheet) lists every class. The ones you will
+use most:
+
 | Class | What it does |
 | --- | --- |
-| `propellant-text` | Body font and text color. Put it on `<body>` so the whole page uses it. |
-| `propellant-headline` | Heading 1: Oswald, in capitals. Use it once or twice per page. |
-| `propellant-title-1`, `propellant-title-2`, `propellant-title-3` | Heading 2, Heading 3 and Heading 4. |
+| `propellant-text` | Body font, line height and text color. Put it on `<body>` so the whole page uses it. |
+| `propellant-eyebrow` | The tracked Oswald label above a headline. |
+| `propellant-headline` | Heading 1: Oswald SemiBold, in capitals. Use it once or twice per page. |
+| `propellant-headline-accent` | The payoff of a two toned headline: Teal on light, Cyan on dark. |
+| `propellant-title-1`, `propellant-subhead`, `propellant-title-3` | Heading 2, Heading 3 and Heading 4, in Oswald capitals. |
 | `propellant-body` | Paragraph text. |
 | `propellant-caption` | Small print, such as dates and notes. |
-| `propellant-link` | A teal, underlined link. |
+| `propellant-link` | An underlined link: Teal on light, Cyan on dark. |
 | `propellant-button` | The primary pill button. Works on `<a>` and `<button>`. |
-| `propellant-button propellant-button-secondary` | The secondary button. |
-| `propellant-brand-band` | A Deep teal section. Buttons and links inside it turn white. |
+| `propellant-button propellant-button-secondary` | The secondary, outlined button. |
+| `propellant-section-navy`, `propellant-section-black`, `propellant-section-deep-teal` | Dark sections. Text turns White, links Cyan and buttons Cyan outlines. |
+| `propellant-section-white`, `propellant-section-warm-white`, `propellant-section-angled` | Light sections. The angled one has the pale tint rising on an angle. |
+| `propellant-notch` | The downward notch below a section, in that section's color. |
+| `propellant-card` | A white card with square corners and Teal titles. |
+| `propellant-numbered` | A numbered block. Put the number in `propellant-numbered-number`. |
+| `propellant-hero` | A dark hero with the hero overlay over a photo. |
 
 ## Part 3: Build a page
 
@@ -57,30 +67,57 @@ Copy this into a new file named `index.html`, open it in a browser, and change t
       section { padding: 96px 24px; }
       .content { max-width: 720px; margin: 0 auto; display: grid; gap: 16px; }
       .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+      .cards, .numbered { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 24px; }
+      h1, h2, h3, p { margin: 0; }
       @media (max-width: 640px) { section { padding: 64px 24px; } }
     </style>
   </head>
   <body class="propellant-text">
-    <section class="propellant-brand-band">
+    <section class="propellant-section-navy propellant-notch">
       <div class="content">
         <img
           src="https://cdn.jsdelivr.net/gh/masschallenge/propellant-web@v1.1.1/assets/logos/masschallenge-logo-horizontal-white.png"
           alt="MassChallenge"
           height="32"
         />
-        <h1 class="propellant-headline">Your big headline</h1>
+        <p class="propellant-eyebrow">Your eyebrow</p>
+        <h1 class="propellant-headline">
+          Your lead phrase <span class="propellant-headline-accent">your payoff</span>
+        </h1>
         <p class="propellant-body">One or two sentences that say why this page matters.</p>
+        <div class="cards">
+          <div class="propellant-card">
+            <h2 class="propellant-subhead">A card title</h2>
+            <p class="propellant-body">A short card text.</p>
+          </div>
+          <div class="propellant-card">
+            <h2 class="propellant-subhead">Another card</h2>
+            <p class="propellant-body">A short card text.</p>
+          </div>
+        </div>
         <div class="actions">
           <a class="propellant-button" href="#">Your main action</a>
         </div>
       </div>
     </section>
-    <section>
+    <section class="propellant-section-angled">
       <div class="content">
-        <h2 class="propellant-title-1">A section heading</h2>
+        <h2 class="propellant-headline">A section headline</h2>
         <p class="propellant-body">
           Body text with a <a class="propellant-link" href="#">link</a>.
         </p>
+        <div class="numbered">
+          <div class="propellant-numbered">
+            <span class="propellant-numbered-number">01</span>
+            <h3 class="propellant-subhead">First step</h3>
+            <p class="propellant-body">What happens first.</p>
+          </div>
+          <div class="propellant-numbered">
+            <span class="propellant-numbered-number">02</span>
+            <h3 class="propellant-subhead">Second step</h3>
+            <p class="propellant-body">What happens next.</p>
+          </div>
+        </div>
         <div class="actions">
           <a class="propellant-button" href="#">Primary action</a>
           <a class="propellant-button propellant-button-secondary" href="#">Second choice</a>
@@ -96,34 +133,45 @@ A similar finished page is in
 
 ## Part 4: Use the colors in your own CSS
 
-Every color and size in the [website spec](../websites.md) is also available by name, so your own
-CSS stays in step with Propellant:
+Every color in the [website spec](../websites.md) is also available by name, so your own CSS stays
+in step with Propellant:
 
 | Spec color | Use in CSS |
 | --- | --- |
-| Ink | `var(--label)` |
-| Slate | `var(--label-secondary)` |
-| Teal | `var(--tint)` |
-| Deep teal | `var(--brand-surface)` |
-| Mist | `var(--teal-50)` |
-| White | `var(--bg)` |
-| Line | `var(--separator)` |
-| Yellow | `var(--highlight)` |
+| White | `var(--gray-0)` |
+| Warm White | `var(--mc-warm-white)` |
+| Light tint | `var(--mc-light-tint)` |
+| Navy | `var(--mc-navy)` |
+| Black | `var(--mc-black)` |
+| Deep Teal | `var(--mc-deep-teal)` |
+| Teal | `var(--mc-teal)` |
+| Cyan | `var(--mc-cyan)` |
+| MC Blue | `var(--mc-blue)` |
+| Yellow | `var(--mc-yellow)` |
+| Slate | `var(--gray-500)` |
+| Line | `var(--gray-100)` |
+| The MC Gradient | `var(--mc-gradient)` |
 
 ```css
-.card {
-  background: var(--bg);
-  border: 1px solid var(--separator);
-  border-radius: var(--corner-lg);
+.panel {
+  background: var(--mc-warm-white);
+  border-top: 6px solid var(--mc-black);
   padding: var(--space-6);
 }
 ```
 
+Keep corners square on anything that is not a button.
+
 ## Check your work
 
-- The big headline is in Oswald capitals, and everything else is in Lato.
-- Buttons are teal pills with white text and turn Deep teal on hover.
-- Text on the Deep teal section is white, and its button is white with Deep teal text.
+- Headlines, eyebrows, subheads and buttons are in Oswald capitals. Paragraphs are in Lato, in
+  sentence case.
+- On light sections, buttons are Teal pills with White text, and hovering clears the fill to a
+  Teal outline.
+- On dark sections, text is White, accents are Cyan, and buttons are Cyan outlines that fill with
+  Teal on hover.
+- Cards and photos have square corners.
+- Dark and light sections alternate, with a notch where they meet.
 - The page reads well on a phone.
 
 ## If something looks off
