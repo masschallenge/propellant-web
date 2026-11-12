@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ColorPicker } from './ColorPicker';
 
@@ -36,10 +36,24 @@ describe('ColorPicker swatch picker', () => {
 
   it('offers the brand chart colors in chart order as the default swatches', () => {
     render(<ColorPicker variant="swatch-picker" />);
-    const chartOrder = ['Teal', 'Yellow', 'Slate', 'Bright teal', 'Deep teal', 'Gray 300'];
-    const swatches = chartOrder.map((name) => screen.getByRole('button', { name }));
-    const swatchColors = swatches.map((swatch) => swatch.style.background);
-    expect(new Set(swatchColors).size).toBe(chartOrder.length);
+    const chartOrder = [
+      ['Teal', 'var(--mc-teal)'],
+      ['Yellow', 'var(--mc-yellow)'],
+      ['Navy', 'var(--mc-navy)'],
+      ['MC Blue', 'var(--mc-blue)'],
+      ['Deep Teal', 'var(--mc-deep-teal)'],
+      ['Gray 300', 'var(--gray-300)'],
+    ];
+    const group = screen.getByRole('group', { name: 'Hues' });
+    const swatchButtons = within(group).getAllByRole('button');
+    expect(swatchButtons.map((swatch) => swatch.getAttribute('aria-label'))).toEqual(
+      chartOrder.map(([name]) => name),
+    );
+    expect(swatchButtons.map((swatch) => swatch.style.background)).toEqual(
+      chartOrder.map(([, color]) => color),
+    );
+    expect(screen.queryByRole('button', { name: 'Slate' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Bright teal' })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Magenta' })).not.toBeInTheDocument();
   });
 });
