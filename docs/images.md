@@ -125,5 +125,6 @@ Never present an AI generated image as a real founder, partner or event.
 3. Location photos for each site (US sites by city, international sites by country) follow the same
    rules.
 
-Text over a photo goes only on a calm, high contrast area. Otherwise move the text, add the hero
-overlay, or set it on a solid Navy, Black or Deep Teal block.
+Text over a photo goes only on a calm, high contrast area. The hero overlay adds a little depth,
+but at 15 to 30% it cannot rescue text on a bright area, so use it only where the text side is
+already dark and calm. Otherwise move the text, or set it on a solid Navy, Black or Deep Teal block.

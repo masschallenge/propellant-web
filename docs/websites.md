@@ -161,8 +161,11 @@ Yellow with Black text, in the eyebrow style.
 - **Hero overlay.** A thin gradient over hero photos, from Navy black `#051925` on the text side to
   Ocean `#037AA6` on the subject side, at 15 to 30% opacity, so warm light still glows through. The
   text side is darker; the subject side stays clear.
-- Put text over a photo only on a calm, high contrast area. Otherwise move the text, add the hero
-  overlay, or set the text on a solid Navy, Black or Deep Teal block.
+- Put text over a photo only on a calm, high contrast area. The hero overlay is too thin to fix
+  contrast on its own: white text over a bright area under it is about 2:1. Use the overlay only
+  where the text side of the photo is already dark and calm, and check the text reaches 4.5:1 (3:1
+  for large headlines). Otherwise move the text, or set it on a solid Navy, Black or Deep Teal
+  block. `propellant-hero` always sets white text, so choose its photo with this in mind.
 - The [images guide](images.md#brand-photography) covers which photos to use.
 
 ## The Propellant stylesheet
