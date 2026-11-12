@@ -82,7 +82,7 @@ Align the horizontal logo to a corner or the top edge of its area.
 | Version | Smallest on screen | Smallest in print |
 | --- | --- | --- |
 | Vertical | 60px wide | 20mm wide |
-| Horizontal | 160px wide. At Propellant's default height of 24px it is about 178px wide. Below 24px tall, use the MC mark instead. | 30mm wide |
+| Horizontal | 160px wide. At Propellant's default height of 24px it is about 178px wide. Narrower than 160px, use the MC mark instead. | 30mm wide |
 | MC mark | 16px tall (about 29px wide, above the guide's 24px wide) | 8mm |
 
 The `Logo` component renders at 24px tall by default. Size it with a height class such as
@@ -448,6 +448,11 @@ opacity. It runs toward the subject: the side with the text is darker, and the s
 clear, so warm light still glows through. Use it on heroes, social posts and event graphics. On the
 web it is the `propellant-hero` class, or the `--mc-hero-overlay-text-side` and
 `--mc-hero-overlay-subject-side` tokens.
+
+The overlay alone does not make text readable: at 15 to 30% it barely darkens a bright area, so
+white text over one stays near 2:1. Use it only where the text sits on an area that is already
+dark and calm, and check that the text still reaches 4.5:1 (3:1 for large headlines). Otherwise
+set the text on a solid Navy, Black or Deep Teal block.
 
 The full frame teal duotone (`#C7F2EF` to `#003349`) is retired, because it reads as clinical. Use
 the hero overlay instead.

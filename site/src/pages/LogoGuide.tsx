@@ -42,7 +42,7 @@ const SIZES = [
     id: 'horizontal',
     version: 'Horizontal',
     screen:
-      '160px wide. At the default 24px tall it is about 178px wide. Below 24px tall, use the MC mark instead.',
+      '160px wide. At the default 24px tall it is about 178px wide. Narrower than 160px, use the MC mark instead.',
     print: '30mm wide',
   },
   { id: 'monogram', version: 'MC mark', screen: '16px tall', print: '8mm' },
