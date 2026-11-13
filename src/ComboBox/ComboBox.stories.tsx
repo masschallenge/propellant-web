@@ -20,7 +20,7 @@ const meta = {
         component: [
           'Single select on the field shell with a filter field at the top of a portalled menu on the elevated surface. Groups use footnote headers, the highlighted row fills with the tint, and the chosen row carries a check.',
           '',
-          "Import: `import { SingleComboBox } from '@masschallenge/propellant-web'`",
+          "Import: `import { ComboBox } from '@masschallenge/propellant-web'`",
         ].join('\n'),
       },
       canvas: { layout: 'padded' },

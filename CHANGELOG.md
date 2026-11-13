@@ -15,6 +15,11 @@ property and from `@masschallenge/propellant-web/version`.
   matched a search wrapped in `<mark>`. The `label` stays required and is what assistive
   technology reads, for the token, its toggle and its remove button.
 
+### Fixed
+
+- The combobox stories show the import that works, `ComboBox` from the package, rendered with
+  `multiple` for multiple select. `SingleComboBox` and `MultiComboBox` are not exported.
+
 ## 2.0.0 (2026-11-12)
 
 This release applies the MassChallenge brand guidelines 2026 from MassChallenge
