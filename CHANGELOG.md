@@ -4,6 +4,14 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+### Added
+
+- `ComboBox` with `multiple` searches each option's `keywords` as well as its label, as the
+  single select already does, so synonyms and common misspellings find an option without being
+  shown. A new `filterOption` prop replaces that match entirely when a product needs its own.
+
 ## 2.0.0 (2026-11-12)
 
 This release applies the MassChallenge brand guidelines 2026 from MassChallenge
