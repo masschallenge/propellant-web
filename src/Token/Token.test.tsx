@@ -54,4 +54,55 @@ describe('Token', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Hardware' }));
     expect(onToggle).not.toHaveBeenCalled();
   });
+
+  describe('with rich content', () => {
+    const highlighted = (
+      <>
+        <mark>Cli</mark>mate
+      </>
+    );
+
+    it('shows the content and keeps the label as the text alternative', () => {
+      const { container } = render(<Token label="Climate">{highlighted}</Token>);
+      const mark = container.querySelector('mark');
+      expect(mark).toHaveTextContent('Cli');
+      expect(mark?.closest('[aria-hidden="true"]')).not.toBeNull();
+      expect(screen.getByText('Climate')).toHaveClass('sr-only');
+    });
+
+    it('names a toggle by its label and keeps the pressed state', async () => {
+      const onToggle = vi.fn();
+      render(
+        <Token label="Climate" onToggle={onToggle} selected>
+          {highlighted}
+        </Token>,
+      );
+      const token = screen.getByRole('button', { name: 'Climate' });
+      expect(token).toHaveAttribute('aria-pressed', 'true');
+      token.focus();
+      await userEvent.keyboard(' ');
+      expect(onToggle).toHaveBeenCalledWith(false);
+    });
+
+    it('names the remove button by the label', async () => {
+      const onRemove = vi.fn();
+      render(
+        <Token label="Climate" onRemove={onRemove}>
+          {highlighted}
+        </Token>,
+      );
+      screen.getByRole('button', { name: 'Remove Climate' }).focus();
+      await userEvent.keyboard('{Enter}');
+      expect(onRemove).toHaveBeenCalledTimes(1);
+    });
+
+    it('lets an explicit ariaLabel name a toggle', () => {
+      render(
+        <Token label="Climate" ariaLabel="Filter by Climate" onToggle={vi.fn()}>
+          {highlighted}
+        </Token>,
+      );
+      expect(screen.getByRole('button', { name: 'Filter by Climate' })).toBeInTheDocument();
+    });
+  });
 });

@@ -5,6 +5,7 @@ export type TokenSize = 'sm' | 'md';
 
 export interface TokenProps {
   label: string;
+  children?: ReactNode;
   size?: TokenSize;
   color?: string;
   dot?: boolean;
@@ -45,6 +46,7 @@ const CheckGlyph = () => (
 
 export const Token = ({
   label,
+  children,
   size = 'md',
   color,
   dot = false,
@@ -93,7 +95,14 @@ export const Token = ({
           wrap ? 'min-w-0 whitespace-normal [overflow-wrap:anywhere]' : 'whitespace-nowrap',
         )}
       >
-        {label}
+        {children === undefined ? (
+          label
+        ) : (
+          <>
+            <span aria-hidden="true">{children}</span>
+            <span className="sr-only">{label}</span>
+          </>
+        )}
       </span>
       {count !== undefined ? (
         <span className="tabular-nums text-[var(--label-tertiary)]">{count}</span>

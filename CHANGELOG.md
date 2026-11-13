@@ -11,6 +11,9 @@ property and from `@masschallenge/propellant-web/version`.
 - `ComboBox` with `multiple` searches each option's `keywords` as well as its label, as the
   single select already does, so synonyms and common misspellings find an option without being
   shown. A new `filterOption` prop replaces that match entirely when a product needs its own.
+- `Token` takes `children` to show rich content in place of the label, such as the letters that
+  matched a search wrapped in `<mark>`. The `label` stays required and is what assistive
+  technology reads, for the token, its toggle and its remove button.
 
 ## 2.0.0 (2026-11-12)
 
