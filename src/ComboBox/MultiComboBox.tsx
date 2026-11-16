@@ -34,8 +34,6 @@ type MultiComboBoxSize = 'sm' | 'md' | 'lg';
 
 export type MultiComboBoxChipTone = 'neutral' | 'tint';
 
-export type MultiComboBoxDisplay = 'chips' | 'summary';
-
 export interface MultiComboBoxProps {
   options: MultiComboBoxOption[];
   value?: string[];
@@ -51,7 +49,6 @@ export interface MultiComboBoxProps {
   filterOption?: (option: MultiComboBoxOption, query: string) => boolean;
   summarySecondary?: string;
   chipTone?: MultiComboBoxChipTone;
-  display?: MultiComboBoxDisplay;
   footer?: boolean;
   invalid?: boolean;
   disabled?: boolean;
@@ -65,12 +62,6 @@ const FIELD_SIZES: Record<MultiComboBoxSize, string> = {
   sm: 'min-h-[var(--control-sm)] text-subheadline',
   md: 'min-h-[var(--control-md)] text-callout',
   lg: 'min-h-[var(--control-lg)] text-body',
-};
-
-const SUMMARY_FIELD_SIZES: Record<MultiComboBoxSize, string> = {
-  sm: 'h-[var(--control-sm)] text-subheadline',
-  md: 'h-[var(--control-md)] text-callout',
-  lg: 'h-[var(--control-lg)] text-body',
 };
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
@@ -114,7 +105,6 @@ export const MultiComboBox = ({
   filterOption = matchesLabelOrKeywords,
   summarySecondary,
   chipTone = 'neutral',
-  display = 'chips',
   footer = true,
   invalid = false,
   disabled = false,
@@ -127,7 +117,6 @@ export const MultiComboBox = ({
   const fieldId = id || generatedId;
   const listId = `${fieldId}-list`;
   const hintId = hint ? `${fieldId}-hint` : undefined;
-  const isSummary = display === 'summary';
   const [internalValue, setInternalValue] = React.useState<string[]>(defaultValue);
   const chosen: string[] = value === undefined ? internalValue : Array.isArray(value) ? value : [];
   const [isOpen, setIsOpen] = React.useState(false);
@@ -204,13 +193,7 @@ export const MultiComboBox = ({
 
   const optionFor = (chipValue: string) => options.find((option) => option.value === chipValue);
   const labelFor = (chipValue: string) => optionFor(chipValue)?.label ?? chipValue;
-  const spokenLabelFor = (chipValue: string) => {
-    const marker = optionFor(chipValue)?.marker;
-    return marker ? `${labelFor(chipValue)} (${marker.label})` : labelFor(chipValue);
-  };
-  const selectionId = isSummary && chosen.length ? `${fieldId}-selection` : undefined;
-  const describedBy = [hintId, selectionId].filter(Boolean).join(' ') || undefined;
-  const isCollapsible = !isSummary && chosen.length > COLLAPSED_CHIP_LIMIT;
+  const isCollapsible = chosen.length > COLLAPSED_CHIP_LIMIT;
   const visibleChips =
     isCollapsible && !areChipsExpanded ? chosen.slice(0, COLLAPSED_CHIP_LIMIT) : chosen;
   const hiddenChipCount = chosen.length - COLLAPSED_CHIP_LIMIT;
@@ -378,15 +361,13 @@ export const MultiComboBox = ({
             if (event.target === event.currentTarget && !disabled) setIsOpen(!isOpen);
           }}
           className={joinClasses(
-            'propellant-field items-center gap-1 w-full py-1 pr-3 text-[var(--label)]',
-            isSummary
-              ? joinClasses('flex-nowrap pl-2', SUMMARY_FIELD_SIZES[size])
-              : joinClasses('flex-wrap pl-1.5', FIELD_SIZES[size]),
+            'propellant-field flex-wrap items-center gap-1 w-full py-1 pl-1.5 pr-3 text-[var(--label)]',
+            FIELD_SIZES[size],
             disabled ? 'opacity-[var(--opacity-disabled)] cursor-not-allowed' : 'cursor-pointer',
           )}
         >
           <span className="propellant-field-ring" aria-hidden="true" />
-          {(isSummary ? [] : visibleChips).map((chipValue) => {
+          {visibleChips.map((chipValue) => {
             const chipLabel = labelFor(chipValue);
             const marker = optionFor(chipValue)?.marker;
             return (
@@ -426,46 +407,22 @@ export const MultiComboBox = ({
             aria-expanded={isOpen}
             aria-controls={isOpen ? listId : undefined}
             aria-invalid={invalid || undefined}
-            aria-describedby={describedBy}
+            aria-describedby={hintId}
             aria-activedescendant={isOpen && shown.length ? optionId(activeIndex) : undefined}
             onClick={() => setIsOpen(!isOpen)}
             onKeyDown={handleTriggerKeyDown}
-            className={joinClasses(
-              'flex flex-1 items-center gap-2 min-h-6 p-0 pl-1 border-0 bg-transparent text-left cursor-pointer font-[inherit] text-[inherit] text-[var(--label)] outline-none disabled:cursor-not-allowed',
-              isSummary ? 'min-w-0 whitespace-nowrap' : 'min-w-24',
-            )}
+            className="flex flex-1 items-center gap-2 min-w-24 min-h-6 p-0 pl-1 border-0 bg-transparent text-left cursor-pointer font-[inherit] text-[inherit] text-[var(--label)] outline-none disabled:cursor-not-allowed"
           >
             {chosen.length === 0 ? (
-              <span
-                className={joinClasses(
-                  'text-[var(--label-tertiary)]',
-                  isSummary && 'min-w-0 truncate',
-                )}
-              >
-                {placeholder}
-              </span>
-            ) : isSummary ? (
-              <span aria-hidden="true" className="flex min-w-0 items-center gap-1.5">
-                <span className="min-w-0 truncate">{labelFor(chosen[0])}</span>
-                {chosen.length > 1 ? (
-                  <span className="flex-none tabular-nums text-[var(--label-secondary)]">
-                    {`+${chosen.length - 1}`}
-                  </span>
-                ) : null}
-              </span>
+              <span className="text-[var(--label-tertiary)]">{placeholder}</span>
             ) : (
               <span className="sr-only">{`${chosen.length} selected`}</span>
             )}
             {summarySecondary && chosen.length ? (
               <span className="text-[var(--label-secondary)]">{summarySecondary}</span>
             ) : null}
-            <FieldChevron className="ml-auto flex-none" />
+            <FieldChevron className="ml-auto" />
           </button>
-          {selectionId ? (
-            <span id={selectionId} className="sr-only">
-              {`${chosen.length} selected: ${chosen.map(spokenLabelFor).join(', ')}`}
-            </span>
-          ) : null}
         </div>
 
         {isOpen ? (
