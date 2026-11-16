@@ -76,4 +76,15 @@ describe('AuthLayout', () => {
     expect(within(main).getByText('MassChallenge Accelerate')).toBeInTheDocument();
     expect(within(main).queryByRole('img', { name: 'MassChallenge' })).toBeNull();
   });
+
+  it('falls back to the logo when the centered brand is null', () => {
+    render(
+      <AuthLayout variant="centered" brand={null}>
+        <form aria-label="Sign in" />
+      </AuthLayout>,
+    );
+    expect(
+      within(screen.getByRole('main')).getByRole('img', { name: 'MassChallenge' }),
+    ).toBeInTheDocument();
+  });
 });

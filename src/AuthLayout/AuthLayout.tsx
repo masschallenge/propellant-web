@@ -32,50 +32,51 @@ export const AuthLayout = ({
   version,
   children,
   className,
-}: AuthLayoutProps) => (
-  <div
-    data-propellant
-    className={joinClasses(
-      'propellant-auth relative flex min-h-screen overflow-x-hidden bg-[var(--bg-grouped)] text-[var(--label)]',
-      className,
-    )}
-  >
-    {variant === 'split' ? (
-      <aside className="propellant-auth-brand relative box-border flex max-[880px]:hidden w-[44%] min-w-[380px] max-w-[560px] flex-col justify-between gap-10 px-12 py-10 bg-[var(--brand-surface)] text-[var(--on-brand-surface)]">
-        <Logo treatment="white" className="self-start" />
-        <div className="flex max-w-[400px] flex-col gap-4">
-          {eyebrow ? (
-            <span className="text-footnote font-semibold text-[var(--brand-accent)]">
-              {eyebrow}
-            </span>
+}: AuthLayoutProps) => {
+  const isCentered = variant === 'centered';
+  return (
+    <div
+      data-propellant
+      className={joinClasses(
+        'propellant-auth relative flex min-h-screen overflow-x-hidden bg-[var(--bg-grouped)] text-[var(--label)]',
+        className,
+      )}
+    >
+      {isCentered ? null : (
+        <aside className="propellant-auth-brand relative box-border flex max-[880px]:hidden w-[44%] min-w-[380px] max-w-[560px] flex-col justify-between gap-10 px-12 py-10 bg-[var(--brand-surface)] text-[var(--on-brand-surface)]">
+          <Logo treatment="white" className="self-start" />
+          <div className="flex max-w-[400px] flex-col gap-4">
+            {eyebrow ? (
+              <span className="text-footnote font-semibold text-[var(--brand-accent)]">
+                {eyebrow}
+              </span>
+            ) : null}
+            <h1 className="m-0 text-display font-bold uppercase tracking-normal [font-family:var(--type-family-brand)] text-pretty">
+              {headline}
+            </h1>
+            <p className="m-0 text-body opacity-90 text-pretty">{supportingCopy}</p>
+          </div>
+          <p className="m-0 text-footnote opacity-80">{footnote}</p>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 right-[-23px] w-6 bg-[var(--brand-surface)]"
+            style={{ clipPath: TORN_EDGE }}
+          />
+        </aside>
+      )}
+      <main className="box-border flex flex-1 items-center justify-center px-6 py-8">
+        <div className={joinClasses('w-full max-w-90', isCentered && 'flex flex-col gap-8')}>
+          {isCentered ? (
+            <div className="propellant-auth-mark flex justify-center">{brand ?? <Logo />}</div>
           ) : null}
-          <h1 className="m-0 text-display font-bold uppercase tracking-normal [font-family:var(--type-family-brand)] text-pretty">
-            {headline}
-          </h1>
-          <p className="m-0 text-body opacity-90 text-pretty">{supportingCopy}</p>
-        </div>
-        <p className="m-0 text-footnote opacity-80">{footnote}</p>
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 right-[-23px] w-6 bg-[var(--brand-surface)]"
-          style={{ clipPath: TORN_EDGE }}
-        />
-      </aside>
-    ) : null}
-    <main className="box-border flex flex-1 items-center justify-center px-6 py-8">
-      {variant === 'centered' ? (
-        <div className="flex w-full max-w-90 flex-col gap-8">
-          <div className="propellant-auth-mark flex justify-center">{brand ?? <Logo />}</div>
           {children}
         </div>
-      ) : (
-        <div className="w-full max-w-90">{children}</div>
-      )}
-    </main>
-    {version ? (
-      <span className="pointer-events-none fixed bottom-4 right-6 text-footnote tabular-nums text-[var(--label-tertiary)]">
-        {version}
-      </span>
-    ) : null}
-  </div>
-);
+      </main>
+      {version ? (
+        <span className="pointer-events-none fixed bottom-4 right-6 text-footnote tabular-nums text-[var(--label-tertiary)]">
+          {version}
+        </span>
+      ) : null}
+    </div>
+  );
+};
