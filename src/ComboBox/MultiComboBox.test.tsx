@@ -254,6 +254,16 @@ describe('MultiComboBox chip tone and markers', () => {
     expect(screen.getByRole('option', { name: 'Healthcare' })).toBeVisible();
   });
 
+  it('looks each chip option up without scanning the options list', () => {
+    const options = [...MARKED];
+    const scan = vi.spyOn(options, 'find');
+    render(<MultiComboBox label="Tags" options={options} value={['climate', 'health']} />);
+
+    expect(scan).not.toHaveBeenCalled();
+    expect(screen.getByRole('button', { name: 'Remove Climate, from search' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Remove Healthcare' })).toBeInTheDocument();
+  });
+
   it('shows the option label once and hides it when the marker name replaces it', async () => {
     render(<MultiComboBox label="Tags" options={MARKED} value={[]} />);
     await userEvent.click(screen.getByRole('combobox', { name: 'Tags' }));

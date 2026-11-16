@@ -154,9 +154,9 @@ export const MultiComboBox = ({
     );
   };
 
-  const optionValues = new Set(options.map((option) => option.value));
+  const optionsByValue = new Map(options.map((option) => [option.value, option]));
   const parentOf = (option: MultiComboBoxOption) =>
-    option.parent && optionValues.has(option.parent) ? option.parent : null;
+    option.parent && optionsByValue.has(option.parent) ? option.parent : null;
   const childrenOf = (parentValue: string) =>
     options.filter((option) => parentOf(option) === parentValue);
   const hasChosenChild = (optionValue: string) =>
@@ -180,8 +180,7 @@ export const MultiComboBox = ({
           isExpanded(option.value) ? [option, ...childrenOf(option.value)] : [option],
         );
 
-  const optionFor = (chipValue: string) => options.find((option) => option.value === chipValue);
-  const labelFor = (chipValue: string) => optionFor(chipValue)?.label ?? chipValue;
+  const labelFor = (chipValue: string) => optionsByValue.get(chipValue)?.label ?? chipValue;
   const isCollapsible = chosen.length > COLLAPSED_CHIP_LIMIT;
   const visibleChips =
     isCollapsible && !areChipsExpanded ? chosen.slice(0, COLLAPSED_CHIP_LIMIT) : chosen;
@@ -353,8 +352,9 @@ export const MultiComboBox = ({
         >
           <span className="propellant-field-ring" aria-hidden="true" />
           {visibleChips.map((chipValue) => {
-            const chipLabel = labelFor(chipValue);
-            const marker = optionFor(chipValue)?.marker;
+            const chipOption = optionsByValue.get(chipValue);
+            const chipLabel = chipOption?.label ?? chipValue;
+            const marker = chipOption?.marker;
             return (
               <Token
                 key={chipValue}
