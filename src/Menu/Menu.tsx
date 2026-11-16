@@ -40,7 +40,6 @@ export interface MenuProps {
   search?: boolean;
   searchPlaceholder?: string;
   accountBand?: MenuAccountBand;
-  onOpenChange?: (open: boolean) => void;
   className?: string;
 }
 
@@ -224,7 +223,6 @@ export const Menu = ({
   search = false,
   searchPlaceholder = 'Search',
   accountBand,
-  onOpenChange,
   className,
 }: MenuProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -234,14 +232,8 @@ export const Menu = ({
   const panelRef = React.useRef<HTMLUListElement | null>(null);
   const position = useAnchoredPosition(isOpen, wrapperRef, panelRef, align);
 
-  const changeOpen = (next: boolean) => {
-    if (next === isOpen) return;
-    setIsOpen(next);
-    onOpenChange?.(next);
-  };
-
   const close = () => {
-    changeOpen(false);
+    setIsOpen(false);
     setQuery('');
   };
 
@@ -255,7 +247,7 @@ export const Menu = ({
   const open = (target: FocusTarget) => {
     setLayerHost(wrapperRef.current?.closest('[data-propellant-layer-host]') ?? null);
     setInitialFocus(target);
-    changeOpen(true);
+    setIsOpen(true);
   };
 
   React.useEffect(() => {
@@ -294,7 +286,7 @@ export const Menu = ({
     const handleMouseDown = (event: MouseEvent) => {
       const target = event.target as Node;
       const isInside = wrapperRef.current?.contains(target) || panelRef.current?.contains(target);
-      if (!isInside) changeOpen(false);
+      if (!isInside) setIsOpen(false);
     };
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') closeToTrigger();

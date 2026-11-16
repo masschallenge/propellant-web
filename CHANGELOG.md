@@ -22,9 +22,6 @@ property and from `@masschallenge/propellant-web/version`.
   marker label joins the accessible name of both, and of the token's remove button, so a product
   can mark values that came from a search. The `MultiComboBoxChipTone` and
   `MultiComboBoxOptionMarker` types are exported.
-- `Menu` takes `onOpenChange(open)`, called each time the menu opens or closes by click, keyboard,
-  choosing an item or clicking outside. A `Tooltip` around the trigger can use it to stay
-  disabled while the menu is open, so the two never overlap.
 
 ### Fixed
 
