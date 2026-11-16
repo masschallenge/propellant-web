@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fn, userEvent, within } from 'storybook/test';
 import { Menu } from './Menu';
 import type { MenuItem } from './Menu';
 import { Button } from '../Button/Button';
+import { Tooltip } from '../Tooltip/Tooltip';
 import { appearance, hide } from '../../.storybook/controls';
 
 const items: MenuItem[] = [
@@ -34,7 +36,7 @@ const meta = {
     docs: {
       description: {
         component: [
-          'Portalled action menu anchored to a trigger, on the elevated surface. Rows highlight with the tint, destructive rows read in critical, and sections use footnote headers. Optional search field and account summary.',
+          'Portalled action menu anchored to a trigger, on the elevated surface. Rows highlight with the tint, destructive rows read in critical, and sections use footnote headers. Optional search field and account summary. `onOpenChange` reports each open and close, so a `Tooltip` around the trigger can be disabled while the menu is open and never covers it.',
           '',
           "Import: `import { Menu } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -47,6 +49,7 @@ const meta = {
   argTypes: {
     align: { control: 'inline-radio', options: ['start', 'end'], ...appearance },
     search: { control: 'boolean', ...appearance },
+    onOpenChange: hide,
     className: hide,
   },
 } satisfies Meta<typeof Menu>;
@@ -94,5 +97,46 @@ export const OpenMenu: Story = {
     );
     await userEvent.keyboard('{Escape}');
     await expect(trigger).toHaveFocus();
+  },
+};
+
+const MenuInTooltip = ({ onOpenChange }: { onOpenChange?: (open: boolean) => void }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  return (
+    <Tooltip content="Actions for this round" disabled={isMenuOpen} placement="bottom">
+      <Menu
+        trigger={<Button variant="gray">Round actions</Button>}
+        items={items}
+        onOpenChange={(isOpen) => {
+          setIsMenuOpen(isOpen);
+          onOpenChange?.(isOpen);
+        }}
+      />
+    </Tooltip>
+  );
+};
+
+export const TooltipOnTrigger: Story = {
+  tags: ['interaction', '!autodocs'],
+  args: { onOpenChange: fn() },
+  render: (args) => <MenuInTooltip onOpenChange={args.onOpenChange} />,
+  play: async ({ args, canvasElement }) => {
+    const body = within(document.body);
+    const trigger = within(canvasElement).getByRole('button', { name: 'Round actions' });
+    await userEvent.hover(trigger);
+    await expect(await body.findByRole('tooltip')).toHaveTextContent('Actions for this round');
+
+    await userEvent.click(trigger);
+    await expect(await body.findByRole('menu')).toBeVisible();
+    await expect(args.onOpenChange).toHaveBeenLastCalledWith(true);
+    await expect(body.queryByRole('tooltip')).toBeNull();
+
+    await userEvent.keyboard('{ArrowDown}');
+    await expect(body.queryByRole('tooltip')).toBeNull();
+
+    await userEvent.keyboard('{Escape}');
+    await expect(body.queryByRole('menu')).toBeNull();
+    await expect(args.onOpenChange).toHaveBeenLastCalledWith(false);
+    await expect(args.onOpenChange).toHaveBeenCalledTimes(2);
   },
 };

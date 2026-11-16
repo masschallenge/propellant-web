@@ -238,3 +238,54 @@ describe('Menu selection and layering', () => {
     expect(screen.getByTestId('host')).toContainElement(screen.getByRole('menu'));
   });
 });
+
+describe('Menu onOpenChange', () => {
+  const renderReporting = (onOpenChange = vi.fn(), onSelect = vi.fn()) => {
+    render(
+      <div>
+        <button type="button">Elsewhere</button>
+        <Menu
+          trigger={<button type="button">Account</button>}
+          items={[{ label: 'Open hub', onSelect }]}
+          onOpenChange={onOpenChange}
+        />
+      </div>,
+    );
+    return onOpenChange;
+  };
+
+  it('stays quiet until the menu opens, then reports open and close', async () => {
+    const onOpenChange = renderReporting();
+    expect(onOpenChange).not.toHaveBeenCalled();
+
+    await userEvent.click(screen.getByRole('button', { name: 'Account' }));
+    expect(onOpenChange).toHaveBeenLastCalledWith(true);
+
+    await userEvent.click(screen.getByRole('button', { name: 'Account' }));
+    expect(onOpenChange).toHaveBeenLastCalledWith(false);
+    expect(onOpenChange).toHaveBeenCalledTimes(2);
+  });
+
+  it('reports a close from the keyboard and from choosing an item', async () => {
+    const onOpenChange = renderReporting();
+    const trigger = screen.getByRole('button', { name: 'Account' });
+    trigger.focus();
+    await userEvent.keyboard('{ArrowDown}');
+    expect(onOpenChange).toHaveBeenLastCalledWith(true);
+    await userEvent.keyboard('{Escape}');
+    expect(onOpenChange).toHaveBeenLastCalledWith(false);
+
+    await userEvent.click(trigger);
+    await userEvent.click(screen.getByRole('menuitem', { name: 'Open hub' }));
+    expect(onOpenChange).toHaveBeenLastCalledWith(false);
+    expect(onOpenChange).toHaveBeenCalledTimes(4);
+  });
+
+  it('reports a close when the person clicks outside', async () => {
+    const onOpenChange = renderReporting();
+    await userEvent.click(screen.getByRole('button', { name: 'Account' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Elsewhere' }));
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    expect(onOpenChange).toHaveBeenLastCalledWith(false);
+  });
+});
