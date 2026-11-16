@@ -11,6 +11,9 @@ property and from `@masschallenge/propellant-web/version`.
 - `SidebarItem` takes `size`, `sm` by default for today's small control height, or `md` for the
   medium control height, so top level places can stand taller than the destinations under a
   section. The `SidebarItemSize` type is exported.
+- `Toolbar` takes `sidebarToggleIcon`, `sidebar` by default for today's panel glyph, or `menu` for
+  a three line menu glyph at the same size and stroke. The toggle keeps its accessible name from
+  `sidebarToggleLabel`. The `ToolbarSidebarToggleIcon` type is exported.
 
 ## 2.1.0 (2026-11-16)
 
