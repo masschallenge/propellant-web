@@ -4,6 +4,14 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+### Added
+
+- `SidebarItem` takes `size`, `sm` by default for today's small control height, or `md` for the
+  medium control height, so top level places can stand taller than the destinations under a
+  section. The `SidebarItemSize` type is exported.
+
 ## 2.1.0 (2026-11-16)
 
 ### Added
