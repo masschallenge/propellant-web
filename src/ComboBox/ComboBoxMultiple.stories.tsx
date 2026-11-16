@@ -23,7 +23,7 @@ const meta = {
         component: [
           'Multiple select on the field shell. Chosen values show as removable tokens (collapsing past five), and the portalled menu lists checkbox rows with nested options, optional search, and a reset and select all footer.',
           '',
-          'Search matches the label and any `keywords` on an option, so synonyms and common misspellings can find it without being shown. Pass `filterOption` to replace that match entirely.',
+          'Search matches the label and any `keywords` on an option, so synonyms and common misspellings can find it without being shown. Pass `filterOption` to replace that match entirely. `chipTone="tint"` fills the chosen tokens with the tint, and an option `marker` (an icon and a label) shows on its row and its token, with the label added to the accessible name, for example to mark values that came from a search.',
           '',
           "Import: `import { ComboBox } from '@masschallenge/propellant-web'`, rendered as `<ComboBox multiple />`",
         ].join('\n'),
@@ -37,6 +37,7 @@ const meta = {
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'], ...appearance },
     searchable: { control: 'boolean', ...appearance },
     filterOption: hide,
+    chipTone: { control: 'inline-radio', options: ['neutral', 'tint'], ...appearance },
     invalid: { control: 'boolean', ...state },
     disabled: { control: 'boolean', ...state },
     label: { control: 'text', ...content },
@@ -82,6 +83,58 @@ export const Keywords: Story = {
     await expect(within(listbox).getAllByRole('option')).toHaveLength(1);
     await userEvent.click(within(listbox).getByRole('option', { name: 'Fintech' }));
     await expect(args.onChange).toHaveBeenCalledWith(['fintech']);
+    await userEvent.keyboard('{Escape}');
+  },
+};
+
+const SearchMark = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="11" cy="11" r="7" />
+    <path d="m20 20-3.2-3.2" />
+  </svg>
+);
+
+const markedOptions = [
+  {
+    value: 'climate',
+    label: 'Climate',
+    marker: { icon: <SearchMark />, label: 'from search' },
+  },
+  { value: 'fintech', label: 'Fintech' },
+  { value: 'health', label: 'Healthcare' },
+];
+
+export const TintChipsWithMarkers: Story = {
+  args: {
+    label: 'Tags',
+    chipTone: 'tint',
+    options: markedOptions,
+    defaultValue: ['climate', 'fintech'],
+  },
+};
+
+export const MarkerNames: Story = {
+  tags: ['interaction', '!autodocs'],
+  args: { label: 'Tags', chipTone: 'tint', options: markedOptions, defaultValue: ['climate'] },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(
+      canvas.getByRole('button', { name: 'Remove Climate, from search' }),
+    ).toBeInTheDocument();
+    await userEvent.click(canvas.getByRole('combobox'));
+    const listbox = await within(document.body).findByRole('listbox');
+    await expect(
+      within(listbox).getByRole('option', { name: 'Climate, from search' }),
+    ).toHaveAttribute('aria-selected', 'true');
+    await userEvent.click(within(listbox).getByRole('option', { name: 'Healthcare' }));
+    await expect(args.onChange).toHaveBeenCalledWith(['climate', 'health']);
     await userEvent.keyboard('{Escape}');
   },
 };

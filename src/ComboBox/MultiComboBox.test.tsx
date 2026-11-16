@@ -279,3 +279,58 @@ describe('MultiComboBox search', () => {
     expect(screen.getAllByRole('option')).toHaveLength(1);
   });
 });
+
+describe('MultiComboBox chip tone and markers', () => {
+  const SearchMark = () => <svg data-testid="search-mark" />;
+  const MARKED = [
+    {
+      value: 'climate',
+      label: 'Climate',
+      marker: { icon: <SearchMark />, label: 'from search' },
+    },
+    { value: 'health', label: 'Healthcare' },
+  ];
+
+  it('keeps neutral chips by default', () => {
+    render(<MultiComboBox label="Tags" options={MARKED} value={['health']} />);
+    const chip = screen.getByText('Healthcare').closest('span[class*="rounded"]') as HTMLElement;
+    expect(chip.className).toContain('bg-[var(--fill-secondary)]');
+  });
+
+  it('fills chips with the tint when chipTone is tint', () => {
+    render(<MultiComboBox label="Tags" options={MARKED} value={['health']} chipTone="tint" />);
+    const chip = screen.getByText('Healthcare').closest('span[class*="rounded"]') as HTMLElement;
+    expect(chip.className).toContain('bg-[var(--tint-fill)]');
+    expect(chip.className).toContain('text-[var(--tint)]');
+  });
+
+  it('adds the marker label to the chip and its remove button', async () => {
+    const handleChange = vi.fn();
+    render(
+      <MultiComboBox
+        label="Tags"
+        options={MARKED}
+        value={['climate', 'health']}
+        onChange={handleChange}
+      />,
+    );
+
+    expect(screen.getByText('Climate, from search')).toHaveClass('sr-only');
+    expect(screen.getAllByTestId('search-mark')).toHaveLength(1);
+    screen.getByRole('button', { name: 'Remove Climate, from search' }).focus();
+    await userEvent.keyboard('{Enter}');
+    expect(handleChange).toHaveBeenCalledWith(['health']);
+  });
+
+  it('shows the marker on the option and in its accessible name', async () => {
+    render(<MultiComboBox label="Tags" options={MARKED} value={[]} />);
+    await userEvent.click(screen.getByRole('combobox', { name: 'Tags' }));
+
+    const option = screen.getByRole('option', { name: 'Climate, from search' });
+    expect(within(option).getByTestId('search-mark').parentElement).toHaveAttribute(
+      'aria-hidden',
+      'true',
+    );
+    expect(screen.getByRole('option', { name: 'Healthcare' })).toBeVisible();
+  });
+});

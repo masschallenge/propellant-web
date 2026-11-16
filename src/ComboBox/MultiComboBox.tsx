@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { ReactNode } from 'react';
 import {
   ANCHORED_SURFACE_CLASSES,
   AnchoredLayer,
@@ -14,6 +15,11 @@ import { Token } from '../Token/Token';
 
 const COLLAPSED_CHIP_LIMIT = 5;
 
+export interface MultiComboBoxOptionMarker {
+  icon: ReactNode;
+  label: string;
+}
+
 export interface MultiComboBoxOption {
   value: string;
   label: string;
@@ -21,9 +27,12 @@ export interface MultiComboBoxOption {
   disabled?: boolean;
   parent?: string;
   keywords?: string;
+  marker?: MultiComboBoxOptionMarker;
 }
 
 type MultiComboBoxSize = 'sm' | 'md' | 'lg';
+
+export type MultiComboBoxChipTone = 'neutral' | 'tint';
 
 export interface MultiComboBoxProps {
   options: MultiComboBoxOption[];
@@ -39,6 +48,7 @@ export interface MultiComboBoxProps {
   searchable?: boolean;
   filterOption?: (option: MultiComboBoxOption, query: string) => boolean;
   summarySecondary?: string;
+  chipTone?: MultiComboBoxChipTone;
   footer?: boolean;
   invalid?: boolean;
   disabled?: boolean;
@@ -94,6 +104,7 @@ export const MultiComboBox = ({
   searchable = true,
   filterOption = matchesLabelOrKeywords,
   summarySecondary,
+  chipTone = 'neutral',
   footer = true,
   invalid = false,
   disabled = false,
@@ -180,8 +191,8 @@ export const MultiComboBox = ({
           isExpanded(option.value) ? [option, ...childrenOf(option.value)] : [option],
         );
 
-  const labelFor = (chipValue: string) =>
-    options.find((option) => option.value === chipValue)?.label ?? chipValue;
+  const optionFor = (chipValue: string) => options.find((option) => option.value === chipValue);
+  const labelFor = (chipValue: string) => optionFor(chipValue)?.label ?? chipValue;
   const isCollapsible = chosen.length > COLLAPSED_CHIP_LIMIT;
   const visibleChips =
     isCollapsible && !areChipsExpanded ? chosen.slice(0, COLLAPSED_CHIP_LIMIT) : chosen;
@@ -271,7 +282,24 @@ export const MultiComboBox = ({
             <path d="M5 12.5l4.5 4.5L19 7.5" />
           </svg>
         </span>
-        <span className="min-w-0 truncate">{option.label}</span>
+        {option.marker ? (
+          <>
+            <span aria-hidden="true" className="min-w-0 truncate">
+              {option.label}
+            </span>
+            <span className="sr-only">{`${option.label}, ${option.marker.label}`}</span>
+          </>
+        ) : (
+          <span className="min-w-0 truncate">{option.label}</span>
+        )}
+        {option.marker ? (
+          <span
+            aria-hidden="true"
+            className="flex-none inline-flex text-(--option-secondary) [&>svg]:block [&>svg]:w-[var(--icon-sm)] [&>svg]:h-[var(--icon-sm)]"
+          >
+            {option.marker.icon}
+          </span>
+        ) : null}
         {childCount ? (
           <span className="sr-only">
             {`, ${childCount} ${childCount === 1 ? 'sub-option' : 'sub-options'}, ${
@@ -341,15 +369,20 @@ export const MultiComboBox = ({
           <span className="propellant-field-ring" aria-hidden="true" />
           {visibleChips.map((chipValue) => {
             const chipLabel = labelFor(chipValue);
+            const marker = optionFor(chipValue)?.marker;
             return (
               <Token
                 key={chipValue}
                 size="sm"
                 wrap
-                label={chipLabel}
+                label={marker ? `${chipLabel}, ${marker.label}` : chipLabel}
+                icon={marker?.icon}
+                selected={chipTone === 'tint'}
                 disabled={disabled}
                 onRemove={() => update(chosen.filter((chosenValue) => chosenValue !== chipValue))}
-              />
+              >
+                {marker ? chipLabel : undefined}
+              </Token>
             );
           })}
           {isCollapsible ? (

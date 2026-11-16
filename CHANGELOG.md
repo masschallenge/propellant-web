@@ -17,6 +17,11 @@ property and from `@masschallenge/propellant-web/version`.
 - `SegmentedControl` takes `tone="tint"` to fill the chosen segment with `--tint-fill` and label it
   in `--tint`, for a control that sets the main view of a page. The default `neutral` tone keeps
   the white thumb. The tint label measures 5.5:1 in light mode and 4.8:1 in dark mode on its fill.
+- `ComboBox` with `multiple` takes `chipTone="tint"` to fill the chosen tokens with the tint, and
+  options take a `marker`, an icon and a label, shown on the option row and its token. The
+  marker label joins the accessible name of both, and of the token's remove button, so a product
+  can mark values that came from a search. The `MultiComboBoxChipTone` and
+  `MultiComboBoxOptionMarker` types are exported.
 
 ### Fixed
 
