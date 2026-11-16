@@ -13,6 +13,7 @@ const SIZE_TOKENS = [
   '--row-tall',
   '--toolbar-height',
   '--sidebar-width',
+  '--sidebar-rail-width',
   '--inspector-width',
 ];
 
