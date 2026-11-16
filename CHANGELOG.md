@@ -11,7 +11,7 @@ property and from `@masschallenge/propellant-web/version`.
 - `Token` takes `children` to show rich content in place of the label, such as the letters that
   matched a search wrapped in `<mark>`. The `label` stays required and is what assistive
   technology reads, for the token, its toggle and its remove button.
-- `ComboBox` with `multiple` takes `chipTone="tint"` to fill the chosen tokens with the tint, and
+- `ComboBox` with `multiple` takes `chipTone="tint"` to color the chosen tokens with the tint, keeping their weight, and
   options take a `marker`, an icon and a label, shown on the option row and its token. The
   marker label joins the accessible name of both, and of the token's remove button, so a product
   can mark values that came from a search. The `MultiComboBoxChipTone` and

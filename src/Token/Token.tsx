@@ -73,7 +73,7 @@ export const Token = ({
     ? 'bg-[var(--tint-fill)] text-[var(--tint)]'
     : color
       ? 'bg-[color-mix(in_srgb,var(--token-color)_16%,var(--bg))] text-[var(--label)]'
-      : 'bg-[var(--fill-secondary)] text-[var(--label)]';
+      : 'bg-[var(--token-fill,var(--fill-secondary))] text-[var(--token-label,var(--label))]';
   const style = color ? ({ '--token-color': color } as React.CSSProperties) : undefined;
 
   const content = (

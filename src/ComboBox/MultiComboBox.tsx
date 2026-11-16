@@ -65,6 +65,8 @@ const FIELD_SIZES: Record<MultiComboBoxSize, string> = {
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
 
+const TINT_CHIP_CLASSES = '[--token-fill:var(--tint-fill)] [--token-label:var(--tint)]';
+
 const SearchSymbol = () => (
   <svg
     viewBox="0 0 24 24"
@@ -362,7 +364,7 @@ export const MultiComboBox = ({
                 wrap
                 label={marker ? `${chipLabel}, ${marker.label}` : chipLabel}
                 icon={marker?.icon}
-                selected={chipTone === 'tint'}
+                className={chipTone === 'tint' ? TINT_CHIP_CLASSES : undefined}
                 disabled={disabled}
                 onRemove={() => update(chosen.filter((chosenValue) => chosenValue !== chipValue))}
               >

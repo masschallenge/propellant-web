@@ -23,7 +23,7 @@ const meta = {
         component: [
           'Multiple select on the field shell. Chosen values show as removable tokens (collapsing past five), and the portalled menu lists checkbox rows with nested options, optional search, and a reset and select all footer.',
           '',
-          '`chipTone="tint"` fills the chosen tokens with the tint, and an option `marker` (an icon and a label) shows on its row and its token, with the label added to the accessible name, for example to mark values that came from a search.',
+          '`chipTone="tint"` colors the chosen tokens with the tint and keeps their weight, and an option `marker` (an icon and a label) shows on its row and its token, with the label added to the accessible name, for example to mark values that came from a search.',
           '',
           "Import: `import { ComboBox } from '@masschallenge/propellant-web'`, rendered as `<ComboBox multiple />`",
         ].join('\n'),
@@ -104,6 +104,7 @@ export const MarkerNames: Story = {
     await expect(
       canvas.getByRole('button', { name: 'Remove Climate, from search' }),
     ).toBeInTheDocument();
+    await expect(getComputedStyle(canvas.getByText('Climate')).fontWeight).toBe('400');
     await userEvent.click(canvas.getByRole('combobox'));
     const listbox = await within(document.body).findByRole('listbox');
     await expect(

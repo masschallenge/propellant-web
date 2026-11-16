@@ -41,6 +41,13 @@ describe('Token', () => {
     expect(onToggle).toHaveBeenCalledWith(true);
   });
 
+  it('lets a parent set the neutral fill and label colours through custom properties', () => {
+    const { container } = render(<Token label="Health" />);
+    const shell = container.firstElementChild as HTMLElement;
+    expect(shell.className).toContain('bg-[var(--token-fill,var(--fill-secondary))]');
+    expect(shell.className).toContain('text-[var(--token-label,var(--label))]');
+  });
+
   it('takes a category color for its fill and dot', () => {
     const { container } = render(<Token label="Women-led" color="#bf0261" dot />);
     const shell = container.firstElementChild as HTMLElement;

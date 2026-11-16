@@ -211,17 +211,26 @@ describe('MultiComboBox chip tone and markers', () => {
     { value: 'health', label: 'Healthcare' },
   ];
 
+  const chipFor = (label: string) =>
+    screen.getByText(label).closest('span[class*="rounded"]') as HTMLElement;
+
   it('keeps neutral chips by default', () => {
     render(<MultiComboBox label="Tags" options={MARKED} value={['health']} />);
-    const chip = screen.getByText('Healthcare').closest('span[class*="rounded"]') as HTMLElement;
-    expect(chip.className).toContain('bg-[var(--fill-secondary)]');
+    expect(chipFor('Healthcare').className).not.toContain('--tint');
+    expect(screen.getByText('Healthcare')).toHaveClass('font-normal');
   });
 
-  it('fills chips with the tint when chipTone is tint', () => {
+  it('tints the chip colours without changing the weight or the token state', () => {
     render(<MultiComboBox label="Tags" options={MARKED} value={['health']} chipTone="tint" />);
-    const chip = screen.getByText('Healthcare').closest('span[class*="rounded"]') as HTMLElement;
-    expect(chip.className).toContain('bg-[var(--tint-fill)]');
-    expect(chip.className).toContain('text-[var(--tint)]');
+    const chip = chipFor('Healthcare');
+    expect(chip.className).toContain('[--token-fill:var(--tint-fill)]');
+    expect(chip.className).toContain('[--token-label:var(--tint)]');
+    expect(chip.className).not.toContain('bg-[var(--tint-fill)]');
+    expect(screen.getByText('Healthcare')).toHaveClass('font-normal');
+    expect(screen.getByText('Healthcare')).not.toHaveClass('font-semibold');
+    expect(screen.getByRole('button', { name: 'Remove Healthcare' })).not.toHaveAttribute(
+      'aria-pressed',
+    );
   });
 
   it('adds the marker label to the chip and its remove button', async () => {
