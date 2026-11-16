@@ -134,6 +134,86 @@ export const Layout = ({ children }: { children: React.ReactNode }) => (
 `SidebarItem` and `Button` render plain links by default. Pass your router's link component to
 `linkAs` to keep client side navigation, where pages change without a full reload.
 
+#### Nest destinations in a tree
+
+A `SidebarItem` takes `subitems`, more `SidebarItem`s shown in a nested list below it. Top level
+rows and rows with an icon are the largest, and a parent with `collapsible={false}` is the program
+row. Below them, a row that holds more items or carries a `marker` keeps the label color, and a
+row with nothing below it is a leaf, smaller and in the secondary label color. The children of a
+row with an icon line up with its label. Labels wrap to two lines and the row grows with them.
+
+A top level item with nothing nested keeps the height its `size` gives it, `sm` by default, so a
+flat sidebar looks as it did. With `sidebarCollapse="rail"` every top level row takes the tree
+size. An explicit `size` sets the height of any row in the list.
+
+- A parent is a button that only opens and closes its list, with `aria-expanded` and
+  `aria-controls`; Enter and Space toggle it. It never navigates and never closes the compact
+  overlay, so only leaves are destinations. Any `href` on a parent is ignored. Leave it
+  uncontrolled with `defaultExpanded`, or control it with `expanded` and `onExpandedChange`,
+  usually open for the branch that holds the current page.
+- Set `collapsible={false}` on a parent that always shows its list, such as a program whose
+  stages are always in view. It has no chevron and no `aria-expanded`. With an `href` it stays a
+  link; without one it is a plain row that takes no focus and no clicks. At any depth, with or
+  without `media`, it starts at the top level icon column and its children take the stage indent,
+  so a program nested under a persona lines up the same way with or without a logo.
+- Put a `SidebarSeparator` between groups for a hairline. Inside a branch it lines up with the
+  rows of that branch. The rail leaves it out.
+- Set `current` on the current page only. Set `inTrail` on the top level item whose branch holds
+  it, so the rail can show where people are.
+- `marker` shows a stage as `done`, `now` or `next` with its number, and its `label` is read by
+  assistive technology. `media` fills a 60 by 36 thumbnail with 5px corners,
+  `--corner-thumbnail`, cropping the logo to cover it, beside a name of up to two lines. The
+  program row and its rows sit 6px in from the sidebar edge, as one inset block.
+- Pass a `RoleTag` to `accessory` to name the role a destination belongs to. Assistive technology
+  reads it once, after the label, and not at all when it repeats the label.
+- Role tags and marker numbers use the Caption 2 text style, `text-caption2`: 10px with 0.06em
+  tracking. The component sets the weight.
+
+```tsx
+<SidebarItem
+  marker={{ state: 'now', label: 'in progress' }}
+  defaultExpanded
+  subitems={
+    <>
+      <SidebarItem href="/program/review/judges" current>
+        Judges
+      </SidebarItem>
+      <SidebarItem href="/program/review/progress">Progress</SidebarItem>
+    </>
+  }
+>
+  Online review
+</SidebarItem>
+```
+
+#### Collapse to a rail
+
+By default the toolbar button hides the sidebar. Set `sidebarCollapse="rail"` to collapse it to a
+column of icons instead:
+
+```tsx
+<AppShell sidebarCollapse="rail" sidebarStorageKey="console-sidebar" defaultSidebarCollapsed>
+```
+
+- The sidebar header carries the Collapse menu and Expand menu button, with `aria-expanded` and
+  `aria-controls`, and the toolbar drops its toggle on wide windows.
+- The rail shows top level items as their icon, logo or marker, so give each one of them. Each is
+  a 32px button with an 18px icon, 38px apart, and a logo is a 34 by 20 thumbnail. Their names
+  stay available to assistive technology.
+- The rail opens and closes only by click. Expand menu pins the full tree in its column again,
+  and clicking a parent's icon pins it with that parent expanded. A leaf's icon is a link and
+  keeps the rail. Only Collapse menu returns to the rail: choosing a destination, Escape and a
+  press outside leave the pinned tree open.
+- In the rail, the `inTrail` row carries `aria-current="true"`, since the current page itself is
+  not shown.
+- `sidebarStorageKey` remembers the choice in local storage, across tabs.
+  `defaultSidebarCollapsed` sets the state when nothing is stored. Both work in the default hide
+  mode too, where collapsed means hidden.
+- Below 1024px the toolbar button opens the full tree as an overlay, as in hide mode.
+- `useAppShell()` reports `collapseMode`, `isCollapsed` and `isRail`, so content you put in the
+  sidebar footer can fit the rail, and `toggleCollapsed` to switch between the rail and the
+  pinned tree.
+
 ### 5. Choose light or dark
 
 `AppShell` takes an `appearance` value:
@@ -193,8 +273,8 @@ Use tokens by their role, never the raw values behind them:
 | Kind | Examples |
 | --- | --- |
 | Color | `--label`, `--label-secondary`, `--bg`, `--bg-grouped`, `--tint`, `--critical`, `--separator` |
-| Type | `--type-family`, `--type-family-brand`, and the `text-body`, `text-headline` utilities |
-| Shape | `--corner-sm`, `--corner-md`, `--corner-lg`, `--corner-xl`, `--corner-capsule` |
+| Type | `--type-family`, `--type-family-brand`, and the `text-body`, `text-headline`, `text-caption2` utilities |
+| Shape | `--corner-sm`, `--corner-thumbnail`, `--corner-md`, `--corner-lg`, `--corner-xl`, `--corner-capsule` |
 | Depth | `--shadow-float`, `--shadow-sheet`, `--material-bar` |
 | Motion | `--spring-snappy`, `--spring-smooth`, `--ease-standard` |
 | Layout | `--control-md`, `--row`, `--page-margin`, `--width-form`, `--space-4` |
