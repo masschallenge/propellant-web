@@ -14,6 +14,9 @@ property and from `@masschallenge/propellant-web/version`.
 - `Token` takes `children` to show rich content in place of the label, such as the letters that
   matched a search wrapped in `<mark>`. The `label` stays required and is what assistive
   technology reads, for the token, its toggle and its remove button.
+- `SegmentedControl` takes `tone="tint"` to fill the chosen segment with `--tint-fill` and label it
+  in `--tint`, for a control that sets the main view of a page. The default `neutral` tone keeps
+  the white thumb. The tint label measures 5.5:1 in light mode and 4.8:1 in dark mode on its fill.
 
 ### Fixed
 

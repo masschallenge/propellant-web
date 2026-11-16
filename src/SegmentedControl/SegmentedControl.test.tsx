@@ -97,3 +97,30 @@ describe('SegmentedControl with panels', () => {
     expect(onChange).toHaveBeenCalledWith('week');
   });
 });
+
+describe('SegmentedControl tone', () => {
+  it('keeps the white thumb and label color by default', () => {
+    render(<SegmentedControl items={ITEMS} aria-label="Range" />);
+    const selected = screen.getByRole('radio', { name: 'Day' });
+    expect(selected.className).toContain('bg-[var(--control-thumb)]');
+    expect(selected.className).toContain('text-[var(--label)]');
+  });
+
+  it('fills the chosen segment with the tint and keeps the radio contract', async () => {
+    const onChange = vi.fn();
+    render(<SegmentedControl items={ITEMS} aria-label="Range" tone="tint" onChange={onChange} />);
+    const selected = screen.getByRole('radio', { name: 'Day' });
+    expect(selected.className).toContain('bg-[var(--tint-fill)]');
+    expect(selected.className).toContain('text-[var(--tint)]');
+    expect(selected.className).not.toContain('bg-[var(--control-thumb)]');
+    expect(screen.getByRole('radio', { name: 'Week' }).className).toContain(
+      'text-[var(--label-secondary)]',
+    );
+
+    selected.focus();
+    await userEvent.keyboard('{ArrowRight}');
+    expect(onChange).toHaveBeenLastCalledWith('week');
+    expect(screen.getByRole('radio', { name: 'Week' })).toHaveAttribute('aria-checked', 'true');
+    expect(screen.getByRole('radio', { name: 'Week' }).className).toContain('text-[var(--tint)]');
+  });
+});
