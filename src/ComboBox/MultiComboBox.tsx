@@ -271,23 +271,19 @@ export const MultiComboBox = ({
             <path d="M5 12.5l4.5 4.5L19 7.5" />
           </svg>
         </span>
+        <span aria-hidden={option.marker ? true : undefined} className="min-w-0 truncate">
+          {option.label}
+        </span>
         {option.marker ? (
           <>
-            <span aria-hidden="true" className="min-w-0 truncate">
-              {option.label}
-            </span>
             <span className="sr-only">{`${option.label}, ${option.marker.label}`}</span>
+            <span
+              aria-hidden="true"
+              className="flex-none inline-flex text-(--option-secondary) [&>svg]:block [&>svg]:w-[var(--icon-sm)] [&>svg]:h-[var(--icon-sm)]"
+            >
+              {option.marker.icon}
+            </span>
           </>
-        ) : (
-          <span className="min-w-0 truncate">{option.label}</span>
-        )}
-        {option.marker ? (
-          <span
-            aria-hidden="true"
-            className="flex-none inline-flex text-(--option-secondary) [&>svg]:block [&>svg]:w-[var(--icon-sm)] [&>svg]:h-[var(--icon-sm)]"
-          >
-            {option.marker.icon}
-          </span>
         ) : null}
         {childCount ? (
           <span className="sr-only">

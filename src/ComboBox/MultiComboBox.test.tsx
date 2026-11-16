@@ -253,4 +253,17 @@ describe('MultiComboBox chip tone and markers', () => {
     );
     expect(screen.getByRole('option', { name: 'Healthcare' })).toBeVisible();
   });
+
+  it('shows the option label once and hides it when the marker name replaces it', async () => {
+    render(<MultiComboBox label="Tags" options={MARKED} value={[]} />);
+    await userEvent.click(screen.getByRole('combobox', { name: 'Tags' }));
+
+    const marked = screen.getByRole('option', { name: 'Climate, from search' });
+    expect(within(marked).getAllByText('Climate')).toHaveLength(1);
+    expect(within(marked).getByText('Climate')).toHaveAttribute('aria-hidden', 'true');
+    expect(within(marked).getByText('Climate, from search')).toHaveClass('sr-only');
+    expect(
+      within(screen.getByRole('option', { name: 'Healthcare' })).getByText('Healthcare'),
+    ).not.toHaveAttribute('aria-hidden');
+  });
 });
