@@ -21,6 +21,11 @@ const WIDE_QUERY = '(min-width: 1024px)';
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
+const focusableIn = (container: HTMLElement) =>
+  Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+    (element) => !element.closest('[hidden]'),
+  );
+
 const useIsWide = () => {
   const [isWide, setIsWide] = React.useState(true);
   React.useEffect(() => {
@@ -77,23 +82,22 @@ export const AppShell = ({
   }, [isWide]);
 
   React.useEffect(() => {
-    if (!isOverlayOpen) return;
+    const overlay = overlayRef.current;
+    if (!isOverlayOpen || !overlay) return;
     const previousFocus = document.activeElement as HTMLElement | null;
-    const firstFocusable = overlayRef.current?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR);
+    const [firstFocusable] = focusableIn(overlay);
     firstFocusable?.focus();
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setIsOverlayOpen(false);
         return;
       }
-      if (event.key !== 'Tab' || !overlayRef.current) return;
-      const focusable = Array.from(
-        overlayRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
-      );
+      if (event.key !== 'Tab') return;
+      const focusable = focusableIn(overlay);
       if (!focusable.length) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
-      const isInside = overlayRef.current.contains(document.activeElement);
+      const isInside = overlay.contains(document.activeElement);
       if (event.shiftKey && (document.activeElement === first || !isInside)) {
         event.preventDefault();
         last.focus();

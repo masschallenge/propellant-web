@@ -8,6 +8,12 @@ const RADII = [
     className: 'rounded-[var(--corner-sm)]',
   },
   {
+    token: '--corner-thumbnail',
+    value: '5px',
+    use: 'Image thumbnails beside a label, like a program logo in the sidebar',
+    className: 'rounded-[var(--corner-thumbnail)]',
+  },
+  {
     token: '--corner-md',
     value: '8px',
     use: 'Fields, menu items, selected sidebar rows',

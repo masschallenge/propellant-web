@@ -111,6 +111,7 @@ const EXPECTED_COMPONENTS = [
   'Sidebar',
   'SidebarItem',
   'SidebarSection',
+  'SidebarSeparator',
   'Skeleton',
   'SkeletonGroup',
   'Slider',
