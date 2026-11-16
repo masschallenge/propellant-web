@@ -28,6 +28,15 @@ const waitForStoryRendered = async (page: Page) => {
   });
 };
 
+const STORIES_CAPTURED_WITH_SIDEBAR_OPEN = new Set([
+  'components-layout-sidebar--tree-in-compact-overlay',
+]);
+
+const openCompactSidebar = async (page: Page) => {
+  await page.getByRole('button', { name: 'Show sidebar' }).dispatchEvent('click');
+  await expect(page.getByRole('dialog', { name: 'Navigation' })).toBeVisible();
+};
+
 const stories = Object.values(index.entries).filter(
   (entry) => entry.type === 'story' && !(entry.tags ?? []).includes('interaction'),
 );
@@ -38,6 +47,7 @@ test.describe('story visual regression', () => {
       await page.clock.setFixedTime(VR_TODAY);
       await page.goto(`/iframe.html?id=${story.id}&viewMode=story`);
       await waitForStoryRendered(page);
+      if (STORIES_CAPTURED_WITH_SIDEBAR_OPEN.has(story.id)) await openCompactSidebar(page);
       await page.evaluate(() => document.fonts.ready);
       await page.waitForTimeout(600);
       await expect(page).toHaveScreenshot([`${story.id}.png`], { fullPage: true });
