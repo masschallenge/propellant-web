@@ -5,6 +5,7 @@ export type TokenSize = 'sm' | 'md';
 
 export interface TokenProps {
   label: string;
+  children?: ReactNode;
   size?: TokenSize;
   color?: string;
   dot?: boolean;
@@ -22,6 +23,13 @@ export interface TokenProps {
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
+
+const isEmptyContent = (content: ReactNode) =>
+  content === undefined ||
+  content === null ||
+  content === false ||
+  content === '' ||
+  (Array.isArray(content) && content.length === 0);
 
 const SIZES: Record<TokenSize, string> = {
   sm: 'min-h-6 px-2.5 gap-1.5 text-subheadline',
@@ -45,6 +53,7 @@ const CheckGlyph = () => (
 
 export const Token = ({
   label,
+  children,
   size = 'md',
   color,
   dot = false,
@@ -64,7 +73,7 @@ export const Token = ({
     ? 'bg-[var(--tint-fill)] text-[var(--tint)]'
     : color
       ? 'bg-[color-mix(in_srgb,var(--token-color)_16%,var(--bg))] text-[var(--label)]'
-      : 'bg-[var(--fill-secondary)] text-[var(--label)]';
+      : 'bg-[var(--token-fill,var(--fill-secondary))] text-[var(--token-label,var(--label))]';
   const style = color ? ({ '--token-color': color } as React.CSSProperties) : undefined;
 
   const content = (
@@ -93,7 +102,14 @@ export const Token = ({
           wrap ? 'min-w-0 whitespace-normal [overflow-wrap:anywhere]' : 'whitespace-nowrap',
         )}
       >
-        {label}
+        {isEmptyContent(children) ? (
+          label
+        ) : (
+          <>
+            <span aria-hidden="true">{children}</span>
+            <span className="sr-only">{label}</span>
+          </>
+        )}
       </span>
       {count !== undefined ? (
         <span className="tabular-nums text-[var(--label-tertiary)]">{count}</span>

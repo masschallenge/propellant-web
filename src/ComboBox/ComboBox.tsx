@@ -2,9 +2,20 @@ import * as React from 'react';
 import { SingleComboBox } from './SingleComboBox';
 import type { ComboBoxOption, ComboBoxSize, SingleComboBoxProps } from './SingleComboBox';
 import { MultiComboBox } from './MultiComboBox';
-import type { MultiComboBoxOption, MultiComboBoxProps } from './MultiComboBox';
+import type {
+  MultiComboBoxChipTone,
+  MultiComboBoxOption,
+  MultiComboBoxOptionMarker,
+  MultiComboBoxProps,
+} from './MultiComboBox';
 
-export type { ComboBoxOption, ComboBoxSize, MultiComboBoxOption };
+export type {
+  ComboBoxOption,
+  ComboBoxSize,
+  MultiComboBoxChipTone,
+  MultiComboBoxOption,
+  MultiComboBoxOptionMarker,
+};
 
 export type ComboBoxProps =
   (SingleComboBoxProps & { multiple?: false }) | (MultiComboBoxProps & { multiple: true });

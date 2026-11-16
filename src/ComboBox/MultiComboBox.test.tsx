@@ -199,3 +199,90 @@ describe('MultiComboBox Escape inside a Sheet', () => {
     expect(handleClose).toHaveBeenCalledTimes(1);
   });
 });
+
+describe('MultiComboBox chip tone and markers', () => {
+  const SearchMark = () => <svg data-testid="search-mark" />;
+  const MARKED = [
+    {
+      value: 'climate',
+      label: 'Climate',
+      marker: { icon: <SearchMark />, label: 'from search' },
+    },
+    { value: 'health', label: 'Healthcare' },
+  ];
+
+  const chipFor = (label: string) =>
+    screen.getByText(label).closest('span[class*="rounded"]') as HTMLElement;
+
+  it('keeps neutral chips by default', () => {
+    render(<MultiComboBox label="Tags" options={MARKED} value={['health']} />);
+    expect(chipFor('Healthcare').className).not.toContain('--tint');
+    expect(screen.getByText('Healthcare')).toHaveClass('font-normal');
+  });
+
+  it('tints the chip colours without changing the weight or the token state', () => {
+    render(<MultiComboBox label="Tags" options={MARKED} value={['health']} chipTone="tint" />);
+    const chip = chipFor('Healthcare');
+    expect(chip.className).toContain('[--token-fill:var(--tint-fill)]');
+    expect(chip.className).toContain('[--token-label:var(--tint)]');
+    expect(chip.className).not.toContain('bg-[var(--tint-fill)]');
+    expect(screen.getByText('Healthcare')).toHaveClass('font-normal');
+    expect(screen.getByText('Healthcare')).not.toHaveClass('font-semibold');
+    expect(screen.getByRole('button', { name: 'Remove Healthcare' })).not.toHaveAttribute(
+      'aria-pressed',
+    );
+  });
+
+  it('adds the marker label to the chip and its remove button', async () => {
+    const handleChange = vi.fn();
+    render(
+      <MultiComboBox
+        label="Tags"
+        options={MARKED}
+        value={['climate', 'health']}
+        onChange={handleChange}
+      />,
+    );
+
+    expect(screen.getByText('Climate, from search')).toHaveClass('sr-only');
+    expect(screen.getAllByTestId('search-mark')).toHaveLength(1);
+    screen.getByRole('button', { name: 'Remove Climate, from search' }).focus();
+    await userEvent.keyboard('{Enter}');
+    expect(handleChange).toHaveBeenCalledWith(['health']);
+  });
+
+  it('shows the marker on the option and in its accessible name', async () => {
+    render(<MultiComboBox label="Tags" options={MARKED} value={[]} />);
+    await userEvent.click(screen.getByRole('combobox', { name: 'Tags' }));
+
+    const option = screen.getByRole('option', { name: 'Climate, from search' });
+    expect(within(option).getByTestId('search-mark').parentElement).toHaveAttribute(
+      'aria-hidden',
+      'true',
+    );
+    expect(screen.getByRole('option', { name: 'Healthcare' })).toBeVisible();
+  });
+
+  it('looks each chip option up without scanning the options list', () => {
+    const options = [...MARKED];
+    const scan = vi.spyOn(options, 'find');
+    render(<MultiComboBox label="Tags" options={options} value={['climate', 'health']} />);
+
+    expect(scan).not.toHaveBeenCalled();
+    expect(screen.getByRole('button', { name: 'Remove Climate, from search' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Remove Healthcare' })).toBeInTheDocument();
+  });
+
+  it('shows the option label once and hides it when the marker name replaces it', async () => {
+    render(<MultiComboBox label="Tags" options={MARKED} value={[]} />);
+    await userEvent.click(screen.getByRole('combobox', { name: 'Tags' }));
+
+    const marked = screen.getByRole('option', { name: 'Climate, from search' });
+    expect(within(marked).getAllByText('Climate')).toHaveLength(1);
+    expect(within(marked).getByText('Climate')).toHaveAttribute('aria-hidden', 'true');
+    expect(within(marked).getByText('Climate, from search')).toHaveClass('sr-only');
+    expect(
+      within(screen.getByRole('option', { name: 'Healthcare' })).getByText('Healthcare'),
+    ).not.toHaveAttribute('aria-hidden');
+  });
+});

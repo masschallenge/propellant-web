@@ -23,7 +23,9 @@ const meta = {
         component: [
           'Multiple select on the field shell. Chosen values show as removable tokens (collapsing past five), and the portalled menu lists checkbox rows with nested options, optional search, and a reset and select all footer.',
           '',
-          "Import: `import { MultiComboBox } from '@masschallenge/propellant-web'`",
+          '`chipTone="tint"` colors the chosen tokens with the tint and keeps their weight, and an option `marker` (an icon and a label) shows on its row and its token, with the label added to the accessible name, for example to mark values that came from a search.',
+          '',
+          "Import: `import { ComboBox } from '@masschallenge/propellant-web'`, rendered as `<ComboBox multiple />`",
         ].join('\n'),
       },
       canvas: { layout: 'padded' },
@@ -34,6 +36,7 @@ const meta = {
   argTypes: {
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'], ...appearance },
     searchable: { control: 'boolean', ...appearance },
+    chipTone: { control: 'inline-radio', options: ['neutral', 'tint'], ...appearance },
     invalid: { control: 'boolean', ...state },
     disabled: { control: 'boolean', ...state },
     label: { control: 'text', ...content },
@@ -56,6 +59,59 @@ export const OpenAndSelect: Story = {
     const listbox = await within(document.body).findByRole('listbox');
     await userEvent.click(within(listbox).getByText('Climate'));
     await expect(args.onChange).toHaveBeenCalled();
+    await userEvent.keyboard('{Escape}');
+  },
+};
+
+const SearchMark = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="11" cy="11" r="7" />
+    <path d="m20 20-3.2-3.2" />
+  </svg>
+);
+
+const markedOptions = [
+  {
+    value: 'climate',
+    label: 'Climate',
+    marker: { icon: <SearchMark />, label: 'from search' },
+  },
+  { value: 'fintech', label: 'Fintech' },
+  { value: 'health', label: 'Healthcare' },
+];
+
+export const TintChipsWithMarkers: Story = {
+  args: {
+    label: 'Tags',
+    chipTone: 'tint',
+    options: markedOptions,
+    defaultValue: ['climate', 'fintech'],
+  },
+};
+
+export const MarkerNames: Story = {
+  tags: ['interaction', '!autodocs'],
+  args: { label: 'Tags', chipTone: 'tint', options: markedOptions, defaultValue: ['climate'] },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(
+      canvas.getByRole('button', { name: 'Remove Climate, from search' }),
+    ).toBeInTheDocument();
+    await expect(getComputedStyle(canvas.getByText('Climate')).fontWeight).toBe('400');
+    await userEvent.click(canvas.getByRole('combobox'));
+    const listbox = await within(document.body).findByRole('listbox');
+    await expect(
+      within(listbox).getByRole('option', { name: 'Climate, from search' }),
+    ).toHaveAttribute('aria-selected', 'true');
+    await userEvent.click(within(listbox).getByRole('option', { name: 'Healthcare' }));
+    await expect(args.onChange).toHaveBeenCalledWith(['climate', 'health']);
     await userEvent.keyboard('{Escape}');
   },
 };
