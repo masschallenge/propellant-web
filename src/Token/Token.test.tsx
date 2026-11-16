@@ -96,6 +96,17 @@ describe('Token', () => {
       expect(onRemove).toHaveBeenCalledTimes(1);
     });
 
+    it.each([
+      ['null', null],
+      ['false', false],
+      ['an empty string', ''],
+      ['an empty array', []],
+    ])('falls back to the plain label when children is %s', (_description, emptyChildren) => {
+      const { container } = render(<Token label="Climate">{emptyChildren}</Token>);
+      expect(screen.getByText('Climate')).not.toHaveClass('sr-only');
+      expect(container.querySelector('[aria-hidden="true"]')).toBeNull();
+    });
+
     it('lets an explicit ariaLabel name a toggle', () => {
       render(
         <Token label="Climate" ariaLabel="Filter by Climate" onToggle={vi.fn()}>

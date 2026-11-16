@@ -24,6 +24,13 @@ export interface TokenProps {
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
 
+const isEmptyContent = (content: ReactNode) =>
+  content === undefined ||
+  content === null ||
+  content === false ||
+  content === '' ||
+  (Array.isArray(content) && content.length === 0);
+
 const SIZES: Record<TokenSize, string> = {
   sm: 'min-h-6 px-2.5 gap-1.5 text-subheadline',
   md: 'min-h-7 px-3 gap-1.5 text-callout',
@@ -95,7 +102,7 @@ export const Token = ({
           wrap ? 'min-w-0 whitespace-normal [overflow-wrap:anywhere]' : 'whitespace-nowrap',
         )}
       >
-        {children === undefined ? (
+        {isEmptyContent(children) ? (
           label
         ) : (
           <>
