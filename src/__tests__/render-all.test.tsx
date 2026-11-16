@@ -102,6 +102,7 @@ const EXPECTED_COMPONENTS = [
   'Radio',
   'RadioCardGroup',
   'RadioGroup',
+  'RoleTag',
   'SearchField',
   'SegmentedControl',
   'Separator',

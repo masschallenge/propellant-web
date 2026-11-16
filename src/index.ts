@@ -32,6 +32,7 @@ export * from './PopUpButton/PopUpButton';
 export * from './Progress/Progress';
 export * from './Radio/Radio';
 export * from './RadioCardGroup/RadioCardGroup';
+export * from './RoleTag/RoleTag';
 export * from './SearchField/SearchField';
 export * from './SegmentedControl/SegmentedControl';
 export * from './Separator/Separator';

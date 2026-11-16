@@ -396,6 +396,10 @@
   --type-caption-weight: 500;
   --type-caption-tracking: 0.016em;
 
+  --type-caption2-size: 0.625rem;
+  --type-caption2-line: 0.875rem;
+  --type-caption2-tracking: 0.06em;
+
   --type-measure: 68ch;
 }
 
