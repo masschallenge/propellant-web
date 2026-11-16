@@ -21,7 +21,7 @@ const meta = {
     docs: {
       description: {
         component: [
-          'Picks one of a few closely related views or filters. A white thumb springs to the chosen segment on a gray capsule track; corners stay concentric. Without panels it is a radio group (arrow keys select); with `controlsPanels` it is a tab list paired with `TabPanel`. Keep it to about five segments. `tone="tint"` fills the chosen segment with the tint fill and tint label instead, for a control that sets the main view of a page; both tones pass AA contrast in light and dark mode.',
+          'Picks one of a few closely related views or filters. A white thumb springs to the chosen segment on a gray capsule track; corners stay concentric. Without panels it is a radio group (arrow keys select); with `controlsPanels` it is a tab list paired with `TabPanel`. Keep it to about five segments.',
           '',
           "Import: `import { SegmentedControl } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -31,7 +31,6 @@ const meta = {
   args: { items: STAGES, 'aria-label': 'Stage', size: 'md', onChange: fn() },
   argTypes: {
     size: { control: 'inline-radio', options: ['sm', 'md'], ...appearance },
-    tone: { control: 'inline-radio', options: ['neutral', 'tint'], ...appearance },
     fullWidth: { control: 'inline-radio', options: [false, true, 'narrow'], ...appearance },
     controlsPanels: { control: 'boolean', ...state },
     onChange: { ...events },
@@ -68,10 +67,6 @@ export const Sizes: Story = {
       />
     </VStack>
   ),
-};
-
-export const Tint: Story = {
-  args: { tone: 'tint', defaultValue: 'online' },
 };
 
 export const WithCounts: Story = {

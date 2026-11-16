@@ -4,7 +4,6 @@ import type { TabItem } from '../internal/tabList';
 
 export type { TabItem };
 export type SegmentedControlSize = 'sm' | 'md';
-export type SegmentedControlTone = 'neutral' | 'tint';
 
 export interface SegmentedControlProps {
   items: TabItem[];
@@ -12,7 +11,6 @@ export interface SegmentedControlProps {
   defaultValue?: string;
   onChange?: (id: string) => void;
   size?: SegmentedControlSize;
-  tone?: SegmentedControlTone;
   fullWidth?: boolean | 'narrow';
   controlsPanels?: boolean;
   id?: string;
@@ -28,23 +26,12 @@ const HEIGHTS: Record<SegmentedControlSize, string> = {
   md: 'min-h-[calc(var(--control-md)-4px)] px-3.5 text-callout',
 };
 
-const THUMBS: Record<SegmentedControlTone, string> = {
-  neutral: 'bg-[var(--control-thumb)] shadow-[var(--shadow-thumb)]',
-  tint: 'bg-[var(--tint-fill)]',
-};
-
-const SELECTED_LABELS: Record<SegmentedControlTone, string> = {
-  neutral: 'text-[var(--label)]',
-  tint: 'text-[var(--tint)]',
-};
-
 export const SegmentedControl = ({
   items,
   value,
   defaultValue,
   onChange,
   size = 'md',
-  tone = 'neutral',
   fullWidth = false,
   controlsPanels = false,
   id,
@@ -116,10 +103,7 @@ export const SegmentedControl = ({
         {thumb ? (
           <span
             aria-hidden="true"
-            className={joinClasses(
-              'absolute top-0.5 bottom-0.5 left-0 z-0 rounded-[var(--corner-capsule)] transition-[transform,width] duration-[var(--spring-snappy-duration)] ease-[var(--spring-snappy)]',
-              THUMBS[tone],
-            )}
+            className="absolute top-0.5 bottom-0.5 left-0 z-0 rounded-[var(--corner-capsule)] bg-[var(--control-thumb)] shadow-[var(--shadow-thumb)] transition-[transform,width] duration-[var(--spring-snappy-duration)] ease-[var(--spring-snappy)]"
             style={{ width: thumb.width, transform: `translateX(${thumb.left}px)` }}
           />
         ) : null}
@@ -138,7 +122,10 @@ export const SegmentedControl = ({
                     ? 'flex-1 min-w-0 sm:flex-none'
                     : 'shrink-0',
                 isSelected
-                  ? joinClasses('font-semibold', SELECTED_LABELS[tone], !thumb && THUMBS[tone])
+                  ? joinClasses(
+                      'font-semibold text-[var(--label)]',
+                      !thumb && 'bg-[var(--control-thumb)] shadow-[var(--shadow-thumb)]',
+                    )
                   : 'font-medium text-[var(--label-secondary)] hover:text-[var(--label)]',
                 'focus-visible:outline-[length:var(--focus-width)] focus-visible:outline-solid focus-visible:-outline-offset-2 focus-visible:outline-[var(--focus-color)]',
                 'disabled:opacity-[var(--opacity-disabled)] disabled:cursor-not-allowed',
