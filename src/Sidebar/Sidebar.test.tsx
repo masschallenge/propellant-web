@@ -54,6 +54,25 @@ describe('Sidebar', () => {
     expect(screen.getByRole('link', { name: 'Mentors' })).not.toHaveAttribute('aria-current');
   });
 
+  it('keeps the small height by default and takes the medium height when asked', () => {
+    render(
+      <Sidebar>
+        <SidebarSection>
+          <SidebarItem href="/home">Home</SidebarItem>
+          <SidebarItem href="/network" size="md">
+            Network
+          </SidebarItem>
+        </SidebarSection>
+      </Sidebar>,
+    );
+    const home = screen.getByRole('link', { name: 'Home' });
+    const network = screen.getByRole('link', { name: 'Network' });
+    expect(home).toHaveClass('min-h-[var(--control-sm)]');
+    expect(home).not.toHaveClass('min-h-[var(--control-md)]');
+    expect(network).toHaveClass('min-h-[var(--control-md)]');
+    expect(network).not.toHaveClass('min-h-[var(--control-sm)]');
+  });
+
   it('renders through a router link component', () => {
     render(
       <Sidebar>

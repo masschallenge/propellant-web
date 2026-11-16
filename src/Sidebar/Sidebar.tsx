@@ -57,6 +57,13 @@ export const SidebarSection = ({ title, children, className }: SidebarSectionPro
   );
 };
 
+export type SidebarItemSize = 'sm' | 'md';
+
+const ITEM_SIZES: Record<SidebarItemSize, string> = {
+  sm: 'min-h-[var(--control-sm)]',
+  md: 'min-h-[var(--control-md)]',
+};
+
 export interface SidebarItemProps {
   icon?: ReactNode;
   href?: string;
@@ -65,6 +72,7 @@ export interface SidebarItemProps {
   current?: boolean;
   count?: number | string;
   accessory?: ReactNode;
+  size?: SidebarItemSize;
   children?: ReactNode;
   className?: string;
 }
@@ -77,6 +85,7 @@ export const SidebarItem = ({
   current = false,
   count,
   accessory,
+  size = 'sm',
   children,
   className,
 }: SidebarItemProps) => {
@@ -86,7 +95,8 @@ export const SidebarItem = ({
     if (shell?.isCompact) shell.closeSidebar();
   };
   const classes = joinClasses(
-    'relative w-full flex items-center gap-2 min-h-[var(--control-sm)] px-2 rounded-[var(--corner-md)] border-0 text-left no-underline text-callout cursor-pointer',
+    'relative w-full flex items-center gap-2 px-2 rounded-[var(--corner-md)] border-0 text-left no-underline text-callout cursor-pointer',
+    ITEM_SIZES[size],
     current
       ? 'bg-[var(--fill)] text-[var(--label)] font-semibold'
       : 'bg-transparent text-[var(--label)] hover:bg-[var(--fill-tertiary)]',

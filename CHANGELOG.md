@@ -4,6 +4,22 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+### Added
+
+- `SidebarItem` takes `size`, `sm` by default for today's small control height, or `md` for the
+  medium control height, so top level places can stand taller than the destinations under a
+  section. The `SidebarItemSize` type is exported.
+- `Toolbar` takes `sidebarToggleIcon`, `sidebar` by default for today's panel glyph, or `menu` for
+  a three line menu glyph at the same size and stroke. The toggle keeps its accessible name from
+  `sidebarToggleLabel`. The `ToolbarSidebarToggleIcon` type is exported.
+- `AuthLayout` takes `variant`, `split` by default for today's brand panel beside the form, or
+  `centered` for a single column on the grouped background with the MassChallenge logo above the
+  form and no brand panel. In the centered variant, `brand` replaces the logo, for example with a
+  product lockup. The form keeps its width and the version still shows. The `AuthLayoutVariant`
+  type is exported.
+
 ## 2.1.0 (2026-11-16)
 
 ### Added

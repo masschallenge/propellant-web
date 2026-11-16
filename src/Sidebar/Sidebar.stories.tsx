@@ -14,7 +14,7 @@ const meta = {
     docs: {
       description: {
         component: [
-          'The list of destinations in the AppShell sidebar. Sections group destinations under a footnote title; the current destination takes a gray fill and semibold label and is announced with `aria-current="page"`. Items render as links when given `href` (pass `linkAs` for a router link) and close the compact overlay once chosen.',
+          'The list of destinations in the AppShell sidebar. Sections group destinations under a footnote title; the current destination takes a gray fill and semibold label and is announced with `aria-current="page"`. Items render as links when given `href` (pass `linkAs` for a router link) and close the compact overlay once chosen. Items are the small control height by default; `size="md"` gives top level places the medium control height.',
           '',
           "Import: `import { Sidebar, SidebarSection, SidebarItem } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -76,6 +76,35 @@ const Demo = () => {
 
 export const Destinations: Story = {
   render: () => <Demo />,
+};
+
+export const MediumItems: Story = {
+  render: () => (
+    <div className="w-[var(--sidebar-width)] h-[480px] bg-[var(--bg-secondary)]">
+      <Sidebar label="Main">
+        <SidebarSection>
+          <SidebarItem href="#home" icon={icons.star} size="md" current>
+            Home
+          </SidebarItem>
+          <SidebarItem href="#network" icon={icons.person} size="md">
+            Network
+          </SidebarItem>
+        </SidebarSection>
+        <SidebarSection title="Boston 2026">
+          {DESTINATIONS.map((destination) => (
+            <SidebarItem
+              key={destination.id}
+              href={`#${destination.id}`}
+              icon={destination.icon}
+              count={destination.count}
+            >
+              {destination.label}
+            </SidebarItem>
+          ))}
+        </SidebarSection>
+      </Sidebar>
+    </div>
+  ),
 };
 
 export const Interaction: Story = {

@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Toolbar } from './Toolbar';
+import { AppShell } from '../AppShell/AppShell';
+import { Sidebar, SidebarItem, SidebarSection } from '../Sidebar/Sidebar';
 import { Button } from '../Button/Button';
 import { IconButton } from '../IconButton/IconButton';
 import { SegmentedControl } from '../SegmentedControl/SegmentedControl';
@@ -16,7 +18,7 @@ const meta = {
     docs: {
       description: {
         component: [
-          'The bar across the top of the content column, on the translucent bar material. Leading content names the context (a program picker or a title), trailing content holds the few commands that act on the whole page, and an optional accessory row carries a scope control such as the program stage. Inside an AppShell with a sidebar it adds the sidebar toggle.',
+          'The bar across the top of the content column, on the translucent bar material. Leading content names the context (a program picker or a title), trailing content holds the few commands that act on the whole page, and an optional accessory row carries a scope control such as the program stage. Inside an AppShell with a sidebar it adds the sidebar toggle, drawn as a sidebar panel by default or as a menu with `sidebarToggleIcon="menu"`.',
           '',
           "Import: `import { Toolbar } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -31,6 +33,7 @@ const meta = {
     trailing: hide,
     accessory: hide,
     sidebarToggleLabel: hide,
+    sidebarToggleIcon: hide,
     className: hide,
   },
 } satisfies Meta<typeof Toolbar>;
@@ -67,4 +70,28 @@ export const WithCommands: Story = {
       />
     ),
   },
+};
+
+export const MenuToggle: Story = {
+  render: (args) => (
+    <AppShell
+      sidebar={
+        <Sidebar label="Main">
+          <SidebarSection>
+            <SidebarItem href="#overview" icon={icons.star} current>
+              Overview
+            </SidebarItem>
+            <SidebarItem href="#startups" icon={icons.check}>
+              Startups
+            </SidebarItem>
+          </SidebarSection>
+        </Sidebar>
+      }
+      toolbar={<Toolbar {...args} sidebarToggleIcon="menu" />}
+    >
+      <p className="m-0 text-body text-[var(--label-secondary)]">
+        The sidebar toggle draws a menu glyph.
+      </p>
+    </AppShell>
+  ),
 };

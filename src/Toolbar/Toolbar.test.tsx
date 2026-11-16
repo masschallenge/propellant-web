@@ -1,8 +1,27 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { Toolbar } from './Toolbar';
+import type { ToolbarProps } from './Toolbar';
+import { AppShell } from '../AppShell/AppShell';
+import { Sidebar, SidebarItem, SidebarSection } from '../Sidebar/Sidebar';
 
 afterEach(cleanup);
+
+const renderInShell = (props: ToolbarProps = {}) =>
+  render(
+    <AppShell
+      sidebar={
+        <Sidebar label="Console">
+          <SidebarSection>
+            <SidebarItem href="/overview">Overview</SidebarItem>
+          </SidebarSection>
+        </Sidebar>
+      }
+      toolbar={<Toolbar title="Round 1" {...props} />}
+    >
+      <p>Applications to review</p>
+    </AppShell>,
+  );
 
 describe('Toolbar', () => {
   it('renders leading, title, trailing and accessory content in a banner', () => {
@@ -36,5 +55,21 @@ describe('Toolbar', () => {
   it('shows no sidebar toggle outside an app shell', () => {
     render(<Toolbar title="Round 1" />);
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
+  });
+
+  it('draws the sidebar glyph on the sidebar toggle by default', () => {
+    renderInShell();
+    const toggle = screen.getByRole('button', { name: 'Show sidebar' });
+    expect(toggle.querySelector('svg rect')).toBeInTheDocument();
+    expect(toggle.querySelectorAll('svg path')).toHaveLength(1);
+  });
+
+  it('draws the menu glyph when asked and keeps the accessible name', () => {
+    renderInShell({ sidebarToggleIcon: 'menu', sidebarToggleLabel: 'Show navigation' });
+    const toggle = screen.getByRole('button', { name: 'Show navigation' });
+    const glyph = toggle.querySelector('svg');
+    expect(glyph).toHaveAttribute('aria-hidden', 'true');
+    expect(glyph?.querySelector('rect')).not.toBeInTheDocument();
+    expect(glyph?.querySelector('path')).toHaveAttribute('d', 'M4 6.5h16M4 12h16M4 17.5h16');
   });
 });
