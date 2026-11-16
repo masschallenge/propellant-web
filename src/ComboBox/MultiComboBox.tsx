@@ -26,7 +26,6 @@ export interface MultiComboBoxOption {
   sub?: string;
   disabled?: boolean;
   parent?: string;
-  keywords?: string;
   marker?: MultiComboBoxOptionMarker;
 }
 
@@ -46,7 +45,6 @@ export interface MultiComboBoxProps {
   placeholder?: string;
   size?: MultiComboBoxSize;
   searchable?: boolean;
-  filterOption?: (option: MultiComboBoxOption, query: string) => boolean;
   summarySecondary?: string;
   chipTone?: MultiComboBoxChipTone;
   footer?: boolean;
@@ -66,13 +64,6 @@ const FIELD_SIZES: Record<MultiComboBoxSize, string> = {
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
-
-const matchesLabelOrKeywords = (option: MultiComboBoxOption, query: string) =>
-  [option.label, option.keywords]
-    .filter(Boolean)
-    .join(' ')
-    .toLowerCase()
-    .includes(query.toLowerCase());
 
 const SearchSymbol = () => (
   <svg
@@ -102,7 +93,6 @@ export const MultiComboBox = ({
   placeholder = 'Select…',
   size = 'md',
   searchable = true,
-  filterOption = matchesLabelOrKeywords,
   summarySecondary,
   chipTone = 'neutral',
   footer = true,
@@ -182,9 +172,8 @@ export const MultiComboBox = ({
     );
   };
 
-  const trimmedQuery = query.trim();
-  const shown = trimmedQuery
-    ? options.filter((option) => filterOption(option, trimmedQuery))
+  const shown = query
+    ? options.filter((option) => option.label.toLowerCase().includes(query.toLowerCase()))
     : options
         .filter((option) => !parentOf(option))
         .flatMap((option) =>
@@ -216,7 +205,7 @@ export const MultiComboBox = ({
       setActiveIndex((index) => Math.max(0, index - 1));
     } else if (
       (event.key === 'ArrowRight' || event.key === 'ArrowLeft') &&
-      !trimmedQuery &&
+      !query &&
       activeOption
     ) {
       const parentValue = parentOf(activeOption);
@@ -238,8 +227,8 @@ export const MultiComboBox = ({
 
   const renderOption = (option: MultiComboBoxOption, index: number) => {
     const isChosen = chosen.includes(option.value);
-    const childCount = trimmedQuery ? 0 : childrenOf(option.value).length;
-    const isNested = !trimmedQuery && parentOf(option) !== null;
+    const childCount = query ? 0 : childrenOf(option.value).length;
+    const isNested = !query && parentOf(option) !== null;
     const isOptionExpanded = isExpanded(option.value);
     const sub = isNested && option.sub === labelFor(option.parent ?? '') ? '' : option.sub;
     return (

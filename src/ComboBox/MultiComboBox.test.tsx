@@ -3,8 +3,6 @@ import { cleanup, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { MultiComboBox } from './MultiComboBox';
-import type { MultiComboBoxOption } from './MultiComboBox';
-import { ComboBox } from './ComboBox';
 import { Sheet } from '../Sheet/Sheet';
 
 afterEach(cleanup);
@@ -199,84 +197,6 @@ describe('MultiComboBox Escape inside a Sheet', () => {
 
     await userEvent.keyboard('{Escape}');
     expect(handleClose).toHaveBeenCalledTimes(1);
-  });
-});
-
-describe('MultiComboBox search', () => {
-  const SECTORS = [
-    { value: 'fintech', label: 'Fintech', keywords: 'finance banking payments' },
-    { value: 'health', label: 'Healthcare', keywords: 'medical medtech' },
-    { value: 'climate', label: 'Climate' },
-  ];
-
-  const openAndSearch = async (term: string) => {
-    await userEvent.click(screen.getByRole('combobox', { name: 'Sectors' }));
-    await userEvent.type(screen.getByRole('textbox', { name: 'Search options' }), term);
-  };
-
-  it('matches an option on its keywords without showing them', async () => {
-    render(<MultiComboBox label="Sectors" options={SECTORS} value={[]} />);
-    await openAndSearch('banking');
-
-    const [match] = screen.getAllByRole('option');
-    expect(screen.getAllByRole('option')).toHaveLength(1);
-    expect(match).toHaveAccessibleName('Fintech');
-    expect(match).not.toHaveTextContent('banking');
-  });
-
-  it('still matches on the label and ignores surrounding spaces', async () => {
-    render(<MultiComboBox label="Sectors" options={SECTORS} value={[]} />);
-    await openAndSearch('  clim ');
-
-    expect(screen.getAllByRole('option')).toHaveLength(1);
-    expect(screen.getByRole('option', { name: 'Climate' })).toBeVisible();
-  });
-
-  it('chooses a keyword match from the keyboard', async () => {
-    const handleChange = vi.fn();
-    render(<MultiComboBox label="Sectors" options={SECTORS} value={[]} onChange={handleChange} />);
-    await openAndSearch('medtech');
-    const trigger = screen.getByRole('combobox', { name: 'Sectors' });
-    trigger.focus();
-    await userEvent.keyboard('{Enter}');
-
-    expect(handleChange).toHaveBeenCalledWith(['health']);
-  });
-
-  it('uses filterOption in place of the default match, with the trimmed query', async () => {
-    const startsWith = vi.fn((option: MultiComboBoxOption, query: string) =>
-      option.label.toLowerCase().startsWith(query.toLowerCase()),
-    );
-    render(
-      <MultiComboBox label="Sectors" options={SECTORS} value={[]} filterOption={startsWith} />,
-    );
-    await openAndSearch(' care');
-
-    expect(screen.queryAllByRole('option')).toHaveLength(0);
-    expect(screen.getByText('No results found')).toBeInTheDocument();
-    expect(startsWith).toHaveBeenCalledWith(SECTORS[1], 'care');
-
-    await userEvent.clear(screen.getByRole('textbox', { name: 'Search options' }));
-    await userEvent.type(screen.getByRole('textbox', { name: 'Search options' }), 'heal');
-
-    expect(screen.getByRole('option', { name: 'Healthcare' })).toBeVisible();
-    expect(screen.getAllByRole('option')).toHaveLength(1);
-  });
-
-  it('accepts keywords and filterOption through ComboBox multiple', async () => {
-    render(
-      <ComboBox
-        multiple
-        label="Sectors"
-        options={SECTORS}
-        value={[]}
-        filterOption={(option, query) => option.value === query}
-      />,
-    );
-    await openAndSearch('climate');
-
-    expect(screen.getByRole('option', { name: 'Climate' })).toBeVisible();
-    expect(screen.getAllByRole('option')).toHaveLength(1);
   });
 });
 
