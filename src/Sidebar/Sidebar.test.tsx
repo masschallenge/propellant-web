@@ -109,6 +109,79 @@ describe('Sidebar', () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
+  it('offers no collapse button outside a shell with a rail', () => {
+    render(
+      <Sidebar header={<span>MassChallenge</span>}>
+        <SidebarSection>
+          <SidebarItem href="/">Home</SidebarItem>
+        </SidebarSection>
+      </Sidebar>,
+    );
+    expect(screen.queryByRole('button', { name: /menu$/ })).not.toBeInTheDocument();
+    expect(screen.getByText('MassChallenge')).toBeVisible();
+  });
+
+  it('scrolls its destinations vertically and never sideways', () => {
+    render(
+      <Sidebar>
+        <SidebarSection>
+          <SidebarItem href="/">Home</SidebarItem>
+        </SidebarSection>
+      </Sidebar>,
+    );
+    const scrollArea = screen.getByRole('list').parentElement?.parentElement;
+    expect(scrollArea).toHaveClass('overflow-y-auto', 'overflow-x-hidden');
+  });
+
+  it.each([
+    ['hide', 'min-h-[var(--control-sm)]', 'text-callout', 'w-[var(--icon-sm)]'],
+    ['rail', 'min-h-[var(--row-dense)]', 'text-body', 'w-[var(--icon-lg)]'],
+  ] as const)(
+    'sizes a top level item with nothing nested for %s mode',
+    (mode, height, text, iconWidth) => {
+      vi.stubGlobal('matchMedia', () => ({
+        matches: true,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      }));
+      render(
+        <AppShell
+          sidebarCollapse={mode}
+          sidebar={
+            <Sidebar>
+              <SidebarSection>
+                <SidebarItem href="/" icon={<svg />}>
+                  Home
+                </SidebarItem>
+              </SidebarSection>
+            </Sidebar>
+          }
+        >
+          <p>Page</p>
+        </AppShell>,
+      );
+      const home = screen.getByRole('link', { name: 'Home' });
+      expect(home).toHaveClass(height, text);
+      expect(home.firstElementChild).toHaveClass(iconWidth);
+    },
+  );
+
+  it('hides the scrollbar of its destinations while they still scroll', () => {
+    render(
+      <Sidebar>
+        <SidebarSection>
+          <SidebarItem href="/">Home</SidebarItem>
+        </SidebarSection>
+      </Sidebar>,
+    );
+    const scrollArea = screen.getByRole('list').parentElement?.parentElement;
+    expect(scrollArea).toHaveClass(
+      'overflow-y-auto',
+      '[scrollbar-width:none]',
+      '[&::-webkit-scrollbar]:hidden',
+    );
+  });
+
   describe('tree', () => {
     const renderTree = (stageProps: Partial<React.ComponentProps<typeof SidebarItem>> = {}) =>
       render(
