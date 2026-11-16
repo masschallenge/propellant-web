@@ -37,6 +37,7 @@ const meta = {
         component: [
           'Split screen sign in layout for public pages: a brand panel (MassChallenge logo, eyebrow, headline, supporting copy, footnote) on the brand surface beside a centered form column, with the app version in the corner.',
           'The hero headline is the one place Propellant sets the brand face (Oswald) in capitals. The brand panel hides below 880px, so the form column carries anything that must show on mobile. Mounts its own `[data-propellant]` boundary; the auth screen (login form, link sent, verifying) renders in `children`.',
+          'Set `variant="centered"` for a single column on the grouped background: no brand panel, the MassChallenge logo above the form, or the `brand` you pass in its place, such as a product lockup. The panel props do not apply there.',
           '',
           "Import: `import { AuthLayout } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -52,6 +53,8 @@ const meta = {
     children: <DemoForm />,
   },
   argTypes: {
+    variant: { control: 'inline-radio', options: ['split', 'centered'] },
+    brand: hide,
     eyebrow: { control: 'text' },
     headline: { control: 'text' },
     supportingCopy: { control: 'text' },
@@ -75,4 +78,8 @@ export const Dark: Story = {
       </div>
     ),
   ],
+};
+
+export const Centered: Story = {
+  args: { variant: 'centered' },
 };

@@ -14,6 +14,11 @@ property and from `@masschallenge/propellant-web/version`.
 - `Toolbar` takes `sidebarToggleIcon`, `sidebar` by default for today's panel glyph, or `menu` for
   a three line menu glyph at the same size and stroke. The toggle keeps its accessible name from
   `sidebarToggleLabel`. The `ToolbarSidebarToggleIcon` type is exported.
+- `AuthLayout` takes `variant`, `split` by default for today's brand panel beside the form, or
+  `centered` for a single column on the grouped background with the MassChallenge logo above the
+  form and no brand panel. In the centered variant, `brand` replaces the logo, for example with a
+  product lockup. The form keeps its width and the version still shows. The `AuthLayoutVariant`
+  type is exported.
 
 ## 2.1.0 (2026-11-16)
 
