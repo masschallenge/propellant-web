@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
 import { useAppShell } from '../AppShell/AppShell';
+import { IconButton } from '../IconButton/IconButton';
 import { imageFitClass } from '../internal/imageFit';
 import { RoleTag } from '../RoleTag/RoleTag';
 import type { RoleTagProps } from '../RoleTag/RoleTag';
@@ -16,20 +17,107 @@ export interface SidebarProps {
   className?: string;
 }
 
-export const Sidebar = ({ label = 'Main', header, footer, children, className }: SidebarProps) => (
-  <nav
-    aria-label={label}
-    className={joinClasses('h-full flex flex-col gap-1 px-2.5 py-3 overflow-y-auto', className)}
+const MenuIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.75"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
   >
-    {header ? <div className="px-2 pb-3">{header}</div> : null}
-    <div className="flex-1 flex flex-col gap-4">{children}</div>
-    {footer ? (
-      <div className="mt-2 pt-2.5 px-0 border-t border-solid border-[var(--separator)] [border-top-width:var(--hairline)]">
-        {footer}
-      </div>
-    ) : null}
-  </nav>
+    <path d="M4 6h16M4 12h16M4 18h16" />
+  </svg>
 );
+
+const CollapseIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.75"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="m11 17-5-5 5-5" />
+    <path d="m18 17-5-5 5-5" />
+  </svg>
+);
+
+const SidebarCollapseButton = ({
+  isCollapsed,
+  controlsId,
+  onToggle,
+}: {
+  isCollapsed: boolean;
+  controlsId: string;
+  onToggle: () => void;
+}) => (
+  <IconButton
+    variant="plain"
+    size="md"
+    className={
+      isCollapsed
+        ? 'w-[var(--control-md)]! h-[var(--control-md)]! text-[var(--label)]!'
+        : 'w-7.5! h-7.5! text-[var(--label-tertiary)]!'
+    }
+    aria-label={isCollapsed ? 'Expand menu' : 'Collapse menu'}
+    aria-expanded={!isCollapsed}
+    aria-controls={controlsId}
+    onClick={onToggle}
+  >
+    {isCollapsed ? <MenuIcon /> : <CollapseIcon />}
+  </IconButton>
+);
+
+const SidebarHeader = ({ header }: { header?: ReactNode }) => {
+  const shell = useAppShell();
+  const canCollapse = Boolean(shell && shell.collapseMode === 'rail' && !shell.isCompact);
+  if (!canCollapse || !shell) return header ? <div className="px-2 pb-3">{header}</div> : null;
+  return (
+    <div
+      className={joinClasses(
+        'flex items-center gap-2',
+        shell.isRail ? 'justify-center px-0 pb-2' : 'px-2 pb-3',
+      )}
+    >
+      {header && !shell.isRail ? <div className="flex-1 min-w-0 flex">{header}</div> : null}
+      <SidebarCollapseButton
+        isCollapsed={shell.isCollapsed}
+        controlsId={shell.sidebarId}
+        onToggle={shell.toggleCollapsed}
+      />
+    </div>
+  );
+};
+
+export const Sidebar = ({ label = 'Main', header, footer, children, className }: SidebarProps) => {
+  const isRail = Boolean(useAppShell()?.isRail);
+  return (
+    <nav
+      aria-label={label}
+      className={joinClasses('h-full flex flex-col gap-1 px-2.5 py-3 overflow-hidden', className)}
+    >
+      <SidebarHeader header={header} />
+      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden flex flex-col gap-4">
+        {children}
+      </div>
+      {footer ? (
+        <div
+          className={
+            isRail
+              ? 'flex-none flex justify-center'
+              : 'flex-none mt-2 pt-2.5 px-0 border-t border-solid border-[var(--separator)] [border-top-width:var(--hairline)]'
+          }
+        >
+          {footer}
+        </div>
+      ) : null}
+    </nav>
+  );
+};
 
 export interface SidebarSectionProps {
   title?: ReactNode;
@@ -39,12 +127,17 @@ export interface SidebarSectionProps {
 
 export const SidebarSection = ({ title, children, className }: SidebarSectionProps) => {
   const titleId = React.useId();
+  const isRail = Boolean(useAppShell()?.isRail);
   return (
     <div className={joinClasses('flex flex-col gap-0.5', className)}>
       {title ? (
         <h2
           id={titleId}
-          className="m-0 px-2 pb-1 text-footnote font-semibold text-[var(--label-tertiary)]"
+          className={
+            isRail
+              ? 'sr-only'
+              : 'm-0 px-2 pb-1 text-footnote font-semibold text-[var(--label-tertiary)]'
+          }
         >
           {title}
         </h2>
@@ -88,6 +181,7 @@ export interface SidebarItemProps {
   linkAs?: React.ElementType;
   onClick?: React.MouseEventHandler<HTMLElement>;
   current?: boolean;
+  inTrail?: boolean;
   count?: number | string;
   accessory?: ReactNode;
   size?: SidebarItemSize;
@@ -154,9 +248,10 @@ const rowKindOf = (
   isBranch: boolean,
   leadingKind: LeadingKind,
   isProgramRow: boolean,
+  isTree: boolean,
 ): RowKind => {
   if (isProgramRow) return 'program';
-  if (depth === 0 && !isBranch) return 'flat';
+  if (depth === 0 && !isBranch && !isTree) return 'flat';
   if (depth === 0 || leadingKind === 'icon') return 'item';
   return isBranch ? 'branch' : 'leaf';
 };
@@ -196,8 +291,17 @@ const LABEL_LEADING: Record<RowKind, string> = {
 const labelLeadingFor = (rowKind: RowKind, depth: number) =>
   rowKind === 'item' && depth > 0 ? LABEL_LEADING.leaf : LABEL_LEADING[rowKind];
 
-const rowLayout = (rowKind: RowKind, indent: string, size: SidebarItemSize | undefined) =>
-  joinClasses(
+const RAIL_ROW =
+  'w-[var(--control-md)] h-[var(--control-md)] mx-auto gap-2.5 justify-center text-body';
+
+const rowLayout = (
+  rowKind: RowKind,
+  indent: string,
+  size: SidebarItemSize | undefined,
+  isRail: boolean,
+) => {
+  if (isRail) return RAIL_ROW;
+  return joinClasses(
     'w-full pr-2',
     ROW_PADDING[rowKind],
     indent,
@@ -205,11 +309,17 @@ const rowLayout = (rowKind: RowKind, indent: string, size: SidebarItemSize | und
     size ? ITEM_SIZES[size] : ROW_HEIGHTS[rowKind],
     ROW_TEXT[rowKind],
   );
+};
 
 const rowColor = (rowKind: RowKind, isHighlighted: boolean, isInteractive: boolean) => {
   if (isHighlighted) return 'bg-[var(--fill)] text-[var(--label)] font-semibold';
   const label = rowKind === 'leaf' ? 'text-[var(--label-secondary)]' : 'text-[var(--label)]';
   return joinClasses('bg-transparent', label, isInteractive && 'hover:text-[var(--tint)]');
+};
+
+const ariaCurrentFor = (current: boolean, isRailTrail: boolean): 'page' | 'true' | undefined => {
+  if (current) return 'page';
+  return isRailTrail ? 'true' : undefined;
 };
 
 const INTERACTIVE_ROW =
@@ -218,6 +328,12 @@ const INTERACTIVE_ROW =
 const ICON_SIZES = {
   flat: 'w-[var(--icon-sm)] h-[var(--icon-sm)]',
   tree: 'w-[var(--icon-lg)] h-[var(--icon-lg)]',
+  rail: 'w-[var(--icon-md)] h-[var(--icon-md)]',
+};
+
+const iconSizeFor = (rowKind: RowKind, isRail: boolean) => {
+  if (isRail) return ICON_SIZES.rail;
+  return rowKind === 'flat' ? ICON_SIZES.flat : ICON_SIZES.tree;
 };
 
 const MARKER_STATES: Record<SidebarMarkerState, string> = {
@@ -258,12 +374,15 @@ const SidebarMarker = ({ marker }: { marker: SidebarItemMarker }) => (
   </span>
 );
 
-const SidebarMedia = ({ media }: { media: SidebarItemMedia }) => (
+const SidebarMedia = ({ media, isRail }: { media: SidebarItemMedia; isRail: boolean }) => (
   <img
     src={media.src}
     alt={media.alt}
     className={joinClasses(
-      'flex-none w-15 h-9 rounded-[var(--corner-thumbnail)] bg-[var(--bg)] outline-1 outline-solid outline-[var(--separator)] -outline-offset-1',
+      'flex-none bg-[var(--bg)] outline-1 outline-solid outline-[var(--separator)] -outline-offset-1',
+      isRail
+        ? 'w-8.5 h-5 rounded-[var(--corner-sm)] shadow-[inset_0_0_0_1px_var(--separator)]'
+        : 'w-15 h-9 rounded-[var(--corner-thumbnail)]',
       imageFitClass(true),
     )}
   />
@@ -292,8 +411,9 @@ const leadingVisual = (
   marker: SidebarItemMarker | undefined,
   media: SidebarItemMedia | undefined,
   iconSize: string,
+  isRail: boolean,
 ) => {
-  if (media) return <SidebarMedia media={media} />;
+  if (media) return <SidebarMedia media={media} isRail={isRail} />;
   if (marker) return <SidebarMarker marker={marker} />;
   if (!icon) return null;
   return (
@@ -354,6 +474,18 @@ const ItemLabel = ({
   </span>
 );
 
+const RailLabel = ({
+  children,
+  marker,
+  count,
+}: Pick<SidebarItemProps, 'children' | 'marker' | 'count'>) => (
+  <span className="sr-only">
+    {children}
+    {marker ? `, ${marker.label}` : null}
+    {hasCount(count) ? `, ${count}` : null}
+  </span>
+);
+
 export const SidebarItem = ({
   icon,
   marker,
@@ -362,6 +494,7 @@ export const SidebarItem = ({
   linkAs: LinkElement = 'a',
   onClick,
   current = false,
+  inTrail = false,
   count,
   accessory,
   size,
@@ -377,43 +510,56 @@ export const SidebarItem = ({
   const { depth, indent, isInset } = React.useContext(SidebarLevelContext);
   const subitemsId = React.useId();
   const [internalExpanded, setInternalExpanded] = React.useState(defaultExpanded);
+  const isRail = Boolean(shell?.isRail);
   const hasSubitems = React.Children.toArray(subitems).length > 0;
+  const showsSubitems = hasSubitems && !isRail;
   const isProgramRow = hasSubitems && !collapsible;
   const isStatic = isProgramRow && !href;
-  const isDisclosure = hasSubitems && collapsible;
-  const isLink = Boolean(href) && !isDisclosure;
+  const isParent = hasSubitems && collapsible;
+  const isDisclosure = isParent && !isRail;
+  const isLink = Boolean(href) && !isParent;
   const isExpanded = !collapsible || (expanded ?? internalExpanded);
   const leadingKind = leadingKindOf(icon, marker, media);
-  const rowKind = rowKindOf(depth, hasSubitems || Boolean(marker), leadingKind, isProgramRow);
+  const rowKind = rowKindOf(
+    depth,
+    hasSubitems || Boolean(marker),
+    leadingKind,
+    isProgramRow,
+    shell?.collapseMode === 'rail',
+  );
   const tagText = roleTagText(accessory);
   const toggleExpanded = () => {
     if (expanded === undefined) setInternalExpanded(!isExpanded);
     onExpandedChange?.(!isExpanded);
   };
+  const pinExpanded = () => {
+    shell?.toggleCollapsed();
+    if (isParent && !isExpanded) toggleExpanded();
+  };
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     onClick?.(event);
     if (isDisclosure) return toggleExpanded();
+    if (isRail && hasSubitems && !isLink) return pinExpanded();
     if (shell?.isCompact) shell.closeSidebar();
   };
   const classes = joinClasses(
     'relative flex items-center rounded-[var(--corner-md)] border-0 text-left no-underline',
-    rowLayout(rowKind, rowIndentFor(indent, isProgramRow), size),
-    rowColor(rowKind, current, !isStatic),
+    rowLayout(rowKind, rowIndentFor(indent, isProgramRow), size, isRail),
+    rowColor(rowKind, current || (isRail && inTrail), !isStatic),
     !isStatic && INTERACTIVE_ROW,
     className,
   );
   const staticProps = {
     className: classes,
-    'aria-current': current ? ('page' as const) : undefined,
+    'aria-current': ariaCurrentFor(current, isRail && inTrail),
   };
   const rowProps = {
     ...staticProps,
     onClick: handleClick,
     ...(isDisclosure ? { 'aria-expanded': isExpanded, 'aria-controls': subitemsId } : {}),
   };
-  const content = (
+  const fullContent = (
     <>
-      {leadingVisual(icon, marker, media, rowKind === 'flat' ? ICON_SIZES.flat : ICON_SIZES.tree)}
       <ItemLabel
         spokenSuffix={`${marker ? `, ${marker.label}` : ''}${tagSuffix(tagText, children)}`}
         leading={labelLeadingFor(rowKind, depth)}
@@ -428,6 +574,18 @@ export const SidebarItem = ({
       ) : null}
       {visibleAccessory(accessory, tagText)}
       {isDisclosure ? <SidebarChevron isExpanded={isExpanded} /> : null}
+    </>
+  );
+  const content = (
+    <>
+      {leadingVisual(icon, marker, media, iconSizeFor(rowKind, isRail), isRail)}
+      {isRail ? (
+        <RailLabel marker={marker} count={count}>
+          {children}
+        </RailLabel>
+      ) : (
+        fullContent
+      )}
     </>
   );
   const rowElement = () => {
@@ -445,9 +603,12 @@ export const SidebarItem = ({
     );
   };
   return (
-    <li data-propellant-sidebar-depth={depth} className={isProgramRow ? PROGRAM_INSET : undefined}>
+    <li
+      data-propellant-sidebar-depth={depth}
+      className={joinClasses(isRail && 'py-0.5', isProgramRow && !isRail && PROGRAM_INSET)}
+    >
       {rowElement()}
-      {hasSubitems ? (
+      {showsSubitems ? (
         <SidebarLevelContext.Provider
           value={{
             depth: depth + 1,
@@ -482,7 +643,9 @@ const separatorSpacing = (depth: number, isInset: boolean) => {
 };
 
 export const SidebarSeparator = ({ className }: SidebarSeparatorProps) => {
+  const isRail = Boolean(useAppShell()?.isRail);
   const { depth, isInset } = React.useContext(SidebarLevelContext);
+  if (isRail) return null;
   return (
     <li
       aria-hidden="true"
