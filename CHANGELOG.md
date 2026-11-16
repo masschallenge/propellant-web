@@ -22,6 +22,10 @@ property and from `@masschallenge/propellant-web/version`.
   marker label joins the accessible name of both, and of the token's remove button, so a product
   can mark values that came from a search. The `MultiComboBoxChipTone` and
   `MultiComboBoxOptionMarker` types are exported.
+- `ComboBox` with `multiple` takes `display="summary"` to keep the field to one line at the control
+  height. Closed, it shows the placeholder, the one chosen label, or the first label and a count
+  such as `Climate +2`, and the full selection, with any marker labels, becomes the field's
+  accessible description. The open list is unchanged. The default, `chips`, keeps the tokens.
 - `Menu` takes `onOpenChange(open)`, called each time the menu opens or closes by click, keyboard,
   choosing an item or clicking outside. A `Tooltip` around the trigger can use it to stay
   disabled while the menu is open, so the two never overlap.

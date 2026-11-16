@@ -23,7 +23,7 @@ const meta = {
         component: [
           'Multiple select on the field shell. Chosen values show as removable tokens (collapsing past five), and the portalled menu lists checkbox rows with nested options, optional search, and a reset and select all footer.',
           '',
-          'Search matches the label and any `keywords` on an option, so synonyms and common misspellings can find it without being shown. Pass `filterOption` to replace that match entirely. `chipTone="tint"` fills the chosen tokens with the tint, and an option `marker` (an icon and a label) shows on its row and its token, with the label added to the accessible name, for example to mark values that came from a search.',
+          'Search matches the label and any `keywords` on an option, so synonyms and common misspellings can find it without being shown. Pass `filterOption` to replace that match entirely. `chipTone="tint"` fills the chosen tokens with the tint, and an option `marker` (an icon and a label) shows on its row and its token, with the label added to the accessible name, for example to mark values that came from a search. `display="summary"` keeps the field to one line, showing the placeholder, the one chosen label, or the first label and a count such as `Climate +2`; the full selection is the accessible description of the field, and the open list is unchanged.',
           '',
           "Import: `import { ComboBox } from '@masschallenge/propellant-web'`, rendered as `<ComboBox multiple />`",
         ].join('\n'),
@@ -38,6 +38,7 @@ const meta = {
     searchable: { control: 'boolean', ...appearance },
     filterOption: hide,
     chipTone: { control: 'inline-radio', options: ['neutral', 'tint'], ...appearance },
+    display: { control: 'inline-radio', options: ['chips', 'summary'], ...appearance },
     invalid: { control: 'boolean', ...state },
     disabled: { control: 'boolean', ...state },
     label: { control: 'text', ...content },
@@ -136,5 +137,37 @@ export const MarkerNames: Story = {
     await userEvent.click(within(listbox).getByRole('option', { name: 'Healthcare' }));
     await expect(args.onChange).toHaveBeenCalledWith(['climate', 'health']);
     await userEvent.keyboard('{Escape}');
+  },
+};
+
+export const Summary: Story = {
+  args: {
+    label: 'Tags',
+    display: 'summary',
+    options: markedOptions,
+    defaultValue: ['climate', 'fintech', 'health'],
+  },
+  decorators: [
+    (Story) => (
+      <div className="max-w-80">
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+export const SummaryDescription: Story = {
+  tags: ['interaction', '!autodocs'],
+  args: { label: 'Tags', display: 'summary', options: markedOptions, defaultValue: ['climate'] },
+  play: async ({ args, canvasElement }) => {
+    const trigger = within(canvasElement).getByRole('combobox', { name: 'Tags' });
+    await expect(trigger).toHaveAccessibleDescription('1 selected: Climate (from search)');
+    await userEvent.click(trigger);
+    const listbox = await within(document.body).findByRole('listbox');
+    await userEvent.click(within(listbox).getByRole('option', { name: 'Fintech' }));
+    await expect(args.onChange).toHaveBeenCalledWith(['climate', 'fintech']);
+    await userEvent.keyboard('{Escape}');
+    await expect(trigger).toHaveTextContent(/^Climate\+1$/);
+    await expect(trigger).toHaveAccessibleDescription('2 selected: Climate (from search), Fintech');
   },
 };

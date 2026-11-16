@@ -4,6 +4,7 @@ import type { ComboBoxOption, ComboBoxSize, SingleComboBoxProps } from './Single
 import { MultiComboBox } from './MultiComboBox';
 import type {
   MultiComboBoxChipTone,
+  MultiComboBoxDisplay,
   MultiComboBoxOption,
   MultiComboBoxOptionMarker,
   MultiComboBoxProps,
@@ -13,6 +14,7 @@ export type {
   ComboBoxOption,
   ComboBoxSize,
   MultiComboBoxChipTone,
+  MultiComboBoxDisplay,
   MultiComboBoxOption,
   MultiComboBoxOptionMarker,
 };

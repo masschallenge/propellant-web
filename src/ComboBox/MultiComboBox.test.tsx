@@ -334,3 +334,74 @@ describe('MultiComboBox chip tone and markers', () => {
     expect(screen.getByRole('option', { name: 'Healthcare' })).toBeVisible();
   });
 });
+
+describe('MultiComboBox summary display', () => {
+  const TAGS = [
+    { value: 'climate', label: 'Climate', marker: { icon: <svg />, label: 'from search' } },
+    { value: 'fintech', label: 'Fintech' },
+    { value: 'health', label: 'Healthcare' },
+  ];
+
+  it('shows the placeholder on one line with no selection description', () => {
+    render(
+      <MultiComboBox label="Tags" options={TAGS} value={[]} display="summary" placeholder="Any" />,
+    );
+    const trigger = screen.getByRole('combobox', { name: 'Tags' });
+    expect(trigger).toHaveTextContent('Any');
+    expect(trigger).not.toHaveAttribute('aria-describedby');
+    expect(trigger.parentElement?.className).toContain('h-[var(--control-md)]');
+    expect(trigger.parentElement?.className).toContain('flex-nowrap');
+  });
+
+  it('shows a single choice by its label, without chips', () => {
+    render(<MultiComboBox label="Tags" options={TAGS} value={['fintech']} display="summary" />);
+    const trigger = screen.getByRole('combobox', { name: 'Tags' });
+    expect(trigger).toHaveTextContent(/^Fintech$/);
+    expect(screen.queryByRole('button', { name: /^Remove/ })).toBeNull();
+    expect(trigger).toHaveAccessibleDescription('1 selected: Fintech');
+  });
+
+  it('shows the first label and a count, and describes the full selection', () => {
+    render(
+      <MultiComboBox
+        label="Tags"
+        hint="Filters the listing"
+        options={TAGS}
+        value={['climate', 'fintech', 'health']}
+        display="summary"
+      />,
+    );
+    const trigger = screen.getByRole('combobox', { name: 'Tags' });
+    expect(trigger).toHaveTextContent(/^Climate\+2$/);
+    expect(trigger).toHaveAccessibleDescription(
+      'Filters the listing 3 selected: Climate (from search), Fintech, Healthcare',
+    );
+    expect(screen.queryByRole('button', { name: /more$/ })).toBeNull();
+  });
+
+  it('keeps the open listbox, search and keyboard toggling unchanged', async () => {
+    const handleChange = vi.fn();
+    render(
+      <MultiComboBox
+        label="Tags"
+        options={TAGS}
+        value={['climate']}
+        display="summary"
+        onChange={handleChange}
+      />,
+    );
+    const trigger = screen.getByRole('combobox', { name: 'Tags' });
+    await userEvent.click(trigger);
+
+    expect(screen.getByRole('listbox')).toHaveAttribute('aria-multiselectable', 'true');
+    expect(screen.getByRole('option', { name: 'Climate, from search' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
+    await userEvent.type(screen.getByRole('textbox', { name: 'Search options' }), 'health');
+    trigger.focus();
+    await userEvent.keyboard('{Enter}');
+
+    expect(handleChange).toHaveBeenCalledWith(['climate', 'health']);
+  });
+});
