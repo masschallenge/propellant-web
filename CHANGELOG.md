@@ -4,7 +4,7 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
-## Unreleased
+## 2.3.0 (2026-11-17)
 
 ### Added
 
