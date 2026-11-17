@@ -32,6 +32,16 @@ const STORIES_CAPTURED_WITH_SIDEBAR_OPEN = new Set([
   'components-layout-sidebar--tree-in-compact-overlay',
 ]);
 
+const STORIES_CAPTURED_WIDE = new Set([
+  'components-layout-appshell--tree',
+  'components-layout-appshell--rail',
+  'components-layout-sidebar--tree',
+  'components-layout-sidebar--program-under-persona',
+  'components-layout-sidebar--program-without-cover-under-persona',
+]);
+
+const WIDE_VIEWPORT = { width: 1280, height: 800 };
+
 const openCompactSidebar = async (page: Page) => {
   await page.getByRole('button', { name: 'Show sidebar' }).dispatchEvent('click');
   await expect(page.getByRole('dialog', { name: 'Navigation' })).toBeVisible();
@@ -45,6 +55,7 @@ test.describe('story visual regression', () => {
   for (const story of stories) {
     test(story.id, async ({ page }) => {
       await page.clock.setFixedTime(VR_TODAY);
+      if (STORIES_CAPTURED_WIDE.has(story.id)) await page.setViewportSize(WIDE_VIEWPORT);
       await page.goto(`/iframe.html?id=${story.id}&viewMode=story`);
       await waitForStoryRendered(page);
       if (STORIES_CAPTURED_WITH_SIDEBAR_OPEN.has(story.id)) await openCompactSidebar(page);
