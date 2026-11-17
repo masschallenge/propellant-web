@@ -267,7 +267,7 @@ The product text styles do not change, and Oswald is never used inside a signed 
 
 - Use sentence case for titles, labels and buttons. Capitals belong only to Oswald, the wordmark
   and the labels of the graphic devices below.
-- Use the eleven named text styles in Propellant rather than choosing sizes by eye.
+- Use the twelve named text styles in Propellant rather than choosing sizes by eye.
 - Use tabular figures (digits of equal width) wherever numbers line up in columns.
 - Keep lines of running text to about 68 characters.
 

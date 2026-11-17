@@ -1,11 +1,21 @@
 import { cleanup, render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Toolbar } from './Toolbar';
 import type { ToolbarProps } from './Toolbar';
 import { AppShell } from '../AppShell/AppShell';
 import { Sidebar, SidebarItem, SidebarSection } from '../Sidebar/Sidebar';
 
-afterEach(cleanup);
+const stubWide = (isWide: boolean) =>
+  vi.stubGlobal('matchMedia', () => ({
+    matches: isWide,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  }));
+
+afterEach(() => {
+  cleanup();
+  vi.unstubAllGlobals();
+});
 
 const renderInShell = (props: ToolbarProps = {}) =>
   render(
@@ -72,4 +82,22 @@ describe('Toolbar', () => {
     expect(glyph?.querySelector('rect')).not.toBeInTheDocument();
     expect(glyph?.querySelector('path')).toHaveAttribute('d', 'M4 6.5h16M4 12h16M4 17.5h16');
   });
+
+  it.each([
+    ['hide', true, true],
+    ['rail', true, false],
+    ['rail', false, true],
+  ] as const)(
+    'in %s mode on a wide window (%s) shows the sidebar toggle: %s',
+    (mode, isWide, showsToggle) => {
+      stubWide(isWide);
+      render(
+        <AppShell sidebar={<Sidebar />} sidebarCollapse={mode} toolbar={<Toolbar />}>
+          <p>Page</p>
+        </AppShell>,
+      );
+      const toggle = screen.queryByRole('button', { name: 'Show sidebar' });
+      expect(Boolean(toggle)).toBe(showsToggle);
+    },
+  );
 });

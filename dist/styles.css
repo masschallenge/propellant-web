@@ -396,6 +396,10 @@
   --type-caption-weight: 500;
   --type-caption-tracking: 0.016em;
 
+  --type-caption2-size: 0.625rem;
+  --type-caption2-line: 0.875rem;
+  --type-caption2-tracking: 0.06em;
+
   --type-measure: 68ch;
 }
 
@@ -412,6 +416,7 @@
 
 :root {
   --corner-sm: 4px;
+  --corner-thumbnail: 5px;
   --corner-md: 8px;
   --corner-lg: 12px;
   --corner-xl: 16px;
@@ -440,7 +445,7 @@
 
   --material-bar: rgb(255 255 255 / 0.72);
   --material-bar-opaque: var(--gray-0);
-  --material-sidebar: rgb(235 240 241 / 0.82);
+  --material-sidebar: rgb(235 240 241 / 0.92);
   --material-sidebar-opaque: var(--gray-75);
   --material-blur: saturate(180%) blur(20px);
 
@@ -579,7 +584,8 @@
 
   --toolbar-height: 52px;
   --toolbar-menu-max-width: min(320px, 60vw);
-  --sidebar-width: 240px;
+  --sidebar-width: 264px;
+  --sidebar-rail-width: 56px;
   --inspector-width: 360px;
 
   --avatar-xs: 20px;

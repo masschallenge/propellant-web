@@ -79,6 +79,13 @@ const STYLES = [
     sample: '3 of 3 judges',
     use: 'Labels on small controls',
   },
+  {
+    id: 'caption2',
+    label: 'Caption 2',
+    className: 'text-caption2',
+    sample: 'JUDGE',
+    use: 'Role tags and step markers, with the weight set by the component',
+  },
 ];
 
 const WEIGHTS = [
@@ -102,14 +109,15 @@ const specFor = (id: string) => {
   const line = toPixels(tokenValue(`--type-${id}-line`));
   const weight = tokenValue(`--type-${id}-weight`);
   const tracking = tokenValue(`--type-${id}-tracking`);
-  return `${size}/${line}, ${weight}${tracking && tracking !== '0' ? `, ${tracking} tracking` : ''}`;
+  const trackingSpec = tracking && tracking !== '0' ? `${tracking} tracking` : '';
+  return [`${size}/${line}`, weight, trackingSpec].filter(Boolean).join(', ');
 };
 
 export const Typography = () => (
   <PageBody>
     <PageHeading
       title="Typography"
-      lede="Type is how our products speak. We use one typeface, Lato 2.0, in four weights and eleven named text styles, so every screen reads clearly and feels like it comes from the same team."
+      lede="Type is how our products speak. We use one typeface, Lato 2.0, in four weights and twelve named text styles, so every screen reads clearly and feels like it comes from the same team."
     />
 
     <Section title="Text styles" wide>

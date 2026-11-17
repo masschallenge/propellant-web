@@ -4,6 +4,63 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+### Added
+
+- `SidebarItem` nests: `subitems` shows more items in a nested list, the disclosure navigation
+  pattern. A parent is a button that only opens and closes its list, uncontrolled with
+  `defaultExpanded` or controlled with `expanded` and `onExpandedChange`. It ignores `href`,
+  never navigates and never closes the compact overlay; only leaves are destinations.
+  `collapsible={false}` always shows the list, with no chevron and no `aria-expanded`. With an
+  `href` it stays a link; without one it is a plain row that takes no focus and no clicks. It is
+  the program row: at any depth, with or without `media`, it starts at the top level icon column
+  and its children take the stage indent.
+  `marker` shows a stage as `done`, `now` or `next` with an accessible label, `media` crops a
+  logo to fill a rounded 60 by 36 thumbnail beside a name of up to two lines, and the program
+  row and its rows sit 6px in from the sidebar edge. `inTrail` marks the top level item whose
+  branch holds the current page; in the rail it carries `aria-current="true"`. A `RoleTag`
+  accessory is read once after the label, and not when it repeats it. The `SidebarItemMarker`,
+  `SidebarItemMedia` and `SidebarMarkerState` types are exported.
+- `SidebarSeparator` draws a hairline between groups of sidebar items, inset to the rows of a
+  branch when nested, and is left out of the rail.
+- `AppShell` takes `sidebarCollapse="rail"` to collapse the sidebar to a 56px column of icons on
+  wide windows, where each item is a 32px button with an 18px icon. The sidebar header carries
+  a 30px Collapse menu button, and the rail a 32px Expand menu button, with
+  `aria-expanded` and `aria-controls`, and the toolbar drops its toggle on wide windows. Expand menu pins the full tree again, and a click on a
+  parent's icon pins it with that parent expanded; a leaf's icon is a link. Only Collapse menu
+  returns to the rail. `sidebarStorageKey` remembers the collapsed choice across reloads and
+  tabs, and `defaultSidebarCollapsed` sets it when nothing is stored. Both also work in the
+  default hide mode, where collapsed means hidden. `useAppShell()` adds
+  `collapseMode`, `isCollapsed`, `isRail` and `toggleCollapsed`, and the `SidebarCollapseMode`
+  type is exported.
+- `RoleTag` names the role a destination belongs to in uppercase, with `admin`, `pm`, `judge`,
+  `startup` and `neutral` tones. The `RoleTagProps`, `RoleTagTone` and `SidebarSeparatorProps`
+  types are exported.
+- The `--sidebar-rail-width` token, and `--corner-thumbnail`, 5px, for image thumbnails beside a
+  label.
+- The Caption 2 text style, `text-caption2`: 10px on a 14px line with 0.06em tracking, from the
+  `--type-caption2-size`, `--type-caption2-line` and `--type-caption2-tracking` tokens. It sets no
+  weight, so the component sets it. `RoleTag` and the sidebar stage marker use it.
+
+### Changed
+
+- Sidebar rows in a tree follow the console design: 36px rows with 15px labels and 20px icons for
+  top level parents and nested rows with an icon, a 44px program row with a 14px semibold name,
+  34px for nested rows that hold more items or carry a marker, and 32px with 14px secondary labels
+  for nested leaves, with a 10px gap. With `sidebarCollapse="rail"` every top level row takes the
+  36px size. In the default hide mode a top level item with nothing nested keeps the height its
+  `size` gives it, with its 14px label and 16px icon, so flat sidebars keep their row size. An
+  explicit `size` sets the height of any row in the list. Children of a row with an icon line up
+  with its label.
+- Sidebar labels turn teal under the pointer with no fill, instead of a tertiary fill.
+- Sidebar labels wrap to two lines instead of ending in an ellipsis, and the row grows with them.
+- The sidebar is 264px wide, up from 240px, through `--sidebar-width`.
+- The light sidebar material, `--material-sidebar`, is more opaque: `rgb(235 240 241 / 0.92)`,
+  up from 0.82.
+- The sidebar scrolls between its header and footer, so the footer stays in view on long lists.
+  It never scrolls sideways and shows no scrollbar.
+
 ## 2.2.0 (2026-11-16)
 
 ### Added

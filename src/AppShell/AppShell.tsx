@@ -1,7 +1,10 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
+import { useStoredBoolean } from '../internal/useStoredBoolean';
 
 export type Appearance = 'system' | 'light' | 'dark';
+
+export type SidebarCollapseMode = 'hide' | 'rail';
 
 export interface AppShellContextValue {
   hasSidebar: boolean;
@@ -10,6 +13,10 @@ export interface AppShellContextValue {
   toggleSidebar: () => void;
   closeSidebar: () => void;
   sidebarId: string;
+  collapseMode: SidebarCollapseMode;
+  isCollapsed: boolean;
+  isRail: boolean;
+  toggleCollapsed: () => void;
 }
 
 const AppShellContext = React.createContext<AppShellContextValue | null>(null);
@@ -20,6 +27,11 @@ const WIDE_QUERY = '(min-width: 1024px)';
 
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+const focusableIn = (container: HTMLElement) =>
+  Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+    (element) => !element.closest('[hidden]'),
+  );
 
 const useIsWide = () => {
   const [isWide, setIsWide] = React.useState(true);
@@ -45,11 +57,20 @@ export interface AppShellProps {
   appearance?: Appearance;
   skipLinkLabel?: string;
   sidebarLabel?: string;
+  sidebarCollapse?: SidebarCollapseMode;
+  sidebarStorageKey?: string;
+  defaultSidebarCollapsed?: boolean;
   className?: string;
 }
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
+
+const PINNED_COLUMN =
+  'w-[var(--sidebar-width)] border-r border-solid border-[var(--separator)] [border-right-width:var(--hairline)] bg-[var(--material-sidebar)] [backdrop-filter:var(--material-blur)] [-webkit-backdrop-filter:var(--material-blur)]';
+
+const RAIL_COLUMN =
+  'w-[var(--sidebar-rail-width)] overflow-hidden bg-[var(--material-sidebar-opaque)] border-r border-solid border-[var(--separator)] [border-right-width:var(--hairline)]';
 
 export const AppShell = ({
   sidebar,
@@ -62,38 +83,44 @@ export const AppShell = ({
   appearance = 'system',
   skipLinkLabel = 'Skip to content',
   sidebarLabel = 'Navigation',
+  sidebarCollapse = 'hide',
+  sidebarStorageKey,
+  defaultSidebarCollapsed = false,
   className,
 }: AppShellProps) => {
   const isWide = useIsWide();
-  const [isCollapsed, setIsCollapsed] = React.useState(false);
+  const [isCollapsed, setIsCollapsed] = useStoredBoolean(
+    sidebarStorageKey,
+    defaultSidebarCollapsed,
+  );
   const [isOverlayOpen, setIsOverlayOpen] = React.useState(false);
   const sidebarId = React.useId();
   const overlayRef = React.useRef<HTMLDivElement>(null);
   const hasSidebar = Boolean(sidebar);
   const isCompact = !isWide;
+  const isRail = hasSidebar && isWide && sidebarCollapse === 'rail' && isCollapsed;
 
   React.useEffect(() => {
     if (isWide) setIsOverlayOpen(false);
   }, [isWide]);
 
   React.useEffect(() => {
-    if (!isOverlayOpen) return;
+    const overlay = overlayRef.current;
+    if (!isOverlayOpen || !overlay) return;
     const previousFocus = document.activeElement as HTMLElement | null;
-    const firstFocusable = overlayRef.current?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR);
+    const [firstFocusable] = focusableIn(overlay);
     firstFocusable?.focus();
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setIsOverlayOpen(false);
         return;
       }
-      if (event.key !== 'Tab' || !overlayRef.current) return;
-      const focusable = Array.from(
-        overlayRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
-      );
+      if (event.key !== 'Tab') return;
+      const focusable = focusableIn(overlay);
       if (!focusable.length) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
-      const isInside = overlayRef.current.contains(document.activeElement);
+      const isInside = overlay.contains(document.activeElement);
       if (event.shiftKey && (document.activeElement === first || !isInside)) {
         event.preventDefault();
         last.focus();
@@ -109,20 +136,32 @@ export const AppShell = ({
     };
   }, [isOverlayOpen]);
 
-  const contextValue = React.useMemo<AppShellContextValue>(
-    () => ({
+  const contextValue = React.useMemo<AppShellContextValue>(() => {
+    const toggleCollapsed = () => setIsCollapsed(!isCollapsed);
+    return {
       hasSidebar,
       isCompact,
-      isSidebarVisible: isCompact ? isOverlayOpen : !isCollapsed,
-      toggleSidebar: () =>
-        isCompact ? setIsOverlayOpen((open) => !open) : setIsCollapsed((collapsed) => !collapsed),
+      isSidebarVisible: isCompact ? isOverlayOpen : sidebarCollapse === 'rail' || !isCollapsed,
+      toggleSidebar: () => (isCompact ? setIsOverlayOpen((open) => !open) : toggleCollapsed()),
       closeSidebar: () => setIsOverlayOpen(false),
       sidebarId,
-    }),
-    [hasSidebar, isCompact, isOverlayOpen, isCollapsed, sidebarId],
-  );
+      collapseMode: sidebarCollapse,
+      isCollapsed,
+      isRail,
+      toggleCollapsed,
+    };
+  }, [
+    hasSidebar,
+    isCompact,
+    isOverlayOpen,
+    isCollapsed,
+    setIsCollapsed,
+    sidebarId,
+    sidebarCollapse,
+    isRail,
+  ]);
 
-  const showInlineSidebar = hasSidebar && isWide && !isCollapsed;
+  const showsColumn = hasSidebar && isWide && (isRail || !isCollapsed);
 
   return (
     <AppShellContext.Provider value={contextValue}>
@@ -139,10 +178,14 @@ export const AppShell = ({
         >
           {skipLinkLabel}
         </a>
-        {showInlineSidebar ? (
+        {showsColumn ? (
           <div
             id={sidebarId}
-            className="flex-none sticky top-0 h-screen w-[var(--sidebar-width)] border-r border-solid border-[var(--separator)] [border-right-width:var(--hairline)] bg-[var(--material-sidebar)] [backdrop-filter:var(--material-blur)] [-webkit-backdrop-filter:var(--material-blur)]"
+            data-sidebar-state={isRail ? 'rail' : 'pinned'}
+            className={joinClasses(
+              'flex-none sticky top-0 h-screen',
+              isRail ? RAIL_COLUMN : PINNED_COLUMN,
+            )}
           >
             {sidebar}
           </div>

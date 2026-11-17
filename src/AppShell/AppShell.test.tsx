@@ -1,9 +1,11 @@
-import { act, cleanup, render, screen, within } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { renderToString } from 'react-dom/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { AppShell } from './AppShell';
+import { AppShell, useAppShell } from './AppShell';
 import { Toolbar } from '../Toolbar/Toolbar';
-import { Sidebar, SidebarItem, SidebarSection } from '../Sidebar/Sidebar';
+import { Sidebar, SidebarItem, SidebarSection, SidebarSeparator } from '../Sidebar/Sidebar';
+import { RoleTag } from '../RoleTag/RoleTag';
 
 type ChangeListener = () => void;
 
@@ -26,6 +28,9 @@ const stubWidth = (width: number) => {
 afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
+  vi.restoreAllMocks();
+  vi.useRealTimers();
+  window.localStorage.clear();
 });
 
 const sidebar = (
@@ -175,5 +180,493 @@ describe('AppShell', () => {
     vi.stubGlobal('matchMedia', undefined);
     renderShell();
     expect(screen.getByRole('navigation', { name: 'Console' })).toBeInTheDocument();
+  });
+
+  describe('rail', () => {
+    const treeSidebar = (
+      <Sidebar label="Console" header={<span>Accelerate</span>}>
+        <SidebarSection title="Program">
+          <SidebarItem href="/home" icon={<svg />}>
+            Home
+          </SidebarItem>
+          <SidebarItem
+            href="/program"
+            icon={<svg />}
+            inTrail
+            expanded
+            count={3}
+            accessory={<RoleTag tone="pm">PM</RoleTag>}
+            subitems={
+              <SidebarItem href="/program/judges" current>
+                Judges
+              </SidebarItem>
+            }
+          >
+            Program Manager
+          </SidebarItem>
+        </SidebarSection>
+      </Sidebar>
+    );
+
+    const ShellState = () => {
+      const shell = useAppShell();
+      return (
+        <output
+          data-testid="shell-state"
+          data-mode={shell?.collapseMode}
+          data-collapsed={String(shell?.isCollapsed)}
+          data-rail={String(shell?.isRail)}
+        />
+      );
+    };
+
+    const renderRail = (props: Partial<React.ComponentProps<typeof AppShell>> = {}) =>
+      render(
+        <AppShell
+          sidebar={treeSidebar}
+          sidebarCollapse="rail"
+          toolbar={<Toolbar title="Round 1" />}
+          {...props}
+        >
+          <ShellState />
+          <button type="button">Page action</button>
+        </AppShell>,
+      );
+
+    const sidebarColumn = () =>
+      screen.getByRole('navigation', { name: 'Console' }).closest('[data-sidebar-state]');
+
+    const shellState = () => screen.getByTestId('shell-state');
+
+    it('keeps the full sidebar until it is collapsed, and drops the toolbar toggle', async () => {
+      stubWidth(1280);
+      renderRail();
+      expect(screen.queryByRole('button', { name: 'Show sidebar' })).not.toBeInTheDocument();
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'pinned');
+      expect(shellState()).toHaveAttribute('data-mode', 'rail');
+      expect(screen.getByRole('link', { name: 'Judges' })).toBeVisible();
+      const collapse = screen.getByRole('button', { name: 'Collapse menu' });
+      expect(collapse).toHaveAttribute('aria-expanded', 'true');
+      expect(collapse).toHaveAttribute('aria-controls', sidebarColumn()?.id);
+      await userEvent.click(collapse);
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'rail');
+      expect(screen.getByRole('button', { name: 'Expand menu' })).toHaveAttribute(
+        'aria-expanded',
+        'false',
+      );
+      expect(shellState()).toHaveAttribute('data-collapsed', 'true');
+      expect(shellState()).toHaveAttribute('data-rail', 'true');
+      await userEvent.click(screen.getByRole('button', { name: 'Expand menu' }));
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'pinned');
+      expect(shellState()).toHaveAttribute('data-collapsed', 'false');
+      expect(screen.getByRole('link', { name: 'Judges' })).toBeVisible();
+      expect(screen.getByRole('button', { name: 'Collapse menu' })).toBeInTheDocument();
+    });
+
+    it('starts in the rail when the product asks', () => {
+      stubWidth(1280);
+      renderRail({ defaultSidebarCollapsed: true });
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'rail');
+      expect(sidebarColumn()).toHaveClass('w-[var(--sidebar-rail-width)]');
+    });
+
+    it('shows top level rows as icons that keep their names', () => {
+      stubWidth(1280);
+      renderRail({ defaultSidebarCollapsed: true });
+      const program = screen.getByRole('button', { name: /^Program Manager, 3$/ });
+      expect(program).not.toHaveAttribute('aria-expanded');
+      expect(program).toHaveClass('bg-[var(--fill)]');
+      expect(program).toHaveAttribute('aria-current', 'true');
+      expect(screen.queryByRole('link', { name: 'Judges' })).not.toBeInTheDocument();
+      expect(screen.queryByText('PM')).not.toBeInTheDocument();
+      expect(screen.queryByText('Accelerate')).not.toBeInTheDocument();
+      expect(screen.getByRole('list', { name: 'Program' })).toBeInTheDocument();
+      expect(screen.getByText('Program')).toHaveClass('sr-only');
+    });
+
+    it('stays a rail when the mouse rests on it, focus moves in or Escape is pressed', () => {
+      vi.useFakeTimers();
+      stubWidth(1280);
+      renderRail({ defaultSidebarCollapsed: true });
+      const column = sidebarColumn() as HTMLElement;
+      fireEvent.pointerEnter(column, { pointerType: 'mouse' });
+      fireEvent.pointerMove(column, { pointerType: 'mouse', movementX: 3, movementY: 1 });
+      act(() => vi.advanceTimersByTime(1000));
+      const program = screen.getByRole('button', { name: /^Program Manager/ });
+      act(() => program.focus());
+      fireEvent.keyDown(program, { key: 'Escape' });
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'rail');
+      expect(shellState()).toHaveAttribute('data-rail', 'true');
+      expect(screen.queryByRole('link', { name: 'Judges' })).not.toBeInTheDocument();
+    });
+
+    it('navigates from a leaf icon and stays a rail', () => {
+      stubWidth(1280);
+      renderRail({ defaultSidebarCollapsed: true });
+      const home = screen.getByRole('link', { name: 'Home' });
+      expect(home).toHaveAttribute('href', '/home');
+      home.addEventListener('click', (event) => event.preventDefault());
+      fireEvent.click(home);
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'rail');
+    });
+
+    it('keeps the pinned tree open after a choice, Escape, a press outside or the mouse leaving', () => {
+      stubWidth(1280);
+      renderRail();
+      const column = sidebarColumn() as HTMLElement;
+      const judges = screen.getByRole('link', { name: 'Judges' });
+      judges.addEventListener('click', (event) => event.preventDefault());
+      fireEvent.click(judges);
+      fireEvent.keyDown(judges, { key: 'Escape' });
+      fireEvent.pointerDown(screen.getByRole('button', { name: 'Page action' }));
+      fireEvent.pointerLeave(column, { pointerType: 'mouse' });
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'pinned');
+      expect(screen.getByRole('link', { name: 'Judges' })).toBeVisible();
+    });
+
+    it('marks the trail row as the current location only in the rail', async () => {
+      stubWidth(1280);
+      renderRail();
+      expect(screen.getByRole('button', { name: /^Program Manager/ })).not.toHaveAttribute(
+        'aria-current',
+      );
+      expect(screen.getByRole('link', { name: 'Judges' })).toHaveAttribute('aria-current', 'page');
+      await userEvent.click(screen.getByRole('button', { name: 'Collapse menu' }));
+      expect(screen.getByRole('button', { name: /^Program Manager/ })).toHaveAttribute(
+        'aria-current',
+        'true',
+      );
+    });
+
+    const networkSidebar = (
+      <Sidebar label="Console">
+        <SidebarSection>
+          <SidebarItem
+            href="/network"
+            icon={<svg />}
+            subitems={<SidebarItem href="/network/profile">Profile</SidebarItem>}
+          >
+            Network
+          </SidebarItem>
+          <SidebarSeparator />
+          <SidebarItem href="/admin" icon={<svg />}>
+            Admin
+          </SidebarItem>
+        </SidebarSection>
+      </Sidebar>
+    );
+
+    const renderNetworkRail = (props: Partial<React.ComponentProps<typeof AppShell>> = {}) =>
+      render(
+        <AppShell
+          sidebarCollapse="rail"
+          defaultSidebarCollapsed
+          sidebar={networkSidebar}
+          {...props}
+        />,
+      );
+
+    it('pins the tree with the parent expanded when a parent icon is clicked', () => {
+      stubWidth(1280);
+      renderNetworkRail();
+      fireEvent.click(screen.getByRole('button', { name: 'Network' }));
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'pinned');
+      expect(screen.getByRole('button', { name: 'Network' })).toHaveAttribute(
+        'aria-expanded',
+        'true',
+      );
+      expect(screen.getByRole('link', { name: 'Profile' })).toBeVisible();
+      expect(screen.getByRole('button', { name: 'Collapse menu' })).toBeInTheDocument();
+    });
+
+    it('draws the rail as 32px buttons with 18px icons under a 32px menu button', () => {
+      stubWidth(1280);
+      renderNetworkRail();
+      const network = screen.getByRole('button', { name: 'Network' });
+      expect(network).toHaveClass(
+        'w-[var(--control-md)]',
+        'h-[var(--control-md)]',
+        'mx-auto',
+        'justify-center',
+      );
+      expect(network.closest('li')).toHaveClass('py-0.5');
+      expect(network.querySelector('[aria-hidden="true"]')).toHaveClass(
+        'w-[var(--icon-md)]',
+        'h-[var(--icon-md)]',
+      );
+      const expand = screen.getByRole('button', { name: 'Expand menu' });
+      expect(expand).toHaveClass(
+        'w-[var(--control-md)]!',
+        'h-[var(--control-md)]!',
+        'text-[var(--label)]!',
+      );
+      expect(expand.parentElement).toHaveClass('justify-center', 'pb-2');
+    });
+
+    it('keeps an open parent open when its icon pins the tree', () => {
+      stubWidth(1280);
+      render(
+        <AppShell
+          sidebarCollapse="rail"
+          defaultSidebarCollapsed
+          sidebar={
+            <Sidebar label="Console">
+              <SidebarSection>
+                <SidebarItem
+                  icon={<svg />}
+                  defaultExpanded
+                  subitems={<SidebarItem href="/network/profile">Profile</SidebarItem>}
+                >
+                  Network
+                </SidebarItem>
+              </SidebarSection>
+            </Sidebar>
+          }
+        />,
+      );
+      fireEvent.click(screen.getByRole('button', { name: 'Network' }));
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'pinned');
+      expect(screen.getByRole('button', { name: 'Network' })).toHaveAttribute(
+        'aria-expanded',
+        'true',
+      );
+    });
+
+    it('shows a small logo and names the stage state of a row in the rail', () => {
+      stubWidth(1280);
+      render(
+        <AppShell
+          sidebarCollapse="rail"
+          defaultSidebarCollapsed
+          sidebar={
+            <Sidebar label="Console">
+              <SidebarSection>
+                <SidebarItem href="/program" media={{ src: '/logo.png', alt: '' }}>
+                  HealthTech Traction 2027
+                </SidebarItem>
+                <SidebarItem href="/review" marker={{ state: 'now', label: 'in progress' }}>
+                  Online review
+                </SidebarItem>
+              </SidebarSection>
+            </Sidebar>
+          }
+        />,
+      );
+      const program = screen.getByRole('link', { name: 'HealthTech Traction 2027' });
+      expect(program.querySelector('img')).toHaveClass(
+        'w-8.5',
+        'h-5',
+        'rounded-[var(--corner-sm)]',
+        'object-cover',
+        'shadow-[inset_0_0_0_1px_var(--separator)]',
+      );
+      expect(screen.getByRole('link', { name: 'Online review, in progress' })).toBeInTheDocument();
+    });
+
+    it('stores the tree a parent icon pins', () => {
+      stubWidth(1280);
+      renderNetworkRail({ sidebarStorageKey: 'console-sidebar-parent' });
+      fireEvent.click(screen.getByRole('button', { name: 'Network' }));
+      expect(window.localStorage.getItem('console-sidebar-parent')).toBe('false');
+    });
+
+    it('keeps the pinned tree when a parent toggles or a leaf is chosen', () => {
+      stubWidth(1280);
+      renderNetworkRail();
+      fireEvent.click(screen.getByRole('button', { name: 'Network' }));
+      const network = screen.getByRole('button', { name: 'Network' });
+      fireEvent.click(network);
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'pinned');
+      expect(network).toHaveAttribute('aria-expanded', 'false');
+      fireEvent.click(network);
+      const profile = screen.getByRole('link', { name: 'Profile' });
+      profile.addEventListener('click', (event) => event.preventDefault());
+      fireEvent.click(profile);
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'pinned');
+      expect(screen.getByRole('link', { name: 'Profile' })).toBeVisible();
+    });
+
+    it('drops separators from the rail and shows them in the pinned tree', () => {
+      stubWidth(1280);
+      renderNetworkRail();
+      const separators = () =>
+        (sidebarColumn() as HTMLElement).querySelectorAll('li[aria-hidden="true"]');
+      expect(separators()).toHaveLength(0);
+      fireEvent.click(screen.getByRole('button', { name: 'Network' }));
+      expect(separators()).toHaveLength(1);
+    });
+
+    it('centers the footer in the rail without its hairline', () => {
+      stubWidth(1280);
+      render(
+        <AppShell
+          sidebarCollapse="rail"
+          defaultSidebarCollapsed
+          sidebar={
+            <Sidebar label="Console" footer={<span>Ada</span>}>
+              <SidebarSection>
+                <SidebarItem href="/home" icon={<svg />}>
+                  Home
+                </SidebarItem>
+              </SidebarSection>
+            </Sidebar>
+          }
+        />,
+      );
+      const footer = screen.getByText('Ada').parentElement;
+      expect(footer).toHaveClass('flex', 'justify-center');
+      expect(footer).not.toHaveClass('border-t', 'mt-2', 'pt-2.5');
+    });
+
+    it('shows the full tree in the compact overlay', async () => {
+      stubWidth(800);
+      renderRail({ defaultSidebarCollapsed: true });
+      await userEvent.click(screen.getByRole('button', { name: 'Show sidebar' }));
+      const overlay = screen.getByRole('dialog', { name: 'Navigation' });
+      expect(within(overlay).getByRole('link', { name: 'Judges' })).toBeInTheDocument();
+      expect(within(overlay).queryByRole('button', { name: /menu$/ })).not.toBeInTheDocument();
+      expect(shellState()).toHaveAttribute('data-rail', 'false');
+    });
+
+    it('keeps the compact overlay open when a branch opens or closes', async () => {
+      stubWidth(800);
+      render(
+        <AppShell
+          sidebar={
+            <Sidebar label="Console">
+              <SidebarSection>
+                <SidebarItem subitems={<SidebarItem href="/emails">Email templates</SidebarItem>}>
+                  Configuration
+                </SidebarItem>
+              </SidebarSection>
+            </Sidebar>
+          }
+          toolbar={<Toolbar />}
+        />,
+      );
+      await userEvent.click(screen.getByRole('button', { name: 'Show sidebar' }));
+      await userEvent.click(screen.getByRole('button', { name: 'Configuration' }));
+      expect(screen.getByRole('dialog', { name: 'Navigation' })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: 'Email templates' })).toBeInTheDocument();
+    });
+
+    it('keeps Tab focus inside the overlay past a closed branch at the end', async () => {
+      stubWidth(800);
+      render(
+        <AppShell
+          sidebar={
+            <Sidebar label="Console">
+              <SidebarSection>
+                <SidebarItem href="/home">Home</SidebarItem>
+                <SidebarItem subitems={<SidebarItem href="/emails">Email templates</SidebarItem>}>
+                  Configuration
+                </SidebarItem>
+              </SidebarSection>
+            </Sidebar>
+          }
+          toolbar={<Toolbar />}
+        />,
+      );
+      await userEvent.click(screen.getByRole('button', { name: 'Show sidebar' }));
+      const home = screen.getByRole('link', { name: 'Home' });
+      const configuration = screen.getByRole('button', { name: 'Configuration' });
+      expect(home).toHaveFocus();
+      await userEvent.tab({ shift: true });
+      expect(configuration).toHaveFocus();
+      await userEvent.tab();
+      expect(home).toHaveFocus();
+    });
+
+    it('keeps the compact overlay open for a parent and closes it on a leaf', async () => {
+      stubWidth(800);
+      render(<AppShell sidebar={networkSidebar} toolbar={<Toolbar />} />);
+      await userEvent.click(screen.getByRole('button', { name: 'Show sidebar' }));
+      await userEvent.click(screen.getByRole('button', { name: 'Network' }));
+      expect(screen.getByRole('dialog', { name: 'Navigation' })).toBeInTheDocument();
+      const profile = screen.getByRole('link', { name: 'Profile' });
+      profile.addEventListener('click', (event) => event.preventDefault());
+      await userEvent.click(profile);
+      expect(screen.queryByRole('dialog', { name: 'Navigation' })).not.toBeInTheDocument();
+    });
+
+    it('remembers the collapsed choice under the storage key', async () => {
+      stubWidth(1280);
+      const { unmount } = renderRail({ sidebarStorageKey: 'console-sidebar-remember' });
+      await userEvent.click(screen.getByRole('button', { name: 'Collapse menu' }));
+      expect(window.localStorage.getItem('console-sidebar-remember')).toBe('true');
+      unmount();
+      renderRail({ sidebarStorageKey: 'console-sidebar-remember' });
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'rail');
+    });
+
+    it('prefers the stored choice over the default', () => {
+      stubWidth(1280);
+      window.localStorage.setItem('console-sidebar-stored', 'false');
+      renderRail({ sidebarStorageKey: 'console-sidebar-stored', defaultSidebarCollapsed: true });
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'pinned');
+    });
+
+    it('follows a choice made in another tab', () => {
+      stubWidth(1280);
+      renderRail({ sidebarStorageKey: 'console-sidebar-tabs' });
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'pinned');
+      act(() => {
+        window.localStorage.setItem('console-sidebar-tabs', 'true');
+        window.dispatchEvent(new StorageEvent('storage', { key: 'console-sidebar-tabs' }));
+      });
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'rail');
+    });
+
+    it('still collapses when storage is blocked', async () => {
+      stubWidth(1280);
+      vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+        throw new Error('blocked');
+      });
+      renderRail({ sidebarStorageKey: 'console-sidebar-blocked' });
+      await userEvent.click(screen.getByRole('button', { name: 'Collapse menu' }));
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'rail');
+    });
+
+    it('starts from the default when storage cannot be read', () => {
+      stubWidth(1280);
+      vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+        throw new Error('blocked');
+      });
+      renderRail({
+        sidebarStorageKey: 'console-sidebar-unreadable',
+        defaultSidebarCollapsed: true,
+      });
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'rail');
+    });
+
+    it('renders the default on the server, whatever is stored', () => {
+      window.localStorage.setItem('console-sidebar-server', 'false');
+      const markup = renderToString(
+        <AppShell
+          sidebar={treeSidebar}
+          sidebarCollapse="rail"
+          sidebarStorageKey="console-sidebar-server"
+          defaultSidebarCollapsed
+        />,
+      );
+      expect(markup).toContain('data-sidebar-state="rail"');
+      const unstoredMarkup = renderToString(
+        <AppShell sidebar={treeSidebar} sidebarCollapse="rail" defaultSidebarCollapsed />,
+      );
+      expect(unstoredMarkup).toContain('data-sidebar-state="rail"');
+    });
+
+    it('remembers a hidden sidebar in hide mode too', async () => {
+      stubWidth(1280);
+      const { unmount } = renderShell({ sidebarStorageKey: 'console-sidebar-hide' });
+      await userEvent.click(screen.getByRole('button', { name: 'Show sidebar' }));
+      unmount();
+      renderShell({ sidebarStorageKey: 'console-sidebar-hide' });
+      expect(screen.queryByRole('navigation', { name: 'Console' })).not.toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Show sidebar' })).toHaveAttribute(
+        'aria-expanded',
+        'false',
+      );
+    });
   });
 });

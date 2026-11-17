@@ -9,7 +9,7 @@
 
   --material-bar: rgb(255 255 255 / 0.72);
   --material-bar-opaque: var(--gray-0);
-  --material-sidebar: rgb(235 240 241 / 0.82);
+  --material-sidebar: rgb(235 240 241 / 0.92);
   --material-sidebar-opaque: var(--gray-75);
   --material-blur: saturate(180%) blur(20px);
 

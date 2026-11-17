@@ -54,6 +54,9 @@ export const Toolbar = ({
   className,
 }: ToolbarProps) => {
   const shell = useAppShell();
+  const showsToggle = Boolean(
+    shell?.hasSidebar && !(shell.collapseMode === 'rail' && !shell.isCompact),
+  );
   return (
     <header
       data-propellant-app-header=""
@@ -66,7 +69,7 @@ export const Toolbar = ({
       )}
     >
       <div className="flex items-center gap-2 min-h-[var(--toolbar-height)] px-2.5 sm:px-4">
-        {shell?.hasSidebar ? (
+        {shell && showsToggle ? (
           <button
             type="button"
             aria-label={sidebarToggleLabel}

@@ -84,6 +84,9 @@
   --text-caption--line-height: var(--type-caption-line);
   --text-caption--font-weight: var(--type-caption-weight);
   --text-caption--letter-spacing: var(--type-caption-tracking);
+  --text-caption2: var(--type-caption2-size);
+  --text-caption2--line-height: var(--type-caption2-line);
+  --text-caption2--letter-spacing: var(--type-caption2-tracking);
 }
 
 html [data-propellant] {

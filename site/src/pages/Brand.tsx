@@ -239,7 +239,7 @@ export const Brand = () => (
           'Never set body copy in Oswald or in capitals.',
           'In the signed in products nothing changes: Oswald is never used, and titles, labels and buttons are in sentence case.',
           <>
-            In products, use the eleven named text styles on the{' '}
+            In products, use the twelve named text styles on the{' '}
             <a href="#typography" className="text-[var(--tint)]">
               typography page
             </a>{' '}
