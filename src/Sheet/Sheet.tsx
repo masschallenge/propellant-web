@@ -9,11 +9,13 @@ const openSheetStack: object[] = [];
 export type SheetTone = 'neutral' | 'info' | 'success' | 'warning' | 'critical';
 export type SheetSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 export type SheetLayout = 'stacked' | 'horizontal' | 'split';
+export type SheetPlacement = 'center' | 'side';
 
 export interface SheetProps {
   open: boolean;
   onClose: () => void;
   title?: ReactNode;
+  eyebrow?: ReactNode;
   description?: ReactNode;
   tone?: SheetTone;
   icon?: ReactNode;
@@ -25,6 +27,7 @@ export interface SheetProps {
   footerLayout?: 'row' | 'wide';
   role?: 'dialog' | 'alertdialog';
   size?: SheetSize;
+  placement?: SheetPlacement;
   inline?: boolean;
   className?: string;
   children?: ReactNode;
@@ -62,6 +65,14 @@ const WIDTH: Record<SheetSize, string> = {
   full: 'max-w-none h-full',
 };
 
+const SIDE_WIDTH: Record<SheetSize, string> = {
+  sm: 'sm:max-w-[400px]',
+  md: 'sm:max-w-[520px]',
+  lg: 'sm:max-w-[640px]',
+  xl: 'sm:max-w-[1152px]',
+  full: 'max-w-none',
+};
+
 const FOOTER_LAYOUT = {
   row: 'flex flex-col-reverse gap-2 [&>*]:w-full sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-3 sm:[&>*]:w-auto',
   wide: 'flex flex-col-reverse gap-2 [&>*]:w-full',
@@ -78,6 +89,7 @@ export const Sheet = ({
   open,
   onClose,
   title,
+  eyebrow,
   description,
   tone = 'info',
   icon,
@@ -88,6 +100,7 @@ export const Sheet = ({
   footer,
   footerLayout = 'row',
   size = 'md',
+  placement = 'center',
   role = 'dialog',
   inline = false,
   className,
@@ -220,6 +233,9 @@ export const Sheet = ({
 
   const heading = (
     <div className="flex flex-col gap-1 min-w-0 pr-10">
+      {eyebrow ? (
+        <span className="text-subheadline text-[var(--label-secondary)]">{eyebrow}</span>
+      ) : null}
       {title ? (
         <h2 id={titleId} className="m-0 text-title2 text-[var(--label)] [overflow-wrap:anywhere]">
           {title}
@@ -236,7 +252,8 @@ export const Sheet = ({
     </div>
   );
 
-  const scrollsBody = layout === 'stacked' && size !== 'full';
+  const isSide = placement === 'side';
+  const scrollsBody = layout === 'stacked' && (size !== 'full' || isSide);
 
   const footerNode = footer ? (
     <div className={joinClasses(FOOTER_LAYOUT[footerLayout], scrollsBody && 'shrink-0')}>
@@ -248,8 +265,9 @@ export const Sheet = ({
     <div
       className={joinClasses(
         'text-callout text-[var(--label)]',
-        size === 'full' && 'flex-1 min-h-0 flex flex-col',
+        size === 'full' && !isSide && 'flex-1 min-h-0 flex flex-col',
         scrollsBody && 'min-h-0 overflow-y-auto -m-1 p-1',
+        isSide && 'flex-1',
       )}
     >
       {children}
@@ -296,7 +314,9 @@ export const Sheet = ({
         inline
           ? 'absolute inset-0 rounded-[var(--corner-lg)]'
           : 'fixed inset-0 z-[var(--layer-overlay)]',
-        'flex items-center justify-center p-4 sm:p-6 bg-[var(--scrim)]',
+        isSide
+          ? 'flex items-stretch justify-end overflow-hidden bg-[var(--scrim)]'
+          : 'flex items-center justify-center p-4 sm:p-6 bg-[var(--scrim)]',
       )}
       onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
         if (event.target !== event.currentTarget) return;
@@ -311,11 +331,13 @@ export const Sheet = ({
         aria-labelledby={title ? titleId : undefined}
         aria-describedby={description ? descriptionId : undefined}
         tabIndex={-1}
+        data-placement={placement}
         className={joinClasses(
-          'relative w-full flex flex-col gap-5 p-6 outline-none',
-          'rounded-[var(--corner-xl)] bg-[var(--bg-elevated)] shadow-[var(--shadow-sheet)]',
-          WIDTH[size],
-          scrollsBody && !inline && 'max-h-full',
+          'relative w-full flex flex-col gap-5 p-6 outline-none bg-[var(--bg-elevated)] shadow-[var(--shadow-sheet)]',
+          isSide
+            ? joinClasses('h-full max-w-none', SIDE_WIDTH[size])
+            : joinClasses('rounded-[var(--corner-xl)]', WIDTH[size]),
+          scrollsBody && !inline && !isSide && 'max-h-full',
           className,
         )}
       >

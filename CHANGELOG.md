@@ -12,6 +12,9 @@ property and from `@masschallenge/propellant-web/version`.
   one as a pill with a filled number and `aria-current="step"`, finished ones with a check.
   `onStepSelect` lets a person go back to a finished step. Below the small breakpoint,
   `compact="auto"` shows "Step 2 of 4 · Stages" instead of the list.
+- `Sheet` takes `placement="side"` for a full height panel on the right, full width on phones,
+  with the same focus trap, Escape and scrim close as the centred sheet and a body that scrolls.
+  `eyebrow` puts a short label, such as Preview, above the title.
 
 ## 2.4.0 (2026-11-18)
 

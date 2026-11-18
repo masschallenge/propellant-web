@@ -90,6 +90,47 @@ describe('Sheet tall content', () => {
   });
 });
 
+describe('Sheet side placement', () => {
+  it('opens as a full height panel on the right that scrolls its body', () => {
+    render(
+      <Sheet open placement="side" eyebrow="Preview" title="Traction 2026" onClose={() => {}}>
+        Copied stages
+      </Sheet>,
+    );
+    const dialog = screen.getByRole('dialog', { name: 'Traction 2026' });
+    expect(dialog).toHaveAttribute('data-placement', 'side');
+    expect(dialog).toHaveClass('h-full', 'max-w-none', 'sm:max-w-[520px]');
+    expect(dialog.className).not.toContain('rounded-[var(--corner-xl)]');
+    expect(dialog.className).not.toContain('max-h-full');
+    expect(dialog.parentElement).toHaveClass('justify-end', 'items-stretch', 'bg-[var(--scrim)]');
+    expect(screen.getByText('Copied stages')).toHaveClass('flex-1', 'overflow-y-auto');
+    expect(screen.getByText('Preview')).toHaveClass('text-subheadline');
+  });
+
+  it('closes on Escape and returns focus like the centred sheet', async () => {
+    const SideLauncher = () => {
+      const [open, setOpen] = React.useState(false);
+      return (
+        <>
+          <button type="button" onClick={() => setOpen(true)}>
+            Preview
+          </button>
+          <Sheet open={open} placement="side" title="Traction 2026" onClose={() => setOpen(false)}>
+            <button type="button">Inside</button>
+          </Sheet>
+        </>
+      );
+    };
+    render(<SideLauncher />);
+    const trigger = screen.getByRole('button', { name: 'Preview' });
+    await userEvent.click(trigger);
+    expect(screen.getByRole('dialog', { name: 'Traction 2026' })).toBeInTheDocument();
+    await userEvent.keyboard('{Escape}');
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(trigger).toHaveFocus();
+  });
+});
+
 describe('Sheet long text', () => {
   it('wraps a long unbroken title and description instead of overflowing', () => {
     render(
