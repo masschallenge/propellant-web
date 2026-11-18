@@ -21,6 +21,8 @@ property and from `@masschallenge/propellant-web/version`.
   keeps a 1px `--success` edge, since the fill is 2.19:1 against white.
 - `SearchField` takes `variant="inset"`: square, the full row height and an inset focus ring,
   for a search that sits as the first row of the list it filters.
+- `RadioCardGroup` takes `layout="choice"`: an icon tile on the left, an optional neutral
+  badge and the radio on the right, and the title on its own line.
 
 ### Changed
 

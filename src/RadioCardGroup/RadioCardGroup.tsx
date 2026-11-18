@@ -37,7 +37,7 @@ export interface RadioCardGroupProps {
   onChange?: (value: RadioCardSelection) => void;
   selectionMode?: 'single' | 'multiple';
   control?: 'auto' | 'check' | 'radio';
-  layout?: 'row' | 'card' | 'tile';
+  layout?: 'row' | 'card' | 'tile' | 'choice';
   sideBySide?: boolean;
   legend?: ReactNode;
   description?: ReactNode;
@@ -183,7 +183,7 @@ export const RadioCardGroup = ({
     );
     const cardClasses = joinClasses(
       'relative flex gap-3 p-[var(--space-4)] min-h-[var(--row)] rounded-[var(--corner-lg)] cursor-pointer',
-      layout === 'card' ? 'flex-col' : 'items-start',
+      layout === 'card' || layout === 'choice' ? 'flex-col' : 'items-start',
       SURFACE_TRANSITION,
       isOn ? SELECTED_SURFACE : joinClasses('bg-[var(--bg)]', error ? ERROR_EDGE : RESTING_EDGE),
       option.disabled && 'opacity-[var(--opacity-disabled)] cursor-not-allowed',
@@ -229,6 +229,46 @@ export const RadioCardGroup = ({
                   : 'font-normal text-[var(--label-tertiary)] hyphens-auto [overflow-wrap:break-word]',
               )}
             >
+              {option.hint}
+            </span>
+          ) : null}
+        </label>
+      );
+    }
+
+    if (layout === 'choice') {
+      return (
+        <label key={option.value} className={joinClasses(cardClasses, 'gap-2.5')}>
+          {input}
+          <span className="flex items-center justify-between gap-3 w-full">
+            {option.icon ? (
+              <span
+                className={joinClasses(
+                  'flex-none inline-flex items-center justify-center w-9 h-9 rounded-[var(--corner-md)] [&>svg]:block [&>svg]:w-[var(--icon-md)] [&>svg]:h-[var(--icon-md)]',
+                  isOn
+                    ? 'bg-[var(--tint-fill)] text-[var(--tint)]'
+                    : 'bg-[var(--fill-secondary)] text-[var(--label-secondary)]',
+                  SURFACE_TRANSITION,
+                )}
+                aria-hidden="true"
+              >
+                {option.icon}
+              </span>
+            ) : (
+              <span />
+            )}
+            <span className="flex items-center gap-2.5">
+              {option.badge ? (
+                <Badge tone="neutral" size="sm">
+                  {option.badge}
+                </Badge>
+              ) : null}
+              {mark}
+            </span>
+          </span>
+          <span className="text-headline text-[var(--label)]">{option.title}</span>
+          {option.hint ? (
+            <span className="text-subheadline text-[var(--label-secondary)] text-pretty">
               {option.hint}
             </span>
           ) : null}
