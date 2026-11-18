@@ -1,3 +1,4 @@
+import { createRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -28,6 +29,33 @@ describe('ListSection', () => {
       </ListSection>,
     );
     expect(screen.getByRole('heading', { level: 2, name: 'Judges' })).toBeInTheDocument();
+  });
+
+  it('lets an app move focus to the heading, which is announced as a heading', () => {
+    const headingRef = createRef<HTMLHeadingElement>();
+    render(
+      <ListSection title="To do" titleAs="h2" headingProps={{ ref: headingRef, tabIndex: -1 }}>
+        <ListRow title="Review applications" />
+      </ListSection>,
+    );
+    const heading = screen.getByRole('heading', { level: 2, name: 'To do' });
+    expect(headingRef.current).toBe(heading);
+    expect(heading).toHaveAttribute('tabindex', '-1');
+    headingRef.current?.focus();
+    expect(heading).toHaveFocus();
+    expect(screen.getByRole('region', { name: 'To do' })).toBeInTheDocument();
+  });
+
+  it('keeps its own heading id and classes when given heading props', () => {
+    render(
+      <ListSection title="To do" headingProps={{ className: 'scroll-mt-4' }}>
+        <ListRow title="Review applications" />
+      </ListSection>,
+    );
+    const heading = screen.getByRole('heading', { level: 3, name: 'To do' });
+    expect(heading).toHaveClass('scroll-mt-4', 'text-headline');
+    expect(screen.getByRole('region')).toHaveAttribute('aria-labelledby', heading.id);
+    expect(heading).not.toHaveAttribute('tabindex');
   });
 
   it('shortens rows when dense', () => {
