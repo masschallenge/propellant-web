@@ -281,6 +281,47 @@ describe('Menu account avatar, counts and links', () => {
     expect(screen.getByText('Jordan Lee').closest('li')).toHaveClass('pt-1.5');
   });
 
+  it('renders rich title and sub content in the account band type', async () => {
+    render(
+      <Menu
+        trigger={<button type="button">Account</button>}
+        accountBand={{
+          title: (
+            <>
+              Joe Schwendt <em>Admin</em>
+            </>
+          ),
+          sub: (
+            <>
+              joe@masschallenge.org <strong>Verified</strong>
+            </>
+          ),
+        }}
+        items={[{ label: 'Help' }]}
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'Account' }));
+    const role = screen.getByText('Admin');
+    expect(role.tagName).toBe('EM');
+    expect(role.parentElement).toHaveClass('text-callout', 'font-semibold');
+    const marker = screen.getByText('Verified');
+    expect(marker.tagName).toBe('STRONG');
+    expect(marker.parentElement).toHaveClass('text-footnote', 'text-[var(--label-secondary)]');
+  });
+
+  it('keeps string title and sub in the account band type', async () => {
+    render(
+      <Menu
+        trigger={<button type="button">Account</button>}
+        accountBand={{ title: 'Jordan Lee', sub: 'Program lead, Boston 2026' }}
+        items={[{ label: 'Help' }]}
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'Account' }));
+    expect(screen.getByText('Jordan Lee')).toHaveClass('text-callout', 'font-semibold');
+    expect(screen.getByText('Program lead, Boston 2026')).toHaveClass('text-footnote');
+  });
+
   it('reads the unread count as part of the item name and hides it at 0', async () => {
     render(
       <Menu
