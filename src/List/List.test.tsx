@@ -79,6 +79,82 @@ describe('ListSection', () => {
     );
   });
 
+  it('insets roomy separators past an avatar', () => {
+    render(
+      <ListSection density="roomy">
+        <ListRow title="Plain" />
+        <ListRow title="Founders" media={{ avatar: { initials: 'F' } }} />
+        <ListRow title="Zoe Engel" media={{ avatar: { initials: 'ZE', size: 'compact' } }} />
+      </ListSection>,
+    );
+    const items = screen.getAllByRole('listitem');
+    expect(items[1]).toHaveClass(
+      '[--row-inset:calc(var(--avatar-md)+var(--space-5)+var(--space-3-5))]',
+    );
+    expect(items[2]).toHaveClass(
+      '[--row-inset:calc(var(--avatar-compact)+var(--space-5)+var(--space-3-5))]',
+    );
+  });
+
+  describe('framed', () => {
+    it('puts the header band and its trailing control inside a ringed box', () => {
+      render(
+        <ListSection framed title="52 founders" trailing={<input aria-label="Find" />}>
+          <ListRow title="Zoe Engel" />
+        </ListSection>,
+      );
+      const heading = screen.getByRole('heading', { level: 3, name: '52 founders' });
+      expect(screen.getByRole('region', { name: '52 founders' })).toBeInTheDocument();
+      expect(heading).toHaveClass(
+        'text-subheadline',
+        'font-semibold',
+        'text-[var(--label-secondary)]',
+      );
+      const band = heading.parentElement as HTMLElement;
+      expect(band).toHaveClass(
+        'px-3.5',
+        'py-2.5',
+        'bg-[var(--bg-secondary)]',
+        'border-b',
+        'border-b-[var(--separator)]',
+      );
+      expect(band).toContainElement(screen.getByRole('textbox', { name: 'Find' }));
+      const box = band.parentElement as HTMLElement;
+      expect(box).toContainElement(screen.getByRole('list'));
+      expect(box).toHaveClass(
+        'rounded-[var(--corner-lg)]',
+        'overflow-hidden',
+        'bg-[var(--bg)]',
+        'after:shadow-[inset_0_0_0_var(--hairline)_var(--separator)]',
+      );
+      expect(screen.getByRole('list')).not.toHaveClass('rounded-[var(--corner-lg)]');
+    });
+
+    it('keeps the footer outside the box', () => {
+      render(
+        <ListSection framed title="Recipients" footer="Sent from Accelerate.">
+          <ListRow title="Zoe Engel" />
+        </ListSection>,
+      );
+      const box = screen.getByRole('list').parentElement as HTMLElement;
+      expect(box).not.toContainElement(screen.getByText('Sent from Accelerate.'));
+    });
+
+    it('leaves an unframed header above the list', () => {
+      render(
+        <ListSection title="Notifications">
+          <ListRow title="Email" />
+        </ListSection>,
+      );
+      const heading = screen.getByRole('heading', { name: 'Notifications' });
+      expect(heading).toHaveClass('text-headline');
+      expect(heading.parentElement).not.toContainElement(screen.getByRole('list'));
+      expect(heading.parentElement?.parentElement).toBe(
+        screen.getByRole('region', { name: 'Notifications' }),
+      );
+    });
+  });
+
   it('keeps regular rows at their regular padding', () => {
     render(
       <ListSection>
@@ -325,6 +401,103 @@ describe('ListRow', () => {
       );
       const items = screen.getAllByRole('listitem');
       expect(items[1]).toHaveClass('[--row-inset:calc(var(--avatar-md)+28px)]');
+    });
+  });
+
+  describe('avatar media', () => {
+    it('leads with a 36px round initials avatar in the requested tone', () => {
+      const { container } = render(
+        <ListSection>
+          <ListRow
+            title="Founders"
+            icon={<svg data-testid="icon" />}
+            media={{ avatar: { initials: 'F', tone: 'green' } }}
+          />
+        </ListSection>,
+      );
+      const face = screen.getByText('F');
+      expect(face).toHaveClass('rounded-full', 'bg-[var(--avatar-green-bg)]', 'text-subheadline');
+      expect(face).toHaveAttribute('aria-hidden', 'true');
+      expect(face.parentElement).toHaveClass('w-[var(--avatar-md)]', 'h-[var(--avatar-md)]');
+      expect(screen.queryByTestId('icon')).not.toBeInTheDocument();
+      expect(container.querySelector('img')).not.toBeInTheDocument();
+    });
+
+    it('draws a 26px compact avatar for dense recipient rows', () => {
+      render(
+        <ListSection density="dense">
+          <ListRow title="Zoe Engel" media={{ avatar: { initials: 'ZE', size: 'compact' } }} />
+        </ListSection>,
+      );
+      expect(screen.getByText('ZE').parentElement).toHaveClass(
+        'w-[var(--avatar-compact)]',
+        'h-[var(--avatar-compact)]',
+      );
+    });
+
+    it('shows a photo whole and named when given alt text', () => {
+      render(
+        <ListSection>
+          <ListRow
+            title="Profile"
+            media={{ avatar: { src: '/photo.png', alt: 'Amara Koroma', initials: 'AK' } }}
+          />
+        </ListSection>,
+      );
+      const photo = screen.getByRole('img', { name: 'Amara Koroma' });
+      expect(photo.tagName).toBe('IMG');
+      expect(photo).toHaveClass('rounded-full', 'object-contain');
+      expect(screen.queryByText('AK')).not.toBeInTheDocument();
+    });
+
+    it('insets separators past the avatar at each size', () => {
+      render(
+        <ListSection>
+          <ListRow title="Plain" />
+          <ListRow title="Founders" media={{ avatar: { initials: 'F' } }} />
+          <ListRow title="Zoe Engel" media={{ avatar: { initials: 'ZE', size: 'compact' } }} />
+        </ListSection>,
+      );
+      const items = screen.getAllByRole('listitem');
+      expect(items[1]).toHaveClass('[--row-inset:calc(var(--avatar-md)+28px)]');
+      expect(items[2]).toHaveClass('[--row-inset:calc(var(--avatar-compact)+28px)]');
+    });
+  });
+
+  describe('subtitle position', () => {
+    it('stacks the subtitle below the title by default', () => {
+      render(
+        <ListSection>
+          <ListRow title="Zoe Engel" subtitle="Hazel Rx" />
+        </ListSection>,
+      );
+      expect(screen.getByText('Zoe Engel').parentElement).toHaveClass('flex-col');
+      expect(screen.getByText('Hazel Rx')).toHaveClass('text-[var(--label-secondary)]');
+    });
+
+    it('sets an inline subtitle after the title on one baseline, muted and truncating', () => {
+      render(
+        <ListSection>
+          <ListRow
+            title="Zoe Engel"
+            titleEmphasis="strong"
+            subtitle="Hazel Rx"
+            subtitlePosition="inline"
+          />
+        </ListSection>,
+      );
+      const title = screen.getByText('Zoe Engel');
+      const subtitle = screen.getByText('Hazel Rx');
+      expect(title.parentElement).toHaveClass('flex', 'items-baseline', 'gap-2', 'min-w-0');
+      expect(title.parentElement).not.toHaveClass('flex-col');
+      expect(title).toHaveClass('truncate', 'min-w-0', 'text-callout', 'font-semibold');
+      expect(subtitle).toHaveClass(
+        'truncate',
+        'min-w-0',
+        'text-subheadline',
+        'text-[var(--label-tertiary)]',
+      );
+      expect(subtitle.parentElement).toBe(title.parentElement);
     });
   });
 
