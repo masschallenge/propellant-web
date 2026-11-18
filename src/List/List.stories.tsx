@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fn, userEvent, within } from 'storybook/test';
 import { ListRow, ListSection } from './List';
@@ -33,6 +34,8 @@ const meta = {
           '',
           "`subtitlePosition: 'inline'` sets the subtitle after the title on one line in tertiary type, both truncating, for a name and a company.",
           '',
+          '`headingProps` passes attributes and a `ref` to the title heading, so an app can move focus to it with `tabIndex: -1`, for example after switching tabs or loading a page, and screen readers announce it as a heading.',
+          '',
           '`framed` moves the title and `trailing` content into a header band inside a box ringed with the separator color, for a list inside a dialog such as a recipient list with a search field.',
           '',
           'A row that holds its own buttons must not be a link or button itself, so leave out `href` and `onClick`, pass the buttons as the `accessory` (a fragment is fine) and give `openHref` for a separate chevron link after them. It is named by `openLabel`, "Open" by default, and rendered with `linkAs`.',
@@ -54,6 +57,7 @@ const meta = {
     framed: { control: 'boolean' },
     trailing: hide,
     titleAs: hide,
+    headingProps: hide,
     children: hide,
     className: hide,
   },
@@ -364,5 +368,34 @@ export const Interaction: Story = {
     await userEvent.click(control);
     await expect(control).toHaveAttribute('aria-checked', 'true');
     await expect(canvas.getByRole('button', { name: 'Export scores' })).toBeEnabled();
+  },
+};
+
+const HeadingFocusDemo = (args: Story['args']) => {
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const focusHeading = () => headingRef.current?.focus();
+  return (
+    <div className="flex flex-col gap-4">
+      <Button variant="gray" onClick={focusHeading}>
+        Go to the to do list
+      </Button>
+      <ListSection {...args} headingProps={{ ref: headingRef, tabIndex: -1 }}>
+        <ListRow title="Review applications" />
+        <ListRow title="Invite judges" />
+      </ListSection>
+    </div>
+  );
+};
+
+export const HeadingFocus: Story = {
+  tags: ['interaction', '!autodocs'],
+  args: { title: 'To do', titleAs: 'h2', footer: undefined },
+  render: (args) => <HeadingFocusDemo {...args} />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: 'Go to the to do list' }));
+    const heading = canvas.getByRole('heading', { level: 2, name: 'To do' });
+    await expect(heading).toHaveFocus();
+    await expect(canvas.getByRole('region', { name: 'To do' })).toBeInTheDocument();
   },
 };
