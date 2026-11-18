@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, fn, userEvent, within } from 'storybook/test';
+import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
 import { MultiComboBox } from './MultiComboBox';
 import { appearance, content, events, hide, state } from '../../.storybook/controls';
 
@@ -52,6 +52,18 @@ export const Searchable: Story = { args: { searchable: true } };
 export const Invalid: Story = { args: { invalid: true, hint: 'Choose at least one industry' } };
 export const WithChoices: Story = { args: { defaultValue: ['climate', 'digital-health'] } };
 export const Disabled: Story = { args: { disabled: true } };
+export const SearchFieldFocus: Story = {
+  tags: ['interaction', '!autodocs'],
+  args: { searchable: true },
+  play: async ({ canvasElement }) => {
+    const trigger = within(canvasElement).getByRole('combobox');
+    await userEvent.click(trigger);
+    const search = await within(document.body).findByRole('textbox', { name: 'Search options' });
+    await waitFor(() => expect(search).toHaveFocus());
+    await userEvent.keyboard('{Escape}');
+    await expect(trigger).toHaveFocus();
+  },
+};
 export const OpenAndSelect: Story = {
   tags: ['interaction', '!autodocs'],
   play: async ({ args, canvasElement }) => {

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, fn, userEvent, within } from 'storybook/test';
+import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
 import { Menu } from './Menu';
 import type { MenuItem } from './Menu';
 import { Button } from '../Button/Button';
@@ -183,6 +183,56 @@ export const OpenMenu: Story = {
       'aria-checked',
       'true',
     );
+    await userEvent.keyboard('{Escape}');
+    await expect(trigger).toHaveFocus();
+  },
+};
+
+export const SearchFieldFocus: Story = {
+  tags: ['interaction', '!autodocs'],
+  args: WithSearch.args,
+  play: async ({ canvasElement }) => {
+    const trigger = within(canvasElement).getByRole('button', { name: 'Round actions' });
+    await userEvent.click(trigger);
+    const menu = await within(document.body).findByRole('menu');
+    await waitFor(() =>
+      expect(within(menu).getByRole('textbox', { name: 'Search judges' })).toHaveFocus(),
+    );
+    await userEvent.keyboard('{Escape}');
+    await expect(trigger).toHaveFocus();
+  },
+};
+
+export const KeyboardNavigation: Story = {
+  tags: ['interaction', '!autodocs'],
+  play: async ({ canvasElement }) => {
+    const trigger = within(canvasElement).getByRole('button', { name: 'Round actions' });
+    const findItem = (menu: HTMLElement, name: string) =>
+      within(menu).getByRole('menuitem', { name });
+
+    await userEvent.click(trigger);
+    let menu = await within(document.body).findByRole('menu');
+    await waitFor(() => expect(findItem(menu, 'Edit schedule ⌘E')).toHaveFocus());
+    await userEvent.keyboard('{ArrowDown}');
+    await expect(findItem(menu, 'Duplicate round')).toHaveFocus();
+    await userEvent.keyboard('{End}');
+    await expect(findItem(menu, 'Delete round')).toHaveFocus();
+    await userEvent.keyboard('{Home}');
+    await expect(findItem(menu, 'Edit schedule ⌘E')).toHaveFocus();
+    await userEvent.keyboard('{Escape}');
+    await expect(trigger).toHaveFocus();
+
+    await userEvent.keyboard('{Enter}');
+    menu = await within(document.body).findByRole('menu');
+    await waitFor(() => expect(findItem(menu, 'Edit schedule ⌘E')).toHaveFocus());
+    await userEvent.keyboard('{Escape}');
+    await expect(trigger).toHaveFocus();
+
+    await userEvent.keyboard('{ArrowDown}');
+    menu = await within(document.body).findByRole('menu');
+    await waitFor(() => expect(findItem(menu, 'Edit schedule ⌘E')).toHaveFocus());
+    await userEvent.keyboard('{ArrowDown}');
+    await expect(findItem(menu, 'Duplicate round')).toHaveFocus();
     await userEvent.keyboard('{Escape}');
     await expect(trigger).toHaveFocus();
   },
