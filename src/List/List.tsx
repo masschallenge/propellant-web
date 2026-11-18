@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
+import { imageFitClass } from '../internal/imageFit';
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
@@ -64,11 +65,21 @@ export const ListSection = ({
 type RowElementProps = Omit<React.ComponentPropsWithoutRef<'button'>, 'title' | 'value' | 'type'> &
   Omit<React.ComponentPropsWithoutRef<'a'>, 'title' | 'type'>;
 
-export interface ListRowProps extends Omit<RowElementProps, 'children'> {
+export type ListRowMediaShape = 'logo' | 'squircle';
+
+export interface ListRowMedia {
+  src: string;
+  alt?: string;
+  shape?: ListRowMediaShape;
+  autoCrop?: boolean;
+}
+
+export interface ListRowProps extends Omit<RowElementProps, 'children' | 'media'> {
   title: ReactNode;
   subtitle?: ReactNode;
   value?: ReactNode;
   icon?: ReactNode;
+  media?: ListRowMedia;
   accessory?: ReactNode;
   href?: string;
   linkAs?: React.ElementType;
@@ -109,6 +120,40 @@ const CheckIcon = () => (
   </svg>
 );
 
+const MEDIA_SHAPES: Record<ListRowMediaShape, { image: string; inset: string }> = {
+  logo: {
+    image: 'w-16 h-9.5 rounded-[var(--corner-thumbnail)] shadow-[0_0_0_1px_var(--separator)]',
+    inset: '[--row-inset:calc(64px+28px)]',
+  },
+  squircle: {
+    image: 'w-[var(--avatar-md)] h-[var(--avatar-md)] rounded-[var(--corner-tile)]',
+    inset: '[--row-inset:calc(var(--avatar-md)+28px)]',
+  },
+};
+
+const RowMedia = ({ media }: { media: ListRowMedia }) => {
+  const shape = media.shape ?? 'logo';
+  const autoCrop = media.autoCrop ?? false;
+  return (
+    <img
+      src={media.src}
+      alt={media.alt ?? ''}
+      data-shape={shape}
+      className={joinClasses(
+        'flex-none block',
+        MEDIA_SHAPES[shape].image,
+        imageFitClass(autoCrop),
+        !autoCrop && 'bg-[var(--bg-secondary)]',
+      )}
+    />
+  );
+};
+
+const rowInset = (media: ListRowMedia | undefined, icon: ReactNode) => {
+  if (media) return MEDIA_SHAPES[media.shape ?? 'logo'].inset;
+  return icon ? '[--row-inset:calc(var(--icon-md)+28px)]' : '[--row-inset:16px]';
+};
+
 const labelAccessory = (accessory: ReactNode, titleId: string) => {
   if (!React.isValidElement<Record<string, unknown>>(accessory)) return accessory;
   const accessoryProps = accessory.props;
@@ -123,6 +168,7 @@ export const ListRow = ({
   subtitle,
   value,
   icon,
+  media,
   accessory,
   href,
   linkAs: LinkElement = 'a',
@@ -150,7 +196,8 @@ export const ListRow = ({
 
   const content = (
     <>
-      {icon ? (
+      {media ? <RowMedia media={media} /> : null}
+      {icon && !media ? (
         <span
           className="flex-none inline-flex w-[var(--icon-md)] h-[var(--icon-md)] text-[var(--tint)] [&>svg]:w-full [&>svg]:h-full"
           aria-hidden="true"
@@ -190,7 +237,7 @@ export const ListRow = ({
 
   const itemClasses = joinClasses(
     "relative [&+&]:before:content-[''] [&+&]:before:absolute [&+&]:before:top-0 [&+&]:before:right-0 [&+&]:before:left-(--row-inset) [&+&]:before:h-[var(--hairline)] [&+&]:before:bg-[var(--separator)] [&+&]:before:z-[1]",
-    icon ? '[--row-inset:calc(var(--icon-md)+28px)]' : '[--row-inset:16px]',
+    rowInset(media, icon),
   );
 
   let row: ReactNode;
