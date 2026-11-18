@@ -5,6 +5,55 @@ import type { MenuItem } from './Menu';
 import { Button } from '../Button/Button';
 import { appearance, hide } from '../../.storybook/controls';
 
+const lineIcon = (...paths: string[]) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    {paths.map((path) => (
+      <path key={path} d={path} />
+    ))}
+  </svg>
+);
+
+const accountIcons = {
+  inbox: lineIcon(
+    'M22 12h-6l-2 3h-4l-2-3H2',
+    'M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z',
+  ),
+  profile: lineIcon('M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8z', 'M4 21a8 8 0 0 1 16 0'),
+  settings: lineIcon(
+    'M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',
+    'M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z',
+  ),
+  help: lineIcon(
+    'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z',
+    'M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01',
+  ),
+  signOut: lineIcon('M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4', 'm16 17 5-5-5-5M21 12H9'),
+  review: lineIcon(
+    'M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z',
+    'M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2',
+    'm9 14 2 2 4-4',
+  ),
+  program: lineIcon('m12 2 10 5-10 5L2 7z', 'm2 17 10 5 10-5', 'm2 12 10 5 10-5'),
+  remind: lineIcon('M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z', 'M12 6v6l4 2'),
+};
+
+const accountMenuItems: MenuItem[] = [
+  { label: 'Inbox', icon: accountIcons.inbox, href: '#inbox', badge: { count: 3 } },
+  { label: 'Your profile', icon: accountIcons.profile, href: '#profile' },
+  { label: 'User settings', icon: accountIcons.settings, href: '#settings' },
+  { label: 'Help', icon: accountIcons.help, href: '#help' },
+  { separator: true },
+  { label: 'Sign out', icon: accountIcons.signOut, href: '#sign-out' },
+];
+
 const items: MenuItem[] = [
   { section: 'Round 2' },
   { label: 'Edit schedule', shortcut: '⌘E', onSelect: fn() },
@@ -78,6 +127,48 @@ export const AccountMenu: Story = {
       { separator: true },
       { label: 'Log out', destructive: true, onSelect: fn() },
     ],
+  },
+};
+
+export const AccountMenuWithAvatar: Story = {
+  args: {
+    align: 'end',
+    trigger: <Button variant="gray">Joe Schwendt</Button>,
+    accountBand: {
+      title: 'Joe Schwendt',
+      sub: 'joe@masschallenge.org',
+      avatar: { initials: 'JS' },
+    },
+    items: accountMenuItems,
+  },
+};
+
+export const ItemMenuWithLinks: Story = {
+  args: {
+    align: 'end',
+    trigger: <Button variant="gray">Judging round</Button>,
+    items: [
+      { label: 'Review progress', icon: accountIcons.review, href: '#review-progress' },
+      { label: 'Open program', icon: accountIcons.program, href: '#program' },
+      { label: 'Remind me tomorrow', icon: accountIcons.remind, onSelect: fn() },
+    ],
+  },
+};
+
+export const OpenAccountMenu: Story = {
+  tags: ['interaction', '!autodocs'],
+  args: AccountMenuWithAvatar.args,
+  play: async ({ canvasElement }) => {
+    const trigger = within(canvasElement).getByRole('button', { name: 'Joe Schwendt' });
+    await userEvent.click(trigger);
+    const menu = await within(document.body).findByRole('menu');
+    const inbox = within(menu).getByRole('menuitem', { name: 'Inbox 3 unread' });
+    await expect(inbox).toHaveAttribute('href', '#inbox');
+    inbox.focus();
+    await userEvent.keyboard('{End}');
+    await expect(within(menu).getByRole('menuitem', { name: 'Sign out' })).toHaveFocus();
+    await userEvent.keyboard('{Escape}');
+    await expect(trigger).toHaveFocus();
   },
 };
 
