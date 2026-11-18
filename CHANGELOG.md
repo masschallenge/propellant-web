@@ -4,6 +4,21 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+### Added
+
+- Motion tokens `--ease-in-out` (`cubic-bezier(0.4, 0, 0.2, 1)`) and `--duration-resize` (250ms,
+  1ms under `prefers-reduced-motion`) for layout that resizes. Listed on the docs site's Motion
+  page and in the usage guide.
+
+### Changed
+
+- `AppShell` in rail mode eases the sidebar column between the tree and the rail when a person
+  collapses or expands it, with `--ease-in-out` over `--duration-resize`. The tree keeps its full
+  width while the column opens, so labels do not rewrap mid motion. Nothing animates on load or
+  when the stored choice changes in another tab, and hide mode is unchanged.
+
 ## 2.3.0 (2026-11-17)
 
 ### Added
