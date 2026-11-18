@@ -72,6 +72,49 @@ describe('Avatar', () => {
     expect(root.className).toContain('fs-exclude');
     expect(root.className).toContain('mr-2');
   });
+
+  describe('count', () => {
+    it('shows the unread count as a capsule at the top right corner', () => {
+      const { container } = render(<Avatar initials="AK" count={3} />);
+      const badge = container.querySelector('[data-count]');
+      expect(badge).toHaveTextContent('3');
+      expect(badge).toHaveAttribute('data-count', '3');
+      expect(badge).toHaveClass(
+        'absolute',
+        '-top-1.25',
+        '-right-1.75',
+        'min-w-4.5',
+        'h-4.5',
+        'rounded-[var(--corner-capsule)]',
+        'bg-[var(--critical-solid)]',
+        'text-[var(--on-critical)]',
+      );
+    });
+
+    it('reads a label instead of the bare number', () => {
+      const { container } = render(<Avatar initials="AK" count={3} />);
+      expect(container.querySelector('[data-count]')).toHaveAttribute('aria-hidden', 'true');
+      expect(screen.getByText('3 unread')).toHaveClass('sr-only');
+    });
+
+    it('reads a custom label when given one', () => {
+      render(<Avatar initials="AK" count={1} countLabel="1 unread message" />);
+      expect(screen.getByText('1 unread message')).toHaveClass('sr-only');
+      expect(screen.queryByText('1 unread')).not.toBeInTheDocument();
+    });
+
+    it.each([0, -2, undefined])('shows nothing when the count is %s', (count) => {
+      const { container } = render(<Avatar initials="AK" count={count} />);
+      expect(container.querySelector('[data-count]')).not.toBeInTheDocument();
+      expect(screen.queryByText(/unread/)).not.toBeInTheDocument();
+    });
+
+    it('keeps the photo and its name alongside the count', () => {
+      render(<Avatar src="/photo.png" alt="Amara Koroma" count={12} />);
+      expect(screen.getByRole('img', { name: 'Amara Koroma' })).toBeInTheDocument();
+      expect(screen.getByText('12 unread')).toBeInTheDocument();
+    });
+  });
 });
 
 describe('AvatarGroup', () => {
