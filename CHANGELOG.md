@@ -19,6 +19,14 @@ property and from `@masschallenge/propellant-web/version`.
   `shape: 'squircle'` a company logo as a 36px squircle. Images show whole on a quiet background
   unless `autoCrop` is set, and the row separator starts at the text. Rows without `media` are
   unchanged. The `ListRowMedia` and `ListRowMediaShape` types are exported.
+- `ListRow` `media` also takes `{ tile: { icon, tone } }` to lead with an `IconTile`, for to do
+  items, with the row separator starting at the text. `titleEmphasis: 'strong'` sets the title in
+  semibold callout type. `openHref` adds a chevron link, named by `openLabel` ("Open" by default)
+  and rendered with `linkAs`, after the accessory of a row that is not itself a link or button, so
+  a row can hold its own buttons and still open without nesting interactive elements. A fragment
+  accessory is no longer given `aria-labelledby`, and accessory items are spaced 8px apart. The
+  `ListRowImageMedia`, `ListRowTileMedia`, `ListRowTile` and `ListRowTitleEmphasis` types are
+  exported.
 - `Avatar` takes `count` to show an unread count as a critical capsule at its top right corner,
   hidden at 0. Assistive technology reads `countLabel`, "N unread" by default, instead of the
   bare number.
