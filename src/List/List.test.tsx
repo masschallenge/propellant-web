@@ -38,6 +38,60 @@ describe('ListSection', () => {
     );
     expect(screen.getByText('Ada').closest('div')).toHaveClass('min-h-[var(--row-dense)]');
   });
+
+  it('pads rows roomily when roomy', () => {
+    render(
+      <ListSection density="roomy">
+        <ListRow title="Ada" />
+      </ListSection>,
+    );
+    const row = screen.getByText('Ada').closest('div');
+    expect(row).toHaveClass(
+      'min-h-[var(--row)]',
+      'gap-[var(--space-3-5)]',
+      'px-[var(--space-5)]',
+      'py-[var(--space-3-5)]',
+    );
+    expect(row).not.toHaveClass('px-4', 'gap-3');
+  });
+
+  it('insets roomy separators past the roomy padding and gap', () => {
+    render(
+      <ListSection density="roomy">
+        <ListRow title="Plain" />
+        <ListRow title="With icon" icon={<svg />} />
+        <ListRow title="Program" media={{ src: '/logo.png' }} />
+        <ListRow title="Company" media={{ src: '/logo.png', shape: 'squircle' }} />
+        <ListRow title="To do" media={{ tile: { icon: <svg /> } }} />
+      </ListSection>,
+    );
+    const items = screen.getAllByRole('listitem');
+    expect(items[0]).toHaveClass('[--row-inset:var(--space-5)]');
+    expect(items[1]).toHaveClass(
+      '[--row-inset:calc(var(--icon-md)+var(--space-5)+var(--space-3-5))]',
+    );
+    expect(items[2]).toHaveClass('[--row-inset:calc(64px+var(--space-5)+var(--space-3-5))]');
+    expect(items[3]).toHaveClass(
+      '[--row-inset:calc(var(--avatar-md)+var(--space-5)+var(--space-3-5))]',
+    );
+    expect(items[4]).toHaveClass(
+      '[--row-inset:calc(var(--avatar-md)+var(--space-5)+var(--space-3-5))]',
+    );
+  });
+
+  it('keeps regular rows at their regular padding', () => {
+    render(
+      <ListSection>
+        <ListRow title="Ada" />
+      </ListSection>,
+    );
+    expect(screen.getByText('Ada').closest('div')).toHaveClass(
+      'min-h-[var(--row)]',
+      'gap-3',
+      'px-4',
+      'py-2.5',
+    );
+  });
 });
 
 describe('ListRow', () => {
