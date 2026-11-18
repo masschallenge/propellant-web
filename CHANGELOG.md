@@ -84,6 +84,15 @@ property and from `@masschallenge/propellant-web/version`.
   initials in dark mode), for the default initials avatar on the Home and account menu boards.
   This is an explicit exception to the rule that initials sit on a neutral fill, pending design
   lead sign off. `ListRow` avatar media takes it, and `MenuAccountBandAvatar` takes `tone`.
+- `IconButton` `plain` fills with `--fill` while `aria-expanded` or `aria-pressed` is true, as the
+  open item menu trigger on the Home board, so a `Menu` trigger built from an `IconButton` shows
+  the open style whenever the menu sets `aria-expanded`. `shape: 'capsule'` draws a circular
+  button, as the board's item menu trigger, and `shape: 'rounded'` draws `--corner-md` corners.
+  Without `shape`, plain stays rounded and gray, tinted and filled stay circular. The
+  `IconButtonShape` type is exported.
+- `ListSection` takes `headingProps` to pass attributes and a `ref` to the title heading, so an
+  app can move focus to it with `tabIndex: -1` and screen readers announce it as a heading. The
+  section keeps the heading id that names it. The `ListSectionHeadingProps` type is exported.
 
 ### Fixed
 
