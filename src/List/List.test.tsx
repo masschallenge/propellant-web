@@ -134,4 +134,103 @@ describe('ListRow', () => {
     expect(items[0]).toHaveClass('[--row-inset:16px]');
     expect(items[1]).toHaveClass('[--row-inset:calc(var(--icon-md)+28px)]');
   });
+
+  describe('media', () => {
+    it('shows a program logo as a ringed thumbnail in place of the icon', () => {
+      render(
+        <ListSection>
+          <ListRow
+            title="HealthTech Traction 2027"
+            icon={<svg data-testid="icon" />}
+            media={{ src: '/logo.png', alt: 'HealthTech logo' }}
+          />
+        </ListSection>,
+      );
+      const logo = screen.getByRole('img', { name: 'HealthTech logo' });
+      expect(logo).toHaveAttribute('data-shape', 'logo');
+      expect(logo).toHaveClass(
+        'w-16',
+        'h-9.5',
+        'rounded-[var(--corner-thumbnail)]',
+        'shadow-[0_0_0_1px_var(--separator)]',
+      );
+      expect(screen.queryByTestId('icon')).not.toBeInTheDocument();
+    });
+
+    it('shows a company logo as a 36px squircle', () => {
+      render(
+        <ListSection>
+          <ListRow
+            title="CareLoop"
+            media={{ src: '/careloop.png', alt: 'CareLoop logo', shape: 'squircle' }}
+          />
+        </ListSection>,
+      );
+      const logo = screen.getByRole('img', { name: 'CareLoop logo' });
+      expect(logo).toHaveAttribute('data-shape', 'squircle');
+      expect(logo).toHaveClass(
+        'w-[var(--avatar-md)]',
+        'h-[var(--avatar-md)]',
+        'rounded-[var(--corner-tile)]',
+      );
+    });
+
+    it('shows an uploaded logo whole on a quiet background', () => {
+      const { container } = render(
+        <ListSection>
+          <ListRow title="CareLoop" media={{ src: '/careloop.png' }} />
+        </ListSection>,
+      );
+      const logo = container.querySelector('img');
+      expect(logo).toHaveClass('object-contain', 'bg-[var(--bg-secondary)]');
+      expect(logo).not.toHaveClass('object-cover');
+    });
+
+    it('crops to fill only when the image is marked auto croppable', () => {
+      const { container } = render(
+        <ListSection>
+          <ListRow title="Boston" media={{ src: '/cover.png', autoCrop: true }} />
+        </ListSection>,
+      );
+      const logo = container.querySelector('img');
+      expect(logo).toHaveClass('object-cover');
+      expect(logo).not.toHaveClass('object-contain', 'bg-[var(--bg-secondary)]');
+    });
+
+    it('is decorative when the title already names it', () => {
+      const { container } = render(
+        <ListSection>
+          <ListRow title="CareLoop" media={{ src: '/careloop.png' }} />
+        </ListSection>,
+      );
+      expect(container.querySelector('img')).toHaveAttribute('alt', '');
+      expect(screen.queryByRole('img')).not.toBeInTheDocument();
+    });
+
+    it('insets separators past the media', () => {
+      render(
+        <ListSection>
+          <ListRow title="Program" media={{ src: '/logo.png' }} />
+          <ListRow title="Company" media={{ src: '/logo.png', shape: 'squircle' }} />
+        </ListSection>,
+      );
+      const items = screen.getAllByRole('listitem');
+      expect(items[0]).toHaveClass('[--row-inset:calc(64px+28px)]');
+      expect(items[1]).toHaveClass('[--row-inset:calc(var(--avatar-md)+28px)]');
+    });
+
+    it('keeps the media inside a link row', () => {
+      render(
+        <ListSection>
+          <ListRow
+            title="CareLoop"
+            href="/startups/careloop"
+            media={{ src: '/careloop.png', shape: 'squircle' }}
+          />
+        </ListSection>,
+      );
+      const link = screen.getByRole('link', { name: 'CareLoop' });
+      expect(link.querySelector('img')).toHaveAttribute('data-shape', 'squircle');
+    });
+  });
 });
