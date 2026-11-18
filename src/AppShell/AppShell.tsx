@@ -69,6 +69,9 @@ const joinClasses = (...names: (string | false | null | undefined)[]) =>
 const PINNED_COLUMN =
   'w-[var(--sidebar-width)] border-r border-solid border-[var(--separator)] [border-right-width:var(--hairline)] bg-[var(--material-sidebar)] [backdrop-filter:var(--material-blur)] [-webkit-backdrop-filter:var(--material-blur)]';
 
+const RESIZING_COLUMN =
+  'overflow-hidden transition-[width,background-color] duration-[var(--duration-resize)] ease-[var(--ease-in-out)]';
+
 const RAIL_COLUMN =
   'w-[var(--sidebar-rail-width)] overflow-hidden bg-[var(--material-sidebar-opaque)] border-r border-solid border-[var(--separator)] [border-right-width:var(--hairline)]';
 
@@ -94,6 +97,7 @@ export const AppShell = ({
     defaultSidebarCollapsed,
   );
   const [isOverlayOpen, setIsOverlayOpen] = React.useState(false);
+  const [isResizing, setIsResizing] = React.useState(false);
   const sidebarId = React.useId();
   const overlayRef = React.useRef<HTMLDivElement>(null);
   const hasSidebar = Boolean(sidebar);
@@ -137,7 +141,10 @@ export const AppShell = ({
   }, [isOverlayOpen]);
 
   const contextValue = React.useMemo<AppShellContextValue>(() => {
-    const toggleCollapsed = () => setIsCollapsed(!isCollapsed);
+    const toggleCollapsed = () => {
+      setIsResizing(sidebarCollapse === 'rail' && !isCompact);
+      setIsCollapsed(!isCollapsed);
+    };
     return {
       hasSidebar,
       isCompact,
@@ -163,6 +170,11 @@ export const AppShell = ({
 
   const showsColumn = hasSidebar && isWide && (isRail || !isCollapsed);
 
+  const handleColumnTransitionEnd = (event: React.TransitionEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget && event.propertyName === 'width')
+      setIsResizing(false);
+  };
+
   return (
     <AppShellContext.Provider value={contextValue}>
       <div
@@ -185,9 +197,16 @@ export const AppShell = ({
             className={joinClasses(
               'flex-none sticky top-0 h-screen',
               isRail ? RAIL_COLUMN : PINNED_COLUMN,
+              isResizing && RESIZING_COLUMN,
             )}
+            onTransitionEnd={handleColumnTransitionEnd}
+            onTransitionCancel={handleColumnTransitionEnd}
           >
-            {sidebar}
+            <div
+              className={joinClasses('h-full', isResizing && !isRail && 'w-[var(--sidebar-width)]')}
+            >
+              {sidebar}
+            </div>
           </div>
         ) : null}
         {hasSidebar && isCompact && isOverlayOpen ? (
