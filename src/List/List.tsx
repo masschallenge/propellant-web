@@ -141,12 +141,15 @@ export type ListRowSubtitlePosition = 'below' | 'inline';
 
 export type ListRowTitleEmphasis = 'default' | 'strong';
 
+export type ListRowValueStyle = 'default' | 'subheadline' | 'callout';
+
 export interface ListRowProps extends Omit<RowElementProps, 'children' | 'media'> {
   title: ReactNode;
   titleEmphasis?: ListRowTitleEmphasis;
   subtitle?: ReactNode;
   subtitlePosition?: ListRowSubtitlePosition;
   value?: ReactNode;
+  valueStyle?: ListRowValueStyle;
   icon?: ReactNode;
   media?: ListRowMedia;
   accessory?: ReactNode;
@@ -232,6 +235,12 @@ const TITLE_EMPHASIS: Record<ListRowTitleEmphasis, string> = {
   strong: 'text-callout font-semibold',
 };
 
+const VALUE_STYLES: Record<ListRowValueStyle, string> = {
+  default: 'text-body text-[var(--label-tertiary)]',
+  subheadline: 'text-subheadline text-[var(--label-secondary)]',
+  callout: 'text-callout text-[var(--label)]',
+};
+
 const RowImage = ({ media }: { media: ListRowImageMedia }) => {
   const shape = media.shape ?? 'logo';
   const autoCrop = media.autoCrop ?? false;
@@ -310,6 +319,7 @@ export const ListRow = ({
   subtitle,
   subtitlePosition = 'below',
   value,
+  valueStyle = 'default',
   icon,
   media,
   accessory,
@@ -366,7 +376,12 @@ export const ListRow = ({
         {subtitle ? <span className={subtitleLayout.subtitle}>{subtitle}</span> : null}
       </span>
       {value !== undefined && value !== null ? (
-        <span className="flex-none max-w-[50%] truncate text-body text-[var(--label-tertiary)] tabular-nums">
+        <span
+          className={joinClasses(
+            'flex-none max-w-[50%] truncate tabular-nums',
+            VALUE_STYLES[valueStyle],
+          )}
+        >
           {value}
         </span>
       ) : null}
