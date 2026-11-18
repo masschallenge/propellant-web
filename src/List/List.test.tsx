@@ -1,3 +1,4 @@
+import type { ComponentPropsWithoutRef } from 'react';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -231,6 +232,126 @@ describe('ListRow', () => {
       );
       const link = screen.getByRole('link', { name: 'CareLoop' });
       expect(link.querySelector('img')).toHaveAttribute('data-shape', 'squircle');
+    });
+
+    it('leads with an icon tile in place of the icon', () => {
+      const { container } = render(
+        <ListSection>
+          <ListRow
+            title="Accept your panel"
+            icon={<svg data-testid="icon" />}
+            media={{ tile: { icon: <svg data-testid="tile-icon" />, tone: 'orange' } }}
+          />
+        </ListSection>,
+      );
+      const tile = container.querySelector('[data-tone]');
+      expect(tile).toHaveAttribute('data-tone', 'orange');
+      expect(tile).toHaveAttribute('aria-hidden', 'true');
+      expect(tile).toHaveClass('w-[var(--avatar-md)]', 'h-[var(--avatar-md)]');
+      expect(tile).toContainElement(screen.getByTestId('tile-icon'));
+      expect(screen.queryByTestId('icon')).not.toBeInTheDocument();
+      expect(container.querySelector('img')).not.toBeInTheDocument();
+    });
+
+    it('uses the teal tile when no tone is given', () => {
+      const { container } = render(
+        <ListSection>
+          <ListRow title="Review" media={{ tile: { icon: <svg /> } }} />
+        </ListSection>,
+      );
+      expect(container.querySelector('[data-tone]')).toHaveAttribute('data-tone', 'teal');
+    });
+
+    it('insets separators past the icon tile', () => {
+      render(
+        <ListSection>
+          <ListRow title="Plain" />
+          <ListRow title="To do" media={{ tile: { icon: <svg /> } }} />
+        </ListSection>,
+      );
+      const items = screen.getAllByRole('listitem');
+      expect(items[1]).toHaveClass('[--row-inset:calc(var(--avatar-md)+28px)]');
+    });
+  });
+
+  describe('title emphasis', () => {
+    it('sets the title in body type by default', () => {
+      render(
+        <ListSection>
+          <ListRow title="Round 1" />
+        </ListSection>,
+      );
+      const title = screen.getByText('Round 1');
+      expect(title).toHaveClass('text-body');
+      expect(title).not.toHaveClass('text-callout', 'font-semibold');
+    });
+
+    it('sets a strong title in semibold callout type', () => {
+      render(
+        <ListSection>
+          <ListRow title="Accept your panel" titleEmphasis="strong" />
+        </ListSection>,
+      );
+      const title = screen.getByText('Accept your panel');
+      expect(title).toHaveClass('text-callout', 'font-semibold');
+      expect(title).not.toHaveClass('text-body');
+    });
+  });
+
+  describe('open link', () => {
+    it('shows buttons and a separate chevron link without nesting them', async () => {
+      const onAccept = vi.fn();
+      render(
+        <ListSection>
+          <ListRow
+            title="Accept your panel"
+            accessory={
+              <>
+                <button type="button">Decline</button>
+                <button type="button" onClick={onAccept}>
+                  Accept
+                </button>
+              </>
+            }
+            openHref="/panels/a"
+            openLabel="Open the panel"
+          />
+        </ListSection>,
+      );
+      const link = screen.getByRole('link', { name: 'Open the panel' });
+      expect(link).toHaveAttribute('href', '/panels/a');
+      expect(link.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
+      const accept = screen.getByRole('button', { name: 'Accept' });
+      expect(accept.closest('a')).toBeNull();
+      expect(link.querySelector('button')).toBeNull();
+      expect(screen.getByRole('button', { name: 'Decline' })).not.toHaveAttribute(
+        'aria-labelledby',
+      );
+      await userEvent.click(accept);
+      expect(onAccept).toHaveBeenCalledTimes(1);
+    });
+
+    it('names the chevron link Open by default and renders it with linkAs', () => {
+      const RouterLink = ({ href, ...rest }: ComponentPropsWithoutRef<'a'>) => (
+        <a href={href} data-router="true" {...rest} />
+      );
+      render(
+        <ListSection>
+          <ListRow title="Finish reviews" openHref="/queue" linkAs={RouterLink} />
+        </ListSection>,
+      );
+      expect(screen.getByRole('link', { name: 'Open' })).toHaveAttribute('data-router', 'true');
+    });
+
+    it('leaves out the chevron link when the whole row is a link or button', () => {
+      render(
+        <ListSection>
+          <ListRow title="Judges" href="/judges" openHref="/other" />
+          <ListRow title="Export" onClick={() => undefined} openHref="/other" />
+        </ListSection>,
+      );
+      expect(screen.getAllByRole('link')).toHaveLength(1);
+      expect(screen.queryByRole('link', { name: 'Open' })).not.toBeInTheDocument();
     });
   });
 });
