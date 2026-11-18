@@ -310,6 +310,22 @@ html [data-propellant] {
   --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 28%, transparent);
 
   --role-tag-mentor-label: var(--on-highlight);
+
+  --avatar-gray-bg: color-mix(in srgb, var(--gray-75), var(--gray-100));
+
+  --avatar-gray-fg: var(--gray-600);
+
+  --avatar-amber-bg: color-mix(
+    in srgb,
+    color-mix(in srgb, var(--yellow-400) 60%, var(--orange-500)) 20%,
+    transparent
+  );
+
+  --avatar-amber-fg: var(--amber-800);
+
+  --avatar-green-bg: color-mix(in srgb, var(--green-500) 18%, transparent);
+
+  --avatar-green-fg: var(--green-700);
 }
 
 [data-theme='dark'] [data-propellant], [data-propellant][data-theme='dark'], html [data-propellant] [data-theme='dark'] {
@@ -765,6 +781,7 @@ html [data-propellant] {
   --inspector-width: 360px;
 
   --avatar-xs: 20px;
+  --avatar-compact: 26px;
   --avatar-sm: 28px;
   --avatar-md: 36px;
   --avatar-lg: 48px;
@@ -944,6 +961,40 @@ html [data-propellant] {
 html:has([data-appearance='system']) [data-propellant]:not([data-theme='light']) {
   --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 20%, transparent);
   --role-tag-mentor-label: var(--highlight);
+}
+}
+
+html [data-propellant] {
+  --avatar-gray-bg: color-mix(in srgb, var(--gray-75), var(--gray-100));
+  --avatar-gray-fg: var(--gray-600);
+  --avatar-amber-bg: color-mix(
+    in srgb,
+    color-mix(in srgb, var(--yellow-400) 60%, var(--orange-500)) 20%,
+    transparent
+  );
+  --avatar-amber-fg: var(--amber-800);
+  --avatar-green-bg: color-mix(in srgb, var(--green-500) 18%, transparent);
+  --avatar-green-fg: var(--green-700);
+}
+
+[data-theme='dark'] [data-propellant], [data-propellant][data-theme='dark'], html [data-propellant] [data-theme='dark'] {
+  --avatar-gray-bg: var(--fill);
+  --avatar-gray-fg: var(--label-secondary);
+  --avatar-amber-bg: var(--warning-fill);
+  --avatar-amber-fg: var(--warning);
+  --avatar-green-bg: var(--success-fill);
+  --avatar-green-fg: var(--success);
+}
+
+@media (prefers-color-scheme: dark) {
+
+html:has([data-appearance='system']) [data-propellant]:not([data-theme='light']) {
+  --avatar-gray-bg: var(--fill);
+  --avatar-gray-fg: var(--label-secondary);
+  --avatar-amber-bg: var(--warning-fill);
+  --avatar-amber-fg: var(--warning);
+  --avatar-green-bg: var(--success-fill);
+  --avatar-green-fg: var(--success);
 }
 }
 
