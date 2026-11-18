@@ -1,0 +1,9 @@
+:root {
+  --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 28%, transparent);
+  --role-tag-mentor-label: var(--on-highlight);
+}
+
+[data-theme='dark'] {
+  --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 20%, transparent);
+  --role-tag-mentor-label: var(--highlight);
+}

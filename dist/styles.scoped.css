@@ -306,6 +306,10 @@ html [data-propellant] {
   --icon-tile-closed-bg: color-mix(in srgb, var(--gray-75), var(--gray-100));
 
   --icon-tile-closed-fg: var(--gray-600);
+
+  --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 28%, transparent);
+
+  --role-tag-mentor-label: var(--on-highlight);
 }
 
 [data-theme='dark'] [data-propellant], [data-propellant][data-theme='dark'], html [data-propellant] [data-theme='dark'] {
@@ -922,6 +926,24 @@ html:has([data-appearance='system']) [data-propellant]:not([data-theme='light'])
   --icon-tile-cohort-fg: var(--success);
   --icon-tile-closed-bg: var(--fill);
   --icon-tile-closed-fg: var(--label-secondary);
+}
+}
+
+html [data-propellant] {
+  --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 28%, transparent);
+  --role-tag-mentor-label: var(--on-highlight);
+}
+
+[data-theme='dark'] [data-propellant], [data-propellant][data-theme='dark'], html [data-propellant] [data-theme='dark'] {
+  --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 20%, transparent);
+  --role-tag-mentor-label: var(--highlight);
+}
+
+@media (prefers-color-scheme: dark) {
+
+html:has([data-appearance='system']) [data-propellant]:not([data-theme='light']) {
+  --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 20%, transparent);
+  --role-tag-mentor-label: var(--highlight);
 }
 }
 
