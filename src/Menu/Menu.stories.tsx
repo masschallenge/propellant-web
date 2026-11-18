@@ -3,6 +3,7 @@ import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
 import { Menu } from './Menu';
 import type { MenuItem } from './Menu';
 import { Button } from '../Button/Button';
+import { IconButton } from '../IconButton/IconButton';
 import { appearance, hide } from '../../.storybook/controls';
 
 const lineIcon = (...paths: string[]) => (
@@ -43,6 +44,11 @@ const accountIcons = {
   ),
   program: lineIcon('m12 2 10 5-10 5L2 7z', 'm2 17 10 5 10-5', 'm2 12 10 5 10-5'),
   remind: lineIcon('M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z', 'M12 6v6l4 2'),
+  more: lineIcon(
+    'M12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2z',
+    'M19 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2z',
+    'M5 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2z',
+  ),
 };
 
 const accountMenuItems: MenuItem[] = [
@@ -52,6 +58,12 @@ const accountMenuItems: MenuItem[] = [
   { label: 'Help', icon: accountIcons.help, href: '#help' },
   { separator: true },
   { label: 'Sign out', icon: accountIcons.signOut, href: '#sign-out' },
+];
+
+const itemMenuItems: MenuItem[] = [
+  { label: 'Review progress', icon: accountIcons.review, href: '#review-progress' },
+  { label: 'Open program', icon: accountIcons.program, href: '#program' },
+  { label: 'Remind me tomorrow', icon: accountIcons.remind, onSelect: fn() },
 ];
 
 const items: MenuItem[] = [
@@ -147,11 +159,47 @@ export const ItemMenuWithLinks: Story = {
   args: {
     align: 'end',
     trigger: <Button variant="gray">Judging round</Button>,
-    items: [
-      { label: 'Review progress', icon: accountIcons.review, href: '#review-progress' },
-      { label: 'Open program', icon: accountIcons.program, href: '#program' },
-      { label: 'Remind me tomorrow', icon: accountIcons.remind, onSelect: fn() },
-    ],
+    items: itemMenuItems,
+  },
+};
+
+export const IconButtonTrigger: Story = {
+  args: {
+    align: 'end',
+    trigger: (
+      <IconButton size="sm" shape="capsule" aria-label="More actions for this item">
+        {accountIcons.more}
+      </IconButton>
+    ),
+    items: itemMenuItems,
+  },
+};
+
+export const IconButtonTriggerOpenStyle: Story = {
+  tags: ['interaction', '!autodocs'],
+  args: IconButtonTrigger.args,
+  play: async ({ canvasElement }) => {
+    const trigger = within(canvasElement).getByRole('button', {
+      name: 'More actions for this item',
+    });
+    const probe = document.createElement('span');
+    probe.style.backgroundColor = 'var(--fill)';
+    trigger.parentElement?.append(probe);
+    const openFill = getComputedStyle(probe).backgroundColor;
+    probe.remove();
+    const restingFill = getComputedStyle(trigger).backgroundColor;
+    await expect(restingFill).not.toBe(openFill);
+
+    trigger.focus();
+    await userEvent.keyboard('{Enter}');
+    await within(document.body).findByRole('menu');
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await waitFor(() => expect(getComputedStyle(trigger).backgroundColor).toBe(openFill));
+
+    await userEvent.keyboard('{Escape}');
+    await expect(trigger).toHaveFocus();
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    await waitFor(() => expect(getComputedStyle(trigger).backgroundColor).toBe(restingFill));
   },
 };
 
