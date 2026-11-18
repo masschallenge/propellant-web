@@ -17,6 +17,13 @@ property and from `@masschallenge/propellant-web/version`.
   `eyebrow` puts a short label, such as Preview, above the title.
 - `DatePicker` takes `dateStyle="weekday"` to show the date as Thursday, Jan 14, 2027, and
   `fullWidth` to fill its column.
+- `Switch` takes `tone="success"` to fill the on track with `--success-solid`. The on track
+  keeps a 1px `--success` edge, since the fill is 2.19:1 against white.
+
+### Changed
+
+- The medium `Switch` is a 38 by 22 track with an 18px knob, the size the design system draws.
+  It was 40 by 24 with a 20px knob.
 
 ## 2.4.0 (2026-11-18)
 

@@ -2,6 +2,7 @@ import * as React from 'react';
 import type { ReactNode } from 'react';
 
 export type SwitchSize = 'sm' | 'md';
+export type SwitchTone = 'tint' | 'success';
 
 type NativeSwitchProps = Omit<
   React.ComponentPropsWithoutRef<'button'>,
@@ -13,6 +14,7 @@ export interface SwitchProps extends NativeSwitchProps {
   defaultChecked?: boolean;
   onChange?: (checked: boolean) => void;
   size?: SwitchSize;
+  tone?: SwitchTone;
   label?: ReactNode;
   hint?: ReactNode;
   disabled?: boolean;
@@ -20,12 +22,17 @@ export interface SwitchProps extends NativeSwitchProps {
 
 const TRACKS: Record<SwitchSize, string> = {
   sm: 'w-8 h-5',
-  md: 'w-10 h-6',
+  md: 'w-9.5 h-5.5',
 };
 
 const KNOBS: Record<SwitchSize, { size: string; on: string }> = {
   sm: { size: 'w-4 h-4', on: 'translate-x-3' },
-  md: { size: 'w-5 h-5', on: 'translate-x-4' },
+  md: { size: 'w-4.5 h-4.5', on: 'translate-x-4' },
+};
+
+const ON_TRACKS: Record<SwitchTone, string> = {
+  tint: 'bg-[var(--tint)]',
+  success: 'bg-[var(--success-solid)] shadow-[inset_0_0_0_1px_var(--success)]',
 };
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
@@ -36,6 +43,7 @@ export const Switch = ({
   defaultChecked = false,
   onChange,
   size = 'md',
+  tone = 'tint',
   label,
   hint,
   disabled = false,
@@ -78,7 +86,7 @@ export const Switch = ({
           'relative inline-flex items-center p-0.5 rounded-[var(--corner-capsule)] transition-colors duration-[var(--duration-fade)] ease-[var(--ease-standard)]',
           TRACKS[size],
           isOn
-            ? 'bg-[var(--tint)]'
+            ? ON_TRACKS[tone]
             : 'bg-[var(--fill)] shadow-[inset_0_0_0_1px_var(--control-border)]',
         )}
       >
