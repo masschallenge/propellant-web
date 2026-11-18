@@ -4,6 +4,30 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+### Added
+
+- `IconTile` draws the 36px rounded tile that leads a to do item or list row, holding an 18px
+  icon. `teal`, `gray` and `orange` tones mark something to act on, to read and that needs
+  attention, and the stage tones `application`, `prescreening`, `online`, `pitch`, `cohort` and
+  `closed` match a program stage. It is hidden from assistive technology unless given an
+  `aria-label`, when it is a named image. The `IconTileProps` and `IconTileTone` types are
+  exported.
+- `ListRow` takes `media` to lead with an image in place of the icon: a program logo as a 64 by
+  38 thumbnail with `--corner-thumbnail` corners and a separator ring, or with
+  `shape: 'squircle'` a company logo as a 36px squircle. Images show whole on a quiet background
+  unless `autoCrop` is set, and the row separator starts at the text. Rows without `media` are
+  unchanged. The `ListRowMedia` and `ListRowMediaShape` types are exported.
+- `Avatar` takes `count` to show an unread count as a critical capsule at its top right corner,
+  hidden at 0. Assistive technology reads `countLabel`, "N unread" by default, instead of the
+  bare number.
+- `RoleTag` has a `mentor` tone, a soft Yellow fill from `--role-tag-mentor-fill` and
+  `--role-tag-mentor-label`.
+- Icon tile tokens, a background and foreground per tone such as `--icon-tile-teal-bg` and
+  `--icon-tile-teal-fg`, with dark mode values, and `--corner-tile`, 10px, for icon tiles and
+  company logos at the start of a row.
+
 ## 2.4.0 (2026-11-18)
 
 ### Added
