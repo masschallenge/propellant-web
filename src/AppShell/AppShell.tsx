@@ -195,7 +195,7 @@ export const AppShell = ({
             id={sidebarId}
             data-sidebar-state={isRail ? 'rail' : 'pinned'}
             className={joinClasses(
-              'flex-none sticky top-0 h-screen',
+              'flex-none sticky top-0 z-[var(--layer-sticky)] h-screen',
               isRail ? RAIL_COLUMN : PINNED_COLUMN,
               isResizing && RESIZING_COLUMN,
             )}
