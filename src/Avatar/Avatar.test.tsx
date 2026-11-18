@@ -73,6 +73,42 @@ describe('Avatar', () => {
     expect(root.className).toContain('mr-2');
   });
 
+  describe('tone', () => {
+    it.each([
+      ['gray', 'bg-[var(--avatar-gray-bg)]', 'text-[var(--avatar-gray-fg)]'],
+      ['amber', 'bg-[var(--avatar-amber-bg)]', 'text-[var(--avatar-amber-fg)]'],
+      ['green', 'bg-[var(--avatar-green-bg)]', 'text-[var(--avatar-green-fg)]'],
+    ] as const)('paints %s initials from the avatar tone tokens', (tone, background, label) => {
+      render(<Avatar initials="F" tone={tone} />);
+      const face = screen.getByText('F');
+      expect(face).toHaveClass(background, label);
+      expect(face).not.toHaveClass('bg-[var(--fill)]', 'text-[var(--label-secondary)]');
+    });
+
+    it('wins over neutral', () => {
+      render(<Avatar initials="M" tone="gray" neutral />);
+      const face = screen.getByText('M');
+      expect(face).toHaveClass('bg-[var(--avatar-gray-bg)]');
+      expect(face).not.toHaveClass('bg-[var(--fill-secondary)]');
+    });
+
+    it('leaves a photo on its quiet background', () => {
+      render(<Avatar src="/photo.png" alt="Amara Koroma" tone="green" />);
+      const photo = screen.getByRole('img', { name: 'Amara Koroma' });
+      expect(photo).toHaveClass('bg-[var(--bg-secondary)]');
+      expect(photo).not.toHaveClass('bg-[var(--avatar-green-bg)]');
+    });
+  });
+
+  it('sizes the compact avatar at 26px with caption 2 initials', () => {
+    const { container } = render(<Avatar initials="ZE" size="compact" />);
+    expect(container.firstElementChild).toHaveClass(
+      'w-[var(--avatar-compact)]',
+      'h-[var(--avatar-compact)]',
+    );
+    expect(screen.getByText('ZE')).toHaveClass('text-caption2');
+  });
+
   describe('count', () => {
     it('shows the unread count as a capsule at the top right corner', () => {
       const { container } = render(<Avatar initials="AK" count={3} />);
