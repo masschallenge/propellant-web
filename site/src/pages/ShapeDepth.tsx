@@ -20,6 +20,12 @@ const RADII = [
     className: 'rounded-[var(--corner-md)]',
   },
   {
+    token: '--corner-tile',
+    value: '10px',
+    use: 'Icon tiles and company logos at the start of a list row',
+    className: 'rounded-[var(--corner-tile)]',
+  },
+  {
     token: '--corner-lg',
     value: '12px',
     use: 'Groups, tables, menus, popovers',
