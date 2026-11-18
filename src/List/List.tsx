@@ -11,9 +11,12 @@ const joinClasses = (...names: (string | false | null | undefined)[]) =>
 
 export type ListDensity = 'regular' | 'dense' | 'roomy';
 
+export type ListSectionHeadingProps = Omit<React.ComponentPropsWithRef<'h2'>, 'children' | 'id'>;
+
 export interface ListSectionProps extends Omit<React.ComponentPropsWithoutRef<'section'>, 'title'> {
   title?: ReactNode;
   titleAs?: 'h2' | 'h3' | 'h4';
+  headingProps?: ListSectionHeadingProps;
   footer?: ReactNode;
   trailing?: ReactNode;
   density?: ListDensity;
@@ -26,6 +29,7 @@ const ListDensityContext = React.createContext<ListDensity>('regular');
 export const ListSection = ({
   title,
   titleAs: TitleTag = 'h3',
+  headingProps,
   footer,
   trailing,
   density = 'regular',
@@ -40,7 +44,11 @@ export const ListSection = ({
     title || trailing ? (
       <div className={layout.header}>
         {title ? (
-          <TitleTag id={titleId} className={layout.title}>
+          <TitleTag
+            {...headingProps}
+            id={titleId}
+            className={joinClasses(layout.title, headingProps?.className)}
+          >
             {title}
           </TitleTag>
         ) : (
