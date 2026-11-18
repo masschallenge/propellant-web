@@ -3,6 +3,7 @@ import { expect, fn, userEvent, within } from 'storybook/test';
 import { ListRow, ListSection } from './List';
 import { Switch } from '../Switch/Switch';
 import { Badge } from '../Badge/Badge';
+import { Button } from '../Button/Button';
 import { icons } from '../../.storybook/icons';
 import { MC_MONOGRAM } from '../assets/logos';
 import { content, hide } from '../../.storybook/controls';
@@ -20,6 +21,10 @@ const meta = {
           'An inset grouped list: rows on a content surface with 12px corners, separated by hairlines that start at the text. Use it for settings, summaries and short lists of destinations. Rows can show a value, an icon, an accessory such as a switch (labelled by the row title), a selection check, or a chevron when they lead somewhere. Destructive actions sit in their own section.',
           '',
           "In place of the icon, `media` shows an image: a program logo as a 64 by 38 thumbnail with 5px corners and a separator ring, or a company logo as a 36px squircle with `shape: 'squircle'`. Images show whole on a quiet background unless `autoCrop` is set for an image we own. Leave `alt` empty when the title already names the program or company.",
+          '',
+          "`media={{ tile: { icon, tone } }}` leads with an `IconTile` instead, for to do items, with the separator starting at the text. `titleEmphasis: 'strong'` sets the title in semibold callout type.",
+          '',
+          'A row that holds its own buttons must not be a link or button itself, so leave out `href` and `onClick`, pass the buttons as the `accessory` (a fragment is fine) and give `openHref` for a separate chevron link after them. It is named by `openLabel`, "Open" by default, and rendered with `linkAs`.',
           '',
           "Import: `import { ListSection, ListRow } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -128,6 +133,50 @@ export const Media: Story = {
         />
       </ListSection>
     </div>
+  ),
+};
+
+export const Tiles: Story = {
+  args: { title: 'To do', footer: undefined },
+  render: (args) => (
+    <ListSection {...args}>
+      <ListRow
+        title="Accept your Pitching selection panel"
+        titleEmphasis="strong"
+        subtitle="HealthTech Traction 2027, Panel A. Tue, Dec 8 @ 9:00 AM ET"
+        media={{ tile: { icon: icons.calendar, tone: 'teal' } }}
+        accessory={
+          <>
+            <Button variant="gray" size="sm">
+              Decline
+            </Button>
+            <Button size="sm">Accept</Button>
+          </>
+        }
+        openHref="#panel"
+        openLabel="Open the panel invite"
+      />
+      <ListRow
+        title="Finish 3 reviews for Sanofi THRIVE Challenge"
+        titleEmphasis="strong"
+        subtitle="3 of 6 done. Due Mon, Nov 30 @ 11:59 PM ET"
+        media={{ tile: { icon: icons.check, tone: 'gray' } }}
+        accessory={
+          <Button variant="tinted" size="sm">
+            Continue reviewing
+          </Button>
+        }
+        openHref="#queue"
+        openLabel="Open the review queue"
+      />
+      <ListRow
+        title="How did Online selection go?"
+        titleEmphasis="strong"
+        subtitle="HealthTech Traction 2027. One question"
+        media={{ tile: { icon: icons.star, tone: 'orange' } }}
+        href="#survey"
+      />
+    </ListSection>
   ),
 };
 

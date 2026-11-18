@@ -1,6 +1,8 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
 import { imageFitClass } from '../internal/imageFit';
+import { IconTile } from '../IconTile/IconTile';
+import type { IconTileTone } from '../IconTile/IconTile';
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
@@ -67,21 +69,39 @@ type RowElementProps = Omit<React.ComponentPropsWithoutRef<'button'>, 'title' | 
 
 export type ListRowMediaShape = 'logo' | 'squircle';
 
-export interface ListRowMedia {
+export interface ListRowImageMedia {
   src: string;
   alt?: string;
   shape?: ListRowMediaShape;
   autoCrop?: boolean;
+  tile?: never;
 }
+
+export interface ListRowTile {
+  icon: ReactNode;
+  tone?: IconTileTone;
+}
+
+export interface ListRowTileMedia {
+  tile: ListRowTile;
+  src?: never;
+}
+
+export type ListRowMedia = ListRowImageMedia | ListRowTileMedia;
+
+export type ListRowTitleEmphasis = 'default' | 'strong';
 
 export interface ListRowProps extends Omit<RowElementProps, 'children' | 'media'> {
   title: ReactNode;
+  titleEmphasis?: ListRowTitleEmphasis;
   subtitle?: ReactNode;
   value?: ReactNode;
   icon?: ReactNode;
   media?: ListRowMedia;
   accessory?: ReactNode;
   href?: string;
+  openHref?: string;
+  openLabel?: string;
   linkAs?: React.ElementType;
   onClick?: React.MouseEventHandler<HTMLElement>;
   selected?: boolean;
@@ -131,7 +151,14 @@ const MEDIA_SHAPES: Record<ListRowMediaShape, { image: string; inset: string }> 
   },
 };
 
-const RowMedia = ({ media }: { media: ListRowMedia }) => {
+const TILE_INSET = '[--row-inset:calc(var(--avatar-md)+28px)]';
+
+const TITLE_EMPHASIS: Record<ListRowTitleEmphasis, string> = {
+  default: 'text-body',
+  strong: 'text-callout font-semibold',
+};
+
+const RowImage = ({ media }: { media: ListRowImageMedia }) => {
   const shape = media.shape ?? 'logo';
   const autoCrop = media.autoCrop ?? false;
   return (
@@ -149,13 +176,24 @@ const RowMedia = ({ media }: { media: ListRowMedia }) => {
   );
 };
 
+const RowMedia = ({ media }: { media: ListRowMedia }) =>
+  media.tile ? (
+    <IconTile icon={media.tile.icon} tone={media.tile.tone} />
+  ) : (
+    <RowImage media={media} />
+  );
+
+const mediaInset = (media: ListRowMedia) =>
+  media.tile ? TILE_INSET : MEDIA_SHAPES[media.shape ?? 'logo'].inset;
+
 const rowInset = (media: ListRowMedia | undefined, icon: ReactNode) => {
-  if (media) return MEDIA_SHAPES[media.shape ?? 'logo'].inset;
+  if (media) return mediaInset(media);
   return icon ? '[--row-inset:calc(var(--icon-md)+28px)]' : '[--row-inset:16px]';
 };
 
 const labelAccessory = (accessory: ReactNode, titleId: string) => {
   if (!React.isValidElement<Record<string, unknown>>(accessory)) return accessory;
+  if (accessory.type === React.Fragment) return accessory;
   const accessoryProps = accessory.props;
   if (accessoryProps['aria-label'] || accessoryProps['aria-labelledby'] || accessoryProps.label) {
     return accessory;
@@ -165,12 +203,15 @@ const labelAccessory = (accessory: ReactNode, titleId: string) => {
 
 export const ListRow = ({
   title,
+  titleEmphasis = 'default',
   subtitle,
   value,
   icon,
   media,
   accessory,
   href,
+  openHref,
+  openLabel = 'Open',
   linkAs: LinkElement = 'a',
   onClick,
   selected = false,
@@ -209,7 +250,7 @@ export const ListRow = ({
         <span
           id={titleId}
           className={joinClasses(
-            'text-body',
+            TITLE_EMPHASIS[titleEmphasis],
             destructive ? 'text-[var(--critical)]' : 'text-[var(--label)]',
             destructive && !subtitle && !value && !accessory && 'text-center',
           )}
@@ -226,12 +267,21 @@ export const ListRow = ({
         </span>
       ) : null}
       {accessory ? (
-        <span className="flex-none inline-flex items-center">
+        <span className="flex-none inline-flex items-center gap-2">
           {labelAccessory(accessory, titleId)}
         </span>
       ) : null}
       {selected ? <CheckIcon /> : null}
       {hasChevron ? <ChevronIcon /> : null}
+      {openHref && !isAction ? (
+        <LinkElement
+          href={openHref}
+          aria-label={openLabel}
+          className="flex-none inline-flex items-center justify-center min-w-[var(--control-sm)] min-h-[var(--control-sm)] -me-[calc((var(--control-sm)-14px)/2)] rounded-[var(--corner-sm)] no-underline focus-visible:outline-[length:var(--focus-width)] focus-visible:outline-solid focus-visible:outline-[var(--focus-color)]"
+        >
+          <ChevronIcon />
+        </LinkElement>
+      ) : null}
     </>
   );
 
