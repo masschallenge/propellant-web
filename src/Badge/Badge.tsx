@@ -3,10 +3,12 @@ import type { ReactNode } from 'react';
 
 export type BadgeTone = 'neutral' | 'info' | 'success' | 'warning' | 'critical';
 export type BadgeSize = 'sm' | 'md';
+export type BadgeShape = 'capsule' | 'rounded';
 
 export interface BadgeProps extends Omit<React.ComponentPropsWithoutRef<'span'>, 'children'> {
   tone?: BadgeTone;
   size?: BadgeSize;
+  shape?: BadgeShape;
   dot?: boolean | BadgeTone;
   pulse?: boolean;
   emphasis?: 'default' | 'strong';
@@ -65,6 +67,11 @@ const dotClasses = (
   return joinClasses('w-1.5 h-1.5', emphasis === 'strong' ? 'bg-current' : palette.dot);
 };
 
+const SHAPES: Record<BadgeShape, string> = {
+  capsule: 'rounded-[var(--corner-capsule)]',
+  rounded: 'rounded-[var(--corner-sm)]',
+};
+
 const SIZES: Record<BadgeSize, { label: string; iconOnly: string; icon: string }> = {
   sm: {
     label: 'min-h-5 px-2 text-caption',
@@ -81,6 +88,7 @@ const SIZES: Record<BadgeSize, { label: string; iconOnly: string; icon: string }
 export const Badge = ({
   tone = 'neutral',
   size = 'md',
+  shape = 'capsule',
   dot = false,
   pulse = false,
   emphasis = 'default',
@@ -111,7 +119,8 @@ export const Badge = ({
       data-tone={tone}
       data-dot={typeof dot === 'string' ? dot : undefined}
       className={joinClasses(
-        'relative inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-[var(--corner-capsule)] tabular-nums',
+        'relative inline-flex items-center justify-center gap-1 whitespace-nowrap tabular-nums',
+        SHAPES[shape],
         emphasis === 'strong' ? palette.strong : palette.soft,
         iconOnly ? sizing.iconOnly : sizing.label,
         dot === true && !iconOnly && 'pl-1.5',
