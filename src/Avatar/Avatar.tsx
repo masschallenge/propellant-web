@@ -4,7 +4,7 @@ import { imageFitClass } from '../internal/imageFit';
 
 export type AvatarSize = 'xs' | 'compact' | 'sm' | 'md' | 'lg' | 'xl';
 export type AvatarStatus = 'online' | 'offline';
-export type AvatarTone = 'gray' | 'amber' | 'green';
+export type AvatarTone = 'gray' | 'amber' | 'green' | 'teal';
 
 export interface AvatarProps extends React.ComponentPropsWithoutRef<'span'> {
   src?: string;
@@ -66,6 +66,7 @@ const TONE_FACE: Record<AvatarTone, string> = {
   gray: 'bg-[var(--avatar-gray-bg)] text-[var(--avatar-gray-fg)]',
   amber: 'bg-[var(--avatar-amber-bg)] text-[var(--avatar-amber-fg)]',
   green: 'bg-[var(--avatar-green-bg)] text-[var(--avatar-green-fg)]',
+  teal: 'bg-[var(--avatar-teal-bg)] text-[var(--avatar-teal-fg)]',
 };
 
 const initialsFace = (tone: AvatarTone | undefined, neutral: boolean) => {
