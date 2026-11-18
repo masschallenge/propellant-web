@@ -70,6 +70,28 @@ property and from `@masschallenge/propellant-web/version`.
   their widths.
 - Avatar tone tokens, a background and foreground per tone such as `--avatar-green-bg` and
   `--avatar-green-fg`, with dark mode values, and `--avatar-compact`, 26px.
+- `Badge` takes `shape: 'rounded'` to draw small `--corner-sm` corners in place of the capsule.
+  At `size="sm"` it is the persona Home boards' badge: 20px high, 12px caption text and 8px
+  padding. `'capsule'` stays the default. The `BadgeShape` type is exported.
+- `ListRow` takes `valueStyle` to style its value: `'subheadline'` sets it in subheadline type in
+  the secondary label color, for progress such as "3 of 6 done", and `'callout'` in callout type
+  in the label color, for the People counts. `'default'` keeps the tertiary body value. The
+  `ListRowValueStyle` type is exported.
+- `Menu` `accountBand` `title` and `sub` take any `ReactNode`, in the same type and color.
+  Strings render as before.
+- `Avatar` takes `tone: 'teal'`, teal 150 with teal 900 initials from the new
+  `--avatar-teal-bg` and `--avatar-teal-fg` tokens (a translucent teal 400 fill with teal 150
+  initials in dark mode), for the default initials avatar on the Home and account menu boards.
+  This is an explicit exception to the rule that initials sit on a neutral fill, pending design
+  lead sign off. `ListRow` avatar media takes it, and `MenuAccountBandAvatar` takes `tone`.
+
+### Fixed
+
+- `Menu` now moves focus to the first enabled item when it opens by click, Enter or ArrowDown (the
+  last item on ArrowUp), so arrow keys, Home and End work. Focus was set while the panel was still
+  hidden off screen before its first position applied, and browsers ignored it. The same race kept
+  focus off the `Menu` and `MultiComboBox` search fields and the `FilterSelect` listbox and search
+  field; each now takes focus once the panel is placed.
 
 ## 2.4.0 (2026-11-18)
 
