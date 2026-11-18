@@ -137,7 +137,7 @@ export const AccountMenuWithAvatar: Story = {
     accountBand: {
       title: 'Joe Schwendt',
       sub: 'joe@masschallenge.org',
-      avatar: { initials: 'JS' },
+      avatar: { initials: 'JS', tone: 'teal' },
     },
     items: accountMenuItems,
   },
