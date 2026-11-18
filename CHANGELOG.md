@@ -19,6 +19,12 @@ property and from `@masschallenge/propellant-web/version`.
   width while the column opens, so labels do not rewrap mid motion. Nothing animates on load or
   when the stored choice changes in another tab, and hide mode is unchanged.
 
+### Fixed
+
+- `AppShell`'s sidebar column now sits on the sticky layer (`--layer-sticky`). It was sticky with
+  no z-index, so a menu opened from the rail, such as the account menu, was covered by any
+  positioned page content where it overhung the 56px column.
+
 ## 2.3.0 (2026-11-17)
 
 ### Added
