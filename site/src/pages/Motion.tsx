@@ -73,6 +73,7 @@ export const Motion = () => {
             'Feedback on press never animates. Every control highlights the moment it is pressed.',
             'Other color changes fade with --ease-standard over --duration-fade, 150ms.',
             'Things leave faster than they arrive, using --ease-exit.',
+            'Layout that resizes, such as the sidebar collapsing to its rail, eases in and out with --ease-in-out over --duration-resize, 250ms.',
             'One coordinated movement per interaction. Nothing moves just to decorate.',
           ]}
         />

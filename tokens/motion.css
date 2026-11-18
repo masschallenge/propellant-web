@@ -49,9 +49,11 @@
 
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-exit: cubic-bezier(0.3, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
   --duration-instant: 100ms;
   --duration-fade: 150ms;
   --duration-exit: 200ms;
+  --duration-resize: 250ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -60,5 +62,6 @@
     --spring-smooth-duration: 1ms;
     --spring-bouncy-duration: 1ms;
     --duration-exit: 1ms;
+    --duration-resize: 1ms;
   }
 }

@@ -263,6 +263,68 @@ describe('AppShell', () => {
       expect(screen.getByRole('button', { name: 'Collapse menu' })).toBeInTheDocument();
     });
 
+    it('eases the column between the tree and the rail only after a click', async () => {
+      stubWidth(1280);
+      renderRail({ sidebarStorageKey: 'console-sidebar-motion', defaultSidebarCollapsed: true });
+      expect(sidebarColumn()).toHaveAttribute('data-sidebar-state', 'rail');
+      expect(sidebarColumn()?.className).not.toContain('transition-');
+
+      await userEvent.click(screen.getByRole('button', { name: 'Expand menu' }));
+      const column = sidebarColumn() as HTMLElement;
+      expect(column).toHaveAttribute('data-sidebar-state', 'pinned');
+      expect(column.className).toContain('transition-[width,background-color]');
+      expect(column.className).toContain('duration-[var(--duration-resize)]');
+      expect(column.className).toContain('ease-[var(--ease-in-out)]');
+      expect(column.className).toContain('overflow-hidden');
+      expect(column.firstElementChild?.className).toContain('w-[var(--sidebar-width)]');
+
+      fireEvent.transitionEnd(column.firstElementChild as HTMLElement, { propertyName: 'width' });
+      expect(column.className).toContain('transition-');
+      fireEvent.transitionEnd(column, { propertyName: 'background-color' });
+      expect(column.className).toContain('transition-');
+      fireEvent.transitionEnd(column, { propertyName: 'width' });
+      expect(column.className).not.toContain('transition-');
+      expect(column.className).not.toContain('overflow-hidden');
+      expect(column.firstElementChild?.className).not.toContain('w-[var(--sidebar-width)]');
+
+      await userEvent.click(screen.getByRole('button', { name: 'Collapse menu' }));
+      expect(column).toHaveAttribute('data-sidebar-state', 'rail');
+      expect(column.className).toContain('duration-[var(--duration-resize)]');
+      expect(column.firstElementChild?.className).not.toContain('w-[var(--sidebar-width)]');
+    });
+
+    it('stacks the column above page content so its menus can overhang the rail', () => {
+      stubWidth(1280);
+      renderRail({ defaultSidebarCollapsed: true });
+      expect(sidebarColumn()?.className).toContain('z-[var(--layer-sticky)]');
+    });
+
+    it('settles the column even when the width transition never ends', () => {
+      vi.useFakeTimers();
+      stubWidth(1280);
+      renderRail();
+      fireEvent.click(screen.getByRole('button', { name: 'Collapse menu' }));
+      expect(sidebarColumn()?.className).toContain('transition-');
+      act(() => {
+        vi.advanceTimersByTime(399);
+      });
+      expect(sidebarColumn()?.className).toContain('transition-');
+      act(() => {
+        vi.advanceTimersByTime(1);
+      });
+      expect(sidebarColumn()?.className).not.toContain('transition-');
+      vi.useRealTimers();
+    });
+
+    it('never animates the column in hide mode', async () => {
+      stubWidth(1280);
+      renderRail({ sidebarCollapse: 'hide' });
+      const toggle = screen.getByRole('button', { name: 'Show sidebar' });
+      await userEvent.click(toggle);
+      await userEvent.click(toggle);
+      expect(sidebarColumn()?.className).not.toContain('transition-');
+    });
+
     it('starts in the rail when the product asks', () => {
       stubWidth(1280);
       renderRail({ defaultSidebarCollapsed: true });
