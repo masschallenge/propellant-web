@@ -3,6 +3,8 @@ import type { ReactNode } from 'react';
 import { imageFitClass } from '../internal/imageFit';
 import { IconTile } from '../IconTile/IconTile';
 import type { IconTileTone } from '../IconTile/IconTile';
+import { Avatar } from '../Avatar/Avatar';
+import type { AvatarTone } from '../Avatar/Avatar';
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
@@ -15,6 +17,7 @@ export interface ListSectionProps extends Omit<React.ComponentPropsWithoutRef<'s
   footer?: ReactNode;
   trailing?: ReactNode;
   density?: ListDensity;
+  framed?: boolean;
   children?: ReactNode;
 }
 
@@ -26,42 +29,68 @@ export const ListSection = ({
   footer,
   trailing,
   density = 'regular',
+  framed = false,
   className,
   children,
   ...rest
 }: ListSectionProps) => {
   const titleId = React.useId();
+  const layout = framed ? FRAMED_SECTION : INSET_SECTION;
+  const header =
+    title || trailing ? (
+      <div className={layout.header}>
+        {title ? (
+          <TitleTag id={titleId} className={layout.title}>
+            {title}
+          </TitleTag>
+        ) : (
+          <span />
+        )}
+        {trailing ? <div className="flex-none flex items-center gap-2">{trailing}</div> : null}
+      </div>
+    ) : null;
+  const list = (
+    <ListDensityContext.Provider value={density}>
+      <ul role="list" className={layout.list}>
+        {children}
+      </ul>
+    </ListDensityContext.Provider>
+  );
   return (
     <section
       aria-labelledby={title ? titleId : undefined}
       className={joinClasses('flex flex-col gap-2', className)}
       {...rest}
     >
-      {title || trailing ? (
-        <div className="flex items-end justify-between gap-3 px-4">
-          {title ? (
-            <TitleTag id={titleId} className="m-0 text-headline text-[var(--label)]">
-              {title}
-            </TitleTag>
-          ) : (
-            <span />
-          )}
-          {trailing ? <div className="flex-none flex items-center gap-2">{trailing}</div> : null}
+      {framed ? (
+        <div className="relative bg-[var(--bg)] rounded-[var(--corner-lg)] overflow-hidden after:content-[''] after:absolute after:inset-0 after:z-[2] after:rounded-[inherit] after:pointer-events-none after:shadow-[inset_0_0_0_var(--hairline)_var(--separator)]">
+          {header}
+          {list}
         </div>
-      ) : null}
-      <ListDensityContext.Provider value={density}>
-        <ul
-          role="list"
-          className="m-0 p-0 list-none bg-[var(--bg)] rounded-[var(--corner-lg)] overflow-hidden"
-        >
-          {children}
-        </ul>
-      </ListDensityContext.Provider>
+      ) : (
+        <>
+          {header}
+          {list}
+        </>
+      )}
       {footer ? (
         <div className="px-4 text-footnote text-[var(--label-tertiary)]">{footer}</div>
       ) : null}
     </section>
   );
+};
+
+const INSET_SECTION = {
+  header: 'flex items-end justify-between gap-3 px-4',
+  title: 'm-0 text-headline text-[var(--label)]',
+  list: 'm-0 p-0 list-none bg-[var(--bg)] rounded-[var(--corner-lg)] overflow-hidden',
+};
+
+const FRAMED_SECTION = {
+  header:
+    'flex items-center justify-between gap-3 px-3.5 py-2.5 bg-[var(--bg-secondary)] border-0 border-b border-solid border-b-[var(--separator)]',
+  title: 'm-0 text-subheadline font-semibold text-[var(--label-secondary)]',
+  list: 'm-0 p-0 list-none',
 };
 
 type RowElementProps = Omit<React.ComponentPropsWithoutRef<'button'>, 'title' | 'value' | 'type'> &
@@ -75,6 +104,7 @@ export interface ListRowImageMedia {
   shape?: ListRowMediaShape;
   autoCrop?: boolean;
   tile?: never;
+  avatar?: never;
 }
 
 export interface ListRowTile {
@@ -85,9 +115,29 @@ export interface ListRowTile {
 export interface ListRowTileMedia {
   tile: ListRowTile;
   src?: never;
+  avatar?: never;
 }
 
-export type ListRowMedia = ListRowImageMedia | ListRowTileMedia;
+export type ListRowAvatarSize = 'md' | 'compact';
+
+export interface ListRowAvatar {
+  initials?: string;
+  src?: string;
+  alt?: string;
+  tone?: AvatarTone;
+  size?: ListRowAvatarSize;
+  autoCrop?: boolean;
+}
+
+export interface ListRowAvatarMedia {
+  avatar: ListRowAvatar;
+  src?: never;
+  tile?: never;
+}
+
+export type ListRowMedia = ListRowImageMedia | ListRowTileMedia | ListRowAvatarMedia;
+
+export type ListRowSubtitlePosition = 'below' | 'inline';
 
 export type ListRowTitleEmphasis = 'default' | 'strong';
 
@@ -95,6 +145,7 @@ export interface ListRowProps extends Omit<RowElementProps, 'children' | 'media'
   title: ReactNode;
   titleEmphasis?: ListRowTitleEmphasis;
   subtitle?: ReactNode;
+  subtitlePosition?: ListRowSubtitlePosition;
   value?: ReactNode;
   icon?: ReactNode;
   media?: ListRowMedia;
@@ -145,7 +196,7 @@ const MEDIA_SHAPES: Record<ListRowMediaShape, string> = {
   squircle: 'w-[var(--avatar-md)] h-[var(--avatar-md)] rounded-[var(--corner-tile)]',
 };
 
-type RowLead = 'none' | 'icon' | 'logo' | 'squircle' | 'tile';
+type RowLead = 'none' | 'icon' | 'logo' | 'squircle' | 'tile' | 'avatar-md' | 'avatar-compact';
 
 const STANDARD_INSETS: Record<RowLead, string> = {
   none: '[--row-inset:16px]',
@@ -153,6 +204,8 @@ const STANDARD_INSETS: Record<RowLead, string> = {
   logo: '[--row-inset:calc(64px+28px)]',
   squircle: '[--row-inset:calc(var(--avatar-md)+28px)]',
   tile: '[--row-inset:calc(var(--avatar-md)+28px)]',
+  'avatar-md': '[--row-inset:calc(var(--avatar-md)+28px)]',
+  'avatar-compact': '[--row-inset:calc(var(--avatar-compact)+28px)]',
 };
 
 const ROOMY_INSETS: Record<RowLead, string> = {
@@ -161,6 +214,8 @@ const ROOMY_INSETS: Record<RowLead, string> = {
   logo: '[--row-inset:calc(64px+var(--space-5)+var(--space-3-5))]',
   squircle: '[--row-inset:calc(var(--avatar-md)+var(--space-5)+var(--space-3-5))]',
   tile: '[--row-inset:calc(var(--avatar-md)+var(--space-5)+var(--space-3-5))]',
+  'avatar-md': '[--row-inset:calc(var(--avatar-md)+var(--space-5)+var(--space-3-5))]',
+  'avatar-compact': '[--row-inset:calc(var(--avatar-compact)+var(--space-5)+var(--space-3-5))]',
 };
 
 const DENSITY_LAYOUTS: Record<ListDensity, { row: string; insets: Record<RowLead, string> }> = {
@@ -195,14 +250,44 @@ const RowImage = ({ media }: { media: ListRowImageMedia }) => {
   );
 };
 
-const RowMedia = ({ media }: { media: ListRowMedia }) =>
-  media.tile ? (
-    <IconTile icon={media.tile.icon} tone={media.tile.tone} />
-  ) : (
-    <RowImage media={media} />
-  );
+const RowAvatar = ({ avatar }: { avatar: ListRowAvatar }) => (
+  <Avatar
+    initials={avatar.initials}
+    src={avatar.src}
+    alt={avatar.alt}
+    tone={avatar.tone}
+    size={avatar.size ?? 'md'}
+    autoCrop={avatar.autoCrop}
+  />
+);
 
-const mediaLead = (media: ListRowMedia): RowLead => (media.tile ? 'tile' : (media.shape ?? 'logo'));
+const RowMedia = ({ media }: { media: ListRowMedia }) => {
+  if (media.avatar) return <RowAvatar avatar={media.avatar} />;
+  if (media.tile) return <IconTile icon={media.tile.icon} tone={media.tile.tone} />;
+  return <RowImage media={media} />;
+};
+
+const mediaLead = (media: ListRowMedia): RowLead => {
+  if (media.avatar) return `avatar-${media.avatar.size ?? 'md'}`;
+  if (media.tile) return 'tile';
+  return media.shape ?? 'logo';
+};
+
+const SUBTITLE_LAYOUTS: Record<
+  ListRowSubtitlePosition,
+  { text: string; title: string; subtitle: string }
+> = {
+  below: {
+    text: 'flex-1 min-w-0 flex flex-col',
+    title: '',
+    subtitle: 'text-subheadline text-[var(--label-secondary)]',
+  },
+  inline: {
+    text: 'flex-1 min-w-0 flex items-baseline gap-2',
+    title: 'min-w-0 truncate',
+    subtitle: 'min-w-0 truncate text-subheadline text-[var(--label-tertiary)]',
+  },
+};
 
 const rowLead = (media: ListRowMedia | undefined, icon: ReactNode): RowLead => {
   if (media) return mediaLead(media);
@@ -223,6 +308,7 @@ export const ListRow = ({
   title,
   titleEmphasis = 'default',
   subtitle,
+  subtitlePosition = 'below',
   value,
   icon,
   media,
@@ -240,6 +326,7 @@ export const ListRow = ({
   ...rest
 }: ListRowProps) => {
   const density = React.useContext(ListDensityContext);
+  const subtitleLayout = SUBTITLE_LAYOUTS[subtitlePosition];
   const titleId = React.useId();
   const isAction = Boolean(href || onClick);
   const hasChevron = showChevron ?? Boolean(href || (onClick && !destructive && !selected));
@@ -264,10 +351,11 @@ export const ListRow = ({
           {icon}
         </span>
       ) : null}
-      <span className="flex-1 min-w-0 flex flex-col">
+      <span className={subtitleLayout.text}>
         <span
           id={titleId}
           className={joinClasses(
+            subtitleLayout.title,
             TITLE_EMPHASIS[titleEmphasis],
             destructive ? 'text-[var(--critical)]' : 'text-[var(--label)]',
             destructive && !subtitle && !value && !accessory && 'text-center',
@@ -275,9 +363,7 @@ export const ListRow = ({
         >
           {title}
         </span>
-        {subtitle ? (
-          <span className="text-subheadline text-[var(--label-secondary)]">{subtitle}</span>
-        ) : null}
+        {subtitle ? <span className={subtitleLayout.subtitle}>{subtitle}</span> : null}
       </span>
       {value !== undefined && value !== null ? (
         <span className="flex-none max-w-[50%] truncate text-body text-[var(--label-tertiary)] tabular-nums">
