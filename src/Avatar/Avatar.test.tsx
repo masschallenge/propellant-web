@@ -78,6 +78,7 @@ describe('Avatar', () => {
       ['gray', 'bg-[var(--avatar-gray-bg)]', 'text-[var(--avatar-gray-fg)]'],
       ['amber', 'bg-[var(--avatar-amber-bg)]', 'text-[var(--avatar-amber-fg)]'],
       ['green', 'bg-[var(--avatar-green-bg)]', 'text-[var(--avatar-green-fg)]'],
+      ['teal', 'bg-[var(--avatar-teal-bg)]', 'text-[var(--avatar-teal-fg)]'],
     ] as const)('paints %s initials from the avatar tone tokens', (tone, background, label) => {
       render(<Avatar initials="F" tone={tone} />);
       const face = screen.getByText('F');

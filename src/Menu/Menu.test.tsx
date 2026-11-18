@@ -268,6 +268,21 @@ describe('Menu account avatar, counts and links', () => {
     expect(screen.getByRole('menu').querySelector('img')).toHaveAttribute('src', '/joe.png');
   });
 
+  it('paints the account band avatar in its tone', async () => {
+    render(
+      <Menu
+        trigger={<button type="button">Account</button>}
+        accountBand={{ title: 'Joe Schwendt', avatar: { initials: 'JS', tone: 'teal' } }}
+        items={[{ label: 'Help' }]}
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'Account' }));
+    expect(screen.getByText('JS')).toHaveClass(
+      'bg-[var(--avatar-teal-bg)]',
+      'text-[var(--avatar-teal-fg)]',
+    );
+  });
+
   it('leaves the account band without an avatar unchanged', async () => {
     render(
       <Menu

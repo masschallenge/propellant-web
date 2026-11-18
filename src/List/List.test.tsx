@@ -451,6 +451,18 @@ describe('ListRow', () => {
       expect(container.querySelector('img')).not.toBeInTheDocument();
     });
 
+    it('leads with the teal initials avatar', () => {
+      render(
+        <ListSection>
+          <ListRow title="Program managers" media={{ avatar: { initials: 'PM', tone: 'teal' } }} />
+        </ListSection>,
+      );
+      expect(screen.getByText('PM')).toHaveClass(
+        'bg-[var(--avatar-teal-bg)]',
+        'text-[var(--avatar-teal-fg)]',
+      );
+    });
+
     it('draws a 26px compact avatar for dense recipient rows', () => {
       render(
         <ListSection density="dense">
