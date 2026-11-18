@@ -13,6 +13,7 @@ const meta = {
       description: {
         component: [
           'Calendar date picker with optional presets, range, dual month, and time slots. Portals its dialog.',
+          'In a form, `fullWidth` fills the column and `dateStyle="weekday"` reads Thursday, Jan 14, 2027 so the day is clear before the calendar opens.',
           '',
           "Import: `import { DatePicker } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -27,6 +28,8 @@ const meta = {
     inline: { control: 'boolean', ...appearance },
     clearable: { control: 'boolean', ...appearance },
     hideLabel: { control: 'boolean', ...appearance },
+    fullWidth: { control: 'boolean', ...appearance },
+    dateStyle: { control: 'inline-radio', options: ['short', 'weekday'], ...appearance },
     disabled: { control: 'boolean', ...state },
     invalid: { control: 'boolean', ...state },
     required: { control: 'boolean', ...state },
@@ -47,6 +50,19 @@ export const Range: Story = {
   args: { inline: true, dualMonth: true, defaultValue: undefined, onRangeChange: fn() },
 };
 export const Disabled: Story = { args: { disabled: true } };
+export const FormField: Story = {
+  args: {
+    label: 'Start date',
+    defaultValue: '2027-01-14',
+    dateStyle: 'weekday',
+    fullWidth: true,
+  },
+  render: (args) => (
+    <div style={{ width: 'min(24rem, 100%)' }}>
+      <DatePicker {...args} />
+    </div>
+  ),
+};
 export const Clearable: Story = {
   args: { label: 'Window start', defaultValue: '2026-07-15', clearable: true, required: true },
 };

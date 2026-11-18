@@ -12,6 +12,8 @@ export interface DatePickerPreset {
   selected?: boolean;
 }
 
+export type DatePickerDateStyle = 'short' | 'weekday';
+
 export interface DatePickerProps {
   value?: string;
   defaultValue?: string;
@@ -41,6 +43,8 @@ export interface DatePickerProps {
   clearable?: boolean;
   required?: boolean;
   hideLabel?: boolean;
+  dateStyle?: DatePickerDateStyle;
+  fullWidth?: boolean;
   className?: string;
 }
 
@@ -64,6 +68,16 @@ const MONTHS = [
 
 const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
+const WEEKDAY_NAMES = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+];
+
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
 
@@ -74,11 +88,11 @@ const toIsoDay = (date: Date) =>
 
 const parseIsoDay = (isoDay?: string) => (isoDay ? new Date(`${isoDay}T00:00:00`) : null);
 
-const formatTriggerDate = (isoDay?: string) => {
+const formatTriggerDate = (isoDay?: string, dateStyle: DatePickerDateStyle = 'short') => {
   const date = parseIsoDay(isoDay);
-  return date
-    ? `${MONTHS[date.getMonth()].slice(0, 3)} ${date.getDate()}, ${date.getFullYear()}`
-    : '';
+  if (!date) return '';
+  const shortDate = `${MONTHS[date.getMonth()].slice(0, 3)} ${date.getDate()}, ${date.getFullYear()}`;
+  return dateStyle === 'weekday' ? `${WEEKDAY_NAMES[date.getDay()]}, ${shortDate}` : shortDate;
 };
 
 const formatReadoutDate = (isoDay?: string) => {
@@ -141,6 +155,8 @@ export const DatePicker = ({
   clearable = false,
   required = false,
   hideLabel = false,
+  dateStyle = 'short',
+  fullWidth = false,
   className,
 }: DatePickerProps) => {
   const isRange = Boolean(rangeValue);
@@ -769,10 +785,10 @@ export const DatePicker = ({
 
   const triggerText = isRange
     ? rangeStart
-      ? `${formatTriggerDate(rangeStart)} to ${rangeEnd ? formatTriggerDate(rangeEnd) : '…'}`
+      ? `${formatTriggerDate(rangeStart, dateStyle)} to ${rangeEnd ? formatTriggerDate(rangeEnd, dateStyle) : '…'}`
       : placeholder
     : currentValue
-      ? formatTriggerDate(currentValue)
+      ? formatTriggerDate(currentValue, dateStyle)
       : placeholder;
   const isShowingClear = clearable && !isRange && !disabled && Boolean(currentValue);
 
@@ -805,7 +821,7 @@ export const DatePicker = ({
           ) : null}
         </span>
       ) : null}
-      <div className={clearable ? 'relative w-fit' : 'relative'}>
+      <div className={clearable && !fullWidth ? 'relative w-fit' : 'relative'}>
         <button
           ref={triggerRef}
           type="button"
@@ -824,7 +840,8 @@ export const DatePicker = ({
           data-open={isOpen ? 'true' : undefined}
           data-invalid={invalid ? 'true' : undefined}
           className={joinClasses(
-            'propellant-field w-fit items-center gap-2 min-h-[var(--control-md)] px-3 border-0 whitespace-nowrap cursor-pointer font-[inherit] text-callout font-normal',
+            'propellant-field items-center gap-2 min-h-[var(--control-md)] px-3 border-0 whitespace-nowrap cursor-pointer font-[inherit] text-callout font-normal',
+            fullWidth ? 'w-full justify-start' : 'w-fit',
             'disabled:opacity-[var(--opacity-disabled)] disabled:cursor-not-allowed',
             currentValue || rangeStart ? 'text-[var(--label)]' : 'text-[var(--label-tertiary)]',
             isShowingClear && 'pr-10',

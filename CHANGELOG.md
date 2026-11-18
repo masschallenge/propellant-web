@@ -15,6 +15,8 @@ property and from `@masschallenge/propellant-web/version`.
 - `Sheet` takes `placement="side"` for a full height panel on the right, full width on phones,
   with the same focus trap, Escape and scrim close as the centred sheet and a body that scrolls.
   `eyebrow` puts a short label, such as Preview, above the title.
+- `DatePicker` takes `dateStyle="weekday"` to show the date as Thursday, Jan 14, 2027, and
+  `fullWidth` to fill its column.
 
 ## 2.4.0 (2026-11-18)
 
