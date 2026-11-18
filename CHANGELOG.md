@@ -4,6 +4,15 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+### Added
+
+- `StepIndicator` shows where a person is in a short multi-step flow: the steps in order, the current
+  one as a pill with a filled number and `aria-current="step"`, finished ones with a check.
+  `onStepSelect` lets a person go back to a finished step. Below the small breakpoint,
+  `compact="auto"` shows "Step 2 of 4 · Stages" instead of the list.
+
 ## 2.4.0 (2026-11-18)
 
 ### Added

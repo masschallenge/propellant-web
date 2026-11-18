@@ -43,6 +43,7 @@ export * from './Slider/Slider';
 export * from './SocialButton/SocialButton';
 export * from './Spinner/Spinner';
 export * from './StatusIcon/StatusIcon';
+export * from './StepIndicator/StepIndicator';
 export * from './Stepper/Stepper';
 export * from './Switch/Switch';
 export * from './TabBar/TabBar';

@@ -118,6 +118,7 @@ const EXPECTED_COMPONENTS = [
   'SocialButton',
   'Spinner',
   'StatusIcon',
+  'StepIndicator',
   'Stepper',
   'Switch',
   'TabBar',
