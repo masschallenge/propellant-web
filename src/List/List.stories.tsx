@@ -29,6 +29,8 @@ const meta = {
           '',
           "`media={{ avatar: { initials, src, alt, tone, size } }}` leads with a round `Avatar`, 36px at `size: 'md'` (the default) or 26px at `size: 'compact'` for dense recipient rows, in the `gray`, `amber` or `green` tone to tell groups of people apart. The separator starts at the text.",
           '',
+          "`valueStyle: 'subheadline'` sets the value in secondary subheadline type, for progress such as \"3 of 6 done\", and `valueStyle: 'callout'` in callout type in the label color, for counts such as the People card. The default value stays in tertiary body type.",
+          '',
           "`subtitlePosition: 'inline'` sets the subtitle after the title on one line in tertiary type, both truncating, for a name and a company.",
           '',
           '`framed` moves the title and `trailing` content into a header band inside a box ringed with the separator color, for a list inside a dialog such as a recipient list with a search field.',
@@ -227,6 +229,7 @@ export const People: Story = {
         titleEmphasis="strong"
         subtitle="Across 4,120 applications"
         value="2,184"
+        valueStyle="callout"
         media={{ avatar: { initials: 'F', tone: 'green' } }}
         href="#founders"
       />
@@ -235,6 +238,7 @@ export const People: Story = {
         titleEmphasis="strong"
         subtitle="286 active in a program now"
         value="612"
+        valueStyle="callout"
         media={{ avatar: { initials: 'E', tone: 'amber' } }}
         href="#evaluators"
       />
@@ -243,6 +247,7 @@ export const People: Story = {
         titleEmphasis="strong"
         subtitle="41 matched to a startup now"
         value="148"
+        valueStyle="callout"
         media={{ avatar: { initials: 'M', tone: 'gray' } }}
         href="#mentors"
       />
@@ -251,15 +256,51 @@ export const People: Story = {
         titleEmphasis="strong"
         subtitle="Running 12 active programs"
         value="24"
-        media={{ avatar: { initials: 'PM' } }}
+        valueStyle="callout"
+        media={{ avatar: { initials: 'PM', tone: 'teal' } }}
         href="#program-managers"
       />
       <ListRow
         title="Admins"
         titleEmphasis="strong"
         value="5"
+        valueStyle="callout"
         media={{ avatar: { initials: 'A', tone: 'gray' } }}
         href="#admins"
+      />
+    </ListSection>
+  ),
+};
+
+export const ValueStyles: Story = {
+  args: { title: 'Your programs', footer: undefined, density: 'roomy' },
+  render: (args) => (
+    <ListSection {...args}>
+      <ListRow
+        title="Sanofi THRIVE Challenge"
+        titleEmphasis="strong"
+        subtitle="Online selection. Due Mon, Nov 30 @ 11:59 PM ET"
+        value="3 of 6 done"
+        valueStyle="subheadline"
+        media={{ src: PROGRAM_LOGO, autoCrop: true }}
+        href="#sanofi"
+      />
+      <ListRow
+        title="Founders"
+        titleEmphasis="strong"
+        subtitle="Across 4,120 applications"
+        value="2,184"
+        valueStyle="callout"
+        media={{ avatar: { initials: 'F', tone: 'green' } }}
+        href="#founders"
+      />
+      <ListRow
+        title="Startups in review"
+        titleEmphasis="strong"
+        subtitle="Default value style"
+        value="128"
+        media={{ tile: { icon: icons.check, tone: 'gray' } }}
+        href="#review"
       />
     </ListSection>
   ),
