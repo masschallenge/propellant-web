@@ -133,7 +133,7 @@ describe('Menu rows', () => {
     );
     expect(screen.getByRole('menuitem', { name: 'Profile' })).toHaveClass(
       '[--row-label:var(--label)]',
-      'enabled:hover:bg-[var(--tint)]',
+      'not-disabled:hover:bg-[var(--tint)]',
     );
   });
 
