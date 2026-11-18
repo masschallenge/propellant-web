@@ -293,6 +293,12 @@ describe('AppShell', () => {
       expect(column.firstElementChild?.className).not.toContain('w-[var(--sidebar-width)]');
     });
 
+    it('stacks the column above page content so its menus can overhang the rail', () => {
+      stubWidth(1280);
+      renderRail({ defaultSidebarCollapsed: true });
+      expect(sidebarColumn()?.className).toContain('z-[var(--layer-sticky)]');
+    });
+
     it('never animates the column in hide mode', async () => {
       stubWidth(1280);
       renderRail({ sidebarCollapse: 'hide' });
