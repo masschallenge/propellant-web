@@ -17,6 +17,8 @@ export interface AvatarProps extends React.ComponentPropsWithoutRef<'span'> {
   verified?: boolean;
   companyBadge?: { src: string; alt?: string };
   autoCrop?: boolean;
+  count?: number;
+  countLabel?: string;
 }
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
@@ -84,9 +86,12 @@ export const Avatar = ({
   verified = false,
   companyBadge,
   autoCrop = false,
+  count,
+  countLabel,
   className,
   ...rest
 }: AvatarProps) => {
+  const hasCount = typeof count === 'number' && count > 0;
   const face = joinClasses(
     'w-full h-full block',
     squircle ? 'rounded-[var(--corner-lg)]' : 'rounded-full',
@@ -145,6 +150,21 @@ export const Avatar = ({
             aria-hidden="true"
           />
           <span className="sr-only">{status === 'online' ? 'Online' : 'Offline'}</span>
+        </>
+      ) : null}
+      {hasCount ? (
+        <>
+          <span
+            data-count={count}
+            className={joinClasses(
+              'absolute -top-1.25 -right-1.75 box-border min-w-4.5 h-4.5 px-1.25 rounded-[var(--corner-capsule)] bg-[var(--critical-solid)] text-[var(--on-critical)] text-caption2 leading-4.5 font-bold text-center tabular-nums',
+              BG_RING,
+            )}
+            aria-hidden="true"
+          >
+            {count}
+          </span>
+          <span className="sr-only">{countLabel ?? `${count} unread`}</span>
         </>
       ) : null}
       {companyBadge ? (
