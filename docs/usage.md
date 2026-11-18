@@ -276,7 +276,7 @@ Use tokens by their role, never the raw values behind them:
 | Type | `--type-family`, `--type-family-brand`, and the `text-body`, `text-headline`, `text-caption2` utilities |
 | Shape | `--corner-sm`, `--corner-thumbnail`, `--corner-md`, `--corner-lg`, `--corner-xl`, `--corner-capsule` |
 | Depth | `--shadow-float`, `--shadow-sheet`, `--material-bar` |
-| Motion | `--spring-snappy`, `--spring-smooth`, `--ease-standard` |
+| Motion | `--spring-snappy`, `--spring-smooth`, `--ease-standard`, `--ease-in-out` |
 | Layout | `--control-md`, `--row`, `--page-margin`, `--width-form`, `--space-4` |
 
 The token reference on the documentation site lists every token with its light, dark, touch and
