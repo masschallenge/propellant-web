@@ -11,6 +11,7 @@ import {
 } from '../internal/anchoredLayer';
 import { imageFitClass } from '../internal/imageFit';
 import { Avatar } from '../Avatar/Avatar';
+import type { AvatarTone } from '../Avatar/Avatar';
 
 export interface MenuItem {
   separator?: boolean;
@@ -40,6 +41,7 @@ export interface MenuItemBadge {
 export interface MenuAccountBandAvatar {
   src?: string;
   initials?: string;
+  tone?: AvatarTone;
 }
 
 export interface MenuAccountBand {
@@ -407,6 +409,7 @@ export const Menu = ({
                     <Avatar
                       src={accountBand.avatar.src}
                       initials={accountBand.avatar.initials}
+                      tone={accountBand.avatar.tone}
                       size="md"
                     />
                   ) : null}
