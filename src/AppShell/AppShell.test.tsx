@@ -299,6 +299,23 @@ describe('AppShell', () => {
       expect(sidebarColumn()?.className).toContain('z-[var(--layer-sticky)]');
     });
 
+    it('settles the column even when the width transition never ends', () => {
+      vi.useFakeTimers();
+      stubWidth(1280);
+      renderRail();
+      fireEvent.click(screen.getByRole('button', { name: 'Collapse menu' }));
+      expect(sidebarColumn()?.className).toContain('transition-');
+      act(() => {
+        vi.advanceTimersByTime(399);
+      });
+      expect(sidebarColumn()?.className).toContain('transition-');
+      act(() => {
+        vi.advanceTimersByTime(1);
+      });
+      expect(sidebarColumn()?.className).not.toContain('transition-');
+      vi.useRealTimers();
+    });
+
     it('never animates the column in hide mode', async () => {
       stubWidth(1280);
       renderRail({ sidebarCollapse: 'hide' });
