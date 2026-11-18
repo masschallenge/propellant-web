@@ -31,6 +31,44 @@ describe('Badge', () => {
     );
   });
 
+  it('keeps the capsule shape by default', () => {
+    render(<Badge size="sm">Live</Badge>);
+    const badge = screen.getByText('Live').parentElement as HTMLElement;
+    expect(badge.className).toContain('rounded-[var(--corner-capsule)]');
+    expect(badge.className).not.toContain('rounded-[var(--corner-sm)]');
+  });
+
+  it('draws the board badge with the rounded shape at the small size', () => {
+    render(
+      <Badge size="sm" shape="rounded">
+        Connected
+      </Badge>,
+    );
+    const badge = screen.getByText('Connected').parentElement as HTMLElement;
+    expect(badge.className).toContain('rounded-[var(--corner-sm)]');
+    expect(badge.className).not.toContain('rounded-[var(--corner-capsule)]');
+    expect(badge.className).toContain('min-h-5');
+    expect(badge.className).toContain('px-2');
+    expect(badge.className).toContain('text-caption');
+  });
+
+  it('keeps the rounded shape with a tone dot and when icon only', () => {
+    render(
+      <>
+        <Badge shape="rounded" dot="warning">
+          Failing
+        </Badge>
+        <Badge shape="rounded" iconOnly icon={<svg />} aria-label="Scored" />
+      </>,
+    );
+    expect((screen.getByText('Failing').parentElement as HTMLElement).className).toContain(
+      'rounded-[var(--corner-sm)]',
+    );
+    expect(screen.getByRole('img', { name: 'Scored' }).className).toContain(
+      'rounded-[var(--corner-sm)]',
+    );
+  });
+
   it('uses the caption style when small', () => {
     render(<Badge size="sm">3 of 3</Badge>);
     expect((screen.getByText('3 of 3').parentElement as HTMLElement).className).toContain(
