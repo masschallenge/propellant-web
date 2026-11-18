@@ -7,7 +7,7 @@ import type { IconTileTone } from '../IconTile/IconTile';
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
 
-export type ListDensity = 'regular' | 'dense';
+export type ListDensity = 'regular' | 'dense' | 'roomy';
 
 export interface ListSectionProps extends Omit<React.ComponentPropsWithoutRef<'section'>, 'title'> {
   title?: ReactNode;
@@ -140,18 +140,37 @@ const CheckIcon = () => (
   </svg>
 );
 
-const MEDIA_SHAPES: Record<ListRowMediaShape, { image: string; inset: string }> = {
-  logo: {
-    image: 'w-16 h-9.5 rounded-[var(--corner-thumbnail)] shadow-[0_0_0_1px_var(--separator)]',
-    inset: '[--row-inset:calc(64px+28px)]',
-  },
-  squircle: {
-    image: 'w-[var(--avatar-md)] h-[var(--avatar-md)] rounded-[var(--corner-tile)]',
-    inset: '[--row-inset:calc(var(--avatar-md)+28px)]',
-  },
+const MEDIA_SHAPES: Record<ListRowMediaShape, string> = {
+  logo: 'w-16 h-9.5 rounded-[var(--corner-thumbnail)] shadow-[0_0_0_1px_var(--separator)]',
+  squircle: 'w-[var(--avatar-md)] h-[var(--avatar-md)] rounded-[var(--corner-tile)]',
 };
 
-const TILE_INSET = '[--row-inset:calc(var(--avatar-md)+28px)]';
+type RowLead = 'none' | 'icon' | 'logo' | 'squircle' | 'tile';
+
+const STANDARD_INSETS: Record<RowLead, string> = {
+  none: '[--row-inset:16px]',
+  icon: '[--row-inset:calc(var(--icon-md)+28px)]',
+  logo: '[--row-inset:calc(64px+28px)]',
+  squircle: '[--row-inset:calc(var(--avatar-md)+28px)]',
+  tile: '[--row-inset:calc(var(--avatar-md)+28px)]',
+};
+
+const ROOMY_INSETS: Record<RowLead, string> = {
+  none: '[--row-inset:var(--space-5)]',
+  icon: '[--row-inset:calc(var(--icon-md)+var(--space-5)+var(--space-3-5))]',
+  logo: '[--row-inset:calc(64px+var(--space-5)+var(--space-3-5))]',
+  squircle: '[--row-inset:calc(var(--avatar-md)+var(--space-5)+var(--space-3-5))]',
+  tile: '[--row-inset:calc(var(--avatar-md)+var(--space-5)+var(--space-3-5))]',
+};
+
+const DENSITY_LAYOUTS: Record<ListDensity, { row: string; insets: Record<RowLead, string> }> = {
+  regular: { row: 'min-h-[var(--row)] gap-3 px-4 py-2.5', insets: STANDARD_INSETS },
+  dense: { row: 'min-h-[var(--row-dense)] gap-3 px-4 py-1.5', insets: STANDARD_INSETS },
+  roomy: {
+    row: 'min-h-[var(--row)] gap-[var(--space-3-5)] px-[var(--space-5)] py-[var(--space-3-5)]',
+    insets: ROOMY_INSETS,
+  },
+};
 
 const TITLE_EMPHASIS: Record<ListRowTitleEmphasis, string> = {
   default: 'text-body',
@@ -168,7 +187,7 @@ const RowImage = ({ media }: { media: ListRowImageMedia }) => {
       data-shape={shape}
       className={joinClasses(
         'flex-none block',
-        MEDIA_SHAPES[shape].image,
+        MEDIA_SHAPES[shape],
         imageFitClass(autoCrop),
         !autoCrop && 'bg-[var(--bg-secondary)]',
       )}
@@ -183,12 +202,11 @@ const RowMedia = ({ media }: { media: ListRowMedia }) =>
     <RowImage media={media} />
   );
 
-const mediaInset = (media: ListRowMedia) =>
-  media.tile ? TILE_INSET : MEDIA_SHAPES[media.shape ?? 'logo'].inset;
+const mediaLead = (media: ListRowMedia): RowLead => (media.tile ? 'tile' : (media.shape ?? 'logo'));
 
-const rowInset = (media: ListRowMedia | undefined, icon: ReactNode) => {
-  if (media) return mediaInset(media);
-  return icon ? '[--row-inset:calc(var(--icon-md)+28px)]' : '[--row-inset:16px]';
+const rowLead = (media: ListRowMedia | undefined, icon: ReactNode): RowLead => {
+  if (media) return mediaLead(media);
+  return icon ? 'icon' : 'none';
 };
 
 const labelAccessory = (accessory: ReactNode, titleId: string) => {
@@ -227,8 +245,8 @@ export const ListRow = ({
   const hasChevron = showChevron ?? Boolean(href || (onClick && !destructive && !selected));
 
   const rowClasses = joinClasses(
-    'relative flex w-full items-center gap-3 px-4 text-left border-0 bg-transparent no-underline',
-    density === 'dense' ? 'min-h-[var(--row-dense)] py-1.5' : 'min-h-[var(--row)] py-2.5',
+    'relative flex w-full items-center text-left border-0 bg-transparent no-underline',
+    DENSITY_LAYOUTS[density].row,
     isAction &&
       'cursor-pointer hover:bg-[var(--fill-tertiary)] active:bg-[var(--fill-secondary)] focus-visible:outline-[length:var(--focus-width)] focus-visible:outline-solid focus-visible:-outline-offset-2 focus-visible:outline-[var(--focus-color)]',
     disabled && 'opacity-[var(--opacity-disabled)] cursor-not-allowed pointer-events-none',
@@ -287,7 +305,7 @@ export const ListRow = ({
 
   const itemClasses = joinClasses(
     "relative [&+&]:before:content-[''] [&+&]:before:absolute [&+&]:before:top-0 [&+&]:before:right-0 [&+&]:before:left-(--row-inset) [&+&]:before:h-[var(--hairline)] [&+&]:before:bg-[var(--separator)] [&+&]:before:z-[1]",
-    rowInset(media, icon),
+    DENSITY_LAYOUTS[density].insets[rowLead(media, icon)],
   );
 
   let row: ReactNode;

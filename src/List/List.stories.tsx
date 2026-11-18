@@ -24,6 +24,8 @@ const meta = {
           '',
           "`media={{ tile: { icon, tone } }}` leads with an `IconTile` instead, for to do items, with the separator starting at the text. `titleEmphasis: 'strong'` sets the title in semibold callout type.",
           '',
+          "`density: 'roomy'` gives every row in the section 14px vertical and 20px horizontal padding with 14px between the lead, the text and the trailing content, for spacious home lists, and moves the separator inset to match. `'dense'` shortens rows for long pickers.",
+          '',
           'A row that holds its own buttons must not be a link or button itself, so leave out `href` and `onClick`, pass the buttons as the `accessory` (a fragment is fine) and give `openHref` for a separate chevron link after them. It is named by `openLabel`, "Open" by default, and rendered with `linkAs`.',
           '',
           "Import: `import { ListSection, ListRow } from '@masschallenge/propellant-web'`",
@@ -39,7 +41,7 @@ const meta = {
   argTypes: {
     title: { control: 'text', ...content },
     footer: { control: 'text', ...content },
-    density: { control: 'inline-radio', options: ['regular', 'dense'] },
+    density: { control: 'inline-radio', options: ['regular', 'dense', 'roomy'] },
     trailing: hide,
     titleAs: hide,
     children: hide,
@@ -176,6 +178,34 @@ export const Tiles: Story = {
         media={{ tile: { icon: icons.star, tone: 'orange' } }}
         href="#survey"
       />
+    </ListSection>
+  ),
+};
+
+export const Roomy: Story = {
+  args: { title: 'To do', footer: undefined, density: 'roomy' },
+  render: (args) => (
+    <ListSection {...args}>
+      <ListRow
+        title="Finish 3 reviews for Sanofi THRIVE Challenge"
+        titleEmphasis="strong"
+        subtitle="3 of 6 done. Due Mon, Nov 30 @ 11:59 PM ET"
+        media={{ tile: { icon: icons.check, tone: 'gray' } }}
+        accessory={
+          <Button variant="tinted" size="sm">
+            Continue reviewing
+          </Button>
+        }
+        openHref="#queue"
+        openLabel="Open the review queue"
+      />
+      <ListRow
+        title="HealthTech Traction 2027"
+        subtitle="Online selection. Due Mon, Nov 30"
+        media={{ src: PROGRAM_LOGO, autoCrop: true }}
+        href="#healthtech"
+      />
+      <ListRow title="Judging guide" subtitle="Read before your first review" href="#guide" />
     </ListSection>
   ),
 };
