@@ -7,7 +7,7 @@ export type BadgeSize = 'sm' | 'md';
 export interface BadgeProps extends Omit<React.ComponentPropsWithoutRef<'span'>, 'children'> {
   tone?: BadgeTone;
   size?: BadgeSize;
-  dot?: boolean;
+  dot?: boolean | BadgeTone;
   pulse?: boolean;
   emphasis?: 'default' | 'strong';
   icon?: ReactNode;
@@ -46,6 +46,23 @@ const TONES: Record<BadgeTone, { soft: string; strong: string; dot: string }> = 
     strong: 'bg-[var(--critical-solid)] text-[var(--on-critical)]',
     dot: 'bg-[var(--critical-solid)]',
   },
+};
+
+const DOT_TONES: Record<BadgeTone, string> = {
+  neutral: 'bg-[var(--label-tertiary)]',
+  info: 'bg-[var(--tint)]',
+  success: 'bg-[var(--success)]',
+  warning: 'bg-[var(--warning)]',
+  critical: 'bg-[var(--critical)]',
+};
+
+const dotClasses = (
+  dot: boolean | BadgeTone,
+  palette: { dot: string },
+  emphasis: 'default' | 'strong',
+) => {
+  if (typeof dot === 'string') return joinClasses('w-1.75 h-1.75', DOT_TONES[dot]);
+  return joinClasses('w-1.5 h-1.5', emphasis === 'strong' ? 'bg-current' : palette.dot);
 };
 
 const SIZES: Record<BadgeSize, { label: string; iconOnly: string; icon: string }> = {
@@ -92,11 +109,12 @@ export const Badge = ({
   return (
     <span
       data-tone={tone}
+      data-dot={typeof dot === 'string' ? dot : undefined}
       className={joinClasses(
         'relative inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-[var(--corner-capsule)] tabular-nums',
         emphasis === 'strong' ? palette.strong : palette.soft,
         iconOnly ? sizing.iconOnly : sizing.label,
-        dot && !iconOnly && 'pl-1.5',
+        dot === true && !iconOnly && 'pl-1.5',
         truncate ? 'max-w-full min-w-0' : 'max-w-max',
         className,
       )}
@@ -106,8 +124,8 @@ export const Badge = ({
       {dot ? (
         <span
           className={joinClasses(
-            'flex-none w-1.5 h-1.5 rounded-full',
-            emphasis === 'strong' ? 'bg-current' : palette.dot,
+            'flex-none rounded-full',
+            dotClasses(dot, palette, emphasis),
             pulse && 'motion-safe:animate-pulse',
           )}
           aria-hidden="true"
