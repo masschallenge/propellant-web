@@ -39,6 +39,16 @@ property and from `@masschallenge/propellant-web/version`.
 - Icon tile tokens, a background and foreground per tone such as `--icon-tile-teal-bg` and
   `--icon-tile-teal-fg`, with dark mode values, and `--corner-tile`, 10px, for icon tiles and
   company logos at the start of a row.
+- `Menu` `accountBand` takes `avatar` (`{ src?, initials? }`) to show an `md` (36px) `Avatar`
+  beside the name and email, as on the account menu board. A band without `avatar` is unchanged.
+- `MenuItem` takes `badge` (`{ count, label? }`) to show a trailing critical count capsule after
+  the label, hidden at 0. Assistive technology reads `label`, "N unread" by default, as part of
+  the item name instead of the bare number.
+- `MenuItem` takes `href` to render the item as a `menuitem` link, with `linkAs` for a router's
+  link component (`a` by default). Arrow keys, Home, End, Enter, Escape and focus return work as
+  for button items, and a disabled item or one with a submenu stays a button. Row highlights now
+  use `not-disabled:` in place of `enabled:` so they also apply to links. The `MenuItemBadge` and
+  `MenuAccountBandAvatar` types are exported.
 
 ## 2.4.0 (2026-11-18)
 
