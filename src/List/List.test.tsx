@@ -182,6 +182,34 @@ describe('ListRow', () => {
     expect(screen.getByText('42 startups')).toBeInTheDocument();
   });
 
+  it.each([
+    ['default', 'text-body', 'text-[var(--label-tertiary)]'],
+    ['subheadline', 'text-subheadline', 'text-[var(--label-secondary)]'],
+    ['callout', 'text-callout', 'text-[var(--label)]'],
+  ] as const)('sets a %s value in its type and color', (valueStyle, type, color) => {
+    render(
+      <ListSection>
+        <ListRow title="Founders" value="2,184" valueStyle={valueStyle} />
+      </ListSection>,
+    );
+    const value = screen.getByText('2,184');
+    expect(value.className).toContain(type);
+    expect(value.className).toContain(color);
+    expect(value.className).toContain('tabular-nums');
+    expect(value.className).toContain('truncate');
+  });
+
+  it('keeps the body tertiary value when no value style is given', () => {
+    render(
+      <ListSection>
+        <ListRow title="Round 1" value="42 startups" />
+      </ListSection>,
+    );
+    const value = screen.getByText('42 startups');
+    expect(value.className).toContain('text-body');
+    expect(value.className).toContain('text-[var(--label-tertiary)]');
+  });
+
   it('navigates with a chevron and marks the current page', () => {
     render(
       <ListSection>
