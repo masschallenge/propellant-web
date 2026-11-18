@@ -1,3 +1,4 @@
+import type { ComponentPropsWithoutRef } from 'react';
 import { render, cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -236,5 +237,121 @@ describe('Menu selection and layering', () => {
     );
     await userEvent.click(screen.getByRole('button', { name: 'Account' }));
     expect(screen.getByTestId('host')).toContainElement(screen.getByRole('menu'));
+  });
+});
+
+describe('Menu account avatar, counts and links', () => {
+  it('shows the account avatar beside the name and email', async () => {
+    const { rerender } = render(
+      <Menu
+        trigger={<button type="button">Account</button>}
+        accountBand={{
+          title: 'Joe Schwendt',
+          sub: 'joe@masschallenge.org',
+          avatar: { initials: 'JS' },
+        }}
+        items={[{ label: 'Help' }]}
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'Account' }));
+    const initials = screen.getByText('JS');
+    expect(initials).toHaveAttribute('aria-hidden', 'true');
+    expect(initials.parentElement).toHaveClass('w-[var(--avatar-md)]', 'fs-exclude');
+    expect(screen.getByText('joe@masschallenge.org')).toBeInTheDocument();
+    rerender(
+      <Menu
+        trigger={<button type="button">Account</button>}
+        accountBand={{ title: 'Joe Schwendt', avatar: { src: '/joe.png' } }}
+        items={[{ label: 'Help' }]}
+      />,
+    );
+    expect(screen.getByRole('menu').querySelector('img')).toHaveAttribute('src', '/joe.png');
+  });
+
+  it('leaves the account band without an avatar unchanged', async () => {
+    render(
+      <Menu
+        trigger={<button type="button">Account</button>}
+        accountBand={{ title: 'Jordan Lee' }}
+        items={[{ label: 'Help' }]}
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'Account' }));
+    expect(screen.getByRole('menu').querySelector('img')).toBeNull();
+    expect(screen.getByText('Jordan Lee').closest('li')).toHaveClass('pt-1.5');
+  });
+
+  it('reads the unread count as part of the item name and hides it at 0', async () => {
+    render(
+      <Menu
+        trigger={<button type="button">Account</button>}
+        items={[
+          { label: 'Inbox', badge: { count: 3 } },
+          { label: 'Requests', badge: { count: 2, label: '2 new requests' } },
+          { label: 'Messages', badge: { count: 0 } },
+        ]}
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'Account' }));
+    const inbox = screen.getByRole('menuitem', { name: 'Inbox 3 unread' });
+    const capsule = inbox.querySelector('[data-count]');
+    expect(capsule).toHaveTextContent('3');
+    expect(capsule).toHaveAttribute('aria-hidden', 'true');
+    expect(capsule).toHaveClass('bg-[var(--critical-solid)]', 'text-[var(--on-critical)]');
+    expect(screen.getByRole('menuitem', { name: 'Requests 2 new requests' })).toBeInTheDocument();
+    const messages = screen.getByRole('menuitem', { name: 'Messages' });
+    expect(messages.querySelector('[data-count]')).toBeNull();
+  });
+
+  it('renders href items as menuitem links that keep keyboard focus and close', async () => {
+    const onSelect = vi.fn();
+    render(
+      <Menu
+        trigger={<button type="button">Account</button>}
+        items={[
+          { label: 'Inbox', href: '#inbox', onSelect },
+          { label: 'Remind me tomorrow' },
+          { label: 'Archived', href: '#archived', disabled: true },
+          { separator: true },
+          { label: 'Sign out', href: '#sign-out' },
+        ]}
+      />,
+    );
+    const trigger = screen.getByRole('button', { name: 'Account' });
+    await userEvent.click(trigger);
+    const inbox = screen.getByRole('menuitem', { name: 'Inbox' });
+    const signOut = screen.getByRole('menuitem', { name: 'Sign out' });
+    expect(inbox.tagName).toBe('A');
+    expect(inbox).toHaveAttribute('href', '#inbox');
+    expect(inbox).toHaveClass('no-underline', 'not-disabled:hover:bg-[var(--tint)]');
+    expect(screen.getByRole('menuitem', { name: 'Archived' }).tagName).toBe('BUTTON');
+    expect(screen.getByRole('menuitem', { name: 'Archived' })).toBeDisabled();
+    expect(inbox).toHaveFocus();
+    await userEvent.keyboard('{ArrowDown}');
+    expect(screen.getByRole('menuitem', { name: 'Remind me tomorrow' })).toHaveFocus();
+    await userEvent.keyboard('{ArrowDown}');
+    expect(signOut).toHaveFocus();
+    await userEvent.keyboard('{Home}');
+    expect(inbox).toHaveFocus();
+    await userEvent.keyboard('{Enter}');
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    expect(trigger).toHaveFocus();
+  });
+
+  it('renders link items with linkAs', async () => {
+    const RouterLink = ({ href, ...rest }: ComponentPropsWithoutRef<'a'>) => (
+      <a data-router-link="" href={href} {...rest} />
+    );
+    render(
+      <Menu
+        trigger={<button type="button">Account</button>}
+        items={[{ label: 'Your profile', href: '/profile', linkAs: RouterLink }]}
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'Account' }));
+    const profile = screen.getByRole('menuitem', { name: 'Your profile' });
+    expect(profile).toHaveAttribute('data-router-link');
+    expect(profile).toHaveAttribute('href', '/profile');
   });
 });
