@@ -69,6 +69,8 @@ const joinClasses = (...names: (string | false | null | undefined)[]) =>
 const PINNED_COLUMN =
   'w-[var(--sidebar-width)] border-r border-solid border-[var(--separator)] [border-right-width:var(--hairline)] bg-[var(--material-sidebar)] [backdrop-filter:var(--material-blur)] [-webkit-backdrop-filter:var(--material-blur)]';
 
+const RESIZE_SETTLE_MS = 400;
+
 const RESIZING_COLUMN =
   'overflow-hidden transition-[width,background-color] duration-[var(--duration-resize)] ease-[var(--ease-in-out)]';
 
@@ -107,6 +109,12 @@ export const AppShell = ({
   React.useEffect(() => {
     if (isWide) setIsOverlayOpen(false);
   }, [isWide]);
+
+  React.useEffect(() => {
+    if (!isResizing) return;
+    const settle = window.setTimeout(() => setIsResizing(false), RESIZE_SETTLE_MS);
+    return () => window.clearTimeout(settle);
+  }, [isResizing, isCollapsed]);
 
   React.useEffect(() => {
     const overlay = overlayRef.current;
