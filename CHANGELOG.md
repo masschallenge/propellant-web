@@ -27,6 +27,10 @@ property and from `@masschallenge/propellant-web/version`.
   accessory is no longer given `aria-labelledby`, and accessory items are spaced 8px apart. The
   `ListRowImageMedia`, `ListRowTileMedia`, `ListRowTile` and `ListRowTitleEmphasis` types are
   exported.
+- `ListSection` takes `density: 'roomy'` for spacious lists such as the persona Home: rows get
+  `--space-3-5` (14px) vertical and `--space-5` (20px) horizontal padding with `--space-3-5`
+  between the lead, the text and the trailing content, and the row separator still starts at the
+  text. `regular` and `dense` rows are unchanged.
 - `Avatar` takes `count` to show an unread count as a critical capsule at its top right corner,
   hidden at 0. Assistive technology reads `countLabel`, "N unread" by default, instead of the
   bare number.
