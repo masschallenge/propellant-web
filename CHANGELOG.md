@@ -19,6 +19,8 @@ property and from `@masschallenge/propellant-web/version`.
   `fullWidth` to fill its column.
 - `Switch` takes `tone="success"` to fill the on track with `--success-solid`. The on track
   keeps a 1px `--success` edge, since the fill is 2.19:1 against white.
+- `SearchField` takes `variant="inset"`: square, the full row height and an inset focus ring,
+  for a search that sits as the first row of the list it filters.
 
 ### Changed
 
