@@ -7,6 +7,7 @@ import { icons, iconOptions } from '../../.storybook/icons';
 
 const VARIANTS = ['plain', 'gray', 'tinted', 'filled'] as const;
 const SIZES = ['sm', 'md', 'lg'] as const;
+const SHAPES = ['rounded', 'capsule'] as const;
 
 const meta = {
   title: 'Components/Actions/IconButton',
@@ -17,7 +18,7 @@ const meta = {
     docs: {
       description: {
         component: [
-          'A compact action shown as a symbol. Plain icon buttons sit in toolbars and table rows and highlight on hover; gray, tinted and filled are circular and stand on their own. Always provide `aria-label`.',
+          'A compact action shown as a symbol. Plain icon buttons sit in toolbars and table rows and highlight on hover, and fill while their menu is open or they are pressed; `shape="capsule"` makes a plain one circular, like the item menu trigger on Home. Gray, tinted and filled are circular and stand on their own. Always provide `aria-label`.',
           '',
           "Import: `import { IconButton } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -35,6 +36,7 @@ const meta = {
   argTypes: {
     variant: { control: 'inline-radio', options: VARIANTS, ...appearance },
     size: { control: 'inline-radio', options: SIZES, ...appearance },
+    shape: { control: 'inline-radio', options: SHAPES, ...appearance },
     destructive: { control: 'boolean', ...appearance },
     disabled: { control: 'boolean', ...state },
     'aria-label': { control: 'text', ...content },
@@ -89,6 +91,33 @@ export const Sizes: Story = {
         </IconButton>
       ))}
     </HStack>
+  ),
+};
+
+export const Shapes: Story = {
+  render: (args) => (
+    <VStack>
+      <HStack>
+        {SHAPES.map((shape) => (
+          <IconButton key={shape} {...args} shape={shape} aria-label={`Add, ${shape}`}>
+            {icons.plus}
+          </IconButton>
+        ))}
+      </HStack>
+      <HStack>
+        {SHAPES.map((shape) => (
+          <IconButton
+            key={shape}
+            {...args}
+            shape={shape}
+            aria-pressed
+            aria-label={`Add, ${shape}, pressed`}
+          >
+            {icons.plus}
+          </IconButton>
+        ))}
+      </HStack>
+    </VStack>
   ),
 };
 
