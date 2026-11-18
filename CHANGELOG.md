@@ -49,6 +49,27 @@ property and from `@masschallenge/propellant-web/version`.
   for button items, and a disabled item or one with a submenu stays a button. Row highlights now
   use `not-disabled:` in place of `enabled:` so they also apply to links. The `MenuItemBadge` and
   `MenuAccountBandAvatar` types are exported.
+- `Avatar` takes `tone` (`gray`, `amber` or `green`) to paint initials from the new avatar tone
+  tokens, as the admin Home People rows tell mentors, evaluators and founders apart. It wins over
+  `neutral` and leaves photos unchanged. A `compact` size, 26px, sits between `xs` and `sm` for
+  dense rows. The `AvatarTone` type is exported.
+- `ListRow` `media` takes `{ avatar: { initials?, src?, alt?, tone?, size?, autoCrop? } }` to lead
+  with a round `Avatar`, at `size: 'md'` (36px, the default) or `'compact'` (26px), with the row
+  separator starting at the text in every density. The `ListRowAvatar`, `ListRowAvatarMedia` and
+  `ListRowAvatarSize` types are exported.
+- `ListRow` takes `subtitlePosition: 'inline'` to set the subtitle after the title on one baseline
+  in tertiary subheadline type, both truncating, for a name followed by a company. `'below'`, the
+  default, is unchanged. The `ListRowSubtitlePosition` type is exported.
+- `ListSection` takes `framed` to draw the title and `trailing` content as a header band inside
+  the list box, on `--bg-secondary` above a separator line, with the box ringed in the separator
+  color, as on the email confirmation recipient list. The footer stays below the box.
+- `Badge` `dot` also takes a tone, such as `dot="warning"`, to lead a badge with a 7px dot in that
+  tone's label color while the badge keeps its own tone and padding, as for a failing integration
+  on a neutral badge. `dot` set to `true` is unchanged.
+- `Sheet` has an `md-wide` size, 540px, for the email confirmation dialog. Existing sizes keep
+  their widths.
+- Avatar tone tokens, a background and foreground per tone such as `--avatar-green-bg` and
+  `--avatar-green-fg`, with dark mode values, and `--avatar-compact`, 26px.
 
 ## 2.4.0 (2026-11-18)
 
