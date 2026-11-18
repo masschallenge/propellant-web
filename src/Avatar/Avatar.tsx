@@ -2,14 +2,16 @@ import * as React from 'react';
 import type { ReactNode } from 'react';
 import { imageFitClass } from '../internal/imageFit';
 
-export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type AvatarSize = 'xs' | 'compact' | 'sm' | 'md' | 'lg' | 'xl';
 export type AvatarStatus = 'online' | 'offline';
+export type AvatarTone = 'gray' | 'amber' | 'green';
 
 export interface AvatarProps extends React.ComponentPropsWithoutRef<'span'> {
   src?: string;
   alt?: string;
   initials?: string;
   neutral?: boolean;
+  tone?: AvatarTone;
   size?: AvatarSize;
   squircle?: boolean;
   ring?: boolean;
@@ -26,6 +28,7 @@ const joinClasses = (...names: (string | false | null | undefined)[]) =>
 
 const BOX: Record<AvatarSize, string> = {
   xs: 'w-[var(--avatar-xs)] h-[var(--avatar-xs)]',
+  compact: 'w-[var(--avatar-compact)] h-[var(--avatar-compact)]',
   sm: 'w-[var(--avatar-sm)] h-[var(--avatar-sm)]',
   md: 'w-[var(--avatar-md)] h-[var(--avatar-md)]',
   lg: 'w-[var(--avatar-lg)] h-[var(--avatar-lg)]',
@@ -34,6 +37,7 @@ const BOX: Record<AvatarSize, string> = {
 
 const INITIALS_TEXT: Record<AvatarSize, string> = {
   xs: 'text-caption',
+  compact: 'text-caption2',
   sm: 'text-footnote',
   md: 'text-subheadline',
   lg: 'text-headline',
@@ -42,6 +46,7 @@ const INITIALS_TEXT: Record<AvatarSize, string> = {
 
 const PIP: Record<AvatarSize, string> = {
   xs: 'w-1.5 h-1.5',
+  compact: 'w-2 h-2',
   sm: 'w-2 h-2',
   md: 'w-2.5 h-2.5',
   lg: 'w-3 h-3',
@@ -50,10 +55,25 @@ const PIP: Record<AvatarSize, string> = {
 
 const MARK: Record<AvatarSize, string> = {
   xs: 'w-2.5 h-2.5',
+  compact: 'w-3 h-3',
   sm: 'w-3 h-3',
   md: 'w-4 h-4',
   lg: 'w-5 h-5',
   xl: 'w-6 h-6',
+};
+
+const TONE_FACE: Record<AvatarTone, string> = {
+  gray: 'bg-[var(--avatar-gray-bg)] text-[var(--avatar-gray-fg)]',
+  amber: 'bg-[var(--avatar-amber-bg)] text-[var(--avatar-amber-fg)]',
+  green: 'bg-[var(--avatar-green-bg)] text-[var(--avatar-green-fg)]',
+};
+
+const initialsFace = (tone: AvatarTone | undefined, neutral: boolean) => {
+  if (tone) return TONE_FACE[tone];
+  return joinClasses(
+    'text-[var(--label-secondary)]',
+    neutral ? 'bg-[var(--fill-secondary)]' : 'bg-[var(--fill)]',
+  );
 };
 
 const CORNER_MARK = 'absolute right-0 bottom-0 translate-x-1/2 translate-y-1/2';
@@ -79,6 +99,7 @@ export const Avatar = ({
   alt = '',
   initials,
   neutral = false,
+  tone,
   size = 'md',
   squircle = false,
   ring = false,
@@ -118,9 +139,9 @@ export const Avatar = ({
         <span
           className={joinClasses(
             face,
-            'flex items-center justify-center font-semibold select-none text-[var(--label-secondary)]',
+            'flex items-center justify-center font-semibold select-none',
             INITIALS_TEXT[size],
-            neutral ? 'bg-[var(--fill-secondary)]' : 'bg-[var(--fill)]',
+            initialsFace(tone, neutral),
           )}
           {...(alt ? { role: 'img', 'aria-label': alt } : { 'aria-hidden': true })}
         >
