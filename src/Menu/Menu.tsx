@@ -43,8 +43,8 @@ export interface MenuAccountBandAvatar {
 }
 
 export interface MenuAccountBand {
-  title: string;
-  sub?: string;
+  title: ReactNode;
+  sub?: ReactNode;
   avatar?: MenuAccountBandAvatar;
 }
 
