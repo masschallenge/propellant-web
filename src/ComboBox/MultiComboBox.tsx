@@ -119,7 +119,13 @@ export const MultiComboBox = ({
   const wrapperRef = React.useRef<HTMLDivElement>(null);
   const panelRef = React.useRef<HTMLDivElement>(null);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const searchRef = React.useRef<HTMLInputElement>(null);
   const position = useAnchoredPosition(isOpen, wrapperRef, panelRef);
+  const isPlaced = position !== null;
+
+  React.useEffect(() => {
+    if (isOpen && isPlaced && searchable) searchRef.current?.focus();
+  }, [isOpen, isPlaced, searchable]);
 
   React.useEffect(() => {
     if (!isOpen) return;
@@ -425,7 +431,7 @@ export const MultiComboBox = ({
               {searchable ? (
                 <div className="px-1.5 pt-1.5 pb-1">
                   <AnchoredSearchField
-                    autoFocus
+                    ref={searchRef}
                     value={query}
                     onChange={(event) => {
                       setQuery(event.target.value);

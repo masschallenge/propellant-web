@@ -284,7 +284,9 @@ export const Menu = ({
   const [initialFocus, setInitialFocus] = React.useState<FocusTarget>(null);
   const wrapperRef = React.useRef<HTMLDivElement | null>(null);
   const panelRef = React.useRef<HTMLUListElement | null>(null);
+  const searchRef = React.useRef<HTMLInputElement | null>(null);
   const position = useAnchoredPosition(isOpen, wrapperRef, panelRef, align);
+  const isPlaced = position !== null;
 
   const close = () => {
     setIsOpen(false);
@@ -305,11 +307,16 @@ export const Menu = ({
   };
 
   React.useEffect(() => {
-    if (!isOpen || search || !initialFocus) return;
+    if (!isOpen || !isPlaced) return;
+    if (search) {
+      searchRef.current?.focus();
+      return;
+    }
+    if (!initialFocus) return;
     const available = menuItems();
     const target = initialFocus === 'last' ? available[available.length - 1] : available[0];
     target?.focus();
-  }, [isOpen, initialFocus, search]);
+  }, [isOpen, isPlaced, initialFocus, search]);
 
   const handlePanelKeyDown = (event: React.KeyboardEvent<HTMLUListElement>) => {
     const available = menuItems();
@@ -420,7 +427,7 @@ export const Menu = ({
             {search ? (
               <li role="presentation" className="px-1 pt-1 pb-1.5">
                 <AnchoredSearchField
-                  autoFocus
+                  ref={searchRef}
                   value={query}
                   placeholder={searchPlaceholder}
                   aria-label={searchPlaceholder}
