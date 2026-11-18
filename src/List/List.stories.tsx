@@ -4,6 +4,7 @@ import { ListRow, ListSection } from './List';
 import { Switch } from '../Switch/Switch';
 import { Badge } from '../Badge/Badge';
 import { Button } from '../Button/Button';
+import { SearchField } from '../SearchField/SearchField';
 import { icons } from '../../.storybook/icons';
 import { MC_MONOGRAM } from '../assets/logos';
 import { content, hide } from '../../.storybook/controls';
@@ -26,6 +27,12 @@ const meta = {
           '',
           "`density: 'roomy'` gives every row in the section 14px vertical and 20px horizontal padding with 14px between the lead, the text and the trailing content, for spacious home lists, and moves the separator inset to match. `'dense'` shortens rows for long pickers.",
           '',
+          "`media={{ avatar: { initials, src, alt, tone, size } }}` leads with a round `Avatar`, 36px at `size: 'md'` (the default) or 26px at `size: 'compact'` for dense recipient rows, in the `gray`, `amber` or `green` tone to tell groups of people apart. The separator starts at the text.",
+          '',
+          "`subtitlePosition: 'inline'` sets the subtitle after the title on one line in tertiary type, both truncating, for a name and a company.",
+          '',
+          '`framed` moves the title and `trailing` content into a header band inside a box ringed with the separator color, for a list inside a dialog such as a recipient list with a search field.',
+          '',
           'A row that holds its own buttons must not be a link or button itself, so leave out `href` and `onClick`, pass the buttons as the `accessory` (a fragment is fine) and give `openHref` for a separate chevron link after them. It is named by `openLabel`, "Open" by default, and rendered with `linkAs`.',
           '',
           "Import: `import { ListSection, ListRow } from '@masschallenge/propellant-web'`",
@@ -42,6 +49,7 @@ const meta = {
     title: { control: 'text', ...content },
     footer: { control: 'text', ...content },
     density: { control: 'inline-radio', options: ['regular', 'dense', 'roomy'] },
+    framed: { control: 'boolean' },
     trailing: hide,
     titleAs: hide,
     children: hide,
@@ -206,6 +214,82 @@ export const Roomy: Story = {
         href="#healthtech"
       />
       <ListRow title="Judging guide" subtitle="Read before your first review" href="#guide" />
+    </ListSection>
+  ),
+};
+
+export const People: Story = {
+  args: { title: 'People', footer: undefined, density: 'roomy' },
+  render: (args) => (
+    <ListSection {...args}>
+      <ListRow
+        title="Founders"
+        titleEmphasis="strong"
+        subtitle="Across 4,120 applications"
+        value="2,184"
+        media={{ avatar: { initials: 'F', tone: 'green' } }}
+        href="#founders"
+      />
+      <ListRow
+        title="Evaluators"
+        titleEmphasis="strong"
+        subtitle="286 active in a program now"
+        value="612"
+        media={{ avatar: { initials: 'E', tone: 'amber' } }}
+        href="#evaluators"
+      />
+      <ListRow
+        title="Mentors"
+        titleEmphasis="strong"
+        subtitle="41 matched to a startup now"
+        value="148"
+        media={{ avatar: { initials: 'M', tone: 'gray' } }}
+        href="#mentors"
+      />
+      <ListRow
+        title="Program managers"
+        titleEmphasis="strong"
+        subtitle="Running 12 active programs"
+        value="24"
+        media={{ avatar: { initials: 'PM' } }}
+        href="#program-managers"
+      />
+      <ListRow
+        title="Admins"
+        titleEmphasis="strong"
+        value="5"
+        media={{ avatar: { initials: 'A', tone: 'gray' } }}
+        href="#admins"
+      />
+    </ListSection>
+  ),
+};
+
+const RECIPIENTS = [
+  { initials: 'ZE', name: 'Zoe Engel', company: 'Hazel Rx', progress: '90% done' },
+  { initials: 'BU', name: 'Ben Ulrich', company: 'Willow Med', progress: '90% done' },
+  { initials: 'ZQ', name: 'Zoe Quintero', company: 'Pebble Therapeutics', progress: '85% done' },
+  { initials: 'BB', name: 'Ben Brandt', company: 'Coral Nutrition', progress: '80% done' },
+];
+
+export const Recipients: Story = {
+  args: { title: '52 founders', footer: undefined, density: 'dense', framed: true },
+  render: (args) => (
+    <ListSection
+      {...args}
+      trailing={<SearchField size="sm" placeholder="Find" aria-label="Find a founder" />}
+    >
+      {RECIPIENTS.map((recipient) => (
+        <ListRow
+          key={recipient.name}
+          title={recipient.name}
+          titleEmphasis="strong"
+          subtitle={recipient.company}
+          subtitlePosition="inline"
+          value={recipient.progress}
+          media={{ avatar: { initials: recipient.initials, size: 'compact' } }}
+        />
+      ))}
     </ListSection>
   ),
 };
