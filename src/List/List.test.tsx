@@ -637,7 +637,7 @@ describe('ListRow', () => {
       expect(chevron).not.toHaveClass('text-[var(--label-quaternary)]');
     });
 
-    it('names the chevron link Open by default and renders it with linkAs', () => {
+    it('names the chevron link Open plus the row title by default and renders it with linkAs', () => {
       const RouterLink = ({ href, ...rest }: ComponentPropsWithoutRef<'a'>) => (
         <a href={href} data-router="true" {...rest} />
       );
@@ -646,7 +646,37 @@ describe('ListRow', () => {
           <ListRow title="Finish reviews" openHref="/queue" linkAs={RouterLink} />
         </ListSection>,
       );
-      expect(screen.getByRole('link', { name: 'Open' })).toHaveAttribute('data-router', 'true');
+      const link = screen.getByRole('link', { name: 'Open Finish reviews' });
+      expect(link).toHaveAttribute('data-router', 'true');
+      expect(link).not.toHaveAttribute('aria-label');
+    });
+
+    it('gives each chevron link in a list its own name', () => {
+      render(
+        <ListSection>
+          <ListRow title="Panel invite" openHref="/panel" />
+          <ListRow title="Review queue" openHref="/queue" />
+        </ListSection>,
+      );
+      expect(screen.getByRole('link', { name: 'Open Panel invite' })).toHaveAttribute(
+        'href',
+        '/panel',
+      );
+      expect(screen.getByRole('link', { name: 'Open Review queue' })).toHaveAttribute(
+        'href',
+        '/queue',
+      );
+    });
+
+    it('lets openLabel override the default name', () => {
+      render(
+        <ListSection>
+          <ListRow title="Finish reviews" openHref="/queue" openLabel="Open the queue" />
+        </ListSection>,
+      );
+      const link = screen.getByRole('link', { name: 'Open the queue' });
+      expect(link).not.toHaveAttribute('aria-labelledby');
+      expect(screen.queryByText('Open')).not.toBeInTheDocument();
     });
 
     it('leaves out the chevron link when the whole row is a link or button', () => {
@@ -657,7 +687,7 @@ describe('ListRow', () => {
         </ListSection>,
       );
       expect(screen.getAllByRole('link')).toHaveLength(1);
-      expect(screen.queryByRole('link', { name: 'Open' })).not.toBeInTheDocument();
+      expect(screen.queryByRole('link', { name: /^Open/ })).not.toBeInTheDocument();
     });
   });
 });
