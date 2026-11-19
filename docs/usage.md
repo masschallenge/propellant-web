@@ -274,7 +274,7 @@ Use tokens by their role, never the raw values behind them:
 | --- | --- |
 | Color | `--label`, `--label-secondary`, `--bg`, `--bg-grouped`, `--tint`, `--critical`, `--separator` |
 | Type | `--type-family`, `--type-family-brand`, and the `text-body`, `text-headline`, `text-caption2` utilities |
-| Shape | `--corner-sm`, `--corner-thumbnail`, `--corner-md`, `--corner-lg`, `--corner-xl`, `--corner-capsule` |
+| Shape | `--corner-sm`, `--corner-thumbnail`, `--corner-md`, `--corner-tile`, `--corner-lg`, `--corner-xl`, `--corner-capsule` |
 | Depth | `--shadow-float`, `--shadow-sheet`, `--material-bar` |
 | Motion | `--spring-snappy`, `--spring-smooth`, `--ease-standard`, `--ease-in-out` |
 | Layout | `--control-md`, `--row`, `--page-margin`, `--width-form`, `--space-4` |

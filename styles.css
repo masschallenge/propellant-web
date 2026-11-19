@@ -11,6 +11,9 @@
 @import 'tokens/loading-indicator.css';
 @import 'tokens/notification.css';
 @import 'tokens/page-header.css';
+@import 'tokens/icon-tile.css';
+@import 'tokens/role-tag.css';
+@import 'tokens/avatar.css';
 
 @import 'base/autofill.css';
 @import 'base/field-shell.css';

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, fn, userEvent, within } from 'storybook/test';
+import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
 import {
   FilterBar,
   FilterSelect,
@@ -176,5 +176,31 @@ export const SearchTyping: Story = {
   play: async ({ args, canvasElement }) => {
     await userEvent.type(within(canvasElement).getByRole('searchbox'), 'vitala');
     await expect(args.onSearchChange).toHaveBeenCalled();
+  },
+};
+
+export const SelectFocus: Story = {
+  tags: ['interaction', '!autodocs'],
+  render: () => (
+    <div className="flex gap-2">
+      <FilterSelect label="Status" options={STATUS_OPTIONS} value="advancing" />
+      <FilterSelect label="Stage" options={STATUS_OPTIONS} searchable />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const statusTrigger = canvas.getByRole('button', { name: 'Status Advancing' });
+    await userEvent.click(statusTrigger);
+    const listbox = await within(document.body).findByRole('listbox', { name: 'Status' });
+    await waitFor(() => expect(listbox).toHaveFocus());
+    await userEvent.keyboard('{Escape}');
+    await expect(statusTrigger).toHaveFocus();
+
+    const stageTrigger = canvas.getByRole('button', { name: /^Stage/ });
+    await userEvent.click(stageTrigger);
+    const search = await within(document.body).findByRole('combobox', { name: 'Search stage' });
+    await waitFor(() => expect(search).toHaveFocus());
+    await userEvent.keyboard('{Escape}');
+    await expect(stageTrigger).toHaveFocus();
   },
 };

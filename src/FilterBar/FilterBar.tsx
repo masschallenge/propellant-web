@@ -483,6 +483,7 @@ export const FilterSelect = ({
   const isForced = forcedOpen !== undefined;
   const isOpen = isForced ? forcedOpen : isMenuOpen;
   const position = useAnchoredPosition(isOpen, triggerRef, searchable ? panelRef : menuRef);
+  const isPlaced = position !== null;
   const selectedOption = options.find((option) => option.value === value);
   const normalizedQuery = query.trim().toLowerCase();
   const shown =
@@ -510,8 +511,8 @@ export const FilterSelect = ({
   }, [isOpen]);
 
   React.useEffect(() => {
-    if (isMenuOpen && !isForced) (searchable ? searchRef : menuRef).current?.focus();
-  }, [isMenuOpen]);
+    if (isMenuOpen && isPlaced && !isForced) (searchable ? searchRef : menuRef).current?.focus();
+  }, [isMenuOpen, isPlaced]);
 
   const openMenu = () => {
     if (isForced || disabled) return;

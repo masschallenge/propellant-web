@@ -10,6 +10,7 @@ const FILLS: [RoleTagTone, string][] = [
   ['pm', 'bg-[var(--tint-fill)]'],
   ['judge', 'bg-[var(--warning-fill)]'],
   ['startup', 'bg-[var(--success-fill)]'],
+  ['mentor', 'bg-[var(--role-tag-mentor-fill)]'],
   ['neutral', 'bg-[var(--fill-secondary)]'],
 ];
 
@@ -26,6 +27,11 @@ describe('RoleTag', () => {
     const tag = screen.getByText('Role');
     expect(tag).toHaveAttribute('data-tone', tone);
     expect(tag).toHaveClass(fill);
+  });
+
+  it('sets the mentor label in its own color from the mentor tokens', () => {
+    render(<RoleTag tone="mentor">Mentor</RoleTag>);
+    expect(screen.getByText('Mentor')).toHaveClass('text-[var(--role-tag-mentor-label)]');
   });
 
   it('is neutral unless a role is named', () => {

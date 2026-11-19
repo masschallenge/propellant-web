@@ -24,6 +24,10 @@ const meta = {
         component: [
           'A read-only status label. The label names the state, so color is never the only signal. Badges are capsules with a soft fill and no border; `emphasis="strong"` fills them solid for the one status that matters most on a row.',
           '',
+          '`shape="rounded"` swaps the capsule for small `--corner-sm` corners; at `size="sm"` it is the 20px badge the persona Home boards use for statuses in list rows.',
+          '',
+          '`dot` leads the label with a dot in the badge tone. Give `dot` a tone instead, such as `dot="warning"`, to keep a quiet neutral badge and let a 7px dot in that tone carry the alert, as for a failing integration among connected ones.',
+          '',
           "Import: `import { Badge } from '@masschallenge/propellant-web'`",
         ].join('\n'),
       },
@@ -33,8 +37,9 @@ const meta = {
   argTypes: {
     tone: { control: 'inline-radio', options: TONES, ...appearance },
     size: { control: 'inline-radio', options: ['sm', 'md'], ...appearance },
+    shape: { control: 'inline-radio', options: ['capsule', 'rounded'], ...appearance },
     emphasis: { control: 'inline-radio', options: ['default', 'strong'], ...appearance },
-    dot: { control: 'boolean', ...appearance },
+    dot: { control: 'select', options: [false, true, ...TONES], ...appearance },
     pulse: { control: 'boolean', ...state },
     icon: { control: 'select', options: iconOptions, mapping: icons, ...content },
     iconPosition: { control: 'inline-radio', options: ['leading', 'trailing'], ...appearance },
@@ -86,6 +91,56 @@ export const Sizes: Story = {
       <Badge {...args} size="md">
         3 of 3 judges
       </Badge>
+    </HStack>
+  ),
+};
+
+export const Shapes: Story = {
+  args: { tone: 'neutral', size: 'sm' },
+  render: (args) => (
+    <VStack>
+      <HStack>
+        <Badge {...args}>Capsule</Badge>
+        <Badge {...args} shape="rounded">
+          Rounded
+        </Badge>
+        <Badge {...args} size="md">
+          Capsule
+        </Badge>
+        <Badge {...args} size="md" shape="rounded">
+          Rounded
+        </Badge>
+      </HStack>
+      <HStack>
+        <Badge {...args} shape="rounded">
+          Connected
+        </Badge>
+        <Badge {...args} shape="rounded" dot="warning">
+          Failing
+        </Badge>
+        <Badge {...args} shape="rounded">
+          Live
+        </Badge>
+        <Badge {...args} shape="rounded">
+          Scheduled
+        </Badge>
+      </HStack>
+    </VStack>
+  ),
+};
+
+export const DotTone: Story = {
+  args: { tone: 'neutral', size: 'sm' },
+  render: (args) => (
+    <HStack>
+      <Badge {...args}>Connected</Badge>
+      <Badge {...args} dot="warning">
+        Failing
+      </Badge>
+      <Badge {...args} dot="critical">
+        Disconnected
+      </Badge>
+      <Badge {...args}>Not set up</Badge>
     </HStack>
   ),
 };
