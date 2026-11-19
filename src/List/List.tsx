@@ -172,10 +172,10 @@ export interface ListRowProps extends Omit<RowElementProps, 'children' | 'media'
   showChevron?: boolean;
 }
 
-const ChevronIcon = () => (
+const ChevronIcon = ({ tone = 'text-[var(--label-quaternary)]' }: { tone?: string }) => (
   <svg
     viewBox="0 0 24 24"
-    className="w-[14px] h-[14px] flex-none text-[var(--label-quaternary)]"
+    className={joinClasses('w-[14px] h-[14px] flex-none', tone)}
     fill="none"
     stroke="currentColor"
     strokeWidth="2.25"
@@ -406,7 +406,7 @@ export const ListRow = ({
           aria-label={openLabel}
           className="flex-none inline-flex items-center justify-center min-w-[var(--control-sm)] min-h-[var(--control-sm)] -me-[calc((var(--control-sm)-14px)/2)] rounded-[var(--corner-sm)] no-underline focus-visible:outline-[length:var(--focus-width)] focus-visible:outline-solid focus-visible:outline-[var(--focus-color)]"
         >
-          <ChevronIcon />
+          <ChevronIcon tone="text-[var(--label-tertiary)]" />
         </LinkElement>
       ) : null}
     </>
