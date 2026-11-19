@@ -31,6 +31,43 @@ describe('IconButton', () => {
     expect(classes).toContain(background);
   });
 
+  it('fills a plain button with --fill only while the popup it opens is open', () => {
+    render(
+      <IconButton aria-label="More" aria-haspopup="menu" aria-expanded>
+        m
+      </IconButton>,
+    );
+    const classes = classesOf(screen.getByRole('button', { name: 'More' }));
+    expect(classes).toContain(
+      '[&[aria-haspopup]:not(:disabled)[aria-expanded=true]]:bg-[var(--fill)]',
+    );
+    expect(classes).not.toContain('aria-expanded:not-disabled:bg-[var(--fill)]');
+    expect(classes).not.toContain('aria-pressed:not-disabled:bg-[var(--fill)]');
+  });
+
+  it('draws a capsule plain button when asked and keeps the default shapes otherwise', () => {
+    render(
+      <>
+        <IconButton aria-label="More" shape="capsule">
+          m
+        </IconButton>
+        <IconButton aria-label="Edit">e</IconButton>
+        <IconButton aria-label="Add" variant="gray" shape="rounded">
+          +
+        </IconButton>
+      </>,
+    );
+    const capsule = classesOf(screen.getByRole('button', { name: 'More' }));
+    expect(capsule).toContain('rounded-full');
+    expect(capsule).not.toContain('rounded-[var(--corner-md)]');
+    expect(classesOf(screen.getByRole('button', { name: 'Edit' }))).toContain(
+      'rounded-[var(--corner-md)]',
+    );
+    const rounded = classesOf(screen.getByRole('button', { name: 'Add' }));
+    expect(rounded).toContain('rounded-[var(--corner-md)]');
+    expect(rounded).not.toContain('rounded-full');
+  });
+
   it('rests muted and turns critical on hover and focus when destructive', () => {
     render(
       <IconButton aria-label="Delete" destructive>

@@ -49,6 +49,24 @@ describe('Sheet role and size', () => {
   });
 });
 
+describe('Sheet md-wide size', () => {
+  it('caps the dialog at 540px for the email confirmation board', () => {
+    render(
+      <Sheet open size="md-wide" title="Email 52 founders?" onClose={() => {}}>
+        Recipients
+      </Sheet>,
+    );
+    const dialog = screen.getByRole('dialog', { name: 'Email 52 founders?' });
+    expect(dialog.className).toContain('max-w-[540px]');
+    expect(dialog.className).not.toContain('max-w-[520px]');
+  });
+
+  it('keeps md at 520px', () => {
+    render(<Sheet open title="Title" onClose={() => {}} />);
+    expect(screen.getByRole('dialog', { name: 'Title' }).className).toContain('max-w-[520px]');
+  });
+});
+
 describe('Sheet xl size', () => {
   it('widens for a multi-column form and still scrolls only the body', () => {
     render(
@@ -91,6 +109,18 @@ describe('Sheet tall content', () => {
 });
 
 describe('Sheet side placement', () => {
+  it('caps a md-wide side panel at 540px from the small breakpoint', () => {
+    render(
+      <Sheet open placement="side" size="md-wide" title="Recipients" onClose={() => {}}>
+        Body
+      </Sheet>,
+    );
+    expect(screen.getByRole('dialog', { name: 'Recipients' })).toHaveClass(
+      'max-w-none',
+      'sm:max-w-[540px]',
+    );
+  });
+
   it('opens as a full height panel on the right that scrolls its body', () => {
     render(
       <Sheet open placement="side" eyebrow="Preview" title="Traction 2026" onClose={() => {}}>

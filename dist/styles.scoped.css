@@ -270,6 +270,66 @@ html [data-propellant] {
   --cal-ev-brand-fg: var(--teal-900);
 
   --cal-ev-brand-ac: var(--teal-600);
+
+  --icon-tile-teal-bg: var(--teal-100);
+
+  --icon-tile-teal-fg: var(--teal-800);
+
+  --icon-tile-gray-bg: var(--gray-75);
+
+  --icon-tile-gray-fg: var(--gray-600);
+
+  --icon-tile-orange-bg: color-mix(in srgb, var(--orange-500) 14%, transparent);
+
+  --icon-tile-orange-fg: var(--amber-800);
+
+  --icon-tile-application-bg: var(--icon-tile-teal-bg);
+
+  --icon-tile-application-fg: var(--icon-tile-teal-fg);
+
+  --icon-tile-prescreening-bg: var(--teal-150);
+
+  --icon-tile-prescreening-fg: var(--teal-950);
+
+  --icon-tile-online-bg: var(--yellow-400);
+
+  --icon-tile-online-fg: var(--gray-800);
+
+  --icon-tile-pitch-bg: var(--mc-navy);
+
+  --icon-tile-pitch-fg: var(--mc-cyan);
+
+  --icon-tile-cohort-bg: color-mix(in srgb, var(--green-500) 28%, transparent);
+
+  --icon-tile-cohort-fg: var(--green-700);
+
+  --icon-tile-closed-bg: color-mix(in srgb, var(--gray-75), var(--gray-100));
+
+  --icon-tile-closed-fg: var(--gray-600);
+
+  --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 28%, transparent);
+
+  --role-tag-mentor-label: var(--on-highlight);
+
+  --avatar-gray-bg: color-mix(in srgb, var(--gray-75), var(--gray-100));
+
+  --avatar-gray-fg: var(--gray-600);
+
+  --avatar-amber-bg: color-mix(
+    in srgb,
+    color-mix(in srgb, var(--yellow-400) 60%, var(--orange-500)) 20%,
+    transparent
+  );
+
+  --avatar-amber-fg: var(--amber-800);
+
+  --avatar-green-bg: color-mix(in srgb, var(--green-500) 18%, transparent);
+
+  --avatar-green-fg: var(--green-700);
+
+  --avatar-teal-bg: var(--teal-150);
+
+  --avatar-teal-fg: var(--teal-900);
 }
 
 [data-theme='dark'] [data-propellant], [data-propellant][data-theme='dark'], html [data-propellant] [data-theme='dark'] {
@@ -338,6 +398,18 @@ html [data-propellant] {
   --page-margin: var(--margin-compact);
 
   --cal-ev-brand-bg: color-mix(in srgb, var(--teal-400) 16%, var(--bg));
+
+  --icon-tile-application-bg: var(--icon-tile-teal-bg);
+
+  --icon-tile-application-fg: var(--icon-tile-teal-fg);
+
+  --icon-tile-online-bg: var(--yellow-400);
+
+  --icon-tile-online-fg: var(--gray-800);
+
+  --icon-tile-pitch-bg: var(--mc-navy);
+
+  --icon-tile-pitch-fg: var(--mc-cyan);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -408,6 +480,18 @@ html:has([data-appearance='system']) [data-propellant]:not([data-theme='light'])
   --page-margin: var(--margin-compact);
 
   --cal-ev-brand-bg: color-mix(in srgb, var(--teal-400) 16%, var(--bg));
+
+  --icon-tile-application-bg: var(--icon-tile-teal-bg);
+
+  --icon-tile-application-fg: var(--icon-tile-teal-fg);
+
+  --icon-tile-online-bg: var(--yellow-400);
+
+  --icon-tile-online-fg: var(--gray-800);
+
+  --icon-tile-pitch-bg: var(--mc-navy);
+
+  --icon-tile-pitch-fg: var(--mc-cyan);
 }
 }
 
@@ -511,6 +595,7 @@ html [data-propellant] {
   --corner-sm: 4px;
   --corner-thumbnail: 5px;
   --corner-md: 8px;
+  --corner-tile: 10px;
   --corner-lg: 12px;
   --corner-xl: 16px;
   --corner-capsule: 9999px;
@@ -700,6 +785,7 @@ html [data-propellant] {
   --inspector-width: 360px;
 
   --avatar-xs: 20px;
+  --avatar-compact: 26px;
   --avatar-sm: 28px;
   --avatar-md: 36px;
   --avatar-lg: 48px;
@@ -810,6 +896,118 @@ html [data-propellant] {
   --phdr-banner-height: 132px;
 }
 
+html [data-propellant] {
+  --icon-tile-teal-bg: var(--teal-100);
+  --icon-tile-teal-fg: var(--teal-800);
+  --icon-tile-gray-bg: var(--gray-75);
+  --icon-tile-gray-fg: var(--gray-600);
+  --icon-tile-orange-bg: color-mix(in srgb, var(--orange-500) 14%, transparent);
+  --icon-tile-orange-fg: var(--amber-800);
+  --icon-tile-application-bg: var(--icon-tile-teal-bg);
+  --icon-tile-application-fg: var(--icon-tile-teal-fg);
+  --icon-tile-prescreening-bg: var(--teal-150);
+  --icon-tile-prescreening-fg: var(--teal-950);
+  --icon-tile-online-bg: var(--yellow-400);
+  --icon-tile-online-fg: var(--gray-800);
+  --icon-tile-pitch-bg: var(--mc-navy);
+  --icon-tile-pitch-fg: var(--mc-cyan);
+  --icon-tile-cohort-bg: color-mix(in srgb, var(--green-500) 28%, transparent);
+  --icon-tile-cohort-fg: var(--green-700);
+  --icon-tile-closed-bg: color-mix(in srgb, var(--gray-75), var(--gray-100));
+  --icon-tile-closed-fg: var(--gray-600);
+}
+
+[data-theme='dark'] [data-propellant], [data-propellant][data-theme='dark'], html [data-propellant] [data-theme='dark'] {
+  --icon-tile-teal-bg: var(--tint-fill);
+  --icon-tile-teal-fg: var(--tint);
+  --icon-tile-gray-bg: var(--fill-secondary);
+  --icon-tile-gray-fg: var(--label-secondary);
+  --icon-tile-orange-bg: var(--warning-fill);
+  --icon-tile-orange-fg: var(--warning);
+  --icon-tile-prescreening-bg: color-mix(in srgb, var(--teal-400) 30%, transparent);
+  --icon-tile-prescreening-fg: var(--teal-150);
+  --icon-tile-cohort-bg: var(--success-fill);
+  --icon-tile-cohort-fg: var(--success);
+  --icon-tile-closed-bg: var(--fill);
+  --icon-tile-closed-fg: var(--label-secondary);
+}
+
+@media (prefers-color-scheme: dark) {
+
+html:has([data-appearance='system']) [data-propellant]:not([data-theme='light']) {
+  --icon-tile-teal-bg: var(--tint-fill);
+  --icon-tile-teal-fg: var(--tint);
+  --icon-tile-gray-bg: var(--fill-secondary);
+  --icon-tile-gray-fg: var(--label-secondary);
+  --icon-tile-orange-bg: var(--warning-fill);
+  --icon-tile-orange-fg: var(--warning);
+  --icon-tile-prescreening-bg: color-mix(in srgb, var(--teal-400) 30%, transparent);
+  --icon-tile-prescreening-fg: var(--teal-150);
+  --icon-tile-cohort-bg: var(--success-fill);
+  --icon-tile-cohort-fg: var(--success);
+  --icon-tile-closed-bg: var(--fill);
+  --icon-tile-closed-fg: var(--label-secondary);
+}
+}
+
+html [data-propellant] {
+  --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 28%, transparent);
+  --role-tag-mentor-label: var(--on-highlight);
+}
+
+[data-theme='dark'] [data-propellant], [data-propellant][data-theme='dark'], html [data-propellant] [data-theme='dark'] {
+  --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 20%, transparent);
+  --role-tag-mentor-label: var(--highlight);
+}
+
+@media (prefers-color-scheme: dark) {
+
+html:has([data-appearance='system']) [data-propellant]:not([data-theme='light']) {
+  --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 20%, transparent);
+  --role-tag-mentor-label: var(--highlight);
+}
+}
+
+html [data-propellant] {
+  --avatar-gray-bg: color-mix(in srgb, var(--gray-75), var(--gray-100));
+  --avatar-gray-fg: var(--gray-600);
+  --avatar-amber-bg: color-mix(
+    in srgb,
+    color-mix(in srgb, var(--yellow-400) 60%, var(--orange-500)) 20%,
+    transparent
+  );
+  --avatar-amber-fg: var(--amber-800);
+  --avatar-green-bg: color-mix(in srgb, var(--green-500) 18%, transparent);
+  --avatar-green-fg: var(--green-700);
+  --avatar-teal-bg: var(--teal-150);
+  --avatar-teal-fg: var(--teal-900);
+}
+
+[data-theme='dark'] [data-propellant], [data-propellant][data-theme='dark'], html [data-propellant] [data-theme='dark'] {
+  --avatar-gray-bg: var(--fill);
+  --avatar-gray-fg: var(--label-secondary);
+  --avatar-amber-bg: var(--warning-fill);
+  --avatar-amber-fg: var(--warning);
+  --avatar-green-bg: var(--success-fill);
+  --avatar-green-fg: var(--success);
+  --avatar-teal-bg: color-mix(in srgb, var(--teal-400) 30%, transparent);
+  --avatar-teal-fg: var(--teal-150);
+}
+
+@media (prefers-color-scheme: dark) {
+
+html:has([data-appearance='system']) [data-propellant]:not([data-theme='light']) {
+  --avatar-gray-bg: var(--fill);
+  --avatar-gray-fg: var(--label-secondary);
+  --avatar-amber-bg: var(--warning-fill);
+  --avatar-amber-fg: var(--warning);
+  --avatar-green-bg: var(--success-fill);
+  --avatar-green-fg: var(--success);
+  --avatar-teal-bg: color-mix(in srgb, var(--teal-400) 30%, transparent);
+  --avatar-teal-fg: var(--teal-150);
+}
+}
+
 html [data-propellant] input:-webkit-autofill,
 html [data-propellant] input:-webkit-autofill:hover,
 html [data-propellant] input:-webkit-autofill:focus,
@@ -916,5 +1114,5 @@ html [data-propellant] .propellant-scroll-hidden::-webkit-scrollbar {
   display: none;
 }
 html [data-propellant] {
-  --propellant-version: '2.4.0';
+  --propellant-version: '2.5.0';
 }

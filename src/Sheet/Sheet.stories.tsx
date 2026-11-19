@@ -3,6 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
 import { Sheet } from './Sheet';
 import { Button } from '../Button/Button';
+import { ListRow, ListSection } from '../List/List';
+import { SearchField } from '../SearchField/SearchField';
 import { appearance, content, hide } from '../../.storybook/controls';
 
 const Launcher = (args: React.ComponentProps<typeof Sheet>) => {
@@ -25,6 +27,8 @@ const meta = {
       description: {
         component: [
           'Portalled dialog on the elevated surface over a scrim, with a focus trap and an inert background. Stacked, horizontal, or split layouts. `placement="side"` opens it as a full height panel on the right, full width on phones, for previews that sit beside the work. Footer actions sit in a right aligned row and stack full width, primary on top, on narrow screens.',
+          '',
+          'Sizes cap the width at 400px (`sm`), 520px (`md`, the default), 540px (`md-wide`), 640px (`lg`) and 1152px (`xl`), or fill the viewport (`full`). `md-wide` fits a confirmation that lists people, such as the email confirmation with a framed recipient list.',
           '',
           "Import: `import { Sheet } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -54,7 +58,7 @@ const meta = {
       ...appearance,
     },
     layout: { control: 'inline-radio', options: ['stacked', 'horizontal', 'split'], ...appearance },
-    size: { control: 'inline-radio', options: ['sm', 'md', 'lg', 'xl'], ...appearance },
+    size: { control: 'inline-radio', options: ['sm', 'md', 'md-wide', 'lg', 'xl'], ...appearance },
     placement: { control: 'inline-radio', options: ['center', 'side'], ...appearance },
     eyebrow: { control: 'text', ...content },
     title: { control: 'text', ...content },
@@ -165,4 +169,54 @@ export const WideFooter: Story = {
       </>
     ),
   },
+};
+
+const RECIPIENTS = [
+  { initials: 'ZE', name: 'Zoe Engel', company: 'Hazel Rx', progress: '90% done' },
+  { initials: 'BU', name: 'Ben Ulrich', company: 'Willow Med', progress: '90% done' },
+  { initials: 'FV', name: 'Farah Varga', company: 'Coral Mind', progress: '90% done' },
+  { initials: 'WF', name: 'Will Fischer', company: 'Heron Cardio', progress: '85% done' },
+];
+
+export const EmailConfirmation: Story = {
+  args: {
+    open: true,
+    inline: true,
+    size: 'md-wide',
+    hideIcon: true,
+    tone: 'info',
+    title: 'Email 52 founders?',
+    description: undefined,
+    footer: (
+      <>
+        <Button variant="gray">Cancel</Button>
+        <Button variant="filled">Send email</Button>
+      </>
+    ),
+    children: (
+      <ListSection
+        framed
+        density="dense"
+        title="52 founders"
+        trailing={<SearchField size="sm" placeholder="Find" aria-label="Find a founder" />}
+      >
+        {RECIPIENTS.map((recipient) => (
+          <ListRow
+            key={recipient.name}
+            title={recipient.name}
+            titleEmphasis="strong"
+            subtitle={recipient.company}
+            subtitlePosition="inline"
+            value={recipient.progress}
+            media={{ avatar: { initials: recipient.initials, size: 'compact' } }}
+          />
+        ))}
+      </ListSection>
+    ),
+  },
+  render: (args) => (
+    <div className="relative w-[640px] h-[560px]">
+      <Sheet {...args} />
+    </div>
+  ),
 };

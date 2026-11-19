@@ -19,6 +19,7 @@ export * from './EmptyState/EmptyState';
 export * from './FileUploader/FileUploader';
 export * from './FilterBar/FilterBar';
 export * from './IconButton/IconButton';
+export * from './IconTile/IconTile';
 export * from './Inspector/Inspector';
 export * from './List/List';
 export * from './Logo/Logo';

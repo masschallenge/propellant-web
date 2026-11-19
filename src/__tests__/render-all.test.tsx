@@ -82,6 +82,7 @@ const EXPECTED_COMPONENTS = [
   'FilterPopover',
   'FilterSelect',
   'IconButton',
+  'IconTile',
   'Inspector',
   'InspectorRow',
   'ListRow',

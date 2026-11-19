@@ -7,7 +7,7 @@ import { imageFitClass } from '../internal/imageFit';
 const openSheetStack: object[] = [];
 
 export type SheetTone = 'neutral' | 'info' | 'success' | 'warning' | 'critical';
-export type SheetSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
+export type SheetSize = 'sm' | 'md' | 'md-wide' | 'lg' | 'xl' | 'full';
 export type SheetLayout = 'stacked' | 'horizontal' | 'split';
 export type SheetPlacement = 'center' | 'side';
 
@@ -60,6 +60,7 @@ const TONE_GLYPH: Record<SheetTone, string> = {
 const WIDTH: Record<SheetSize, string> = {
   sm: 'max-w-[400px]',
   md: 'max-w-[520px]',
+  'md-wide': 'max-w-[540px]',
   lg: 'max-w-[640px]',
   xl: 'max-w-[1152px]',
   full: 'max-w-none h-full',
@@ -68,6 +69,7 @@ const WIDTH: Record<SheetSize, string> = {
 const SIDE_WIDTH: Record<SheetSize, string> = {
   sm: 'sm:max-w-[400px]',
   md: 'sm:max-w-[520px]',
+  'md-wide': 'sm:max-w-[540px]',
   lg: 'sm:max-w-[640px]',
   xl: 'sm:max-w-[1152px]',
   full: 'max-w-none',

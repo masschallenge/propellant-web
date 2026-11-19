@@ -294,6 +294,16 @@ export const TreeInHideMode: Story = {
   ),
 };
 
+export const ExpandedCollapseToggle: Story = {
+  tags: ['interaction', '!autodocs'],
+  render: () => <ConsoleFrame sidebar={<TreeSidebar />} />,
+  play: async ({ canvasElement }) => {
+    const toggle = within(canvasElement).getByRole('button', { name: 'Collapse menu' });
+    await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    await expect(getComputedStyle(toggle).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+  },
+};
+
 export const TreeInteraction: Story = {
   tags: ['interaction', '!autodocs'],
   render: () => <ConsoleFrame sidebar={<TreeSidebar />} />,

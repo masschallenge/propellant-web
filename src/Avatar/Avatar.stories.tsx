@@ -4,7 +4,8 @@ import { Avatar, AvatarGroup } from './Avatar';
 import { HStack } from '../../.storybook/stack';
 import { appearance, content, hide, state } from '../../.storybook/controls';
 
-const SIZES = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
+const SIZES = ['xs', 'compact', 'sm', 'md', 'lg', 'xl'] as const;
+const TONES = ['gray', 'amber', 'green', 'teal'] as const;
 const STATUSES = ['online', 'offline'] as const;
 
 const PHOTO = '/avatars/avatar-1.svg';
@@ -24,7 +25,11 @@ const meta = {
       description: {
         component: [
           'A person or organization image with initials and glyph fallbacks. Initials sit on a neutral fill, never the tint.',
-          'Five sizes, circle or squircle, a presence pip paired with hidden text, a verified mark, and a company badge that sits outside the face at the bottom right corner so it never covers the initials.',
+          'Six sizes, circle or squircle, a presence pip paired with hidden text, a verified mark, and a company badge that sits outside the face at the bottom right corner so it never covers the initials.',
+          '',
+          '`tone` paints the initials in `gray`, `amber` or `green` to tell groups of people apart, such as mentors, evaluators and founders on the admin Home. `teal` paints the default initials of the Home boards, teal 150 with teal 900 initials, as an explicit exception to the neutral initials rule pending design lead sign off. A tone wins over `neutral` and leaves photos alone. The `compact` size, 26px, fits dense rows such as a recipient list.',
+          '',
+          'Set `count` to show an unread count at the top right corner, as on the account button in the sidebar footer. Assistive technology reads `countLabel`, "3 unread" by default, instead of the bare number. The badge is hidden at 0. When the avatar sits in a button with its own `aria-label`, put the count in that label too, such as "Account menu, 3 unread".',
           '',
           "Import: `import { Avatar, AvatarGroup } from '@masschallenge/propellant-web'`",
           '',
@@ -39,11 +44,14 @@ const meta = {
     squircle: { control: 'boolean', ...appearance },
     ring: { control: 'boolean', ...appearance },
     neutral: { control: 'boolean', ...appearance },
+    tone: { control: 'select', options: TONES, ...appearance },
     status: { control: 'select', options: STATUSES, ...state },
     verified: { control: 'boolean', ...state },
     src: { control: 'text', ...content },
     initials: { control: 'text', ...content },
     alt: { control: 'text', ...content },
+    count: { control: 'number', ...state },
+    countLabel: { control: 'text', ...content },
     companyBadge: hide,
     className: hide,
   },
@@ -69,6 +77,18 @@ export const NeutralGlyph: Story = { args: { initials: undefined, alt: 'Unknown 
 export const Squircle: Story = { args: { squircle: true, src: PHOTO } };
 export const Neutral: Story = { args: { neutral: true } };
 
+export const Tones: Story = {
+  render: (args) => (
+    <HStack>
+      <Avatar {...args} initials="PM" alt="Program managers" />
+      <Avatar {...args} initials="M" alt="Mentors" tone="gray" />
+      <Avatar {...args} initials="E" alt="Evaluators" tone="amber" />
+      <Avatar {...args} initials="F" alt="Founders" tone="green" />
+      <Avatar {...args} initials="JS" alt="Joe Schwendt" tone="teal" />
+    </HStack>
+  ),
+};
+
 export const Statuses: Story = {
   render: (args) => (
     <HStack>
@@ -82,6 +102,16 @@ export const Statuses: Story = {
 export const Verified: Story = { args: { verified: true, src: PHOTO, initials: undefined } };
 export const CompanyBadge: Story = {
   args: { companyBadge: { src: MONOGRAM, alt: 'MassChallenge' }, size: 'lg' },
+};
+
+export const Count: Story = {
+  render: (args) => (
+    <HStack>
+      <Avatar {...args} size="sm" count={3} />
+      <Avatar {...args} size="sm" src={PHOTO} initials={undefined} count={12} />
+      <Avatar {...args} size="md" count={1} countLabel="1 unread message" />
+    </HStack>
+  ),
 };
 
 const handleAddJudge = fn();

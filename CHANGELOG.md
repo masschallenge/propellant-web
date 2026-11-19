@@ -29,6 +29,97 @@ property and from `@masschallenge/propellant-web/version`.
 - The medium `Switch` is a 38 by 22 track with an 18px knob, the size the design system draws.
   It was 40 by 24 with a 20px knob.
 
+## 2.5.0 (2026-11-19)
+
+### Added
+
+- `IconTile` draws the 36px rounded tile that leads a to do item or list row, holding an 18px
+  icon. `teal`, `gray` and `orange` tones mark something to act on, to read and that needs
+  attention, and the stage tones `application`, `prescreening`, `online`, `pitch`, `cohort` and
+  `closed` match a program stage. It is hidden from assistive technology unless given an
+  `aria-label`, when it is a named image. The `IconTileProps` and `IconTileTone` types are
+  exported.
+- `ListRow` takes `media` to lead with something in place of the icon, with the row separator
+  starting at the text in every density: a program logo as a 64 by 38 thumbnail with
+  `--corner-thumbnail` corners and a separator ring, or with `shape: 'squircle'` a company logo
+  as a 36px squircle, shown whole on a quiet background unless `autoCrop` is set;
+  `{ tile: { icon, tone } }` for an `IconTile` on to do items; or
+  `{ avatar: { initials?, src?, alt?, tone?, size?, autoCrop? } }` for a round `Avatar` at
+  `size: 'md'` (36px, the default) or `'compact'` (26px). `titleEmphasis: 'strong'` sets the
+  title in semibold callout type. `subtitlePosition: 'inline'` sets the subtitle after the title
+  on one baseline in tertiary subheadline type, both truncating, for a name followed by a
+  company. `valueStyle: 'subheadline'` sets the value in secondary subheadline type, for progress
+  such as "3 of 6 done", and `'callout'` in callout type in the label color, for the People
+  counts. `openHref` adds a chevron link, rendered with `linkAs`, after the accessory of a row
+  that is not itself a link or button, so a row can hold its own buttons and still open without
+  nesting interactive elements. The link is named "Open" and the row title (for example "Open
+  Finish reviews") unless `openLabel` gives its name, its chevron uses `--label-tertiary` to
+  reach 3:1, and `showChevron` is ignored on that row so only one chevron shows. A fragment
+  accessory is no longer given `aria-labelledby`, and accessory items are spaced 8px apart. Rows
+  without the new props are unchanged. The `ListRowMedia`, `ListRowMediaShape`,
+  `ListRowImageMedia`, `ListRowTileMedia`, `ListRowTile`, `ListRowAvatar`, `ListRowAvatarMedia`,
+  `ListRowAvatarSize`, `ListRowTitleEmphasis`, `ListRowSubtitlePosition` and
+  `ListRowValueStyle` types are exported.
+- `ListSection` takes `density: 'roomy'` for spacious lists such as the persona Home: rows get
+  `--space-3-5` (14px) vertical and `--space-5` (20px) horizontal padding with `--space-3-5`
+  between the lead, the text and the trailing content, and the row separator still starts at the
+  text; `regular` and `dense` rows are unchanged. `framed` draws the title and `trailing` content
+  as a header band inside the list box, on `--bg-secondary` above a separator line, with the box
+  ringed in the separator color, as on the email confirmation recipient list; the footer stays
+  below the box. `headingProps` passes attributes and a `ref` to the title heading, so an app can
+  move focus to it with `tabIndex: -1` and screen readers announce it as a heading; the section
+  keeps the heading id that names it. The `ListSectionHeadingProps` type is exported.
+- `Avatar` takes `count` to show an unread count as a critical capsule at its top right corner,
+  hidden at 0, with assistive technology reading `countLabel`, "N unread" by default, instead of
+  the bare number. `tone` (`gray`, `amber`, `green` or `teal`) paints initials from the new avatar
+  tone tokens: gray, amber and green tell mentors, evaluators and founders apart in the admin
+  Home People rows, and teal (teal 150 with teal 900 initials, a translucent teal 400 fill with
+  teal 150 initials in dark mode) is the default initials avatar on the Home and account menu
+  boards, an explicit exception to the rule that initials sit on a neutral fill. A tone wins over
+  `neutral` and leaves photos unchanged. A `compact` size, 26px, sits between `xs` and `sm` for
+  dense rows. The `AvatarTone` type is exported.
+- `RoleTag` has a `mentor` tone, a soft Yellow fill from `--role-tag-mentor-fill` and
+  `--role-tag-mentor-label`.
+- Icon tile tokens, a background and foreground per tone such as `--icon-tile-teal-bg` and
+  `--icon-tile-teal-fg`, with dark mode values, and `--corner-tile`, 10px, for icon tiles and
+  company logos at the start of a row.
+- `Menu` `accountBand` takes `avatar` (`{ src?, initials?, tone? }`) to show an `md` (36px)
+  `Avatar` beside the name and email, as on the account menu board, and its `title` and `sub`
+  take any `ReactNode` in the same type and color. A band without `avatar` and with string text
+  is unchanged. The `MenuAccountBandAvatar` type is exported.
+- `MenuItem` takes `badge` (`{ count, label? }`) to show a trailing critical count capsule after
+  the label, hidden at 0, with assistive technology reading `label`, "N unread" by default, as
+  part of the item name instead of the bare number. `href` renders the item as a `menuitem` link,
+  with `linkAs` for a router's link component (`a` by default); arrow keys, Home, End, Enter,
+  Escape and focus return work as for button items, and a disabled item or one with a submenu
+  stays a button. Row highlights now use `not-disabled:` in place of `enabled:` so they also apply
+  to links. The `MenuItemBadge` type is exported.
+- `Badge` takes `shape: 'rounded'` to draw small `--corner-sm` corners in place of the capsule; at
+  `size="sm"` it is the persona Home boards' badge, 20px high with 12px caption text and 8px
+  padding, and `'capsule'` stays the default. `dot` also takes a tone, such as `dot="warning"`,
+  to lead a badge with a 7px dot in that tone's label color while the badge keeps its own tone
+  and padding, as for a failing integration on a neutral badge; `dot` set to `true` is
+  unchanged. The `BadgeShape` type is exported.
+- `Sheet` has an `md-wide` size, 540px, for the email confirmation dialog. Existing sizes keep
+  their widths.
+- Avatar tone tokens, a background and foreground per tone such as `--avatar-green-bg` and
+  `--avatar-green-fg`, with dark mode values, and `--avatar-compact`, 26px.
+- `IconButton` `plain` fills with `--fill` while it has `aria-haspopup` and `aria-expanded` is
+  true, as the open item menu trigger on the Home board, so a `Menu` trigger built from an
+  `IconButton` shows the open style while its menu is open. A disclosure such as the Sidebar
+  collapse toggle, which has `aria-expanded` but no popup, keeps the plain background.
+  `shape: 'capsule'` draws a circular button, as the board's item menu trigger, and
+  `shape: 'rounded'` draws `--corner-md` corners. Without `shape`, plain stays rounded and gray,
+  tinted and filled stay circular. The `IconButtonShape` type is exported.
+
+### Fixed
+
+- `Menu` now moves focus to the first enabled item when it opens by click, Enter or ArrowDown (the
+  last item on ArrowUp), so arrow keys, Home and End work. Focus was set while the panel was still
+  hidden off screen before its first position applied, and browsers ignored it. The same race kept
+  focus off the `Menu` and `MultiComboBox` search fields and the `FilterSelect` listbox and search
+  field; each now takes focus once the panel is placed.
+
 ## 2.4.0 (2026-11-18)
 
 ### Added

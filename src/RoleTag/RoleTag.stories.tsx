@@ -3,13 +3,14 @@ import { RoleTag } from './RoleTag';
 import { HStack } from '../../.storybook/stack';
 import { appearance, content, hide } from '../../.storybook/controls';
 
-const TONES = ['admin', 'pm', 'judge', 'startup', 'neutral'] as const;
+const TONES = ['admin', 'pm', 'judge', 'startup', 'mentor', 'neutral'] as const;
 const LABELS: Record<(typeof TONES)[number], string> = {
   admin: 'Admin',
   pm: 'PM',
   judge: 'Judge',
   startup: 'Startup',
-  neutral: 'Mentor',
+  mentor: 'Mentor',
+  neutral: 'Role',
 };
 
 const meta = {

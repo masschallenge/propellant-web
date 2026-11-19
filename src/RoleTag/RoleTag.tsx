@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
 
-export type RoleTagTone = 'admin' | 'pm' | 'judge' | 'startup' | 'neutral';
+export type RoleTagTone = 'admin' | 'pm' | 'judge' | 'startup' | 'mentor' | 'neutral';
 
 export interface RoleTagProps extends Omit<React.ComponentPropsWithoutRef<'span'>, 'children'> {
   tone?: RoleTagTone;
@@ -16,6 +16,7 @@ const TONES: Record<RoleTagTone, string> = {
   pm: 'bg-[var(--tint-fill)] text-[var(--tint)]',
   judge: 'bg-[var(--warning-fill)] text-[var(--warning)]',
   startup: 'bg-[var(--success-fill)] text-[var(--success)]',
+  mentor: 'bg-[var(--role-tag-mentor-fill)] text-[var(--role-tag-mentor-label)]',
   neutral: 'bg-[var(--fill-secondary)] text-[var(--label-secondary)]',
 };
 
