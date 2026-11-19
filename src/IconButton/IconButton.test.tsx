@@ -31,15 +31,18 @@ describe('IconButton', () => {
     expect(classes).toContain(background);
   });
 
-  it('fills a plain button with --fill while it is open or pressed', () => {
+  it('fills a plain button with --fill only while the popup it opens is open', () => {
     render(
-      <IconButton aria-label="More" aria-expanded>
+      <IconButton aria-label="More" aria-haspopup="menu" aria-expanded>
         m
       </IconButton>,
     );
     const classes = classesOf(screen.getByRole('button', { name: 'More' }));
-    expect(classes).toContain('aria-expanded:not-disabled:bg-[var(--fill)]');
-    expect(classes).toContain('aria-pressed:not-disabled:bg-[var(--fill)]');
+    expect(classes).toContain(
+      '[&[aria-haspopup]:not(:disabled)[aria-expanded=true]]:bg-[var(--fill)]',
+    );
+    expect(classes).not.toContain('aria-expanded:not-disabled:bg-[var(--fill)]');
+    expect(classes).not.toContain('aria-pressed:not-disabled:bg-[var(--fill)]');
   });
 
   it('draws a capsule plain button when asked and keeps the default shapes otherwise', () => {
