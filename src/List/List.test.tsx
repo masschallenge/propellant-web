@@ -98,7 +98,9 @@ describe('ListSection', () => {
     expect(items[1]).toHaveClass(
       '[--row-inset:calc(var(--icon-md)+var(--space-5)+var(--space-3-5))]',
     );
-    expect(items[2]).toHaveClass('[--row-inset:calc(64px+var(--space-5)+var(--space-3-5))]');
+    expect(items[2]).toHaveClass(
+      '[--row-inset:calc(var(--space-16)+var(--space-5)+var(--space-3-5))]',
+    );
     expect(items[3]).toHaveClass(
       '[--row-inset:calc(var(--avatar-md)+var(--space-5)+var(--space-3-5))]',
     );
@@ -318,8 +320,10 @@ describe('ListRow', () => {
       </ListSection>,
     );
     const items = screen.getAllByRole('listitem');
-    expect(items[0]).toHaveClass('[--row-inset:16px]');
-    expect(items[1]).toHaveClass('[--row-inset:calc(var(--icon-md)+28px)]');
+    expect(items[0]).toHaveClass('[--row-inset:var(--space-4)]');
+    expect(items[1]).toHaveClass(
+      '[--row-inset:calc(var(--icon-md)+var(--space-4)+var(--space-3))]',
+    );
   });
 
   describe('media', () => {
@@ -402,8 +406,12 @@ describe('ListRow', () => {
         </ListSection>,
       );
       const items = screen.getAllByRole('listitem');
-      expect(items[0]).toHaveClass('[--row-inset:calc(64px+28px)]');
-      expect(items[1]).toHaveClass('[--row-inset:calc(var(--avatar-md)+28px)]');
+      expect(items[0]).toHaveClass(
+        '[--row-inset:calc(var(--space-16)+var(--space-4)+var(--space-3))]',
+      );
+      expect(items[1]).toHaveClass(
+        '[--row-inset:calc(var(--avatar-md)+var(--space-4)+var(--space-3))]',
+      );
     });
 
     it('keeps the media inside a link row', () => {
@@ -456,7 +464,9 @@ describe('ListRow', () => {
         </ListSection>,
       );
       const items = screen.getAllByRole('listitem');
-      expect(items[1]).toHaveClass('[--row-inset:calc(var(--avatar-md)+28px)]');
+      expect(items[1]).toHaveClass(
+        '[--row-inset:calc(var(--avatar-md)+var(--space-4)+var(--space-3))]',
+      );
     });
   });
 
@@ -527,8 +537,12 @@ describe('ListRow', () => {
         </ListSection>,
       );
       const items = screen.getAllByRole('listitem');
-      expect(items[1]).toHaveClass('[--row-inset:calc(var(--avatar-md)+28px)]');
-      expect(items[2]).toHaveClass('[--row-inset:calc(var(--avatar-compact)+28px)]');
+      expect(items[1]).toHaveClass(
+        '[--row-inset:calc(var(--avatar-md)+var(--space-4)+var(--space-3))]',
+      );
+      expect(items[2]).toHaveClass(
+        '[--row-inset:calc(var(--avatar-compact)+var(--space-4)+var(--space-3))]',
+      );
     });
   });
 

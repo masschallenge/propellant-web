@@ -210,19 +210,19 @@ const MEDIA_SHAPES: Record<ListRowMediaShape, string> = {
 type RowLead = 'none' | 'icon' | 'logo' | 'squircle' | 'tile' | 'avatar-md' | 'avatar-compact';
 
 const STANDARD_INSETS: Record<RowLead, string> = {
-  none: '[--row-inset:16px]',
-  icon: '[--row-inset:calc(var(--icon-md)+28px)]',
-  logo: '[--row-inset:calc(64px+28px)]',
-  squircle: '[--row-inset:calc(var(--avatar-md)+28px)]',
-  tile: '[--row-inset:calc(var(--avatar-md)+28px)]',
-  'avatar-md': '[--row-inset:calc(var(--avatar-md)+28px)]',
-  'avatar-compact': '[--row-inset:calc(var(--avatar-compact)+28px)]',
+  none: '[--row-inset:var(--space-4)]',
+  icon: '[--row-inset:calc(var(--icon-md)+var(--space-4)+var(--space-3))]',
+  logo: '[--row-inset:calc(var(--space-16)+var(--space-4)+var(--space-3))]',
+  squircle: '[--row-inset:calc(var(--avatar-md)+var(--space-4)+var(--space-3))]',
+  tile: '[--row-inset:calc(var(--avatar-md)+var(--space-4)+var(--space-3))]',
+  'avatar-md': '[--row-inset:calc(var(--avatar-md)+var(--space-4)+var(--space-3))]',
+  'avatar-compact': '[--row-inset:calc(var(--avatar-compact)+var(--space-4)+var(--space-3))]',
 };
 
 const ROOMY_INSETS: Record<RowLead, string> = {
   none: '[--row-inset:var(--space-5)]',
   icon: '[--row-inset:calc(var(--icon-md)+var(--space-5)+var(--space-3-5))]',
-  logo: '[--row-inset:calc(64px+var(--space-5)+var(--space-3-5))]',
+  logo: '[--row-inset:calc(var(--space-16)+var(--space-5)+var(--space-3-5))]',
   squircle: '[--row-inset:calc(var(--avatar-md)+var(--space-5)+var(--space-3-5))]',
   tile: '[--row-inset:calc(var(--avatar-md)+var(--space-5)+var(--space-3-5))]',
   'avatar-md': '[--row-inset:calc(var(--avatar-md)+var(--space-5)+var(--space-3-5))]',
@@ -408,7 +408,7 @@ export const ListRow = ({
           href={openHref}
           aria-label={openLabel}
           aria-labelledby={openLabel ? undefined : `${openTextId} ${titleId}`}
-          className="flex-none inline-flex items-center justify-center min-w-[var(--control-sm)] min-h-[var(--control-sm)] -me-[calc((var(--control-sm)-14px)/2)] rounded-[var(--corner-sm)] no-underline focus-visible:outline-[length:var(--focus-width)] focus-visible:outline-solid focus-visible:outline-[var(--focus-color)]"
+          className="flex-none inline-flex items-center justify-center min-w-[var(--control-sm)] min-h-[var(--control-sm)] -me-[calc((var(--control-sm)-var(--space-3-5))/2)] rounded-[var(--corner-sm)] no-underline focus-visible:outline-[length:var(--focus-width)] focus-visible:outline-solid focus-visible:outline-[var(--focus-color)]"
         >
           {openLabel ? null : (
             <span id={openTextId} className="sr-only">
