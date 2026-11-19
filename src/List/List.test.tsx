@@ -626,6 +626,17 @@ describe('ListRow', () => {
       expect(onAccept).toHaveBeenCalledTimes(1);
     });
 
+    it('draws the chevron link in tertiary label color so the control reaches 3:1', () => {
+      render(
+        <ListSection>
+          <ListRow title="Finish reviews" openHref="/queue" openLabel="Open the queue" />
+        </ListSection>,
+      );
+      const chevron = screen.getByRole('link', { name: 'Open the queue' }).querySelector('svg');
+      expect(chevron).toHaveClass('text-[var(--label-tertiary)]');
+      expect(chevron).not.toHaveClass('text-[var(--label-quaternary)]');
+    });
+
     it('names the chevron link Open by default and renders it with linkAs', () => {
       const RouterLink = ({ href, ...rest }: ComponentPropsWithoutRef<'a'>) => (
         <a href={href} data-router="true" {...rest} />
