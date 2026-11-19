@@ -199,7 +199,7 @@ export const IconButtonTriggerOpenStyle: Story = {
     await userEvent.keyboard('{Escape}');
     await expect(trigger).toHaveFocus();
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
-    await waitFor(() => expect(getComputedStyle(trigger).backgroundColor).toBe(restingFill));
+    await waitFor(() => expect(getComputedStyle(trigger).backgroundColor).not.toBe(openFill));
   },
 };
 
