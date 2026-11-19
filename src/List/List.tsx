@@ -333,7 +333,7 @@ export const ListRow = ({
   accessory,
   href,
   openHref,
-  openLabel = 'Open',
+  openLabel,
   linkAs: LinkElement = 'a',
   onClick,
   selected = false,
@@ -346,6 +346,7 @@ export const ListRow = ({
   const density = React.useContext(ListDensityContext);
   const subtitleLayout = SUBTITLE_LAYOUTS[subtitlePosition];
   const titleId = React.useId();
+  const openTextId = React.useId();
   const isAction = Boolean(href || onClick);
   const hasChevron = showChevron ?? Boolean(href || (onClick && !destructive && !selected));
 
@@ -404,8 +405,14 @@ export const ListRow = ({
         <LinkElement
           href={openHref}
           aria-label={openLabel}
+          aria-labelledby={openLabel ? undefined : `${openTextId} ${titleId}`}
           className="flex-none inline-flex items-center justify-center min-w-[var(--control-sm)] min-h-[var(--control-sm)] -me-[calc((var(--control-sm)-14px)/2)] rounded-[var(--corner-sm)] no-underline focus-visible:outline-[length:var(--focus-width)] focus-visible:outline-solid focus-visible:outline-[var(--focus-color)]"
         >
+          {openLabel ? null : (
+            <span id={openTextId} className="sr-only">
+              Open
+            </span>
+          )}
           <ChevronIcon tone="text-[var(--label-tertiary)]" />
         </LinkElement>
       ) : null}

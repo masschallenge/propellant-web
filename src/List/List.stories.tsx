@@ -38,7 +38,7 @@ const meta = {
           '',
           '`framed` moves the title and `trailing` content into a header band inside a box ringed with the separator color, for a list inside a dialog such as a recipient list with a search field.',
           '',
-          'A row that holds its own buttons must not be a link or button itself, so leave out `href` and `onClick`, pass the buttons as the `accessory` (a fragment is fine) and give `openHref` for a separate chevron link after them. It is named by `openLabel`, "Open" by default, and rendered with `linkAs`.',
+          'A row that holds its own buttons must not be a link or button itself, so leave out `href` and `onClick`, pass the buttons as the `accessory` (a fragment is fine) and give `openHref` for a separate chevron link after them. It is named "Open" and the row title by default, or by `openLabel` when given, and rendered with `linkAs`.',
           '',
           "Import: `import { ListSection, ListRow } from '@masschallenge/propellant-web'`",
         ].join('\n'),
