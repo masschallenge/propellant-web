@@ -348,7 +348,9 @@ export const ListRow = ({
   const titleId = React.useId();
   const openTextId = React.useId();
   const isAction = Boolean(href || onClick);
-  const hasChevron = showChevron ?? Boolean(href || (onClick && !destructive && !selected));
+  const hasOpenLink = Boolean(openHref) && !isAction;
+  const hasChevron =
+    !hasOpenLink && (showChevron ?? Boolean(href || (onClick && !destructive && !selected)));
 
   const rowClasses = joinClasses(
     'relative flex w-full items-center text-left border-0 bg-transparent no-underline',
@@ -401,7 +403,7 @@ export const ListRow = ({
       ) : null}
       {selected ? <CheckIcon /> : null}
       {hasChevron ? <ChevronIcon /> : null}
-      {openHref && !isAction ? (
+      {hasOpenLink ? (
         <LinkElement
           href={openHref}
           aria-label={openLabel}
