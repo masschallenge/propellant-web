@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
 
-export type SwitchSize = 'sm' | 'md';
+export type SwitchSize = 'sm' | 'compact' | 'md';
 export type SwitchTone = 'tint' | 'success';
 
 type NativeSwitchProps = Omit<
@@ -22,12 +22,14 @@ export interface SwitchProps extends NativeSwitchProps {
 
 const TRACKS: Record<SwitchSize, string> = {
   sm: 'w-8 h-5',
-  md: 'w-9.5 h-5.5',
+  compact: 'w-9.5 h-5.5',
+  md: 'w-10 h-6',
 };
 
 const KNOBS: Record<SwitchSize, { size: string; on: string }> = {
   sm: { size: 'w-4 h-4', on: 'translate-x-3' },
-  md: { size: 'w-4.5 h-4.5', on: 'translate-x-4' },
+  compact: { size: 'w-4.5 h-4.5', on: 'translate-x-4' },
+  md: { size: 'w-5 h-5', on: 'translate-x-4' },
 };
 
 const ON_TRACKS: Record<SwitchTone, string> = {

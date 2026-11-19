@@ -23,7 +23,7 @@ const meta = {
   },
   args: { label: 'Email judges when assigned', size: 'md', onChange: fn() },
   argTypes: {
-    size: { control: 'inline-radio', options: ['sm', 'md'], ...appearance },
+    size: { control: 'inline-radio', options: ['sm', 'compact', 'md'], ...appearance },
     tone: { control: 'inline-radio', options: ['tint', 'success'], ...appearance },
     checked: { control: 'boolean', ...state },
     disabled: { control: 'boolean', ...state },
@@ -60,6 +60,16 @@ export const Tones: Story = {
       <Switch {...args} label="Tint" defaultChecked />
       <Switch {...args} label="Success" tone="success" defaultChecked />
       <Switch {...args} label="Success, off" tone="success" />
+    </VStack>
+  ),
+};
+
+export const Sizes: Story = {
+  render: (args) => (
+    <VStack>
+      <Switch {...args} label="Small" size="sm" defaultChecked />
+      <Switch {...args} label="Compact" size="compact" defaultChecked />
+      <Switch {...args} label="Medium" size="md" defaultChecked />
     </VStack>
   ),
 };

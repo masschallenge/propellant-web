@@ -24,7 +24,7 @@ const meta = {
       description: {
         component: [
           'Shows where a person is in a short multi-step flow, such as a modal that creates a program. The current step is a pill with a filled number, finished steps carry a check, and steps still to come are muted.',
-          'Pass `onStepSelect` to let people go back to a finished step. Steps ahead are never selectable. Below the small breakpoint, `compact="auto"` swaps the list for "Step 2 of 4 · Stages".',
+          'Pass `onStepSelect` to let people go back to a finished step. By default steps ahead are not selectable; pass `isStepReachable` to allow a step ahead that the person has already reached, which shows as visited. Below the small breakpoint, `compact="auto"` swaps the list for "Step 2 of 4 · Stages".',
           '',
           "Import: `import { StepIndicator } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -38,6 +38,7 @@ const meta = {
     label: { control: 'text', ...content },
     steps: hide,
     onStepSelect: { ...events, control: false },
+    isStepReachable: hide,
     className: hide,
   },
 } satisfies Meta<typeof StepIndicator>;
@@ -75,6 +76,24 @@ const ChoosableSteps = () => {
 
 export const BackToAFinishedStep: Story = {
   render: () => <ChoosableSteps />,
+};
+
+const ReturnToVisitedSteps = () => {
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+  const furthestReached = 3;
+  return (
+    <StepIndicator
+      steps={STEPS}
+      currentIndex={currentIndex}
+      onStepSelect={setCurrentIndex}
+      isStepReachable={(index) => index <= furthestReached}
+      compact="never"
+    />
+  );
+};
+
+export const ForwardToAVisitedStep: Story = {
+  render: () => <ReturnToVisitedSteps />,
 };
 
 const handleStepSelect = fn();

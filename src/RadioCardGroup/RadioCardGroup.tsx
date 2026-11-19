@@ -259,7 +259,7 @@ export const RadioCardGroup = ({
             )}
             <span className="flex items-center gap-2.5">
               {option.badge ? (
-                <Badge tone="neutral" size="sm">
+                <Badge tone="neutral" size="sm" shape="rounded">
                   {option.badge}
                 </Badge>
               ) : null}

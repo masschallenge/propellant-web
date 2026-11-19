@@ -48,9 +48,13 @@ describe('SearchField', () => {
     render(<SearchField variant="inset" placeholder="Search all programs" />);
     const shell = screen.getByPlaceholderText('Search all programs').parentElement as HTMLElement;
     expect(shell).toHaveClass('w-full', 'min-h-[var(--row)]', 'rounded-none', 'bg-transparent');
-    expect(shell.className).toContain(
-      'focus-within:shadow-[inset_0_0_0_var(--stroke-strong)_var(--focus-color)]',
+    expect(shell).toHaveClass(
+      'focus-within:outline-[length:var(--stroke-strong)]',
+      'focus-within:outline-solid',
+      'focus-within:outline-offset-[calc(var(--stroke-strong)*-1)]',
+      'focus-within:outline-[var(--focus-color)]',
     );
+    expect(shell.className).not.toContain('focus-within:shadow-');
     expect(shell.className).not.toContain('rounded-[var(--corner-capsule)]');
     expect(shell.className).not.toContain('h-[var(--control-md)]');
   });

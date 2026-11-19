@@ -228,6 +228,7 @@ describe('RadioCardGroup choice cards', () => {
     render(<RadioCardGroup layout="choice" options={START_OPTIONS} defaultValue="copy" />);
     const badge = screen.getByText('Recommended').parentElement as HTMLElement;
     expect(badge).toHaveAttribute('data-tone', 'neutral');
+    expect(badge).toHaveClass('rounded-[var(--corner-sm)]');
     expect(badge.querySelector('.rounded-full')).toBeNull();
   });
 

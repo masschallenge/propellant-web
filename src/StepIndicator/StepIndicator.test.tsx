@@ -39,6 +39,39 @@ describe('StepIndicator', () => {
     expect(screen.queryByRole('button', { name: /Review/ })).not.toBeInTheDocument();
   });
 
+  it('lets a reached step ahead be chosen and announces it as visited', async () => {
+    const onStepSelect = vi.fn();
+    render(
+      <StepIndicator
+        steps={STEPS}
+        currentIndex={0}
+        onStepSelect={onStepSelect}
+        isStepReachable={(index) => index <= 2}
+        compact="never"
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'Team (visited)' }));
+    expect(onStepSelect).toHaveBeenCalledWith(2);
+    expect(screen.getByRole('button', { name: 'Stages (visited)' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Review/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Start/ })).not.toBeInTheDocument();
+    expect(screen.getByText('Review', { exact: false })).toHaveTextContent('4Review (not started)');
+  });
+
+  it('keeps a finished step static when it is not reachable', () => {
+    render(
+      <StepIndicator
+        steps={STEPS}
+        currentIndex={2}
+        onStepSelect={vi.fn()}
+        isStepReachable={(index) => index !== 0}
+        compact="never"
+      />,
+    );
+    expect(screen.queryByRole('button', { name: 'Start (done)' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Stages (done)' })).toBeInTheDocument();
+  });
+
   it('keeps finished steps static without a handler', () => {
     render(<StepIndicator steps={STEPS} currentIndex={2} compact="never" />);
     expect(screen.queryByRole('button')).not.toBeInTheDocument();

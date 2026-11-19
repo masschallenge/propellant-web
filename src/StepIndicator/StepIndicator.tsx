@@ -14,6 +14,7 @@ export interface StepIndicatorProps extends Omit<
   steps: StepIndicatorStep[];
   currentIndex: number;
   onStepSelect?: (index: number) => void;
+  isStepReachable?: (index: number) => boolean;
   compact?: StepIndicatorCompact;
   label?: string;
 }
@@ -45,26 +46,32 @@ const CheckGlyph = () => (
   </svg>
 );
 
-type StepState = 'done' | 'current' | 'upcoming';
+type StepState = 'done' | 'current' | 'visited' | 'upcoming';
 
-const stepState = (index: number, currentIndex: number): StepState =>
-  index < currentIndex ? 'done' : index === currentIndex ? 'current' : 'upcoming';
+const stepState = (index: number, currentIndex: number, isReachable: boolean): StepState => {
+  if (index < currentIndex) return 'done';
+  if (index === currentIndex) return 'current';
+  return isReachable ? 'visited' : 'upcoming';
+};
 
 const STATE_TEXT: Record<StepState, string> = {
   done: 'text-[var(--label)] font-medium',
   current: 'bg-[var(--tint-fill)] text-[var(--tint-hover)] font-semibold',
+  visited: 'text-[var(--label)] font-medium',
   upcoming: 'text-[var(--label-secondary)] font-medium',
 };
 
 const STATE_NUMBER: Record<StepState, string> = {
   done: 'bg-[var(--tint)] text-[var(--on-tint)]',
   current: 'bg-[var(--tint)] text-[var(--on-tint)]',
+  visited: 'bg-[var(--tint-fill)] text-[var(--tint-hover)]',
   upcoming: 'bg-[var(--fill-secondary)] text-[var(--label-secondary)]',
 };
 
 const SCREEN_READER_STATE: Record<StepState, string> = {
   done: ' (done)',
   current: ' (current step)',
+  visited: ' (visited)',
   upcoming: ' (not started)',
 };
 
@@ -72,6 +79,7 @@ export const StepIndicator = ({
   steps,
   currentIndex,
   onStepSelect,
+  isStepReachable,
   compact = 'auto',
   label = 'Steps',
   className,
@@ -87,8 +95,9 @@ export const StepIndicator = ({
       )}
     >
       {steps.map((step, index) => {
-        const state = stepState(index, currentIndex);
-        const isSelectable = state === 'done' && Boolean(onStepSelect);
+        const isReachable = isStepReachable ? isStepReachable(index) : index < currentIndex;
+        const state = stepState(index, currentIndex, isReachable);
+        const isSelectable = index !== currentIndex && isReachable && Boolean(onStepSelect);
         const number = (
           <span className={joinClasses(NUMBER_SHAPE, STATE_NUMBER[state])} aria-hidden="true">
             {state === 'done' ? <CheckGlyph /> : index + 1}
@@ -106,7 +115,7 @@ export const StepIndicator = ({
             {isSelectable ? (
               <button
                 type="button"
-                aria-label={`${step.label}${SCREEN_READER_STATE.done}`}
+                aria-label={`${step.label}${SCREEN_READER_STATE[state]}`}
                 onClick={() => onStepSelect?.(index)}
                 className={joinClasses(
                   STEP_SHAPE,

@@ -24,7 +24,7 @@ const VARIANTS: Record<SearchFieldVariant, string> = {
   outlined:
     'inline-flex rounded-[var(--corner-capsule)] bg-[var(--bg)] shadow-[inset_0_0_0_1px_var(--control-border)] focus-within:shadow-[inset_0_0_0_1px_var(--focus-color)] focus-within:outline-[length:var(--focus-width)] focus-within:outline-solid focus-within:outline-offset-1 focus-within:outline-[var(--focus-color)]',
   inset:
-    'flex w-full min-h-[var(--row)] pl-3.5 pr-2 rounded-none bg-transparent focus-within:shadow-[inset_0_0_0_var(--stroke-strong)_var(--focus-color)]',
+    'flex w-full min-h-[var(--row)] pl-3.5 pr-2 rounded-none bg-transparent focus-within:outline-[length:var(--stroke-strong)] focus-within:outline-solid focus-within:outline-offset-[calc(var(--stroke-strong)*-1)] focus-within:outline-[var(--focus-color)]',
 };
 
 const INSET_TEXT: Record<SearchFieldSize, string> = {
