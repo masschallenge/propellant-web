@@ -18,7 +18,7 @@ const meta = {
     docs: {
       description: {
         component: [
-          'A compact action shown as a symbol. Plain icon buttons sit in toolbars and table rows and highlight on hover, and fill while their menu is open or they are pressed; `shape="capsule"` makes a plain one circular, like the item menu trigger on Home. Gray, tinted and filled are circular and stand on their own. Always provide `aria-label`.',
+          'A compact action shown as a symbol. Plain icon buttons sit in toolbars and table rows and highlight on hover, and fill while the menu they open is open (`aria-haspopup` with `aria-expanded`, which `Menu` sets on its trigger); `shape="capsule"` makes a plain one circular, like the item menu trigger on Home. Gray, tinted and filled are circular and stand on their own. Always provide `aria-label`.',
           '',
           "Import: `import { IconButton } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -110,8 +110,9 @@ export const Shapes: Story = {
             key={shape}
             {...args}
             shape={shape}
-            aria-pressed
-            aria-label={`Add, ${shape}, pressed`}
+            aria-haspopup="menu"
+            aria-expanded
+            aria-label={`Add, ${shape}, open`}
           >
             {icons.plus}
           </IconButton>

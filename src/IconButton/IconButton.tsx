@@ -39,8 +39,7 @@ const SHAPES: Record<IconButtonShape, string> = {
   capsule: 'rounded-full',
 };
 
-const OPEN_PLAIN =
-  'aria-expanded:not-disabled:bg-[var(--fill)] aria-pressed:not-disabled:bg-[var(--fill)]';
+const OPEN_PLAIN = '[&[aria-haspopup]:not(:disabled)[aria-expanded=true]]:bg-[var(--fill)]';
 
 const STANDARD: Record<IconButtonVariant, string> = {
   plain: `bg-transparent text-[var(--label-secondary)] hover:not-disabled:bg-[var(--fill-tertiary)] hover:not-disabled:text-[var(--label)] active:not-disabled:bg-[var(--fill-secondary)] ${OPEN_PLAIN} focus-visible:outline-[var(--focus-color)]`,
