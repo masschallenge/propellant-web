@@ -679,6 +679,18 @@ describe('ListRow', () => {
       expect(screen.queryByText('Open')).not.toBeInTheDocument();
     });
 
+    it('ignores showChevron when the row has an open link, so only one chevron shows', () => {
+      const { container } = render(
+        <ListSection>
+          <ListRow title="Finish reviews" openHref="/queue" showChevron />
+        </ListSection>,
+      );
+      expect(container.querySelectorAll('svg')).toHaveLength(1);
+      expect(
+        screen.getByRole('link', { name: 'Open Finish reviews' }).querySelector('svg'),
+      ).not.toBeNull();
+    });
+
     it('leaves out the chevron link when the whole row is a link or button', () => {
       render(
         <ListSection>
