@@ -26,7 +26,7 @@ const meta = {
     docs: {
       description: {
         component: [
-          'Portalled dialog on the elevated surface over a scrim, with a focus trap and an inert background. Stacked, horizontal, or split layouts. Footer actions sit in a right aligned row and stack full width, primary on top, on narrow screens.',
+          'Portalled dialog on the elevated surface over a scrim, with a focus trap and an inert background. Stacked, horizontal, or split layouts. `placement="side"` opens it as a full height panel on the right, full width on phones, for previews that sit beside the work. Footer actions sit in a right aligned row and stack full width, primary on top, on narrow screens.',
           '',
           'Sizes cap the width at 400px (`sm`), 520px (`md`, the default), 540px (`md-wide`), 640px (`lg`) and 1152px (`xl`), or fill the viewport (`full`). `md-wide` fits a confirmation that lists people, such as the email confirmation with a framed recipient list.',
           '',
@@ -59,6 +59,8 @@ const meta = {
     },
     layout: { control: 'inline-radio', options: ['stacked', 'horizontal', 'split'], ...appearance },
     size: { control: 'inline-radio', options: ['sm', 'md', 'md-wide', 'lg', 'xl'], ...appearance },
+    placement: { control: 'inline-radio', options: ['center', 'side'], ...appearance },
+    eyebrow: { control: 'text', ...content },
     title: { control: 'text', ...content },
     description: { control: 'text', ...content },
     open: hide,
@@ -108,6 +110,31 @@ export const Full: Story = {
       </div>
     ),
   },
+};
+
+export const Side: Story = {
+  args: {
+    placement: 'side',
+    hideIcon: true,
+    eyebrow: 'Preview',
+    title: 'Healthcare & Life Sciences Traction Program 2026',
+    description: undefined,
+    footer: undefined,
+    children: (
+      <div className="flex flex-col gap-3">
+        <p className="m-0">Ran Mar 2 to Jun 26, 2026. Dates are not copied.</p>
+        <p className="m-0 text-[var(--label-secondary)]">
+          Stages, application questions, criteria and the team come across.
+        </p>
+      </div>
+    ),
+  },
+  render: (args) => (
+    <div className="relative w-full" style={{ height: '30rem' }}>
+      <Sheet {...args} open inline />
+    </div>
+  ),
+  parameters: { layout: 'fullscreen' },
 };
 
 export const AlertDialog: Story = {

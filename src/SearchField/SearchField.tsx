@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 export type SearchFieldSize = 'sm' | 'md' | 'lg';
+export type SearchFieldVariant = 'outlined' | 'inset';
 
 export interface SearchFieldProps extends Omit<
   React.ComponentPropsWithoutRef<'input'>,
@@ -12,11 +13,25 @@ export interface SearchFieldProps extends Omit<
   onClear?: () => void;
   clearLabel?: string;
   size?: SearchFieldSize;
+  variant?: SearchFieldVariant;
   isPrivate?: boolean;
 }
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
+
+const VARIANTS: Record<SearchFieldVariant, string> = {
+  outlined:
+    'inline-flex rounded-[var(--corner-capsule)] bg-[var(--bg)] shadow-[inset_0_0_0_1px_var(--control-border)] focus-within:shadow-[inset_0_0_0_1px_var(--focus-color)] focus-within:outline-[length:var(--focus-width)] focus-within:outline-solid focus-within:outline-offset-1 focus-within:outline-[var(--focus-color)]',
+  inset:
+    'flex w-full min-h-[var(--row)] pl-3.5 pr-2 rounded-none bg-transparent focus-within:outline-[length:var(--stroke-strong)] focus-within:outline-solid focus-within:outline-offset-[calc(var(--stroke-strong)*-1)] focus-within:outline-[var(--focus-color)]',
+};
+
+const INSET_TEXT: Record<SearchFieldSize, string> = {
+  sm: 'text-subheadline',
+  md: 'text-callout',
+  lg: 'text-body',
+};
 
 const SIZES: Record<SearchFieldSize, string> = {
   sm: 'h-[var(--control-sm)] pl-2.5 pr-1 text-subheadline',
@@ -33,6 +48,7 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
       onClear,
       clearLabel = 'Clear search',
       size = 'md',
+      variant = 'outlined',
       isPrivate = true,
       placeholder = 'Search',
       className,
@@ -53,10 +69,10 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
     return (
       <div
         className={joinClasses(
-          'relative inline-flex items-center gap-1.5 min-w-0 rounded-[var(--corner-capsule)] bg-[var(--bg)] text-[var(--label-tertiary)]',
-          'shadow-[inset_0_0_0_1px_var(--control-border)] focus-within:shadow-[inset_0_0_0_1px_var(--focus-color)] focus-within:outline-[length:var(--focus-width)] focus-within:outline-solid focus-within:outline-offset-1 focus-within:outline-[var(--focus-color)]',
+          'relative items-center gap-1.5 min-w-0 text-[var(--label-tertiary)]',
+          VARIANTS[variant],
           disabled && 'opacity-[var(--opacity-disabled)]',
-          SIZES[size],
+          variant === 'inset' ? INSET_TEXT[size] : SIZES[size],
           className,
         )}
       >

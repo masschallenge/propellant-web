@@ -28,6 +28,28 @@ const ControlledPicker = ({
   );
 };
 
+describe('DatePicker field style', () => {
+  it('shows the weekday when asked', () => {
+    render(<DatePicker label="Start date" defaultValue="2027-01-14" dateStyle="weekday" />);
+    expect(
+      screen.getByRole('combobox', { name: 'Start date Thursday, Jan 14, 2027' }),
+    ).toBeInTheDocument();
+  });
+
+  it('keeps the short date by default', () => {
+    render(<DatePicker label="Start date" defaultValue="2027-01-14" />);
+    expect(screen.getByRole('combobox', { name: 'Start date Jan 14, 2027' })).toBeInTheDocument();
+  });
+
+  it('fills its column when full width, even when clearable', () => {
+    render(<DatePicker label="End date" defaultValue="2027-05-14" fullWidth clearable />);
+    const trigger = screen.getByRole('combobox', { name: /End date/ });
+    expect(trigger).toHaveClass('w-full');
+    expect(trigger).not.toHaveClass('w-fit');
+    expect(trigger.parentElement).not.toHaveClass('w-fit');
+  });
+});
+
 describe('DatePicker label', () => {
   it('names the trigger with the field label and the chosen date', () => {
     render(<DatePicker label="Window start" defaultValue="2026-11-12" />);

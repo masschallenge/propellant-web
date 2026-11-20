@@ -14,6 +14,7 @@ const meta = {
       description: {
         component: [
           'An on or off setting that takes effect immediately. The knob springs across the track; the off track keeps a 3:1 edge so the control is identifiable without color. Use a checkbox instead when the choice is submitted with a form.',
+          '`tone="success"` fills the on track with the success green, for lists of stages or assistants that are switched on. The green is light against white, so the on track keeps a 1px success edge.',
           '',
           "Import: `import { Switch } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -22,7 +23,8 @@ const meta = {
   },
   args: { label: 'Email judges when assigned', size: 'md', onChange: fn() },
   argTypes: {
-    size: { control: 'inline-radio', options: ['sm', 'md'], ...appearance },
+    size: { control: 'inline-radio', options: ['sm', 'compact', 'md'], ...appearance },
+    tone: { control: 'inline-radio', options: ['tint', 'success'], ...appearance },
     checked: { control: 'boolean', ...state },
     disabled: { control: 'boolean', ...state },
     label: { control: 'text', ...content },
@@ -48,6 +50,26 @@ export const States: Story = {
         label="Show other judges' scores"
         hint="Judges see each other's scores after they submit their own."
       />
+    </VStack>
+  ),
+};
+
+export const Tones: Story = {
+  render: (args) => (
+    <VStack>
+      <Switch {...args} label="Tint" defaultChecked />
+      <Switch {...args} label="Success" tone="success" defaultChecked />
+      <Switch {...args} label="Success, off" tone="success" />
+    </VStack>
+  ),
+};
+
+export const Sizes: Story = {
+  render: (args) => (
+    <VStack>
+      <Switch {...args} label="Small" size="sm" defaultChecked />
+      <Switch {...args} label="Compact" size="compact" defaultChecked />
+      <Switch {...args} label="Medium" size="md" defaultChecked />
     </VStack>
   ),
 };

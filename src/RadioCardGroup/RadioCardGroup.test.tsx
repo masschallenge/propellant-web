@@ -191,3 +191,54 @@ describe('RadioCardGroup native input', () => {
     expect(onChange).toHaveBeenCalledWith('am');
   });
 });
+
+const START_OPTIONS = [
+  {
+    value: 'copy',
+    title: 'Copy an existing program',
+    icon: <svg data-testid="copy-icon" />,
+    badge: 'Recommended',
+  },
+  { value: 'scratch', title: 'Start from scratch', icon: <svg data-testid="plus-icon" /> },
+];
+
+describe('RadioCardGroup choice cards', () => {
+  it('puts the icon, badge and radio on top and the title on its own line', () => {
+    render(
+      <RadioCardGroup
+        layout="choice"
+        sideBySide
+        legend="How do you want to start?"
+        options={START_OPTIONS}
+        defaultValue="copy"
+      />,
+    );
+    const copy = screen.getByRole('radio', { name: /Copy an existing program/ });
+    const card = copy.closest('label') as HTMLElement;
+    const [topRow, title] = Array.from(card.children).filter(
+      (child) => child.tagName === 'SPAN',
+    ) as HTMLElement[];
+    expect(topRow).toContainElement(screen.getByTestId('copy-icon'));
+    expect(topRow).toHaveTextContent('Recommended');
+    expect(title).toHaveTextContent('Copy an existing program');
+    expect(title).toHaveClass('text-headline');
+  });
+
+  it('shows the badge as a neutral label without a dot', () => {
+    render(<RadioCardGroup layout="choice" options={START_OPTIONS} defaultValue="copy" />);
+    const badge = screen.getByText('Recommended').parentElement as HTMLElement;
+    expect(badge).toHaveAttribute('data-tone', 'neutral');
+    expect(badge).toHaveClass('rounded-[var(--corner-sm)]');
+    expect(badge.querySelector('.rounded-full')).toBeNull();
+  });
+
+  it('tints the selected card icon and greys the others', async () => {
+    const onChange = vi.fn();
+    render(<RadioCardGroup layout="choice" options={START_OPTIONS} onChange={onChange} />);
+    const scratchIcon = screen.getByTestId('plus-icon').parentElement as HTMLElement;
+    expect(scratchIcon).toHaveClass('bg-[var(--fill-secondary)]');
+    await userEvent.click(screen.getByRole('radio', { name: 'Start from scratch' }));
+    expect(onChange).toHaveBeenCalledWith('scratch');
+    expect(scratchIcon).toHaveClass('bg-[var(--tint-fill)]', 'text-[var(--tint)]');
+  });
+});

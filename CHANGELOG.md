@@ -4,6 +4,29 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+### Added
+
+- `StepIndicator` shows where a person is in a short multi-step flow: the steps in order, the current
+  one as a pill with a filled number and `aria-current="step"`, finished ones with a check.
+  `onStepSelect` lets a person go back to a finished step. Below the small breakpoint,
+  `compact="auto"` shows "Step 2 of 4 · Stages" instead of the list. `isStepReachable` lets a
+  person also jump forward to a step they have already reached, shown and announced as visited.
+- `Sheet` takes `placement="side"` for a full height panel on the right, full width on phones,
+  with the same focus trap, Escape and scrim close as the centred sheet and a body that scrolls.
+  `eyebrow` puts a short label, such as Preview, above the title.
+- `DatePicker` takes `dateStyle="weekday"` to show the date as Thursday, Jan 14, 2027, and
+  `fullWidth` to fill its column.
+- `Switch` takes `tone="success"` to fill the on track with `--success-solid`. The on track
+  keeps a 1px `--success` edge, since the fill is 2.19:1 against white.
+- `Switch` takes `size="compact"`: a 38 by 22 track with an 18px knob, between `sm` and `md`.
+- `SearchField` takes `variant="inset"`: square, the full row height and an inset focus ring,
+  for a search that sits as the first row of the list it filters. Its focus ring is an inset
+  outline, so it stays visible in forced colors.
+- `RadioCardGroup` takes `layout="choice"`: an icon tile on the left, an optional neutral
+  badge with `--corner-sm` corners and the radio on the right, and the title on its own line.
+
 ## 2.5.0 (2026-11-19)
 
 ### Added

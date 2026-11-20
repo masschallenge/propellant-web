@@ -45,6 +45,27 @@ describe('Switch', () => {
     expect(track().className).toContain('bg-[var(--tint)]');
   });
 
+  it('fills with the success colour and keeps a 1px edge when the tone is success', () => {
+    render(<Switch aria-label="Online selection" tone="success" checked />);
+    const track = screen.getByRole('switch').firstElementChild as HTMLElement;
+    expect(track.className).toContain('bg-[var(--success-solid)]');
+    expect(track.className).toContain('shadow-[inset_0_0_0_1px_var(--success)]');
+  });
+
+  it('draws the medium switch at 40 by 24 with a 20px knob', () => {
+    render(<Switch aria-label="Email judges" checked />);
+    const track = screen.getByRole('switch').firstElementChild as HTMLElement;
+    expect(track).toHaveClass('w-10', 'h-6');
+    expect(track.firstElementChild).toHaveClass('w-5', 'h-5', 'translate-x-4');
+  });
+
+  it('draws the compact switch at 38 by 22 with an 18px knob', () => {
+    render(<Switch aria-label="Email judges" size="compact" checked />);
+    const track = screen.getByRole('switch').firstElementChild as HTMLElement;
+    expect(track).toHaveClass('w-9.5', 'h-5.5');
+    expect(track.firstElementChild).toHaveClass('w-4.5', 'h-4.5', 'translate-x-4');
+  });
+
   it('renders the bare control when there is no label or hint', () => {
     render(<Switch aria-label="Email judges" className="ml-auto" />);
     expect(screen.getByRole('switch', { name: 'Email judges' })).toHaveClass('ml-auto');

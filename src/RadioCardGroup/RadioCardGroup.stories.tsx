@@ -105,6 +105,7 @@ const meta = {
       description: {
         component: [
           'Selectable cards with single (radio) or multiple (checkbox) semantics, row or tall card layout, and icon, avatar, mark, and badge treatments.',
+          '`layout="choice"` is for a short first decision, such as how to start: an icon tile on the left, an optional neutral badge and the radio on the right, and the title on its own line.',
           '',
           "Import: `import { RadioCardGroup } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -124,7 +125,11 @@ const meta = {
   argTypes: {
     selectionMode: { control: 'inline-radio', options: ['single', 'multiple'], ...appearance },
     control: { control: 'inline-radio', options: ['auto', 'check', 'radio'], ...appearance },
-    layout: { control: 'inline-radio', options: ['row', 'card', 'tile'], ...appearance },
+    layout: {
+      control: 'inline-radio',
+      options: ['row', 'card', 'tile', 'choice'],
+      ...appearance,
+    },
     emphasis: { control: 'inline-radio', options: ['default', 'strong'], ...appearance },
     controlOnRight: { control: 'boolean', ...appearance },
     legend: { control: 'text', ...content },
@@ -140,6 +145,54 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
+
+const START_OPTIONS: RadioCardOption[] = [
+  {
+    value: 'copy',
+    title: 'Copy an existing program',
+    ariaLabel: 'Copy an existing program',
+    badge: 'Recommended',
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect x="9" y="9" width="13" height="13" rx="2" />
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+      </svg>
+    ),
+  },
+  {
+    value: 'scratch',
+    title: 'Start from scratch',
+    ariaLabel: 'Start from scratch',
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      >
+        <path d="M12 5v14M5 12h14" />
+      </svg>
+    ),
+  },
+];
+
+export const Choice: Story = {
+  args: {
+    options: START_OPTIONS,
+    layout: 'choice',
+    sideBySide: true,
+    defaultValue: 'copy',
+    legend: 'How do you want to start?',
+  },
+};
 
 export const Card: Story = {
   args: { options: CARD_OPTIONS, layout: 'card', defaultValue: 'silver', legend: 'Program track' },
