@@ -256,12 +256,12 @@ describe('PopUpButton indicator', () => {
   });
 });
 
-describe('PopUpButton filter size', () => {
+describe('PopUpButton sm-md size', () => {
   it('draws a 32px trigger with 13px text and a 10px trailing inset', () => {
     render(
       <PopUpButton
         ariaLabel="Sub-industry"
-        size="filter"
+        size="sm-md"
         indicator="chevron"
         options={[{ value: 'all', label: 'All sub-industries' }]}
       />,

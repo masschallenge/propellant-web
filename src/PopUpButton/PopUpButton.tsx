@@ -23,7 +23,7 @@ export interface PopUpButtonOption {
   disabled?: boolean;
 }
 
-export type PopUpButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'filter';
+export type PopUpButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'sm-md';
 
 export type PopUpButtonIndicator = 'popup' | 'chevron';
 
@@ -65,7 +65,7 @@ const TRIGGER_SIZES: Record<PopUpButtonSize, string> = {
   sm: 'gap-2 min-h-[var(--control-sm)] px-2.5 text-subheadline',
   md: 'gap-2 min-h-[var(--control-md)] px-3 text-callout',
   lg: 'gap-2.5 min-h-[var(--control-lg)] px-3.5 text-body',
-  filter: 'gap-2 min-h-[var(--control-md)] pl-3 pr-2.5 text-subheadline',
+  'sm-md': 'gap-2 min-h-[var(--control-md)] pl-3 pr-2.5 text-subheadline',
 };
 
 const MENU_MAX_HEIGHT = 280;

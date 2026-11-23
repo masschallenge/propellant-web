@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { ReactNode } from 'react';
 import { imageFitClass } from '../internal/imageFit';
 
-export type AvatarSize = 'xs' | 'compact' | 'sm' | 'inline' | 'md' | 'lg' | 'xl';
+export type AvatarSize = 'xs' | 'compact' | 'sm' | 'sm-md' | 'md' | 'lg' | 'xl';
 export type AvatarStatus = 'online' | 'offline';
 export type AvatarTone = 'gray' | 'amber' | 'green' | 'teal';
 
@@ -30,7 +30,7 @@ const BOX: Record<AvatarSize, string> = {
   xs: 'w-[var(--avatar-xs)] h-[var(--avatar-xs)]',
   compact: 'w-[var(--avatar-compact)] h-[var(--avatar-compact)]',
   sm: 'w-[var(--avatar-sm)] h-[var(--avatar-sm)]',
-  inline: 'w-[var(--avatar-inline)] h-[var(--avatar-inline)]',
+  'sm-md': 'w-[var(--avatar-sm-md)] h-[var(--avatar-sm-md)]',
   md: 'w-[var(--avatar-md)] h-[var(--avatar-md)]',
   lg: 'w-[var(--avatar-lg)] h-[var(--avatar-lg)]',
   xl: 'w-[var(--avatar-xl)] h-[var(--avatar-xl)]',
@@ -40,7 +40,7 @@ const INITIALS_TEXT: Record<AvatarSize, string> = {
   xs: 'text-caption',
   compact: 'text-caption2',
   sm: 'text-footnote',
-  inline: 'text-footnote',
+  'sm-md': 'text-footnote',
   md: 'text-subheadline',
   lg: 'text-headline',
   xl: 'text-title2',
@@ -50,7 +50,7 @@ const PIP: Record<AvatarSize, string> = {
   xs: 'w-1.5 h-1.5',
   compact: 'w-2 h-2',
   sm: 'w-2 h-2',
-  inline: 'w-2 h-2',
+  'sm-md': 'w-2 h-2',
   md: 'w-2.5 h-2.5',
   lg: 'w-3 h-3',
   xl: 'w-3.5 h-3.5',
@@ -60,7 +60,7 @@ const MARK: Record<AvatarSize, string> = {
   xs: 'w-2.5 h-2.5',
   compact: 'w-3 h-3',
   sm: 'w-3 h-3',
-  inline: 'w-3.5 h-3.5',
+  'sm-md': 'w-3.5 h-3.5',
   md: 'w-4 h-4',
   lg: 'w-5 h-5',
   xl: 'w-6 h-6',

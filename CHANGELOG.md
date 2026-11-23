@@ -43,13 +43,13 @@ property and from `@masschallenge/propellant-web/version`.
 - `PopUpButton` takes `indicator="chevron"`: a single down chevron at 16px with the
   `--icon-stroke` weight in secondary label color, at the field's own trailing inset. `popup`
   stays the default. The `PopUpButtonIndicator` type is exported.
-- `PopUpButton` takes `size="filter"`: a 32px trigger with 13px text, 12px leading and 10px
-  trailing inset, for filters above a table. `sm` and `md` are unchanged.
+- `PopUpButton` takes `size="sm-md"`, the step between `sm` and `md`: the 32px `md` height with
+  the 13px `sm` text, 12px leading and 10px trailing inset. `sm` and `md` are unchanged.
 - `Radio` and `RadioGroup` take `density="compact"`: a 16px circle 8px from a callout label and
   rows 28px apart, with a 1.5px resting ring from the new `--stroke-medium` token. A group passes
   it to radios that do not set their own.
-- `Avatar` takes `size="inline"`, 32px, from the new `--avatar-inline` token, for a person beside
-  a line of text.
+- `Avatar` takes `size="sm-md"`, 32px, the step between `sm` and `md`, from the new
+  `--avatar-sm-md` token.
 - `RadioCardGroup` takes `density="compact"` for the row layout: 14px padding, content centred
   and a 15/22 semibold title over a tertiary hint, which makes a 70px row with a 40px logo passed
   as `icon`, a 20px selection circle with a 2px resting ring, and a selected fill from the new
