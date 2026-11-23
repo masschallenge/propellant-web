@@ -5,6 +5,7 @@ import { imageFitClass } from '../internal/imageFit';
 
 export interface PageHeaderProps {
   title: string;
+  leading?: ReactNode;
   meta?: ReactNode;
   subtitle?: ReactNode;
   above?: ReactNode;
@@ -40,6 +41,7 @@ const BackGlyph = () => (
 
 export const PageHeader = ({
   title,
+  leading,
   meta,
   subtitle,
   above,
@@ -92,6 +94,24 @@ export const PageHeader = ({
     </span>
   ) : null;
 
+  const titleBlock = (
+    <div
+      className={joinClasses(
+        'flex-1 flex flex-col gap-1',
+        centered || leading ? 'min-w-0' : 'min-w-60',
+        centered && 'items-center',
+      )}
+    >
+      <h1 className="m-0 text-large-title text-[var(--label)] text-balance">{title}</h1>
+      {meta ? <span className="text-body text-[var(--label-secondary)]">{meta}</span> : null}
+      {subtitle ? (
+        <span className="text-subheadline text-[var(--label-secondary)] text-pretty">
+          {subtitle}
+        </span>
+      ) : null}
+    </div>
+  );
+
   const body = (
     <>
       {hasBanner ? (
@@ -130,20 +150,21 @@ export const PageHeader = ({
           )}
         >
           {avatar}
-          <div
-            className={joinClasses(
-              'flex-1 flex flex-col gap-1',
-              centered ? 'items-center min-w-0' : 'min-w-60',
-            )}
-          >
-            <h1 className="m-0 text-large-title text-[var(--label)] text-balance">{title}</h1>
-            {meta ? <span className="text-body text-[var(--label-secondary)]">{meta}</span> : null}
-            {subtitle ? (
-              <span className="text-subheadline text-[var(--label-secondary)] text-pretty">
-                {subtitle}
+          {leading ? (
+            <div
+              className={joinClasses(
+                'flex-1 flex items-center gap-4',
+                centered ? 'flex-col min-w-0' : 'min-w-60',
+              )}
+            >
+              <span data-page-header-leading className="flex-none flex">
+                {leading}
               </span>
-            ) : null}
-          </div>
+              {titleBlock}
+            </div>
+          ) : (
+            titleBlock
+          )}
           {actions ? (
             <div
               className={joinClasses(
