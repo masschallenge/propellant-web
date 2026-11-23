@@ -44,6 +44,11 @@ const accountIcons = {
   ),
   program: lineIcon('m12 2 10 5-10 5L2 7z', 'm2 17 10 5 10-5', 'm2 12 10 5 10-5'),
   remind: lineIcon('M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z', 'M12 6v6l4 2'),
+  preview: lineIcon(
+    'M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z',
+    'M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',
+  ),
+  reset: lineIcon('M3 12a9 9 0 1 0 3-6.7L3 8', 'M3 3v5h5'),
   more: lineIcon(
     'M12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2z',
     'M19 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2z',
@@ -160,6 +165,47 @@ export const ItemMenuWithLinks: Story = {
     align: 'end',
     trigger: <Button variant="gray">Judging round</Button>,
     items: itemMenuItems,
+  },
+};
+
+export const WithDescriptions: Story = {
+  args: {
+    align: 'end',
+    trigger: (
+      <IconButton size="sm" shape="capsule" aria-label="More actions">
+        {accountIcons.more}
+      </IconButton>
+    ),
+    items: [
+      { label: 'Copy preview link', icon: accountIcons.preview, onSelect: fn() },
+      { separator: true },
+      {
+        label: 'Reset preview link',
+        description: 'Anyone with the old link loses access.',
+        icon: accountIcons.reset,
+        onSelect: fn(),
+      },
+      {
+        label: 'Send back for edits',
+        description: 'Unsubmits it and emails the founder so they can make changes.',
+        destructive: true,
+        onSelect: fn(),
+      },
+    ],
+  },
+};
+
+export const OpenMenuWithDescriptions: Story = {
+  tags: ['interaction', '!autodocs'],
+  args: WithDescriptions.args,
+  play: async ({ canvasElement }) => {
+    const trigger = within(canvasElement).getByRole('button', { name: 'More actions' });
+    await userEvent.click(trigger);
+    const menu = await within(document.body).findByRole('menu');
+    const reset = within(menu).getByRole('menuitem', { name: 'Reset preview link' });
+    await expect(reset).toHaveAccessibleDescription('Anyone with the old link loses access.');
+    await userEvent.keyboard('{Escape}');
+    await expect(trigger).toHaveFocus();
   },
 };
 

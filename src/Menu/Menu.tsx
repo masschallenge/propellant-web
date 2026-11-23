@@ -17,6 +17,7 @@ export interface MenuItem {
   separator?: boolean;
   section?: string;
   label?: string;
+  description?: string;
   icon?: ReactNode;
   avatar?: string;
   shortcut?: string;
@@ -77,17 +78,19 @@ const ROW_BASE =
 
 const ROW_TONE = {
   standard:
-    '[--row-label:var(--label)] [--row-accent:var(--label-secondary)] [--row-check:var(--tint)] [--row-box-edge:var(--tint)] ' +
+    '[--row-label:var(--label)] [--row-accent:var(--label-secondary)] [--row-description:var(--label-secondary)] [--row-check:var(--tint)] [--row-box-edge:var(--tint)] ' +
     'not-disabled:hover:bg-[var(--tint)] not-disabled:focus-visible:bg-[var(--tint)] ' +
     'not-disabled:hover:[--row-label:var(--on-tint)] not-disabled:focus-visible:[--row-label:var(--on-tint)] ' +
     'not-disabled:hover:[--row-accent:var(--on-tint)] not-disabled:focus-visible:[--row-accent:var(--on-tint)] ' +
+    'not-disabled:hover:[--row-description:var(--on-tint)] not-disabled:focus-visible:[--row-description:var(--on-tint)] ' +
     'not-disabled:hover:[--row-check:var(--on-tint)] not-disabled:focus-visible:[--row-check:var(--on-tint)] ' +
     'not-disabled:hover:[--row-box-edge:var(--on-tint)] not-disabled:focus-visible:[--row-box-edge:var(--on-tint)]',
   destructive:
-    '[--row-label:var(--critical)] [--row-accent:var(--critical)] [--row-check:var(--critical)] [--row-box-edge:var(--critical)] ' +
+    '[--row-label:var(--critical)] [--row-accent:var(--critical)] [--row-description:var(--label-secondary)] [--row-check:var(--critical)] [--row-box-edge:var(--critical)] ' +
     'not-disabled:hover:bg-[var(--critical-solid)] not-disabled:focus-visible:bg-[var(--critical-solid)] ' +
     'not-disabled:hover:[--row-label:var(--on-critical)] not-disabled:focus-visible:[--row-label:var(--on-critical)] ' +
     'not-disabled:hover:[--row-accent:var(--on-critical)] not-disabled:focus-visible:[--row-accent:var(--on-critical)] ' +
+    'not-disabled:hover:[--row-description:var(--on-critical)] not-disabled:focus-visible:[--row-description:var(--on-critical)] ' +
     'not-disabled:hover:[--row-check:var(--on-critical)] not-disabled:focus-visible:[--row-check:var(--on-critical)] ' +
     'not-disabled:hover:[--row-box-edge:var(--on-critical)] not-disabled:focus-visible:[--row-box-edge:var(--on-critical)]',
 };
@@ -125,7 +128,7 @@ const menuItemRole = (item: MenuItem) => {
   return item.selected === undefined ? 'menuitem' : 'menuitemradio';
 };
 
-const MenuItemCount = ({ badge }: { badge: MenuItemBadge }) => (
+const MenuItemCount = ({ badge, labelId }: { badge: MenuItemBadge; labelId: string }) => (
   <>
     {' '}
     <span
@@ -135,16 +138,30 @@ const MenuItemCount = ({ badge }: { badge: MenuItemBadge }) => (
     >
       {badge.count}
     </span>
-    <span className="sr-only">{badge.label ?? `${badge.count} unread`}</span>
+    <span id={labelId} className="sr-only">
+      {badge.label ?? `${badge.count} unread`}
+    </span>
   </>
 );
 
 const MenuRow = ({ item, onClose }: MenuRowProps) => {
+  const rowId = React.useId();
+  const labelId = `${rowId}-label`;
+  const countId = `${rowId}-count`;
+  const descriptionId = `${rowId}-description`;
+  const hasDescription = Boolean(item.description);
+  const hasCount = Boolean(item.badge && item.badge.count > 0);
   const hasSubmenu = Boolean(item.submenu && item.submenu.length);
   const isDestructive = item.destructive ?? item.danger ?? false;
   const isLink = Boolean(item.href && !item.disabled && !hasSubmenu);
   const LinkElement = item.linkAs ?? 'a';
-  const rowClasses = joinClasses(ROW_BASE, ROW_TONE[isDestructive ? 'destructive' : 'standard']);
+  const rowClasses = joinClasses(
+    ROW_BASE,
+    ROW_TONE[isDestructive ? 'destructive' : 'standard'],
+    hasDescription && 'items-start',
+  );
+  const describedBy = hasDescription ? descriptionId : undefined;
+  const labelledBy = hasDescription ? joinClasses(labelId, hasCount && countId) : undefined;
   const ariaChecked =
     item.checkbox || item.selected !== undefined ? Boolean(item.selected) : undefined;
 
@@ -187,14 +204,25 @@ const MenuRow = ({ item, onClose }: MenuRowProps) => {
       ) : null}
       {item.icon ? (
         <span
-          className="flex-none flex items-center justify-center text-(--row-accent) [&>svg]:w-[var(--icon-sm)] [&>svg]:h-[var(--icon-sm)] [&>svg]:block"
+          className="flex-none flex items-center justify-center h-[var(--type-callout-line)] text-(--row-accent) [&>svg]:w-[var(--icon-sm)] [&>svg]:h-[var(--icon-sm)] [&>svg]:block"
           aria-hidden="true"
         >
           {item.icon}
         </span>
       ) : null}
-      <span className="flex-1 min-w-0 truncate">{item.label}</span>
-      {item.badge && item.badge.count > 0 ? <MenuItemCount badge={item.badge} /> : null}
+      {hasDescription ? (
+        <span className="flex-1 min-w-0 flex flex-col gap-0.5">
+          <span id={labelId} className="truncate">
+            {item.label}
+          </span>
+          <span id={descriptionId} className="text-footnote text-(--row-description) text-pretty">
+            {item.description}
+          </span>
+        </span>
+      ) : (
+        <span className="flex-1 min-w-0 truncate">{item.label}</span>
+      )}
+      {item.badge && hasCount ? <MenuItemCount badge={item.badge} labelId={countId} /> : null}
       {item.shortcut ? (
         <span className="flex-none tabular-nums text-(--row-accent)">{item.shortcut}</span>
       ) : null}
@@ -227,6 +255,8 @@ const MenuRow = ({ item, onClose }: MenuRowProps) => {
         <LinkElement
           role={menuItemRole(item)}
           aria-checked={ariaChecked}
+          aria-labelledby={labelledBy}
+          aria-describedby={describedBy}
           href={item.href}
           onClick={handleSelect}
           className={rowClasses}
@@ -237,6 +267,8 @@ const MenuRow = ({ item, onClose }: MenuRowProps) => {
         <button
           role={menuItemRole(item)}
           aria-checked={ariaChecked}
+          aria-labelledby={labelledBy}
+          aria-describedby={describedBy}
           aria-haspopup={hasSubmenu ? 'menu' : undefined}
           type="button"
           disabled={item.disabled}

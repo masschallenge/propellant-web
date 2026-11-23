@@ -411,3 +411,35 @@ describe('Menu account avatar, counts and links', () => {
     expect(profile).toHaveAttribute('href', '/profile');
   });
 });
+
+describe('Menu item description', () => {
+  it('names the item by its label and describes it with the second line', async () => {
+    render(
+      <Menu
+        trigger={<button type="button">More actions</button>}
+        items={[
+          {
+            label: 'Reset preview link',
+            description: 'Anyone with the old link loses access.',
+            onSelect: vi.fn(),
+          },
+          { label: 'Inbox', description: 'Messages for you', badge: { count: 2 } },
+          { label: 'Copy preview link' },
+        ]}
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'More actions' }));
+    const reset = screen.getByRole('menuitem', { name: 'Reset preview link' });
+    expect(reset).toHaveAccessibleDescription('Anyone with the old link loses access.');
+    expect(reset).toHaveClass('items-start');
+    expect(screen.getByText('Anyone with the old link loses access.')).toHaveClass(
+      'text-footnote',
+      'text-(--row-description)',
+    );
+    expect(screen.getByRole('menuitem', { name: 'Inbox 2 unread' })).toBeInTheDocument();
+    const plain = screen.getByRole('menuitem', { name: 'Copy preview link' });
+    expect(plain).not.toHaveAttribute('aria-describedby');
+    expect(plain).not.toHaveAttribute('aria-labelledby');
+    expect(plain).not.toHaveClass('items-start');
+  });
+});
