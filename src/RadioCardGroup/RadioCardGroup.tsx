@@ -57,6 +57,9 @@ const joinClasses = (...names: (string | false | null | undefined)[]) =>
 const SELECTED_SURFACE =
   '[background:linear-gradient(var(--tint-fill),var(--tint-fill)),var(--bg)] shadow-[inset_0_0_0_var(--stroke-strong)_var(--tint)]';
 
+const COMPACT_SELECTED_SURFACE =
+  'bg-[var(--radio-card-compact-selected-bg)] shadow-[inset_0_0_0_var(--stroke-strong)_var(--tint)]';
+
 const RESTING_EDGE = 'shadow-[inset_0_0_0_var(--hairline)_var(--control-border)]';
 
 const ERROR_EDGE = 'shadow-[inset_0_0_0_var(--hairline)_var(--critical)]';
@@ -208,7 +211,11 @@ export const RadioCardGroup = ({
           ? 'items-center'
           : 'items-start',
       SURFACE_TRANSITION,
-      isOn ? SELECTED_SURFACE : joinClasses('bg-[var(--bg)]', error ? ERROR_EDGE : RESTING_EDGE),
+      isOn
+        ? isCompactRow
+          ? COMPACT_SELECTED_SURFACE
+          : SELECTED_SURFACE
+        : joinClasses('bg-[var(--bg)]', error ? ERROR_EDGE : RESTING_EDGE),
       option.disabled && 'opacity-[var(--opacity-disabled)] cursor-not-allowed',
       isInteractive && 'hover:bg-[var(--bg-secondary)]',
       FOCUS_WITHIN,

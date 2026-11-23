@@ -258,6 +258,7 @@ describe('RadioCardGroup density', () => {
     render(<RadioCardGroup legend="Apply as" density="compact" options={companies} />);
     const card = screen.getByRole('radio', { name: /CareLoop/ }).closest('label');
     expect(card).toHaveClass('p-[var(--space-3-5)]', 'items-center');
+    expect(card).not.toHaveClass('bg-[var(--radio-card-compact-selected-bg)]');
     expect(card).not.toHaveClass('p-[var(--space-4)]', 'items-start');
     expect(screen.getByText('CareLoop')).toHaveClass('text-body', 'font-semibold');
     expect(screen.getByText('Founder, Owner')).toHaveClass('text-[var(--label-tertiary)]');
@@ -278,5 +279,23 @@ describe('RadioCardGroup density', () => {
     render(<RadioCardGroup legend="Track" layout="card" density="compact" options={companies} />);
     const card = screen.getByRole('radio', { name: /CareLoop/ }).closest('label');
     expect(card).toHaveClass('p-[var(--space-4)]');
+  });
+
+  it('fills a selected compact row with its own light tint and keeps the default fill', () => {
+    const { unmount } = render(
+      <RadioCardGroup
+        legend="Apply as"
+        density="compact"
+        defaultValue="careloop"
+        options={companies}
+      />,
+    );
+    const compactCard = screen.getByRole('radio', { name: /CareLoop/ }).closest('label');
+    expect(compactCard).toHaveClass('bg-[var(--radio-card-compact-selected-bg)]');
+    expect(compactCard?.className).not.toContain('--tint-fill');
+    unmount();
+    render(<RadioCardGroup legend="Apply as" defaultValue="careloop" options={companies} />);
+    const defaultCard = screen.getByRole('radio', { name: /CareLoop/ }).closest('label');
+    expect(defaultCard?.className).toContain('linear-gradient(var(--tint-fill),var(--tint-fill))');
   });
 });

@@ -330,6 +330,8 @@ html [data-propellant] {
   --avatar-teal-bg: var(--teal-150);
 
   --avatar-teal-fg: var(--teal-900);
+
+  --radio-card-compact-selected-bg: var(--mc-light-tint);
 }
 
 [data-theme='dark'] [data-propellant], [data-propellant][data-theme='dark'], html [data-propellant] [data-theme='dark'] {
@@ -1009,6 +1011,21 @@ html:has([data-appearance='system']) [data-propellant]:not([data-theme='light'])
   --avatar-green-fg: var(--success);
   --avatar-teal-bg: color-mix(in srgb, var(--teal-400) 30%, transparent);
   --avatar-teal-fg: var(--teal-150);
+}
+}
+
+html [data-propellant] {
+  --radio-card-compact-selected-bg: var(--mc-light-tint);
+}
+
+[data-theme='dark'] [data-propellant], [data-propellant][data-theme='dark'], html [data-propellant] [data-theme='dark'] {
+  --radio-card-compact-selected-bg: var(--tint-fill);
+}
+
+@media (prefers-color-scheme: dark) {
+
+html:has([data-appearance='system']) [data-propellant]:not([data-theme='light']) {
+  --radio-card-compact-selected-bg: var(--tint-fill);
 }
 }
 

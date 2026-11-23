@@ -763,6 +763,14 @@
   --avatar-teal-fg: var(--teal-150);
 }
 
+:root {
+  --radio-card-compact-selected-bg: var(--mc-light-tint);
+}
+
+[data-theme='dark'] {
+  --radio-card-compact-selected-bg: var(--tint-fill);
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,

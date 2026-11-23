@@ -14,6 +14,7 @@
 @import 'tokens/icon-tile.css';
 @import 'tokens/role-tag.css';
 @import 'tokens/avatar.css';
+@import 'tokens/radio-card.css';
 
 @import 'base/autofill.css';
 @import 'base/field-shell.css';

@@ -1,0 +1,7 @@
+:root {
+  --radio-card-compact-selected-bg: var(--mc-light-tint);
+}
+
+[data-theme='dark'] {
+  --radio-card-compact-selected-bg: var(--tint-fill);
+}
