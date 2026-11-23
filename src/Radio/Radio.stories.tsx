@@ -22,6 +22,7 @@ const meta = {
   args: { label: 'Morning session' },
   argTypes: {
     size: { control: 'inline-radio', options: ['sm', 'md'], ...appearance },
+    density: { control: 'inline-radio', options: ['default', 'compact'], ...appearance },
     error: { control: 'boolean', ...state },
     disabled: { control: 'boolean', ...state },
     label: { control: 'text', ...content },
@@ -53,4 +54,16 @@ export const Group: Story = {
     await expect(afternoon).toBeChecked();
     await expect(canvas.getByRole('radio', { name: 'Morning session' })).not.toBeChecked();
   },
+};
+
+export const CompactGroup: Story = {
+  render: () => (
+    <RadioGroup legend="Regulatory pathway" density="compact">
+      <Radio label="510(k) clearance" value="510k" />
+      <Radio label="De Novo classification" value="de-novo" />
+      <Radio label="Premarket approval (PMA)" value="pma" />
+      <Radio label="Not a regulated medical device" value="not-regulated" defaultChecked />
+      <Radio label="Not sure yet" value="not-sure" />
+    </RadioGroup>
+  ),
 };

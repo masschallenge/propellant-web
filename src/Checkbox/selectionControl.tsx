@@ -4,6 +4,8 @@ import { ErrorGlyph } from '../TextField/fieldText';
 
 export type SelectionSize = 'sm' | 'md';
 
+export type SelectionDensity = 'default' | 'compact';
+
 export const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
 
@@ -15,9 +17,14 @@ export const INDICATOR_SIZES: Record<SelectionSize, string> = {
   md: 'w-4.5 h-4.5',
 };
 
-export const indicatorClasses = (size: SelectionSize, hasError: boolean) =>
+export const indicatorClasses = (
+  size: SelectionSize,
+  hasError: boolean,
+  density: SelectionDensity = 'default',
+) =>
   joinClasses(
-    'relative flex-none mt-px bg-[var(--bg)]',
+    'relative flex-none bg-[var(--bg)]',
+    density === 'compact' ? 'mt-0.5' : 'mt-px',
     INDICATOR_SIZES[size],
     hasError
       ? 'shadow-[inset_0_0_0_var(--stroke-strong)_var(--critical)]'
@@ -27,10 +34,20 @@ export const indicatorClasses = (size: SelectionSize, hasError: boolean) =>
     "after:content-[''] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:w-[var(--hit-target)] after:h-[var(--hit-target)]",
   );
 
-export const selectionRowClasses = (size: SelectionSize, isDisabled: boolean, className?: string) =>
+const rowSpacing = (size: SelectionSize, density: SelectionDensity) => {
+  if (density === 'compact') return 'py-1 gap-2';
+  return size === 'sm' ? 'py-1.5 gap-2' : 'py-1.5 gap-2.5';
+};
+
+export const selectionRowClasses = (
+  size: SelectionSize,
+  isDisabled: boolean,
+  className?: string,
+  density: SelectionDensity = 'default',
+) =>
   joinClasses(
-    'relative inline-flex items-start py-1.5',
-    size === 'sm' ? 'gap-2' : 'gap-2.5',
+    'relative inline-flex items-start',
+    rowSpacing(size, density),
     isDisabled ? 'cursor-not-allowed opacity-[var(--opacity-disabled)]' : 'cursor-pointer',
     className,
   );
