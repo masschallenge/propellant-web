@@ -182,7 +182,7 @@ export const OptionCheckmark = ({ isVisible }: { isVisible: boolean }) => (
   </span>
 );
 
-export type FieldChevronShape = 'popup' | 'disclosure';
+export type FieldChevronShape = 'popup' | 'disclosure' | 'chevron';
 
 export const FieldChevron = ({
   shape = 'disclosure',
@@ -190,24 +190,34 @@ export const FieldChevron = ({
 }: {
   shape?: FieldChevronShape;
   className?: string;
-}) => (
-  <span
-    className={joinClasses('flex-none flex text-[var(--label-tertiary)]', className)}
-    aria-hidden="true"
-  >
-    <svg
-      viewBox="0 0 24 24"
-      className="w-[var(--icon-sm)] h-[var(--icon-sm)]"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+}) => {
+  const isChevron = shape === 'chevron';
+  return (
+    <span
+      className={joinClasses(
+        'flex-none flex',
+        isChevron ? 'text-[var(--label-secondary)]' : 'text-[var(--label-tertiary)]',
+        className,
+      )}
+      aria-hidden="true"
     >
-      <path d={shape === 'popup' ? 'm8 9.5 4-4 4 4M8 14.5l4 4 4-4' : 'm6 9 6 6 6-6'} />
-    </svg>
-  </span>
-);
+      <svg
+        viewBox="0 0 24 24"
+        className={joinClasses(
+          'w-[var(--icon-sm)] h-[var(--icon-sm)]',
+          isChevron && '[stroke-width:var(--icon-stroke)]',
+        )}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d={shape === 'popup' ? 'm8 9.5 4-4 4 4M8 14.5l4 4 4-4' : 'm6 9 6 6 6-6'} />
+      </svg>
+    </span>
+  );
+};
 
 export const AnchoredSearchField = React.forwardRef<
   HTMLInputElement,

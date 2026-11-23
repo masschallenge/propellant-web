@@ -411,3 +411,104 @@ describe('Menu account avatar, counts and links', () => {
     expect(profile).toHaveAttribute('href', '/profile');
   });
 });
+
+describe('Menu item description', () => {
+  it('names the item by its label and describes it with the second line', async () => {
+    render(
+      <Menu
+        trigger={<button type="button">More actions</button>}
+        items={[
+          {
+            label: 'Reset preview link',
+            description: 'Anyone with the old link loses access.',
+            onSelect: vi.fn(),
+          },
+          { label: 'Inbox', description: 'Messages for you', badge: { count: 2 } },
+          { label: 'Copy preview link' },
+        ]}
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'More actions' }));
+    const reset = screen.getByRole('menuitem', { name: 'Reset preview link' });
+    expect(reset).toHaveAccessibleDescription('Anyone with the old link loses access.');
+    expect(reset).toHaveClass('items-start');
+    expect(reset).not.toHaveClass('items-center');
+    expect(screen.getByText('Anyone with the old link loses access.')).toHaveClass(
+      'text-footnote',
+      'text-(--row-description)',
+    );
+    expect(screen.getByRole('menuitem', { name: 'Inbox 2 unread' })).toBeInTheDocument();
+    const plain = screen.getByRole('menuitem', { name: 'Copy preview link' });
+    expect(plain).not.toHaveAttribute('aria-describedby');
+    expect(plain).not.toHaveAttribute('aria-labelledby');
+    expect(plain).not.toHaveClass('items-start');
+    expect(plain).toHaveClass('items-center');
+  });
+});
+
+describe('Menu panel width', () => {
+  it('widens the panel to the given minimum and keeps the default otherwise', async () => {
+    const { unmount } = render(
+      <Menu
+        trigger={<button type="button">More actions</button>}
+        minWidth="17.5rem"
+        items={[{ label: 'Copy preview link' }]}
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'More actions' }));
+    expect(screen.getByRole('menu')).toHaveStyle({ minWidth: '17.5rem' });
+    unmount();
+    render(
+      <Menu
+        trigger={<button type="button">More actions</button>}
+        items={[{ label: 'Copy preview link' }]}
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'More actions' }));
+    const panel = screen.getByRole('menu');
+    expect(panel.style.minWidth).toBe('');
+    expect(panel).toHaveClass('min-w-[13.5rem]');
+  });
+});
+
+describe('Menu size', () => {
+  const renderSized = (size?: 'sm' | 'md') =>
+    render(
+      <Menu
+        trigger={<button type="button">More actions</button>}
+        size={size}
+        items={[
+          { label: 'Copy preview link' },
+          { separator: true },
+          { label: 'Reset preview link', description: 'Anyone with the old link loses access.' },
+        ]}
+      />,
+    );
+
+  it('keeps the small panel, rows and separator unless md is asked for', async () => {
+    renderSized();
+    await userEvent.click(screen.getByRole('button', { name: 'More actions' }));
+    expect(screen.getByRole('menu')).toHaveClass('min-w-[13.5rem]');
+    expect(screen.getByRole('menuitem', { name: 'Copy preview link' })).toHaveClass(
+      'min-h-[var(--control-sm)]',
+      'px-2',
+      'py-1',
+    );
+    expect(screen.getByRole('separator')).toHaveClass('mx-2');
+  });
+
+  it('draws the md panel at 232px with 32px rows and a narrower separator inset', async () => {
+    renderSized('md');
+    await userEvent.click(screen.getByRole('button', { name: 'More actions' }));
+    const panel = screen.getByRole('menu');
+    expect(panel).toHaveClass('min-w-[14.5rem]');
+    expect(panel).not.toHaveClass('min-w-[13.5rem]');
+    expect(screen.getByRole('menuitem', { name: 'Copy preview link' })).toHaveClass(
+      'min-h-[var(--control-md)]',
+      'px-2.5',
+      'py-1.5',
+    );
+    expect(screen.getByRole('menuitem', { name: 'Reset preview link' })).toHaveClass('py-2');
+    expect(screen.getByRole('separator')).toHaveClass('mx-1.5');
+  });
+});

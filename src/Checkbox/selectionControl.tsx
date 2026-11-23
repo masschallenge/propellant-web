@@ -4,6 +4,8 @@ import { ErrorGlyph } from '../TextField/fieldText';
 
 export type SelectionSize = 'sm' | 'md';
 
+export type SelectionDensity = 'default' | 'compact';
+
 export const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
 
@@ -15,22 +17,42 @@ export const INDICATOR_SIZES: Record<SelectionSize, string> = {
   md: 'w-4.5 h-4.5',
 };
 
-export const indicatorClasses = (size: SelectionSize, hasError: boolean) =>
+const restingEdge = (hasError: boolean, density: SelectionDensity) => {
+  if (hasError) return 'shadow-[inset_0_0_0_var(--stroke-strong)_var(--critical)]';
+  return density === 'compact'
+    ? 'shadow-[inset_0_0_0_var(--stroke-medium)_var(--control-border)]'
+    : 'shadow-[inset_0_0_0_1px_var(--control-border)]';
+};
+
+export const indicatorClasses = (
+  size: SelectionSize,
+  hasError: boolean,
+  density: SelectionDensity = 'default',
+) =>
   joinClasses(
-    'relative flex-none mt-px bg-[var(--bg)]',
+    'relative flex-none bg-[var(--bg)]',
+    density === 'compact' ? 'mt-0.5' : 'mt-px',
     INDICATOR_SIZES[size],
-    hasError
-      ? 'shadow-[inset_0_0_0_var(--stroke-strong)_var(--critical)]'
-      : 'shadow-[inset_0_0_0_1px_var(--control-border)]',
+    restingEdge(hasError, density),
     'transition-[background-color,box-shadow] duration-[var(--duration-fade)] ease-[var(--ease-standard)]',
     'peer-focus-visible:outline-[length:var(--focus-width)] peer-focus-visible:outline-solid peer-focus-visible:outline-offset-[var(--focus-offset)] peer-focus-visible:outline-[var(--focus-color)]',
     "after:content-[''] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:w-[var(--hit-target)] after:h-[var(--hit-target)]",
   );
 
-export const selectionRowClasses = (size: SelectionSize, isDisabled: boolean, className?: string) =>
+const rowSpacing = (size: SelectionSize, density: SelectionDensity) => {
+  if (density === 'compact') return 'py-1 gap-2';
+  return size === 'sm' ? 'py-1.5 gap-2' : 'py-1.5 gap-2.5';
+};
+
+export const selectionRowClasses = (
+  size: SelectionSize,
+  isDisabled: boolean,
+  className?: string,
+  density: SelectionDensity = 'default',
+) =>
   joinClasses(
-    'relative inline-flex items-start py-1.5',
-    size === 'sm' ? 'gap-2' : 'gap-2.5',
+    'relative inline-flex items-start',
+    rowSpacing(size, density),
     isDisabled ? 'cursor-not-allowed opacity-[var(--opacity-disabled)]' : 'cursor-pointer',
     className,
   );

@@ -59,4 +59,23 @@ describe('PageHeader', () => {
       'border-b-[length:var(--hairline)]',
     );
   });
+
+  it('leads the title with an optional element and leaves the default row unchanged', () => {
+    const { container, rerender } = render(
+      <PageHeader title="Setup" leading={<span data-testid="stage-tile" />} />,
+    );
+    const slot = container.querySelector('[data-page-header-leading]') as HTMLElement;
+    expect(slot).toContainElement(screen.getByTestId('stage-tile'));
+    const row = slot.parentElement as HTMLElement;
+    expect(row.className).toContain('gap-4');
+    expect(row.className).toContain('items-center');
+    expect(slot.nextElementSibling).toContainElement(
+      screen.getByRole('heading', { level: 1, name: 'Setup' }),
+    );
+    rerender(<PageHeader title="Setup" />);
+    expect(container.querySelector('[data-page-header-leading]')).toBeNull();
+    expect(screen.getByRole('heading', { level: 1 }).parentElement?.className).toContain(
+      'min-w-60',
+    );
+  });
 });

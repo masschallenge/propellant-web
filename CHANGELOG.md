@@ -26,6 +26,35 @@ property and from `@masschallenge/propellant-web/version`.
   outline, so it stays visible in forced colors.
 - `RadioCardGroup` takes `layout="choice"`: an icon tile on the left, an optional neutral
   badge with `--corner-sm` corners and the radio on the right, and the title on its own line.
+- `MenuItem` takes `description`: a second line of footnote text under the label, aligned with
+  the label past any icon, that says what the action will do. It stays secondary on destructive
+  items, the item keeps its label as its accessible name and the line becomes its accessible
+  description.
+- `PageHeader` takes `leading` to put an element, such as a stage `IconTile`, before the title,
+  centred on the title block with a 16px gap.
+- `IconTile` takes `size="lg"` for the 44px stage tile with a 22px icon and `--corner-lg`
+  corners, the one that leads a stage page title. The `IconTileSize` type is exported, and the
+  `--icon-tile-lg-size` and `--icon-tile-lg-icon` tokens hold its measures.
+- `Menu` takes `minWidth`, a CSS length such as `17.5rem`, to widen the panel past its default
+  for menus whose items carry a description.
+- `Menu` takes `size="md"`: a 232px panel, 32px rows with 10px side padding, 8px padding on
+  rows with a description, and a separator inset 6px. `sm` stays the default. It composes with
+  `minWidth`. The `MenuSize` type is exported.
+- `PopUpButton` takes `indicator="chevron"`: a single down chevron at 16px with the
+  `--icon-stroke` weight in secondary label color, at the field's own trailing inset. `popup`
+  stays the default. The `PopUpButtonIndicator` type is exported.
+- `PopUpButton` takes `size="sm-md"`, the step between `sm` and `md`: the 32px `md` height with
+  the 13px `sm` text, 12px leading and 10px trailing inset. `sm` and `md` are unchanged.
+- `Radio` and `RadioGroup` take `density="compact"`: a 16px circle 8px from a callout label and
+  rows 28px apart, with a 1.5px resting ring from the new `--stroke-medium` token. A group passes
+  it to radios that do not set their own.
+- `Avatar` takes `size="sm-md"`, 32px, the step between `sm` and `md`, from the new
+  `--avatar-sm-md` token.
+- `RadioCardGroup` takes `density="compact"` for the row layout: 14px padding, content centred
+  and a 15/22 semibold title over a tertiary hint, which makes a 70px row with a 40px logo passed
+  as `icon`, a 20px selection circle with a 2px resting ring, and a selected fill from the new
+  `--radio-card-compact-selected-bg` token. `RadioCardGroupProps` only accepts `compact` with
+  the row layout. The `RadioCardDensity` type is exported.
 
 ## 2.5.0 (2026-11-19)
 

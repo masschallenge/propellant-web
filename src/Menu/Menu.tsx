@@ -17,6 +17,7 @@ export interface MenuItem {
   separator?: boolean;
   section?: string;
   label?: string;
+  description?: string;
   icon?: ReactNode;
   avatar?: string;
   shortcut?: string;
@@ -57,8 +58,12 @@ export interface MenuProps {
   search?: boolean;
   searchPlaceholder?: string;
   accountBand?: MenuAccountBand;
+  minWidth?: string;
+  size?: MenuSize;
   className?: string;
 }
+
+export type MenuSize = 'sm' | 'md';
 
 const MENU_MAX_HEIGHT = 420;
 
@@ -69,25 +74,46 @@ type FocusTarget = 'first' | 'last' | null;
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
 
-const PANEL_CLASSES = `list-none m-0 p-1 min-w-[13.5rem] text-callout ${ANCHORED_SURFACE_CLASSES}`;
+const PANEL_BASE = `list-none m-0 p-1 text-callout ${ANCHORED_SURFACE_CLASSES}`;
+
+const PANEL_WIDTH: Record<MenuSize, string> = {
+  sm: 'min-w-[13.5rem]',
+  md: 'min-w-[14.5rem]',
+};
+
+const panelClasses = (size: MenuSize) => joinClasses(PANEL_BASE, PANEL_WIDTH[size]);
 
 const ROW_BASE =
-  'flex items-center gap-2 w-full min-h-[var(--control-sm)] px-2 py-1 rounded-[var(--corner-md)] border-0 bg-transparent text-left no-underline cursor-default font-[inherit] text-callout font-normal text-(--row-label) ' +
+  'flex gap-2 w-full rounded-[var(--corner-md)] border-0 bg-transparent text-left no-underline cursor-default font-[inherit] text-callout font-normal text-(--row-label) ' +
   'focus-visible:outline-none disabled:opacity-[var(--opacity-disabled)] disabled:cursor-not-allowed';
+
+const ROW_SIZE: Record<MenuSize, string> = {
+  sm: 'min-h-[var(--control-sm)] px-2 py-1',
+  md: 'min-h-[var(--control-md)] px-2.5 py-1.5',
+};
+
+const DESCRIBED_ROW_SIZE: Record<MenuSize, string> = {
+  sm: ROW_SIZE.sm,
+  md: 'min-h-[var(--control-md)] px-2.5 py-2',
+};
+
+const MD_SEPARATOR_CLASSES = 'h-[var(--hairline)] my-1 mx-1.5 bg-[var(--separator)]';
 
 const ROW_TONE = {
   standard:
-    '[--row-label:var(--label)] [--row-accent:var(--label-secondary)] [--row-check:var(--tint)] [--row-box-edge:var(--tint)] ' +
+    '[--row-label:var(--label)] [--row-accent:var(--label-secondary)] [--row-description:var(--label-secondary)] [--row-check:var(--tint)] [--row-box-edge:var(--tint)] ' +
     'not-disabled:hover:bg-[var(--tint)] not-disabled:focus-visible:bg-[var(--tint)] ' +
     'not-disabled:hover:[--row-label:var(--on-tint)] not-disabled:focus-visible:[--row-label:var(--on-tint)] ' +
     'not-disabled:hover:[--row-accent:var(--on-tint)] not-disabled:focus-visible:[--row-accent:var(--on-tint)] ' +
+    'not-disabled:hover:[--row-description:var(--on-tint)] not-disabled:focus-visible:[--row-description:var(--on-tint)] ' +
     'not-disabled:hover:[--row-check:var(--on-tint)] not-disabled:focus-visible:[--row-check:var(--on-tint)] ' +
     'not-disabled:hover:[--row-box-edge:var(--on-tint)] not-disabled:focus-visible:[--row-box-edge:var(--on-tint)]',
   destructive:
-    '[--row-label:var(--critical)] [--row-accent:var(--critical)] [--row-check:var(--critical)] [--row-box-edge:var(--critical)] ' +
+    '[--row-label:var(--critical)] [--row-accent:var(--critical)] [--row-description:var(--label-secondary)] [--row-check:var(--critical)] [--row-box-edge:var(--critical)] ' +
     'not-disabled:hover:bg-[var(--critical-solid)] not-disabled:focus-visible:bg-[var(--critical-solid)] ' +
     'not-disabled:hover:[--row-label:var(--on-critical)] not-disabled:focus-visible:[--row-label:var(--on-critical)] ' +
     'not-disabled:hover:[--row-accent:var(--on-critical)] not-disabled:focus-visible:[--row-accent:var(--on-critical)] ' +
+    'not-disabled:hover:[--row-description:var(--on-critical)] not-disabled:focus-visible:[--row-description:var(--on-critical)] ' +
     'not-disabled:hover:[--row-check:var(--on-critical)] not-disabled:focus-visible:[--row-check:var(--on-critical)] ' +
     'not-disabled:hover:[--row-box-edge:var(--on-critical)] not-disabled:focus-visible:[--row-box-edge:var(--on-critical)]',
 };
@@ -107,7 +133,12 @@ const CheckGlyph = ({ className }: { className: string }) => (
   </svg>
 );
 
-const MenuSeparator = () => <li role="separator" className={ANCHORED_SEPARATOR_CLASSES} />;
+const MenuSeparator = ({ size }: { size: MenuSize }) => (
+  <li
+    role="separator"
+    className={size === 'md' ? MD_SEPARATOR_CLASSES : ANCHORED_SEPARATOR_CLASSES}
+  />
+);
 
 const MenuSection = ({ label }: { label: string }) => (
   <li role="presentation" className={ANCHORED_SECTION_CLASSES}>
@@ -117,6 +148,7 @@ const MenuSection = ({ label }: { label: string }) => (
 
 interface MenuRowProps {
   item: MenuItem;
+  size: MenuSize;
   onClose: () => void;
 }
 
@@ -125,7 +157,7 @@ const menuItemRole = (item: MenuItem) => {
   return item.selected === undefined ? 'menuitem' : 'menuitemradio';
 };
 
-const MenuItemCount = ({ badge }: { badge: MenuItemBadge }) => (
+const MenuItemCount = ({ badge, labelId }: { badge: MenuItemBadge; labelId: string }) => (
   <>
     {' '}
     <span
@@ -135,16 +167,31 @@ const MenuItemCount = ({ badge }: { badge: MenuItemBadge }) => (
     >
       {badge.count}
     </span>
-    <span className="sr-only">{badge.label ?? `${badge.count} unread`}</span>
+    <span id={labelId} className="sr-only">
+      {badge.label ?? `${badge.count} unread`}
+    </span>
   </>
 );
 
-const MenuRow = ({ item, onClose }: MenuRowProps) => {
+const MenuRow = ({ item, size, onClose }: MenuRowProps) => {
+  const rowId = React.useId();
+  const labelId = `${rowId}-label`;
+  const countId = `${rowId}-count`;
+  const descriptionId = `${rowId}-description`;
+  const hasDescription = Boolean(item.description);
+  const hasCount = Boolean(item.badge && item.badge.count > 0);
   const hasSubmenu = Boolean(item.submenu && item.submenu.length);
   const isDestructive = item.destructive ?? item.danger ?? false;
   const isLink = Boolean(item.href && !item.disabled && !hasSubmenu);
   const LinkElement = item.linkAs ?? 'a';
-  const rowClasses = joinClasses(ROW_BASE, ROW_TONE[isDestructive ? 'destructive' : 'standard']);
+  const rowClasses = joinClasses(
+    ROW_BASE,
+    hasDescription ? 'items-start' : 'items-center',
+    (hasDescription ? DESCRIBED_ROW_SIZE : ROW_SIZE)[size],
+    ROW_TONE[isDestructive ? 'destructive' : 'standard'],
+  );
+  const describedBy = hasDescription ? descriptionId : undefined;
+  const labelledBy = hasDescription ? joinClasses(labelId, hasCount && countId) : undefined;
   const ariaChecked =
     item.checkbox || item.selected !== undefined ? Boolean(item.selected) : undefined;
 
@@ -187,14 +234,25 @@ const MenuRow = ({ item, onClose }: MenuRowProps) => {
       ) : null}
       {item.icon ? (
         <span
-          className="flex-none flex items-center justify-center text-(--row-accent) [&>svg]:w-[var(--icon-sm)] [&>svg]:h-[var(--icon-sm)] [&>svg]:block"
+          className="flex-none flex items-center justify-center h-[var(--type-callout-line)] text-(--row-accent) [&>svg]:w-[var(--icon-sm)] [&>svg]:h-[var(--icon-sm)] [&>svg]:block"
           aria-hidden="true"
         >
           {item.icon}
         </span>
       ) : null}
-      <span className="flex-1 min-w-0 truncate">{item.label}</span>
-      {item.badge && item.badge.count > 0 ? <MenuItemCount badge={item.badge} /> : null}
+      {hasDescription ? (
+        <span className="flex-1 min-w-0 flex flex-col gap-0.5">
+          <span id={labelId} className="truncate">
+            {item.label}
+          </span>
+          <span id={descriptionId} className="text-footnote text-(--row-description) text-pretty">
+            {item.description}
+          </span>
+        </span>
+      ) : (
+        <span className="flex-1 min-w-0 truncate">{item.label}</span>
+      )}
+      {item.badge && hasCount ? <MenuItemCount badge={item.badge} labelId={countId} /> : null}
       {item.shortcut ? (
         <span className="flex-none tabular-nums text-(--row-accent)">{item.shortcut}</span>
       ) : null}
@@ -227,6 +285,8 @@ const MenuRow = ({ item, onClose }: MenuRowProps) => {
         <LinkElement
           role={menuItemRole(item)}
           aria-checked={ariaChecked}
+          aria-labelledby={labelledBy}
+          aria-describedby={describedBy}
           href={item.href}
           onClick={handleSelect}
           className={rowClasses}
@@ -237,6 +297,8 @@ const MenuRow = ({ item, onClose }: MenuRowProps) => {
         <button
           role={menuItemRole(item)}
           aria-checked={ariaChecked}
+          aria-labelledby={labelledBy}
+          aria-describedby={describedBy}
           aria-haspopup={hasSubmenu ? 'menu' : undefined}
           type="button"
           disabled={item.disabled}
@@ -251,23 +313,29 @@ const MenuRow = ({ item, onClose }: MenuRowProps) => {
           role="menu"
           aria-label={item.label}
           className={joinClasses(
-            PANEL_CLASSES,
+            panelClasses(size),
             'absolute left-[calc(100%-4px)] -top-1 z-10 hidden group-hover/sub:block group-focus-within/sub:block',
           )}
         >
-          <MenuEntries items={item.submenu ?? []} onClose={onClose} />
+          <MenuEntries items={item.submenu ?? []} size={size} onClose={onClose} />
         </ul>
       ) : null}
     </li>
   );
 };
 
-const MenuEntries = ({ items, onClose }: { items: MenuItem[]; onClose: () => void }) => (
+interface MenuEntriesProps {
+  items: MenuItem[];
+  size: MenuSize;
+  onClose: () => void;
+}
+
+const MenuEntries = ({ items, size, onClose }: MenuEntriesProps) => (
   <>
     {items.map((item, index) => {
-      if (item.separator) return <MenuSeparator key={index} />;
+      if (item.separator) return <MenuSeparator key={index} size={size} />;
       if (item.section) return <MenuSection key={index} label={item.section} />;
-      return <MenuRow key={index} item={item} onClose={onClose} />;
+      return <MenuRow key={index} item={item} size={size} onClose={onClose} />;
     })}
   </>
 );
@@ -279,6 +347,8 @@ export const Menu = ({
   search = false,
   searchPlaceholder = 'Search',
   accountBand,
+  minWidth,
+  size = 'sm',
   className,
 }: MenuProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -393,8 +463,9 @@ export const Menu = ({
             style={{
               ...anchoredPanelStyle(position, { capsHeight: false }),
               maxHeight: position ? Math.min(MENU_MAX_HEIGHT, position.available) : undefined,
+              minWidth,
             }}
-            className={joinClasses(PANEL_CLASSES, 'overflow-auto')}
+            className={joinClasses(panelClasses(size), 'overflow-auto')}
           >
             {accountBand ? (
               <>
@@ -424,7 +495,7 @@ export const Menu = ({
                     ) : null}
                   </span>
                 </li>
-                <MenuSeparator />
+                <MenuSeparator size={size} />
               </>
             ) : null}
             {search ? (
@@ -438,7 +509,7 @@ export const Menu = ({
                 />
               </li>
             ) : null}
-            <MenuEntries items={visibleItems} onClose={closeToTrigger} />
+            <MenuEntries items={visibleItems} size={size} onClose={closeToTrigger} />
           </ul>
         </AnchoredLayer>
       ) : null}

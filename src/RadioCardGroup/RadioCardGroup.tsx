@@ -30,14 +30,13 @@ export interface RadioCardOption {
 
 export type RadioCardSelection = string | string[];
 
-export interface RadioCardGroupProps {
+interface RadioCardGroupBaseProps {
   options: RadioCardOption[];
   value?: RadioCardSelection;
   defaultValue?: RadioCardSelection;
   onChange?: (value: RadioCardSelection) => void;
   selectionMode?: 'single' | 'multiple';
   control?: 'auto' | 'check' | 'radio';
-  layout?: 'row' | 'card' | 'tile' | 'choice';
   sideBySide?: boolean;
   legend?: ReactNode;
   description?: ReactNode;
@@ -48,11 +47,28 @@ export interface RadioCardGroupProps {
   className?: string;
 }
 
+export type RadioCardDensity = 'default' | 'compact';
+
+interface RadioCardGroupRowProps extends RadioCardGroupBaseProps {
+  layout?: 'row';
+  density?: RadioCardDensity;
+}
+
+interface RadioCardGroupBlockProps extends RadioCardGroupBaseProps {
+  layout: 'card' | 'tile' | 'choice';
+  density?: 'default';
+}
+
+export type RadioCardGroupProps = RadioCardGroupRowProps | RadioCardGroupBlockProps;
+
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
 
 const SELECTED_SURFACE =
   '[background:linear-gradient(var(--tint-fill),var(--tint-fill)),var(--bg)] shadow-[inset_0_0_0_var(--stroke-strong)_var(--tint)]';
+
+const COMPACT_SELECTED_SURFACE =
+  'bg-[var(--radio-card-compact-selected-bg)] shadow-[inset_0_0_0_var(--stroke-strong)_var(--tint)]';
 
 const RESTING_EDGE = 'shadow-[inset_0_0_0_var(--hairline)_var(--control-border)]';
 
@@ -66,16 +82,29 @@ const SURFACE_TRANSITION =
 
 const HIDDEN_INPUT = 'absolute top-0 left-0 w-px h-px m-0 p-0 border-0 overflow-hidden opacity-0';
 
-const SelectionMark = ({ isSelected, isSquare }: { isSelected: boolean; isSquare: boolean }) => (
+const LARGE_MARK_SIZE = 'w-5 h-5';
+
+interface SelectionMarkProps {
+  isSelected: boolean;
+  isSquare: boolean;
+  isCompact?: boolean;
+}
+
+const SelectionMark = ({ isSelected, isSquare, isCompact = false }: SelectionMarkProps) => (
   <span
     aria-hidden="true"
     className={joinClasses(
-      'relative flex-none mt-px flex items-center justify-center',
-      INDICATOR_SIZES.md,
+      'relative flex-none flex items-center justify-center',
+      isCompact ? LARGE_MARK_SIZE : joinClasses('mt-px', INDICATOR_SIZES.md),
       isSquare ? 'rounded-[var(--corner-sm)]' : 'rounded-full',
       isSelected
         ? 'bg-[var(--tint)]'
-        : 'bg-[var(--bg)] shadow-[inset_0_0_0_1px_var(--control-border)]',
+        : joinClasses(
+            'bg-[var(--bg)]',
+            isCompact
+              ? 'shadow-[inset_0_0_0_var(--stroke-strong)_var(--control-border)]'
+              : 'shadow-[inset_0_0_0_1px_var(--control-border)]',
+          ),
       SURFACE_TRANSITION,
     )}
   >
@@ -120,6 +149,7 @@ export const RadioCardGroup = ({
   controlOnRight = false,
   name,
   emphasis = 'default',
+  density = 'default',
   className,
 }: RadioCardGroupProps) => {
   const generatedId = React.useId();
@@ -151,11 +181,12 @@ export const RadioCardGroup = ({
   const describedBy = [descriptionId, errorId].filter(Boolean).join(' ') || undefined;
   const isTile = layout === 'tile';
   const isStrong = emphasis === 'strong';
+  const isCompactRow = density === 'compact' && layout === 'row';
 
   const cards = options.map((option) => {
     const isOn = isSelected(option.value);
     const isInteractive = !isOn && !option.disabled;
-    const mark = <SelectionMark isSelected={isOn} isSquare={isSquare} />;
+    const mark = <SelectionMark isSelected={isOn} isSquare={isSquare} isCompact={isCompactRow} />;
     const icon = option.icon ? (
       <span
         className="flex-none flex items-center justify-center mt-px text-[var(--label-secondary)] [&>svg]:block [&>svg]:w-[var(--icon-lg)] [&>svg]:h-[var(--icon-lg)]"
@@ -182,10 +213,19 @@ export const RadioCardGroup = ({
       />
     );
     const cardClasses = joinClasses(
-      'relative flex gap-3 p-[var(--space-4)] min-h-[var(--row)] rounded-[var(--corner-lg)] cursor-pointer',
-      layout === 'card' || layout === 'choice' ? 'flex-col' : 'items-start',
+      'relative flex gap-3 min-h-[var(--row)] rounded-[var(--corner-lg)] cursor-pointer',
+      isCompactRow ? 'p-[var(--space-3-5)]' : 'p-[var(--space-4)]',
+      layout === 'card' || layout === 'choice'
+        ? 'flex-col'
+        : isCompactRow
+          ? 'items-center'
+          : 'items-start',
       SURFACE_TRANSITION,
-      isOn ? SELECTED_SURFACE : joinClasses('bg-[var(--bg)]', error ? ERROR_EDGE : RESTING_EDGE),
+      isOn
+        ? isCompactRow
+          ? COMPACT_SELECTED_SURFACE
+          : SELECTED_SURFACE
+        : joinClasses('bg-[var(--bg)]', error ? ERROR_EDGE : RESTING_EDGE),
       option.disabled && 'opacity-[var(--opacity-disabled)] cursor-not-allowed',
       isInteractive && 'hover:bg-[var(--bg-secondary)]',
       FOCUS_WITHIN,
@@ -326,7 +366,14 @@ export const RadioCardGroup = ({
         ) : null}
         <span className="flex flex-col gap-0.5 min-w-0">
           <span className="flex items-baseline gap-2 flex-wrap">
-            <span className="text-callout font-semibold text-[var(--label)]">{option.title}</span>
+            <span
+              className={joinClasses(
+                isCompactRow ? 'text-body' : 'text-callout',
+                'font-semibold text-[var(--label)]',
+              )}
+            >
+              {option.title}
+            </span>
             {option.handle ? (
               <span className="text-subheadline text-[var(--label-tertiary)]">{option.handle}</span>
             ) : null}
@@ -337,7 +384,12 @@ export const RadioCardGroup = ({
             ) : null}
           </span>
           {option.hint ? (
-            <span className="text-subheadline text-[var(--label-secondary)] text-pretty">
+            <span
+              className={joinClasses(
+                'text-subheadline text-pretty',
+                isCompactRow ? 'text-[var(--label-tertiary)]' : 'text-[var(--label-secondary)]',
+              )}
+            >
               {option.hint}
             </span>
           ) : null}

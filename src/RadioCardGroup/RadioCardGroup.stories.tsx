@@ -131,6 +131,7 @@ const meta = {
       ...appearance,
     },
     emphasis: { control: 'inline-radio', options: ['default', 'strong'], ...appearance },
+    density: { control: 'inline-radio', options: ['default', 'compact'], ...appearance },
     controlOnRight: { control: 'boolean', ...appearance },
     legend: { control: 'text', ...content },
     onChange: { ...events },
@@ -283,5 +284,34 @@ export const Interaction: Story = {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByText('Either'));
     await expect(args.onChange).toHaveBeenCalledWith('either');
+  },
+};
+
+const companyLogo = (initial: string) => (
+  <span className="inline-flex items-center justify-center w-10 h-10 rounded-[var(--corner-tile)] bg-[var(--tint)] text-headline text-[var(--on-tint)]">
+    {initial}
+  </span>
+);
+
+export const CompactRows: Story = {
+  args: {
+    legend: 'Apply as',
+    density: 'compact',
+    defaultValue: 'careloop',
+    options: [
+      {
+        value: 'careloop',
+        title: 'CareLoop',
+        hint: 'Founder, Owner',
+        icon: companyLogo('C'),
+      },
+      {
+        value: 'lattice',
+        title: 'Lattice Genomics',
+        hint: "Advisor. View-only access can't apply",
+        icon: companyLogo('L'),
+        disabled: true,
+      },
+    ],
   },
 };

@@ -74,3 +74,44 @@ describe('RadioGroup', () => {
     expect(screen.getByText('Judging session')).not.toHaveClass('uppercase');
   });
 });
+
+describe('Radio density', () => {
+  it('keeps the default spacing, circle and label unless compact is asked for', () => {
+    render(
+      <RadioGroup legend="Session">
+        <Radio label="Morning" value="morning" />
+      </RadioGroup>,
+    );
+    const row = screen.getByText('Morning').closest('label') as HTMLElement;
+    expect(row).toHaveClass('py-1.5', 'gap-2.5');
+    expect(row.parentElement).toHaveClass('gap-0.5');
+    const circle = screen.getByRole('radio', { name: 'Morning' }).nextElementSibling;
+    expect(circle).toHaveClass(
+      'w-4.5',
+      'h-4.5',
+      'mt-px',
+      'shadow-[inset_0_0_0_1px_var(--control-border)]',
+    );
+  });
+
+  it('draws a 16px circle 8px from a callout label, rows 28px apart, from the group', () => {
+    render(
+      <RadioGroup legend="Regulatory pathway" density="compact">
+        <Radio label="Not sure yet" value="not-sure" />
+      </RadioGroup>,
+    );
+    const row = screen.getByText('Not sure yet').closest('label') as HTMLElement;
+    expect(row).toHaveClass('py-1', 'gap-2');
+    expect(row).not.toHaveClass('py-1.5', 'gap-2.5');
+    expect(row.parentElement).toHaveClass('gap-0');
+    const circle = screen.getByRole('radio', { name: 'Not sure yet' }).nextElementSibling;
+    expect(circle).toHaveClass(
+      'w-4',
+      'h-4',
+      'mt-0.5',
+      'before:w-1.5',
+      'shadow-[inset_0_0_0_var(--stroke-medium)_var(--control-border)]',
+    );
+    expect(screen.getByText('Not sure yet')).toHaveClass('text-callout');
+  });
+});

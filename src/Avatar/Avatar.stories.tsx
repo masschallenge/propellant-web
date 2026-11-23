@@ -40,7 +40,7 @@ const meta = {
   },
   args: { initials: 'AK', alt: 'Amara Koroma', size: 'md' },
   argTypes: {
-    size: { control: 'inline-radio', options: SIZES, ...appearance },
+    size: { control: 'inline-radio', options: [...SIZES, 'sm-md'], ...appearance },
     squircle: { control: 'boolean', ...appearance },
     ring: { control: 'boolean', ...appearance },
     neutral: { control: 'boolean', ...appearance },
@@ -68,6 +68,15 @@ export const Sizes: Story = {
       {SIZES.map((size) => (
         <Avatar key={size} {...args} size={size} />
       ))}
+    </HStack>
+  ),
+};
+
+export const SmMdSize: Story = {
+  render: (args) => (
+    <HStack>
+      <Avatar {...args} size="sm-md" />
+      <Avatar {...args} size="sm-md" src={PHOTO} initials={undefined} />
     </HStack>
   ),
 };

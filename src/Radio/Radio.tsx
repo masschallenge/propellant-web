@@ -7,6 +7,7 @@ import {
   indicatorClasses,
   joinClasses,
   selectionRowClasses,
+  type SelectionDensity,
   type SelectionSize,
 } from '../Checkbox/selectionControl';
 
@@ -16,6 +17,7 @@ export interface RadioProps extends NativeRadioProps {
   label?: ReactNode;
   hint?: ReactNode;
   size?: SelectionSize;
+  density?: SelectionDensity;
   error?: boolean;
   disabled?: boolean;
   id?: string;
@@ -29,16 +31,29 @@ const DOT_SIZES: Record<SelectionSize, string> = {
 
 export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
   (
-    { label, hint, size = 'md', error = false, disabled = false, id, className, ...rest },
+    {
+      label,
+      hint,
+      size = 'md',
+      density = 'default',
+      error = false,
+      disabled = false,
+      id,
+      className,
+      ...rest
+    },
     forwardedRef,
   ) => {
+    const isCompact = density === 'compact';
+    const indicatorSize = isCompact ? 'sm' : size;
+    const textSize = isCompact ? 'md' : size;
     const generatedId = React.useId();
     const fieldId = id || generatedId;
     const hintId = `${fieldId}-hint`;
     const labelId = `${fieldId}-label`;
 
     return (
-      <label htmlFor={fieldId} className={selectionRowClasses(size, disabled, className)}>
+      <label htmlFor={fieldId} className={selectionRowClasses(size, disabled, className, density)}>
         <input
           ref={forwardedRef}
           id={fieldId}
@@ -52,10 +67,10 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
         <span
           aria-hidden="true"
           className={joinClasses(
-            indicatorClasses(size, error),
+            indicatorClasses(indicatorSize, error, density),
             'rounded-full',
             "before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:rounded-full before:bg-[var(--on-tint)]",
-            DOT_SIZES[size],
+            DOT_SIZES[indicatorSize],
             'before:-translate-x-1/2 before:-translate-y-1/2 before:scale-0',
             'before:transition-transform before:duration-[var(--spring-snappy-duration)] before:ease-[var(--spring-snappy)]',
             'peer-checked:bg-[var(--tint)] peer-checked:shadow-none peer-checked:before:scale-100',
@@ -66,7 +81,7 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
           hint={hint}
           labelId={labelId}
           hintId={hintId}
-          size={size}
+          size={textSize}
           hasError={error}
         />
       </label>
@@ -80,22 +95,43 @@ export interface RadioGroupProps {
   legend?: ReactNode;
   error?: ReactNode;
   name?: string;
+  density?: SelectionDensity;
   className?: string;
   children?: ReactNode;
 }
 
-export const RadioGroup = ({ legend, error, name, className, children }: RadioGroupProps) => {
+const radioGroupChildProps = (
+  child: React.ReactElement<RadioProps>,
+  groupName: string,
+  density: SelectionDensity,
+) => ({
+  ...(child.props.name ? {} : { name: groupName }),
+  ...(density === 'compact' && !child.props.density ? { density } : {}),
+});
+
+export const RadioGroup = ({
+  legend,
+  error,
+  name,
+  density = 'default',
+  className,
+  children,
+}: RadioGroupProps) => {
   const generatedId = React.useId();
   const groupName = name || `radio-${generatedId}`;
   const errorId = `${groupName}-error`;
   const namedChildren = React.Children.map(children, (child) =>
-    React.isValidElement<RadioProps>(child) && child.type === Radio && !child.props.name
-      ? React.cloneElement(child, { name: groupName })
+    React.isValidElement<RadioProps>(child) && child.type === Radio
+      ? React.cloneElement(child, radioGroupChildProps(child, groupName, density))
       : child,
   );
   return (
     <fieldset
-      className={joinClasses('flex flex-col items-start gap-0.5 m-0 p-0 border-0', className)}
+      className={joinClasses(
+        'flex flex-col items-start m-0 p-0 border-0',
+        density === 'compact' ? 'gap-0' : 'gap-0.5',
+        className,
+      )}
       aria-describedby={error ? errorId : undefined}
     >
       {legend ? (

@@ -23,7 +23,9 @@ export interface PopUpButtonOption {
   disabled?: boolean;
 }
 
-export type PopUpButtonSize = 'xs' | 'sm' | 'md' | 'lg';
+export type PopUpButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'sm-md';
+
+export type PopUpButtonIndicator = 'popup' | 'chevron';
 
 export type PopUpButtonTone = 'neutral' | 'success' | 'warning' | 'critical';
 
@@ -37,6 +39,7 @@ export interface PopUpButtonProps {
   hint?: string;
   placeholder?: string;
   size?: PopUpButtonSize;
+  indicator?: PopUpButtonIndicator;
   ariaLabel?: string;
   tone?: PopUpButtonTone;
   required?: boolean;
@@ -62,6 +65,7 @@ const TRIGGER_SIZES: Record<PopUpButtonSize, string> = {
   sm: 'gap-2 min-h-[var(--control-sm)] px-2.5 text-subheadline',
   md: 'gap-2 min-h-[var(--control-md)] px-3 text-callout',
   lg: 'gap-2.5 min-h-[var(--control-lg)] px-3.5 text-body',
+  'sm-md': 'gap-2 min-h-[var(--control-md)] pl-3 pr-2.5 text-subheadline',
 };
 
 const MENU_MAX_HEIGHT = 280;
@@ -87,6 +91,7 @@ export const PopUpButton = ({
   hint,
   placeholder = 'Select…',
   size = 'md',
+  indicator = 'popup',
   ariaLabel,
   tone = 'neutral',
   required = false,
@@ -471,7 +476,7 @@ export const PopUpButton = ({
           ) : (
             <span className="truncate text-[var(--label-tertiary)]">{placeholder}</span>
           )}
-          <FieldChevron shape="popup" className="ml-auto" />
+          <FieldChevron shape={indicator} className="ml-auto" />
         </button>
         {isOpen ? (
           <AnchoredLayer isPrivate={isPrivate}>

@@ -29,7 +29,8 @@ const meta = {
   },
   args: { label: 'Judging round', placeholder: 'Choose a round', options, onChange: fn() },
   argTypes: {
-    size: { control: 'inline-radio', options: ['xs', 'sm', 'md', 'lg'], ...appearance },
+    size: { control: 'inline-radio', options: ['xs', 'sm', 'md', 'lg', 'sm-md'], ...appearance },
+    indicator: { control: 'inline-radio', options: ['popup', 'chevron'], ...appearance },
     disabled: { control: 'boolean', ...state },
     invalid: { control: 'boolean', ...state },
     required: { control: 'boolean', ...state },
@@ -56,6 +57,32 @@ export const WithDescriptions: Story = {
       { value: 'advance', label: 'Advance', description: 'Strong fit, move to the next round' },
       { value: 'maybe', label: 'Maybe', description: 'Needs a second look' },
       { value: 'decline', label: 'Do not advance', description: 'Not a fit this cycle' },
+    ],
+  },
+};
+
+export const ChevronIndicator: Story = {
+  args: {
+    label: 'Input type',
+    indicator: 'chevron',
+    value: 'single',
+    options: [
+      { value: 'single', label: 'Single select' },
+      { value: 'multiple', label: 'Multi Select' },
+    ],
+  },
+};
+
+export const SmMdSize: Story = {
+  args: {
+    label: undefined,
+    ariaLabel: 'Sub-industry',
+    size: 'sm-md',
+    indicator: 'chevron',
+    value: 'all',
+    options: [
+      { value: 'all', label: 'All sub-industries' },
+      { value: 'diagnostics', label: 'Diagnostics' },
     ],
   },
 };

@@ -14,6 +14,15 @@ describe('Avatar', () => {
     expect(face.className).not.toContain('--tint');
   });
 
+  it('draws the 32px sm-md size with footnote initials and keeps md as the default', () => {
+    const { container, rerender } = render(<Avatar initials="AR" size="sm-md" />);
+    const box = container.firstElementChild as HTMLElement;
+    expect(box).toHaveClass('w-[var(--avatar-sm-md)]', 'h-[var(--avatar-sm-md)]');
+    expect(screen.getByText('AR')).toHaveClass('text-footnote');
+    rerender(<Avatar initials="AR" />);
+    expect(container.firstElementChild).toHaveClass('w-[var(--avatar-md)]');
+  });
+
   it('hides decorative initials when there is no alt text', () => {
     render(<Avatar initials="JR" />);
     expect(screen.getByText('JR').getAttribute('aria-hidden')).toBe('true');

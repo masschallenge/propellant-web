@@ -424,6 +424,7 @@
   --corner-capsule: 9999px;
 
   --hairline: 1px;
+  --stroke-medium: 1.5px;
   --stroke-strong: 2px;
   --focus-width: 2px;
   --focus-offset: 2px;
@@ -595,6 +596,7 @@
   --avatar-xs: 20px;
   --avatar-compact: 26px;
   --avatar-sm: 28px;
+  --avatar-sm-md: 32px;
   --avatar-md: 36px;
   --avatar-lg: 48px;
   --avatar-xl: 64px;
@@ -688,6 +690,8 @@
 }
 
 :root {
+  --icon-tile-lg-size: 44px;
+  --icon-tile-lg-icon: 22px;
   --icon-tile-teal-bg: var(--teal-100);
   --icon-tile-teal-fg: var(--teal-800);
   --icon-tile-gray-bg: var(--gray-75);
@@ -757,6 +761,14 @@
   --avatar-green-fg: var(--success);
   --avatar-teal-bg: color-mix(in srgb, var(--teal-400) 30%, transparent);
   --avatar-teal-fg: var(--teal-150);
+}
+
+:root {
+  --radio-card-compact-selected-bg: var(--mc-light-tint);
+}
+
+[data-theme='dark'] {
+  --radio-card-compact-selected-bg: var(--tint-fill);
 }
 :root {
   --propellant-version: '2.5.0';

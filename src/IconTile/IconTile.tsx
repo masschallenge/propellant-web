@@ -12,9 +12,12 @@ export type IconTileTone =
   | 'cohort'
   | 'closed';
 
+export type IconTileSize = 'md' | 'lg';
+
 export interface IconTileProps extends Omit<React.ComponentPropsWithoutRef<'span'>, 'children'> {
   icon: ReactNode;
   tone?: IconTileTone;
+  size?: IconTileSize;
 }
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
@@ -32,14 +35,27 @@ const TONES: Record<IconTileTone, string> = {
   closed: 'bg-[var(--icon-tile-closed-bg)] text-[var(--icon-tile-closed-fg)]',
 };
 
-export const IconTile = ({ icon, tone = 'teal', className, ...rest }: IconTileProps) => {
+const SIZES: Record<IconTileSize, string> = {
+  md: 'w-[var(--avatar-md)] h-[var(--avatar-md)] rounded-[var(--corner-tile)] [&>svg]:w-[var(--icon-md)] [&>svg]:h-[var(--icon-md)]',
+  lg: 'w-[var(--icon-tile-lg-size)] h-[var(--icon-tile-lg-size)] rounded-[var(--corner-lg)] [&>svg]:w-[var(--icon-tile-lg-icon)] [&>svg]:h-[var(--icon-tile-lg-icon)]',
+};
+
+export const IconTile = ({
+  icon,
+  tone = 'teal',
+  size = 'md',
+  className,
+  ...rest
+}: IconTileProps) => {
   const isNamed = Boolean(rest['aria-label'] || rest['aria-labelledby']);
   return (
     <span
       data-tone={tone}
+      data-size={size}
       {...(isNamed ? { role: 'img' } : { 'aria-hidden': true })}
       className={joinClasses(
-        'flex-none inline-flex items-center justify-center w-[var(--avatar-md)] h-[var(--avatar-md)] rounded-[var(--corner-tile)] [&>svg]:w-[var(--icon-md)] [&>svg]:h-[var(--icon-md)]',
+        'flex-none inline-flex items-center justify-center',
+        SIZES[size],
         TONES[tone],
         className,
       )}
