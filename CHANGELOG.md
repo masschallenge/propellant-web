@@ -4,7 +4,7 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
-## 2.6.0 (2026-11-23)
+## 2.7.0 (2026-11-23)
 
 ### Added
 
@@ -17,6 +17,11 @@ property and from `@masschallenge/propellant-web/version`.
   Without a `src`, `initials` show on a tinted square instead. Below a nested row with a logo,
   children line up with the row's name instead of its edge, and the children of a
   `navigates` parent line up with that parent.
+
+## 2.6.0 (2026-11-23)
+
+### Added
+
 - `StepIndicator` shows where a person is in a short multi-step flow: the steps in order, the current
   one as a pill with a filled number and `aria-current="step"`, finished ones with a check.
   `onStepSelect` lets a person go back to a finished step. Below the small breakpoint,
