@@ -26,6 +26,12 @@ property and from `@masschallenge/propellant-web/version`.
   outline, so it stays visible in forced colors.
 - `RadioCardGroup` takes `layout="choice"`: an icon tile on the left, an optional neutral
   badge with `--corner-sm` corners and the radio on the right, and the title on its own line.
+- `MenuItem` takes `description`: a second line of footnote text under the label, aligned with
+  the label past any icon, that says what the action will do. It stays secondary on destructive
+  items, the item keeps its label as its accessible name and the line becomes its accessible
+  description.
+- `PageHeader` takes `leading` to put an element, such as a stage `IconTile`, before the title,
+  centred on the title block with a 16px gap.
 
 ## 2.5.0 (2026-11-19)
 
