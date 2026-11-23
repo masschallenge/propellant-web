@@ -45,8 +45,11 @@ export interface RadioCardGroupProps {
   controlOnRight?: boolean;
   name?: string;
   emphasis?: 'default' | 'strong';
+  density?: RadioCardDensity;
   className?: string;
 }
+
+export type RadioCardDensity = 'default' | 'compact';
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
@@ -120,6 +123,7 @@ export const RadioCardGroup = ({
   controlOnRight = false,
   name,
   emphasis = 'default',
+  density = 'default',
   className,
 }: RadioCardGroupProps) => {
   const generatedId = React.useId();
@@ -151,6 +155,7 @@ export const RadioCardGroup = ({
   const describedBy = [descriptionId, errorId].filter(Boolean).join(' ') || undefined;
   const isTile = layout === 'tile';
   const isStrong = emphasis === 'strong';
+  const isCompactRow = density === 'compact' && layout === 'row';
 
   const cards = options.map((option) => {
     const isOn = isSelected(option.value);
@@ -182,8 +187,13 @@ export const RadioCardGroup = ({
       />
     );
     const cardClasses = joinClasses(
-      'relative flex gap-3 p-[var(--space-4)] min-h-[var(--row)] rounded-[var(--corner-lg)] cursor-pointer',
-      layout === 'card' || layout === 'choice' ? 'flex-col' : 'items-start',
+      'relative flex gap-3 min-h-[var(--row)] rounded-[var(--corner-lg)] cursor-pointer',
+      isCompactRow ? 'p-[var(--space-3-5)]' : 'p-[var(--space-4)]',
+      layout === 'card' || layout === 'choice'
+        ? 'flex-col'
+        : isCompactRow
+          ? 'items-center'
+          : 'items-start',
       SURFACE_TRANSITION,
       isOn ? SELECTED_SURFACE : joinClasses('bg-[var(--bg)]', error ? ERROR_EDGE : RESTING_EDGE),
       option.disabled && 'opacity-[var(--opacity-disabled)] cursor-not-allowed',
@@ -326,7 +336,14 @@ export const RadioCardGroup = ({
         ) : null}
         <span className="flex flex-col gap-0.5 min-w-0">
           <span className="flex items-baseline gap-2 flex-wrap">
-            <span className="text-callout font-semibold text-[var(--label)]">{option.title}</span>
+            <span
+              className={joinClasses(
+                isCompactRow ? 'text-body' : 'text-callout',
+                'font-semibold text-[var(--label)]',
+              )}
+            >
+              {option.title}
+            </span>
             {option.handle ? (
               <span className="text-subheadline text-[var(--label-tertiary)]">{option.handle}</span>
             ) : null}
@@ -337,7 +354,12 @@ export const RadioCardGroup = ({
             ) : null}
           </span>
           {option.hint ? (
-            <span className="text-subheadline text-[var(--label-secondary)] text-pretty">
+            <span
+              className={joinClasses(
+                'text-subheadline text-pretty',
+                isCompactRow ? 'text-[var(--label-tertiary)]' : 'text-[var(--label-secondary)]',
+              )}
+            >
               {option.hint}
             </span>
           ) : null}

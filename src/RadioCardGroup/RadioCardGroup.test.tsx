@@ -242,3 +242,30 @@ describe('RadioCardGroup choice cards', () => {
     expect(scratchIcon).toHaveClass('bg-[var(--tint-fill)]', 'text-[var(--tint)]');
   });
 });
+
+describe('RadioCardGroup density', () => {
+  const companies = [{ value: 'careloop', title: 'CareLoop', hint: 'Founder, Owner' }];
+
+  it('keeps the default row padding, alignment and type unless compact is asked for', () => {
+    render(<RadioCardGroup legend="Apply as" options={companies} />);
+    const card = screen.getByRole('radio', { name: /CareLoop/ }).closest('label');
+    expect(card).toHaveClass('p-[var(--space-4)]', 'items-start');
+    expect(screen.getByText('CareLoop')).toHaveClass('text-callout');
+    expect(screen.getByText('Founder, Owner')).toHaveClass('text-[var(--label-secondary)]');
+  });
+
+  it('draws the compact row with 14px padding, centred content and a body title', () => {
+    render(<RadioCardGroup legend="Apply as" density="compact" options={companies} />);
+    const card = screen.getByRole('radio', { name: /CareLoop/ }).closest('label');
+    expect(card).toHaveClass('p-[var(--space-3-5)]', 'items-center');
+    expect(card).not.toHaveClass('p-[var(--space-4)]', 'items-start');
+    expect(screen.getByText('CareLoop')).toHaveClass('text-body', 'font-semibold');
+    expect(screen.getByText('Founder, Owner')).toHaveClass('text-[var(--label-tertiary)]');
+  });
+
+  it('leaves the other layouts alone when compact is set', () => {
+    render(<RadioCardGroup legend="Track" layout="card" density="compact" options={companies} />);
+    const card = screen.getByRole('radio', { name: /CareLoop/ }).closest('label');
+    expect(card).toHaveClass('p-[var(--space-4)]');
+  });
+});
