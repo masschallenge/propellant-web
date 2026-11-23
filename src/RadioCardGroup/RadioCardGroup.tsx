@@ -69,16 +69,29 @@ const SURFACE_TRANSITION =
 
 const HIDDEN_INPUT = 'absolute top-0 left-0 w-px h-px m-0 p-0 border-0 overflow-hidden opacity-0';
 
-const SelectionMark = ({ isSelected, isSquare }: { isSelected: boolean; isSquare: boolean }) => (
+const LARGE_MARK_SIZE = 'w-5 h-5';
+
+interface SelectionMarkProps {
+  isSelected: boolean;
+  isSquare: boolean;
+  isLarge?: boolean;
+}
+
+const SelectionMark = ({ isSelected, isSquare, isLarge = false }: SelectionMarkProps) => (
   <span
     aria-hidden="true"
     className={joinClasses(
       'relative flex-none mt-px flex items-center justify-center',
-      INDICATOR_SIZES.md,
+      isLarge ? LARGE_MARK_SIZE : INDICATOR_SIZES.md,
       isSquare ? 'rounded-[var(--corner-sm)]' : 'rounded-full',
       isSelected
         ? 'bg-[var(--tint)]'
-        : 'bg-[var(--bg)] shadow-[inset_0_0_0_1px_var(--control-border)]',
+        : joinClasses(
+            'bg-[var(--bg)]',
+            isLarge
+              ? 'shadow-[inset_0_0_0_var(--stroke-strong)_var(--control-border)]'
+              : 'shadow-[inset_0_0_0_1px_var(--control-border)]',
+          ),
       SURFACE_TRANSITION,
     )}
   >
@@ -160,7 +173,7 @@ export const RadioCardGroup = ({
   const cards = options.map((option) => {
     const isOn = isSelected(option.value);
     const isInteractive = !isOn && !option.disabled;
-    const mark = <SelectionMark isSelected={isOn} isSquare={isSquare} />;
+    const mark = <SelectionMark isSelected={isOn} isSquare={isSquare} isLarge={isCompactRow} />;
     const icon = option.icon ? (
       <span
         className="flex-none flex items-center justify-center mt-px text-[var(--label-secondary)] [&>svg]:block [&>svg]:w-[var(--icon-lg)] [&>svg]:h-[var(--icon-lg)]"

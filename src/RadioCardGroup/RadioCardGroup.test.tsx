@@ -261,6 +261,17 @@ describe('RadioCardGroup density', () => {
     expect(card).not.toHaveClass('p-[var(--space-4)]', 'items-start');
     expect(screen.getByText('CareLoop')).toHaveClass('text-body', 'font-semibold');
     expect(screen.getByText('Founder, Owner')).toHaveClass('text-[var(--label-tertiary)]');
+    const circle = screen.getByRole('radio', { name: /CareLoop/ }).nextElementSibling;
+    expect(circle).toHaveClass('w-5', 'h-5', 'rounded-full');
+    expect(circle).toHaveClass('shadow-[inset_0_0_0_var(--stroke-strong)_var(--control-border)]');
+  });
+
+  it('keeps the 18px circle on the default row', () => {
+    render(<RadioCardGroup legend="Apply as" options={companies} />);
+    const circle = screen.getByRole('radio', { name: /CareLoop/ }).nextElementSibling;
+    expect(circle).toHaveClass('w-4.5', 'h-4.5');
+    expect(circle).not.toHaveClass('w-5');
+    expect(circle).toHaveClass('shadow-[inset_0_0_0_1px_var(--control-border)]');
   });
 
   it('leaves the other layouts alone when compact is set', () => {
