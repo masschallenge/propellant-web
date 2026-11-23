@@ -468,3 +468,45 @@ describe('Menu panel width', () => {
     expect(panel).toHaveClass('min-w-[13.5rem]');
   });
 });
+
+describe('Menu size', () => {
+  const renderSized = (size?: 'sm' | 'md') =>
+    render(
+      <Menu
+        trigger={<button type="button">More actions</button>}
+        size={size}
+        items={[
+          { label: 'Copy preview link' },
+          { separator: true },
+          { label: 'Reset preview link', description: 'Anyone with the old link loses access.' },
+        ]}
+      />,
+    );
+
+  it('keeps the small panel, rows and separator unless md is asked for', async () => {
+    renderSized();
+    await userEvent.click(screen.getByRole('button', { name: 'More actions' }));
+    expect(screen.getByRole('menu')).toHaveClass('min-w-[13.5rem]');
+    expect(screen.getByRole('menuitem', { name: 'Copy preview link' })).toHaveClass(
+      'min-h-[var(--control-sm)]',
+      'px-2',
+      'py-1',
+    );
+    expect(screen.getByRole('separator')).toHaveClass('mx-2');
+  });
+
+  it('draws the md panel at 232px with 32px rows and a narrower separator inset', async () => {
+    renderSized('md');
+    await userEvent.click(screen.getByRole('button', { name: 'More actions' }));
+    const panel = screen.getByRole('menu');
+    expect(panel).toHaveClass('min-w-[14.5rem]');
+    expect(panel).not.toHaveClass('min-w-[13.5rem]');
+    expect(screen.getByRole('menuitem', { name: 'Copy preview link' })).toHaveClass(
+      'min-h-[var(--control-md)]',
+      'px-2.5',
+      'py-1.5',
+    );
+    expect(screen.getByRole('menuitem', { name: 'Reset preview link' })).toHaveClass('py-2');
+    expect(screen.getByRole('separator')).toHaveClass('mx-1.5');
+  });
+});

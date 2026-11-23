@@ -38,6 +38,8 @@ const STORIES_CAPTURED_WITH_MENU_OPEN = new Map([
   ['components-overlays-menu--icon-button-trigger', 'More actions for this item'],
   ['components-overlays-menu--with-descriptions', 'More actions'],
   ['components-overlays-menu--wide-menu', 'More actions'],
+  ['components-overlays-menu--medium-size', 'More for Pitch video'],
+  ['components-overlays-menu--medium-size-with-descriptions', 'More actions'],
 ]);
 
 const STORIES_CAPTURED_WIDE = new Set([

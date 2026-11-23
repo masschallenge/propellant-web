@@ -59,8 +59,11 @@ export interface MenuProps {
   searchPlaceholder?: string;
   accountBand?: MenuAccountBand;
   minWidth?: string;
+  size?: MenuSize;
   className?: string;
 }
+
+export type MenuSize = 'sm' | 'md';
 
 const MENU_MAX_HEIGHT = 420;
 
@@ -71,11 +74,30 @@ type FocusTarget = 'first' | 'last' | null;
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
 
-const PANEL_CLASSES = `list-none m-0 p-1 min-w-[13.5rem] text-callout ${ANCHORED_SURFACE_CLASSES}`;
+const PANEL_BASE = `list-none m-0 p-1 text-callout ${ANCHORED_SURFACE_CLASSES}`;
+
+const PANEL_WIDTH: Record<MenuSize, string> = {
+  sm: 'min-w-[13.5rem]',
+  md: 'min-w-[14.5rem]',
+};
+
+const panelClasses = (size: MenuSize) => joinClasses(PANEL_BASE, PANEL_WIDTH[size]);
 
 const ROW_BASE =
-  'flex items-center gap-2 w-full min-h-[var(--control-sm)] px-2 py-1 rounded-[var(--corner-md)] border-0 bg-transparent text-left no-underline cursor-default font-[inherit] text-callout font-normal text-(--row-label) ' +
+  'flex items-center gap-2 w-full rounded-[var(--corner-md)] border-0 bg-transparent text-left no-underline cursor-default font-[inherit] text-callout font-normal text-(--row-label) ' +
   'focus-visible:outline-none disabled:opacity-[var(--opacity-disabled)] disabled:cursor-not-allowed';
+
+const ROW_SIZE: Record<MenuSize, string> = {
+  sm: 'min-h-[var(--control-sm)] px-2 py-1',
+  md: 'min-h-[var(--control-md)] px-2.5 py-1.5',
+};
+
+const DESCRIBED_ROW_SIZE: Record<MenuSize, string> = {
+  sm: 'min-h-[var(--control-sm)] px-2 py-1',
+  md: 'min-h-[var(--control-md)] px-2.5 py-2',
+};
+
+const MD_SEPARATOR_CLASSES = 'h-[var(--hairline)] my-1 mx-1.5 bg-[var(--separator)]';
 
 const ROW_TONE = {
   standard:
@@ -111,7 +133,12 @@ const CheckGlyph = ({ className }: { className: string }) => (
   </svg>
 );
 
-const MenuSeparator = () => <li role="separator" className={ANCHORED_SEPARATOR_CLASSES} />;
+const MenuSeparator = ({ size }: { size: MenuSize }) => (
+  <li
+    role="separator"
+    className={size === 'md' ? MD_SEPARATOR_CLASSES : ANCHORED_SEPARATOR_CLASSES}
+  />
+);
 
 const MenuSection = ({ label }: { label: string }) => (
   <li role="presentation" className={ANCHORED_SECTION_CLASSES}>
@@ -121,6 +148,7 @@ const MenuSection = ({ label }: { label: string }) => (
 
 interface MenuRowProps {
   item: MenuItem;
+  size: MenuSize;
   onClose: () => void;
 }
 
@@ -145,7 +173,7 @@ const MenuItemCount = ({ badge, labelId }: { badge: MenuItemBadge; labelId: stri
   </>
 );
 
-const MenuRow = ({ item, onClose }: MenuRowProps) => {
+const MenuRow = ({ item, size, onClose }: MenuRowProps) => {
   const rowId = React.useId();
   const labelId = `${rowId}-label`;
   const countId = `${rowId}-count`;
@@ -158,6 +186,7 @@ const MenuRow = ({ item, onClose }: MenuRowProps) => {
   const LinkElement = item.linkAs ?? 'a';
   const rowClasses = joinClasses(
     ROW_BASE,
+    (item.description ? DESCRIBED_ROW_SIZE : ROW_SIZE)[size],
     ROW_TONE[isDestructive ? 'destructive' : 'standard'],
     hasDescription && 'items-start',
   );
@@ -284,23 +313,29 @@ const MenuRow = ({ item, onClose }: MenuRowProps) => {
           role="menu"
           aria-label={item.label}
           className={joinClasses(
-            PANEL_CLASSES,
+            panelClasses(size),
             'absolute left-[calc(100%-4px)] -top-1 z-10 hidden group-hover/sub:block group-focus-within/sub:block',
           )}
         >
-          <MenuEntries items={item.submenu ?? []} onClose={onClose} />
+          <MenuEntries items={item.submenu ?? []} size={size} onClose={onClose} />
         </ul>
       ) : null}
     </li>
   );
 };
 
-const MenuEntries = ({ items, onClose }: { items: MenuItem[]; onClose: () => void }) => (
+interface MenuEntriesProps {
+  items: MenuItem[];
+  size: MenuSize;
+  onClose: () => void;
+}
+
+const MenuEntries = ({ items, size, onClose }: MenuEntriesProps) => (
   <>
     {items.map((item, index) => {
-      if (item.separator) return <MenuSeparator key={index} />;
+      if (item.separator) return <MenuSeparator key={index} size={size} />;
       if (item.section) return <MenuSection key={index} label={item.section} />;
-      return <MenuRow key={index} item={item} onClose={onClose} />;
+      return <MenuRow key={index} item={item} size={size} onClose={onClose} />;
     })}
   </>
 );
@@ -313,6 +348,7 @@ export const Menu = ({
   searchPlaceholder = 'Search',
   accountBand,
   minWidth,
+  size = 'sm',
   className,
 }: MenuProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -429,7 +465,7 @@ export const Menu = ({
               maxHeight: position ? Math.min(MENU_MAX_HEIGHT, position.available) : undefined,
               minWidth,
             }}
-            className={joinClasses(PANEL_CLASSES, 'overflow-auto')}
+            className={joinClasses(panelClasses(size), 'overflow-auto')}
           >
             {accountBand ? (
               <>
@@ -459,7 +495,7 @@ export const Menu = ({
                     ) : null}
                   </span>
                 </li>
-                <MenuSeparator />
+                <MenuSeparator size={size} />
               </>
             ) : null}
             {search ? (
@@ -473,7 +509,7 @@ export const Menu = ({
                 />
               </li>
             ) : null}
-            <MenuEntries items={visibleItems} onClose={closeToTrigger} />
+            <MenuEntries items={visibleItems} size={size} onClose={closeToTrigger} />
           </ul>
         </AnchoredLayer>
       ) : null}

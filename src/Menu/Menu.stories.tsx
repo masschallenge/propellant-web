@@ -49,6 +49,16 @@ const accountIcons = {
     'M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',
   ),
   reset: lineIcon('M3 12a9 9 0 1 0 3-6.7L3 8', 'M3 3v5h5'),
+  edit: lineIcon('M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z'),
+  duplicate: lineIcon(
+    'M10 8h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2z',
+    'M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2',
+  ),
+  trash: lineIcon(
+    'M3 6h18',
+    'M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6',
+    'M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2',
+  ),
   more: lineIcon(
     'M12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2z',
     'M19 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2z',
@@ -114,6 +124,7 @@ const meta = {
     align: { control: 'inline-radio', options: ['start', 'end'], ...appearance },
     search: { control: 'boolean', ...appearance },
     minWidth: { control: 'text', ...appearance },
+    size: { control: 'inline-radio', options: ['sm', 'md'], ...appearance },
     className: hide,
   },
 } satisfies Meta<typeof Menu>;
@@ -202,6 +213,28 @@ export const WideMenu: Story = {
     minWidth: '17.5rem',
     items: (WithDescriptions.args?.items ?? []).slice(0, 3),
   },
+};
+
+export const MediumSize: Story = {
+  args: {
+    align: 'end',
+    size: 'md',
+    trigger: (
+      <IconButton size="sm" shape="capsule" aria-label="More for Pitch video">
+        {accountIcons.more}
+      </IconButton>
+    ),
+    items: [
+      { label: 'Edit', icon: accountIcons.edit, onSelect: fn() },
+      { label: 'Duplicate', icon: accountIcons.duplicate, onSelect: fn() },
+      { separator: true },
+      { label: 'Delete question', icon: accountIcons.trash, destructive: true, onSelect: fn() },
+    ],
+  },
+};
+
+export const MediumSizeWithDescriptions: Story = {
+  args: { ...WideMenu.args, size: 'md' },
 };
 
 export const OpenMenuWithDescriptions: Story = {
