@@ -17,6 +17,13 @@ export const INDICATOR_SIZES: Record<SelectionSize, string> = {
   md: 'w-4.5 h-4.5',
 };
 
+const restingEdge = (hasError: boolean, density: SelectionDensity) => {
+  if (hasError) return 'shadow-[inset_0_0_0_var(--stroke-strong)_var(--critical)]';
+  return density === 'compact'
+    ? 'shadow-[inset_0_0_0_var(--stroke-medium)_var(--control-border)]'
+    : 'shadow-[inset_0_0_0_1px_var(--control-border)]';
+};
+
 export const indicatorClasses = (
   size: SelectionSize,
   hasError: boolean,
@@ -26,9 +33,7 @@ export const indicatorClasses = (
     'relative flex-none bg-[var(--bg)]',
     density === 'compact' ? 'mt-0.5' : 'mt-px',
     INDICATOR_SIZES[size],
-    hasError
-      ? 'shadow-[inset_0_0_0_var(--stroke-strong)_var(--critical)]'
-      : 'shadow-[inset_0_0_0_1px_var(--control-border)]',
+    restingEdge(hasError, density),
     'transition-[background-color,box-shadow] duration-[var(--duration-fade)] ease-[var(--ease-standard)]',
     'peer-focus-visible:outline-[length:var(--focus-width)] peer-focus-visible:outline-solid peer-focus-visible:outline-offset-[var(--focus-offset)] peer-focus-visible:outline-[var(--focus-color)]',
     "after:content-[''] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:w-[var(--hit-target)] after:h-[var(--hit-target)]",
