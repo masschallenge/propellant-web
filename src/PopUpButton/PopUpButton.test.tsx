@@ -223,3 +223,35 @@ describe('PopUpButton pointer', () => {
     expect(screen.getAllByRole('option')).toHaveLength(3);
   });
 });
+
+describe('PopUpButton indicator', () => {
+  const chevronOf = (trigger: HTMLElement) =>
+    trigger.querySelector('span[aria-hidden="true"]:last-child') as HTMLElement;
+
+  it('keeps the up and down popup chevron by default', () => {
+    render(<PopUpButton ariaLabel="Round" options={[{ value: 'one', label: 'One' }]} />);
+    const chevron = chevronOf(screen.getByRole('combobox', { name: 'Round' }));
+    expect(chevron).toHaveClass('ml-auto', 'text-[var(--label-tertiary)]');
+    expect(chevron).not.toHaveClass('-mr-0.5');
+    expect(chevron.querySelector('path')).toHaveAttribute('d', 'm8 9.5 4-4 4 4M8 14.5l4 4 4-4');
+    expect(chevron.querySelector('svg')).not.toHaveClass('[stroke-width:var(--icon-stroke)]');
+  });
+
+  it('draws a single thinner chevron at the field inset when asked', () => {
+    render(
+      <PopUpButton
+        ariaLabel="Input type"
+        indicator="chevron"
+        options={[{ value: 'one', label: 'One' }]}
+      />,
+    );
+    const chevron = chevronOf(screen.getByRole('combobox', { name: 'Input type' }));
+    expect(chevron).toHaveClass('ml-auto', 'text-[var(--label-secondary)]');
+    expect(chevron).not.toHaveClass('-mr-0.5');
+    expect(chevron.querySelector('path')).toHaveAttribute('d', 'm6 9 6 6 6-6');
+    expect(chevron.querySelector('svg')).toHaveClass(
+      'w-[var(--icon-sm)]',
+      '[stroke-width:var(--icon-stroke)]',
+    );
+  });
+});

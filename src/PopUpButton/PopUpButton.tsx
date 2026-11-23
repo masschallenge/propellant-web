@@ -25,6 +25,8 @@ export interface PopUpButtonOption {
 
 export type PopUpButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 
+export type PopUpButtonIndicator = 'popup' | 'chevron';
+
 export type PopUpButtonTone = 'neutral' | 'success' | 'warning' | 'critical';
 
 export interface PopUpButtonProps {
@@ -37,6 +39,7 @@ export interface PopUpButtonProps {
   hint?: string;
   placeholder?: string;
   size?: PopUpButtonSize;
+  indicator?: PopUpButtonIndicator;
   ariaLabel?: string;
   tone?: PopUpButtonTone;
   required?: boolean;
@@ -87,6 +90,7 @@ export const PopUpButton = ({
   hint,
   placeholder = 'Select…',
   size = 'md',
+  indicator = 'popup',
   ariaLabel,
   tone = 'neutral',
   required = false,
@@ -471,7 +475,7 @@ export const PopUpButton = ({
           ) : (
             <span className="truncate text-[var(--label-tertiary)]">{placeholder}</span>
           )}
-          <FieldChevron shape="popup" className="ml-auto" />
+          <FieldChevron shape={indicator} className="ml-auto" />
         </button>
         {isOpen ? (
           <AnchoredLayer isPrivate={isPrivate}>
