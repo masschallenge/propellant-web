@@ -46,6 +46,7 @@ const STORIES_CAPTURED_WIDE = new Set([
   'components-layout-appshell--tree',
   'components-layout-appshell--rail',
   'components-layout-sidebar--tree',
+  'components-layout-sidebar--linked-parent-with-logos',
   'components-layout-sidebar--program-under-persona',
   'components-layout-sidebar--program-without-cover-under-persona',
 ]);
