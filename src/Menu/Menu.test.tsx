@@ -432,6 +432,7 @@ describe('Menu item description', () => {
     const reset = screen.getByRole('menuitem', { name: 'Reset preview link' });
     expect(reset).toHaveAccessibleDescription('Anyone with the old link loses access.');
     expect(reset).toHaveClass('items-start');
+    expect(reset).not.toHaveClass('items-center');
     expect(screen.getByText('Anyone with the old link loses access.')).toHaveClass(
       'text-footnote',
       'text-(--row-description)',
@@ -441,6 +442,7 @@ describe('Menu item description', () => {
     expect(plain).not.toHaveAttribute('aria-describedby');
     expect(plain).not.toHaveAttribute('aria-labelledby');
     expect(plain).not.toHaveClass('items-start');
+    expect(plain).toHaveClass('items-center');
   });
 });
 

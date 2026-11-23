@@ -84,7 +84,7 @@ const PANEL_WIDTH: Record<MenuSize, string> = {
 const panelClasses = (size: MenuSize) => joinClasses(PANEL_BASE, PANEL_WIDTH[size]);
 
 const ROW_BASE =
-  'flex items-center gap-2 w-full rounded-[var(--corner-md)] border-0 bg-transparent text-left no-underline cursor-default font-[inherit] text-callout font-normal text-(--row-label) ' +
+  'flex gap-2 w-full rounded-[var(--corner-md)] border-0 bg-transparent text-left no-underline cursor-default font-[inherit] text-callout font-normal text-(--row-label) ' +
   'focus-visible:outline-none disabled:opacity-[var(--opacity-disabled)] disabled:cursor-not-allowed';
 
 const ROW_SIZE: Record<MenuSize, string> = {
@@ -93,7 +93,7 @@ const ROW_SIZE: Record<MenuSize, string> = {
 };
 
 const DESCRIBED_ROW_SIZE: Record<MenuSize, string> = {
-  sm: 'min-h-[var(--control-sm)] px-2 py-1',
+  sm: ROW_SIZE.sm,
   md: 'min-h-[var(--control-md)] px-2.5 py-2',
 };
 
@@ -186,9 +186,9 @@ const MenuRow = ({ item, size, onClose }: MenuRowProps) => {
   const LinkElement = item.linkAs ?? 'a';
   const rowClasses = joinClasses(
     ROW_BASE,
-    (item.description ? DESCRIBED_ROW_SIZE : ROW_SIZE)[size],
+    hasDescription ? 'items-start' : 'items-center',
+    (hasDescription ? DESCRIBED_ROW_SIZE : ROW_SIZE)[size],
     ROW_TONE[isDestructive ? 'destructive' : 'standard'],
-    hasDescription && 'items-start',
   );
   const describedBy = hasDescription ? descriptionId : undefined;
   const labelledBy = hasDescription ? joinClasses(labelId, hasCount && countId) : undefined;
