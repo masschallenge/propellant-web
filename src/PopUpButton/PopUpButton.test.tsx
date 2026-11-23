@@ -255,3 +255,41 @@ describe('PopUpButton indicator', () => {
     );
   });
 });
+
+describe('PopUpButton filter size', () => {
+  it('draws a 32px trigger with 13px text and a 10px trailing inset', () => {
+    render(
+      <PopUpButton
+        ariaLabel="Sub-industry"
+        size="filter"
+        indicator="chevron"
+        options={[{ value: 'all', label: 'All sub-industries' }]}
+      />,
+    );
+    expect(screen.getByRole('combobox', { name: 'Sub-industry' })).toHaveClass(
+      'min-h-[var(--control-md)]',
+      'text-subheadline',
+      'pl-3',
+      'pr-2.5',
+    );
+  });
+
+  it('keeps sm and md as they were', () => {
+    render(
+      <>
+        <PopUpButton ariaLabel="Small" size="sm" options={[{ value: 'one', label: 'One' }]} />
+        <PopUpButton ariaLabel="Medium" options={[{ value: 'one', label: 'One' }]} />
+      </>,
+    );
+    expect(screen.getByRole('combobox', { name: 'Small' })).toHaveClass(
+      'min-h-[var(--control-sm)]',
+      'px-2.5',
+      'text-subheadline',
+    );
+    expect(screen.getByRole('combobox', { name: 'Medium' })).toHaveClass(
+      'min-h-[var(--control-md)]',
+      'px-3',
+      'text-callout',
+    );
+  });
+});

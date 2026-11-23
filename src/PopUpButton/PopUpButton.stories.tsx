@@ -29,7 +29,7 @@ const meta = {
   },
   args: { label: 'Judging round', placeholder: 'Choose a round', options, onChange: fn() },
   argTypes: {
-    size: { control: 'inline-radio', options: ['xs', 'sm', 'md', 'lg'], ...appearance },
+    size: { control: 'inline-radio', options: ['xs', 'sm', 'md', 'lg', 'filter'], ...appearance },
     indicator: { control: 'inline-radio', options: ['popup', 'chevron'], ...appearance },
     disabled: { control: 'boolean', ...state },
     invalid: { control: 'boolean', ...state },
@@ -69,6 +69,20 @@ export const ChevronIndicator: Story = {
     options: [
       { value: 'single', label: 'Single select' },
       { value: 'multiple', label: 'Multi Select' },
+    ],
+  },
+};
+
+export const FilterSize: Story = {
+  args: {
+    label: undefined,
+    ariaLabel: 'Sub-industry',
+    size: 'filter',
+    indicator: 'chevron',
+    value: 'all',
+    options: [
+      { value: 'all', label: 'All sub-industries' },
+      { value: 'diagnostics', label: 'Diagnostics' },
     ],
   },
 };
