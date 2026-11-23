@@ -912,4 +912,182 @@ describe('Sidebar', () => {
       expect(spoken.parentElement).toHaveClass('relative', 'line-clamp-2');
     });
   });
+  describe('linked parents and logos', () => {
+    const companiesTree = (onToggle = vi.fn()) => (
+      <Sidebar>
+        <SidebarSection>
+          <SidebarItem
+            href="/companies"
+            navigates
+            expanded={false}
+            onExpandedChange={onToggle}
+            subitems={
+              <SidebarItem
+                media={{ src: '/careloop.png', alt: '', shape: 'logo' }}
+                defaultExpanded
+                subitems={
+                  <>
+                    <SidebarItem href="/companies/7">Profile</SidebarItem>
+                    <SidebarItem href="/companies/7/team">Team</SidebarItem>
+                  </>
+                }
+              >
+                CareLoop
+              </SidebarItem>
+            }
+          >
+            Your companies
+          </SidebarItem>
+        </SidebarSection>
+      </Sidebar>
+    );
+
+    it('makes a parent with an href a link that opens its list, with its own toggle', async () => {
+      const user = userEvent.setup();
+      const onToggle = vi.fn();
+      render(companiesTree(onToggle));
+      const link = screen.getByRole('link', { name: 'Your companies' });
+      expect(link).toHaveAttribute('href', '/companies');
+      expect(link).not.toHaveAttribute('aria-expanded');
+      const toggle = screen.getByRole('button', { name: 'Show Your companies pages' });
+      expect(toggle).toHaveAttribute('aria-expanded', 'false');
+      await user.click(toggle);
+      expect(onToggle).toHaveBeenLastCalledWith(true);
+      link.addEventListener('click', (event) => event.preventDefault());
+      await user.click(link);
+      expect(onToggle).toHaveBeenCalledTimes(2);
+    });
+
+    it('keeps an open linked parent open when its link is followed', async () => {
+      const user = userEvent.setup();
+      const onToggle = vi.fn();
+      render(
+        <Sidebar>
+          <SidebarSection>
+            <SidebarItem
+              href="/companies"
+              navigates
+              expanded
+              onExpandedChange={onToggle}
+              subitems={<SidebarItem href="/companies/7">CareLoop</SidebarItem>}
+            >
+              Your companies
+            </SidebarItem>
+          </SidebarSection>
+        </Sidebar>,
+      );
+      const link = screen.getByRole('link', { name: 'Your companies' });
+      link.addEventListener('click', (event) => event.preventDefault());
+      await user.click(link);
+      expect(onToggle).not.toHaveBeenCalled();
+      await user.click(screen.getByRole('button', { name: 'Hide Your companies pages' }));
+      expect(onToggle).toHaveBeenCalledWith(false);
+    });
+
+    it('names the toggle generically when the label is not plain text', () => {
+      render(
+        <Sidebar>
+          <SidebarSection>
+            <SidebarItem navigates href="/x" subitems={<SidebarItem href="/y">Child</SidebarItem>}>
+              <strong>Bold</strong>
+            </SidebarItem>
+          </SidebarSection>
+        </Sidebar>,
+      );
+      expect(screen.getByRole('button', { name: 'Show section pages' })).toBeInTheDocument();
+    });
+
+    it('lines companies up with a linked parent and their pages up with the name', () => {
+      const { container } = render(
+        <Sidebar>
+          <SidebarSection>
+            <SidebarItem
+              icon={<svg />}
+              defaultExpanded
+              subitems={
+                <SidebarItem
+                  href="/companies"
+                  navigates
+                  defaultExpanded
+                  subitems={
+                    <>
+                      <SidebarItem
+                        media={{ src: '/careloop.png', alt: '', shape: 'logo' }}
+                        defaultExpanded
+                        subitems={<SidebarItem href="/companies/7">Profile</SidebarItem>}
+                      >
+                        CareLoop
+                      </SidebarItem>
+                      <SidebarItem
+                        media={{ alt: '', shape: 'logo', initials: 'LG' }}
+                        defaultExpanded
+                        subitems={<SidebarItem href="/companies/8">Team</SidebarItem>}
+                      >
+                        Lattice Genomics
+                      </SidebarItem>
+                    </>
+                  }
+                >
+                  Your companies
+                </SidebarItem>
+              }
+            >
+              Network
+            </SidebarItem>
+          </SidebarSection>
+        </Sidebar>,
+      );
+      const iconLabel = 'pl-[calc(var(--space-2)+var(--icon-lg)+var(--space-2-5))]';
+      const underName =
+        'pl-[calc(var(--space-2)+var(--icon-lg)+var(--space-2-5)+var(--avatar-xs)+var(--space-2-5))]';
+      expect(screen.getByRole('link', { name: 'Your companies' })).toHaveClass(iconLabel);
+      expect(screen.getByRole('button', { name: 'CareLoop' })).toHaveClass(iconLabel);
+      expect(screen.getByRole('link', { name: 'Profile' })).toHaveClass(underName);
+      expect(screen.getByRole('link', { name: 'Team' })).toHaveClass(underName);
+      const logo = container.querySelector('img[src="/careloop.png"]');
+      expect(logo).toHaveClass('w-[var(--avatar-xs)]', 'h-[var(--avatar-xs)]', 'object-contain');
+      const initials = screen.getByText('LG');
+      expect(initials).toHaveAttribute('aria-hidden', 'true');
+      expect(initials).toHaveClass('bg-[var(--tint)]', 'w-[var(--avatar-xs)]');
+    });
+
+    it('lines the pages of a top level logo row up with its name', () => {
+      render(
+        <Sidebar>
+          <SidebarSection>
+            <SidebarItem
+              defaultExpanded
+              subitems={
+                <SidebarItem
+                  media={{ alt: '', shape: 'logo', initials: 'CL' }}
+                  defaultExpanded
+                  subitems={<SidebarItem href="/p">Profile</SidebarItem>}
+                >
+                  CareLoop
+                </SidebarItem>
+              }
+            >
+              Companies
+            </SidebarItem>
+          </SidebarSection>
+        </Sidebar>,
+      );
+      expect(screen.getByRole('link', { name: 'Profile' })).toHaveClass(
+        'pl-[calc(1.625rem+var(--avatar-xs)+var(--space-2-5))]',
+      );
+    });
+
+    it('keeps program covers cropped', () => {
+      const { container } = render(
+        <Sidebar>
+          <SidebarSection>
+            <SidebarItem href="/p" media={{ src: '/cover.png', alt: '' }}>
+              Program
+            </SidebarItem>
+          </SidebarSection>
+        </Sidebar>,
+      );
+      expect(container.querySelector('img')).toHaveClass('w-15', 'object-cover');
+    });
+  });
 });

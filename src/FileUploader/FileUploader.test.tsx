@@ -105,3 +105,19 @@ describe('FileRow', () => {
     expect(onRemove).toHaveBeenCalled();
   });
 });
+
+describe('FileRow action', () => {
+  it('shows an action beside the file and can hide the upload status visually', () => {
+    render(
+      <FileRow
+        name="careloop-deck.pdf"
+        meta="3.1 MB"
+        showStatus={false}
+        action={<button type="button">Replace</button>}
+      />,
+    );
+    expect(screen.getByRole('button', { name: 'Replace' })).toBeInTheDocument();
+    expect(screen.getByRole('status')).toHaveClass('sr-only');
+    expect(screen.getByText('3.1 MB')).toBeInTheDocument();
+  });
+});

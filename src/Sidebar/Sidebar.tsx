@@ -168,9 +168,13 @@ export interface SidebarItemMarker {
   label: string;
 }
 
+export type SidebarItemMediaShape = 'cover' | 'logo';
+
 export interface SidebarItemMedia {
-  src: string;
+  src?: string;
   alt: string;
+  shape?: SidebarItemMediaShape;
+  initials?: string;
 }
 
 export interface SidebarItemProps {
@@ -186,6 +190,7 @@ export interface SidebarItemProps {
   accessory?: ReactNode;
   size?: SidebarItemSize;
   subitems?: ReactNode;
+  navigates?: boolean;
   collapsible?: boolean;
   expanded?: boolean;
   defaultExpanded?: boolean;
@@ -208,6 +213,15 @@ const PROGRAM_INSET = 'pl-1.5';
 const PROGRAM_ROW_INDENT = 'pl-0.5';
 const PROGRAM_STEP_INDENT = 'pl-5';
 const PROGRAM_LEAF_INDENT = 'pl-16.5';
+const LOGO_LEAF_INDENT = 'pl-[calc(4.5rem+var(--avatar-xs)+var(--space-2-5))]';
+const LOGO_PROGRAM_LEAF_INDENT = 'pl-[calc(4.125rem+var(--avatar-xs)+var(--space-2-5))]';
+const LOGO_CHILD_INDENTS: Record<string, string> = {
+  [ICON_LABEL_INDENT]:
+    'pl-[calc(var(--space-2)+var(--icon-lg)+var(--space-2-5)+var(--avatar-xs)+var(--space-2-5))]',
+  [STEP_INDENT]: 'pl-[calc(1.625rem+var(--avatar-xs)+var(--space-2-5))]',
+  [LEAF_INDENT]: LOGO_LEAF_INDENT,
+  [PROGRAM_LEAF_INDENT]: LOGO_PROGRAM_LEAF_INDENT,
+};
 
 const SidebarLevelContext = React.createContext<SidebarLevel>({
   depth: 0,
@@ -230,13 +244,29 @@ const leadingKindOf = (
 const rowIndentFor = (indent: string, isProgramRow: boolean) =>
   isProgramRow ? PROGRAM_ROW_INDENT : indent;
 
-const childIndentFor = (
-  depth: number,
-  leadingKind: LeadingKind,
-  isProgramRow: boolean,
-  isInset: boolean,
-) => {
+interface ChildIndentContext {
+  depth: number;
+  indent: string;
+  leadingKind: LeadingKind;
+  isProgramRow: boolean;
+  isInset: boolean;
+  hasLogo: boolean;
+  isLinkedParent: boolean;
+}
+
+const childIndentFor = ({
+  depth,
+  indent,
+  leadingKind,
+  isProgramRow,
+  isInset,
+  hasLogo,
+  isLinkedParent,
+}: ChildIndentContext) => {
   if (isProgramRow) return PROGRAM_STEP_INDENT;
+  if (isLinkedParent && depth > 0) return indent;
+  if (hasLogo && depth > 0)
+    return LOGO_CHILD_INDENTS[indent] ?? (isInset ? LOGO_PROGRAM_LEAF_INDENT : LOGO_LEAF_INDENT);
   if (leadingKind === 'marker' || depth > 0) return isInset ? PROGRAM_LEAF_INDENT : LEAF_INDENT;
   return leadingKind === 'icon' ? ICON_LABEL_INDENT : STEP_INDENT;
 };
@@ -325,6 +355,9 @@ const ariaCurrentFor = (current: boolean, isRailTrail: boolean): 'page' | 'true'
 const INTERACTIVE_ROW =
   'cursor-pointer active:bg-[var(--fill-secondary)] focus-visible:outline-[length:var(--focus-width)] focus-visible:outline-solid focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus-color)]';
 
+const DISCLOSURE_TOGGLE =
+  'absolute right-1 top-1/2 -translate-y-1/2 flex items-center justify-center w-[var(--control-sm)] h-[var(--control-sm)] p-0 border-0 rounded-[var(--corner-md)] bg-transparent cursor-pointer hover:bg-[var(--fill-tertiary)] active:bg-[var(--fill-secondary)] focus-visible:outline-[length:var(--focus-width)] focus-visible:outline-solid focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--focus-color)]';
+
 const ICON_SIZES = {
   flat: 'w-[var(--icon-sm)] h-[var(--icon-sm)]',
   tree: 'w-[var(--icon-lg)] h-[var(--icon-lg)]',
@@ -374,19 +407,29 @@ const SidebarMarker = ({ marker }: { marker: SidebarItemMarker }) => (
   </span>
 );
 
-const SidebarMedia = ({ media, isRail }: { media: SidebarItemMedia; isRail: boolean }) => (
-  <img
-    src={media.src}
-    alt={media.alt}
-    className={joinClasses(
-      'flex-none bg-[var(--bg)] outline-1 outline-solid outline-[var(--separator)] -outline-offset-1',
-      isRail
-        ? 'w-8.5 h-5 rounded-[var(--corner-sm)] shadow-[inset_0_0_0_1px_var(--separator)]'
-        : 'w-15 h-9 rounded-[var(--corner-thumbnail)]',
-      imageFitClass(true),
-    )}
-  />
-);
+const SidebarMedia = ({ media, isRail }: { media: SidebarItemMedia; isRail: boolean }) =>
+  media.src ? (
+    <img
+      src={media.src}
+      alt={media.alt}
+      className={joinClasses(
+        'flex-none bg-[var(--bg)] outline-1 outline-solid outline-[var(--separator)] -outline-offset-1',
+        media.shape === 'logo'
+          ? 'w-[var(--avatar-xs)] h-[var(--avatar-xs)] rounded-[var(--corner-sm)]'
+          : isRail
+            ? 'w-8.5 h-5 rounded-[var(--corner-sm)] shadow-[inset_0_0_0_1px_var(--separator)]'
+            : 'w-15 h-9 rounded-[var(--corner-thumbnail)]',
+        imageFitClass(media.shape !== 'logo'),
+      )}
+    />
+  ) : (
+    <span
+      aria-hidden="true"
+      className="flex-none inline-flex items-center justify-center w-[var(--avatar-xs)] h-[var(--avatar-xs)] rounded-[var(--corner-sm)] bg-[var(--tint)] text-[var(--on-tint)] text-[0.5625rem] font-bold leading-none"
+    >
+      {media.initials}
+    </span>
+  );
 
 const SidebarChevron = ({ isExpanded }: { isExpanded: boolean }) => (
   <svg
@@ -499,6 +542,7 @@ export const SidebarItem = ({
   accessory,
   size,
   subitems,
+  navigates = false,
   collapsible = true,
   expanded,
   defaultExpanded = false,
@@ -517,6 +561,7 @@ export const SidebarItem = ({
   const isStatic = isProgramRow && !href;
   const isParent = hasSubitems && collapsible;
   const isDisclosure = isParent && !isRail;
+  const isLinkedParent = isDisclosure && navigates && Boolean(href);
   const isLink = Boolean(href) && !isParent;
   const isExpanded = !collapsible || (expanded ?? internalExpanded);
   const leadingKind = leadingKindOf(icon, marker, media);
@@ -538,6 +583,11 @@ export const SidebarItem = ({
   };
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     onClick?.(event);
+    if (isLinkedParent) {
+      if (!isExpanded) toggleExpanded();
+      if (shell?.isCompact) shell.closeSidebar();
+      return;
+    }
     if (isDisclosure) return toggleExpanded();
     if (isRail && hasSubitems && !isLink) return pinExpanded();
     if (shell?.isCompact) shell.closeSidebar();
@@ -547,6 +597,7 @@ export const SidebarItem = ({
     rowLayout(rowKind, rowIndentFor(indent, isProgramRow), size, isRail),
     rowColor(rowKind, current || (isRail && inTrail), !isStatic),
     !isStatic && INTERACTIVE_ROW,
+    isLinkedParent && 'pr-9!',
     className,
   );
   const staticProps = {
@@ -556,7 +607,9 @@ export const SidebarItem = ({
   const rowProps = {
     ...staticProps,
     onClick: handleClick,
-    ...(isDisclosure ? { 'aria-expanded': isExpanded, 'aria-controls': subitemsId } : {}),
+    ...(isDisclosure && !isLinkedParent
+      ? { 'aria-expanded': isExpanded, 'aria-controls': subitemsId }
+      : {}),
   };
   const fullContent = (
     <>
@@ -573,7 +626,7 @@ export const SidebarItem = ({
         </span>
       ) : null}
       {visibleAccessory(accessory, tagText)}
-      {isDisclosure ? <SidebarChevron isExpanded={isExpanded} /> : null}
+      {isDisclosure && !isLinkedParent ? <SidebarChevron isExpanded={isExpanded} /> : null}
     </>
   );
   const content = (
@@ -588,8 +641,27 @@ export const SidebarItem = ({
       )}
     </>
   );
+  const sectionName = plainText(children) ?? 'section';
   const rowElement = () => {
     if (isStatic) return <div {...staticProps}>{content}</div>;
+    if (isLinkedParent)
+      return (
+        <div className="relative flex items-center">
+          <LinkElement href={href} {...rowProps}>
+            {content}
+          </LinkElement>
+          <button
+            type="button"
+            aria-expanded={isExpanded}
+            aria-controls={subitemsId}
+            aria-label={`${isExpanded ? 'Hide' : 'Show'} ${sectionName} pages`}
+            onClick={toggleExpanded}
+            className={DISCLOSURE_TOGGLE}
+          >
+            <SidebarChevron isExpanded={isExpanded} />
+          </button>
+        </div>
+      );
     if (isLink)
       return (
         <LinkElement href={href} {...rowProps}>
@@ -612,7 +684,15 @@ export const SidebarItem = ({
         <SidebarLevelContext.Provider
           value={{
             depth: depth + 1,
-            indent: childIndentFor(depth, leadingKind, isProgramRow, isInset),
+            indent: childIndentFor({
+              depth,
+              indent,
+              leadingKind,
+              isProgramRow,
+              isInset,
+              hasLogo: media?.shape === 'logo',
+              isLinkedParent,
+            }),
             isInset: isInset || isProgramRow,
           }}
         >

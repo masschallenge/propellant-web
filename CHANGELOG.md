@@ -8,6 +8,15 @@ property and from `@masschallenge/propellant-web/version`.
 
 ### Added
 
+- `SidebarItem` takes `navigates`: a parent with an `href` becomes a link that goes to its page
+  and opens its list, with a separate chevron button, named "Show" or "Hide" and the label, that
+  opens and closes the list. Without `navigates` a parent still only opens and closes.
+- `FileRow` takes `action` for a control beside the file, such as Replace, and
+  `showStatus={false}` to keep the upload status for screen readers only.
+- Sidebar `media` takes `shape: 'logo'` for a 20px square logo, contained rather than cropped.
+  Without a `src`, `initials` show on a tinted square instead. Below a nested row with a logo,
+  children line up with the row's name instead of its edge, and the children of a
+  `navigates` parent line up with that parent.
 - `StepIndicator` shows where a person is in a short multi-step flow: the steps in order, the current
   one as a pill with a filled number and `aria-current="step"`, finished ones with a check.
   `onStepSelect` lets a person go back to a finished step. Below the small breakpoint,
