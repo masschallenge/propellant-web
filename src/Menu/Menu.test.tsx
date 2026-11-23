@@ -443,3 +443,28 @@ describe('Menu item description', () => {
     expect(plain).not.toHaveClass('items-start');
   });
 });
+
+describe('Menu panel width', () => {
+  it('widens the panel to the given minimum and keeps the default otherwise', async () => {
+    const { unmount } = render(
+      <Menu
+        trigger={<button type="button">More actions</button>}
+        minWidth="17.5rem"
+        items={[{ label: 'Copy preview link' }]}
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'More actions' }));
+    expect(screen.getByRole('menu')).toHaveStyle({ minWidth: '17.5rem' });
+    unmount();
+    render(
+      <Menu
+        trigger={<button type="button">More actions</button>}
+        items={[{ label: 'Copy preview link' }]}
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'More actions' }));
+    const panel = screen.getByRole('menu');
+    expect(panel.style.minWidth).toBe('');
+    expect(panel).toHaveClass('min-w-[13.5rem]');
+  });
+});

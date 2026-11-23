@@ -113,6 +113,7 @@ const meta = {
   argTypes: {
     align: { control: 'inline-radio', options: ['start', 'end'], ...appearance },
     search: { control: 'boolean', ...appearance },
+    minWidth: { control: 'text', ...appearance },
     className: hide,
   },
 } satisfies Meta<typeof Menu>;
@@ -192,6 +193,14 @@ export const WithDescriptions: Story = {
         onSelect: fn(),
       },
     ],
+  },
+};
+
+export const WideMenu: Story = {
+  args: {
+    ...WithDescriptions.args,
+    minWidth: '17.5rem',
+    items: (WithDescriptions.args?.items ?? []).slice(0, 3),
   },
 };
 

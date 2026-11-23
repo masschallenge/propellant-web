@@ -37,6 +37,7 @@ const STORIES_CAPTURED_WITH_MENU_OPEN = new Map([
   ['components-overlays-menu--item-menu-with-links', 'Judging round'],
   ['components-overlays-menu--icon-button-trigger', 'More actions for this item'],
   ['components-overlays-menu--with-descriptions', 'More actions'],
+  ['components-overlays-menu--wide-menu', 'More actions'],
 ]);
 
 const STORIES_CAPTURED_WIDE = new Set([

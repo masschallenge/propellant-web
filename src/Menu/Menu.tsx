@@ -58,6 +58,7 @@ export interface MenuProps {
   search?: boolean;
   searchPlaceholder?: string;
   accountBand?: MenuAccountBand;
+  minWidth?: string;
   className?: string;
 }
 
@@ -311,6 +312,7 @@ export const Menu = ({
   search = false,
   searchPlaceholder = 'Search',
   accountBand,
+  minWidth,
   className,
 }: MenuProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -425,6 +427,7 @@ export const Menu = ({
             style={{
               ...anchoredPanelStyle(position, { capsHeight: false }),
               maxHeight: position ? Math.min(MENU_MAX_HEIGHT, position.available) : undefined,
+              minWidth,
             }}
             className={joinClasses(PANEL_CLASSES, 'overflow-auto')}
           >
