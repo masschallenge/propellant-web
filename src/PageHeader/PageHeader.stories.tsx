@@ -149,7 +149,7 @@ export const WithLeading: Story = {
     title: 'Setup',
     meta: undefined,
     subtitle: undefined,
-    leading: <IconTile tone="application" icon={documentIcon} />,
+    leading: <IconTile tone="application" size="lg" icon={documentIcon} />,
     actions: (
       <>
         <Button variant="filled">Accept applications</Button>

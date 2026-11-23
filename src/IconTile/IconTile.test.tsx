@@ -37,6 +37,20 @@ describe('IconTile', () => {
     expect(tile).toContainElement(screen.getByTestId('glyph'));
   });
 
+  it('draws the large 44px stage tile with the large corner around a 22px icon', () => {
+    render(<IconTile icon={glyph} size="lg" tone="application" data-testid="tile" />);
+    const tile = screen.getByTestId('tile');
+    expect(tile).toHaveAttribute('data-size', 'lg');
+    expect(tile).toHaveClass(
+      'w-[var(--icon-tile-lg-size)]',
+      'h-[var(--icon-tile-lg-size)]',
+      'rounded-[var(--corner-lg)]',
+      '[&>svg]:w-[var(--icon-tile-lg-icon)]',
+      '[&>svg]:h-[var(--icon-tile-lg-icon)]',
+    );
+    expect(tile).not.toHaveClass('w-[var(--avatar-md)]', 'rounded-[var(--corner-tile)]');
+  });
+
   it.each(TONES)('paints the %s tone from its own tokens', (tone, background, foreground) => {
     render(<IconTile icon={glyph} tone={tone} data-testid="tile" />);
     const tile = screen.getByTestId('tile');

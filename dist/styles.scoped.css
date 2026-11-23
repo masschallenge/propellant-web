@@ -897,6 +897,8 @@ html [data-propellant] {
 }
 
 html [data-propellant] {
+  --icon-tile-lg-size: 44px;
+  --icon-tile-lg-icon: 22px;
   --icon-tile-teal-bg: var(--teal-100);
   --icon-tile-teal-fg: var(--teal-800);
   --icon-tile-gray-bg: var(--gray-75);

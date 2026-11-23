@@ -16,7 +16,7 @@ const meta = {
     docs: {
       description: {
         component: [
-          'A 36px rounded tile that holds an 18px icon at the start of a to do item or a list row. Teal marks something to act on, gray something to read or that is scheduled, and orange something that needs attention. The stage tones match a program stage: application, prescreening, online, pitch, cohort and closed.',
+          'A 36px rounded tile that holds an 18px icon at the start of a to do item or a list row. `size="lg"` draws the 44px stage tile with a 22px icon that leads a stage page title. Teal marks something to act on, gray something to read or that is scheduled, and orange something that needs attention. The stage tones match a program stage: application, prescreening, online, pitch, cohort and closed.',
           '',
           'The tile is decorative and hidden from assistive technology, since the text beside it says what it is. Give it an `aria-label` only when it stands alone, and it is announced as an image with that name.',
           '',
@@ -28,6 +28,7 @@ const meta = {
   args: { tone: 'teal', icon: icons.calendar },
   argTypes: {
     tone: { control: 'select', options: [...TONES, ...STAGE_TONES], ...appearance },
+    size: { control: 'inline-radio', options: ['md', 'lg'], ...appearance },
     icon: hide,
     className: hide,
   },
@@ -53,6 +54,15 @@ export const StageTones: Story = {
       {STAGE_TONES.map((tone) => (
         <IconTile key={tone} {...args} tone={tone} icon={icons.star} />
       ))}
+    </HStack>
+  ),
+};
+
+export const Sizes: Story = {
+  render: (args) => (
+    <HStack>
+      <IconTile {...args} tone="application" size="md" />
+      <IconTile {...args} tone="application" size="lg" />
     </HStack>
   ),
 };
