@@ -264,6 +264,7 @@ describe('RadioCardGroup density', () => {
     expect(screen.getByText('Founder, Owner')).toHaveClass('text-[var(--label-tertiary)]');
     const circle = screen.getByRole('radio', { name: /CareLoop/ }).nextElementSibling;
     expect(circle).toHaveClass('w-5', 'h-5', 'rounded-full');
+    expect(circle).not.toHaveClass('mt-px');
     expect(circle).toHaveClass('shadow-[inset_0_0_0_var(--stroke-strong)_var(--control-border)]');
   });
 
@@ -272,11 +273,15 @@ describe('RadioCardGroup density', () => {
     const circle = screen.getByRole('radio', { name: /CareLoop/ }).nextElementSibling;
     expect(circle).toHaveClass('w-4.5', 'h-4.5');
     expect(circle).not.toHaveClass('w-5');
+    expect(circle).toHaveClass('mt-px');
     expect(circle).toHaveClass('shadow-[inset_0_0_0_1px_var(--control-border)]');
   });
 
-  it('leaves the other layouts alone when compact is set', () => {
-    render(<RadioCardGroup legend="Track" layout="card" density="compact" options={companies} />);
+  it('accepts compact only on the row layout and ignores it on others at runtime', () => {
+    render(
+      // @ts-expect-error compact density is only typed for the row layout
+      <RadioCardGroup legend="Track" layout="card" density="compact" options={companies} />,
+    );
     const card = screen.getByRole('radio', { name: /CareLoop/ }).closest('label');
     expect(card).toHaveClass('p-[var(--space-4)]');
   });

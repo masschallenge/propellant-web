@@ -30,14 +30,13 @@ export interface RadioCardOption {
 
 export type RadioCardSelection = string | string[];
 
-export interface RadioCardGroupProps {
+interface RadioCardGroupBaseProps {
   options: RadioCardOption[];
   value?: RadioCardSelection;
   defaultValue?: RadioCardSelection;
   onChange?: (value: RadioCardSelection) => void;
   selectionMode?: 'single' | 'multiple';
   control?: 'auto' | 'check' | 'radio';
-  layout?: 'row' | 'card' | 'tile' | 'choice';
   sideBySide?: boolean;
   legend?: ReactNode;
   description?: ReactNode;
@@ -45,11 +44,22 @@ export interface RadioCardGroupProps {
   controlOnRight?: boolean;
   name?: string;
   emphasis?: 'default' | 'strong';
-  density?: RadioCardDensity;
   className?: string;
 }
 
 export type RadioCardDensity = 'default' | 'compact';
+
+interface RadioCardGroupRowProps extends RadioCardGroupBaseProps {
+  layout?: 'row';
+  density?: RadioCardDensity;
+}
+
+interface RadioCardGroupBlockProps extends RadioCardGroupBaseProps {
+  layout: 'card' | 'tile' | 'choice';
+  density?: 'default';
+}
+
+export type RadioCardGroupProps = RadioCardGroupRowProps | RadioCardGroupBlockProps;
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
@@ -77,21 +87,21 @@ const LARGE_MARK_SIZE = 'w-5 h-5';
 interface SelectionMarkProps {
   isSelected: boolean;
   isSquare: boolean;
-  isLarge?: boolean;
+  isCompact?: boolean;
 }
 
-const SelectionMark = ({ isSelected, isSquare, isLarge = false }: SelectionMarkProps) => (
+const SelectionMark = ({ isSelected, isSquare, isCompact = false }: SelectionMarkProps) => (
   <span
     aria-hidden="true"
     className={joinClasses(
-      'relative flex-none mt-px flex items-center justify-center',
-      isLarge ? LARGE_MARK_SIZE : INDICATOR_SIZES.md,
+      'relative flex-none flex items-center justify-center',
+      isCompact ? LARGE_MARK_SIZE : joinClasses('mt-px', INDICATOR_SIZES.md),
       isSquare ? 'rounded-[var(--corner-sm)]' : 'rounded-full',
       isSelected
         ? 'bg-[var(--tint)]'
         : joinClasses(
             'bg-[var(--bg)]',
-            isLarge
+            isCompact
               ? 'shadow-[inset_0_0_0_var(--stroke-strong)_var(--control-border)]'
               : 'shadow-[inset_0_0_0_1px_var(--control-border)]',
           ),
@@ -176,7 +186,7 @@ export const RadioCardGroup = ({
   const cards = options.map((option) => {
     const isOn = isSelected(option.value);
     const isInteractive = !isOn && !option.disabled;
-    const mark = <SelectionMark isSelected={isOn} isSquare={isSquare} isLarge={isCompactRow} />;
+    const mark = <SelectionMark isSelected={isOn} isSquare={isSquare} isCompact={isCompactRow} />;
     const icon = option.icon ? (
       <span
         className="flex-none flex items-center justify-center mt-px text-[var(--label-secondary)] [&>svg]:block [&>svg]:w-[var(--icon-lg)] [&>svg]:h-[var(--icon-lg)]"

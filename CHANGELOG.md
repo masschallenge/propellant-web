@@ -53,7 +53,8 @@ property and from `@masschallenge/propellant-web/version`.
 - `RadioCardGroup` takes `density="compact"` for the row layout: 14px padding, content centred
   and a 15/22 semibold title over a tertiary hint, which makes a 70px row with a 40px logo passed
   as `icon`, a 20px selection circle with a 2px resting ring, and a selected fill from the new
-  `--radio-card-compact-selected-bg` token. The `RadioCardDensity` type is exported.
+  `--radio-card-compact-selected-bg` token. `RadioCardGroupProps` only accepts `compact` with
+  the row layout. The `RadioCardDensity` type is exported.
 
 ## 2.5.0 (2026-11-19)
 
