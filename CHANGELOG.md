@@ -32,6 +32,11 @@ property and from `@masschallenge/propellant-web/version`.
   description.
 - `PageHeader` takes `leading` to put an element, such as a stage `IconTile`, before the title,
   centred on the title block with a 16px gap.
+- `IconTile` takes `size="lg"` for the 44px stage tile with a 22px icon and `--corner-lg`
+  corners, the one that leads a stage page title. The `IconTileSize` type is exported, and the
+  `--icon-tile-lg-size` and `--icon-tile-lg-icon` tokens hold its measures.
+- `Menu` takes `minWidth`, a CSS length such as `17.5rem`, to widen the panel past its default
+  for menus whose items carry a description.
 
 ## 2.5.0 (2026-11-19)
 
