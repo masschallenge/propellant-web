@@ -34,6 +34,7 @@ const StartupList = ({ loadDelay = 400 }: { loadDelay?: number }) => {
         hasMore={loadedCount < TOTAL_STARTUPS}
         isLoading={isLoading}
         onLoadMore={loadNextPage}
+        itemCount={loadedCount}
         loadingLabel="Loading more applications"
       />
     </div>
@@ -50,7 +51,8 @@ const meta = {
       description: {
         component: [
           'Loads the next page of a long working list as the end of it scrolls into view, with placeholder rows while the page comes. There is no Load more button. Put it right after the list; it watches a line at the end and calls `onLoadMore` once that line comes within `rootMargin` of the viewport.',
-          'Use it for long lists people work through in the console. Public pages and very large result sets that people jump around in keep `Pagination`.',
+          'Use it for long lists people work through in the console. Public pages keep `Pagination`.',
+          'One polite status region stays mounted, so screen readers hear `loadingLabel` when a page starts loading and "12 more loaded" when it arrives; pass `itemCount` (the number of items shown) for the count. When a page fails, pass `error` with a short message: watching stops, so it never retries on its own, and a Retry button calls `onLoadMore`. Where the browser has no IntersectionObserver, a Load more button stands in for scrolling.',
           '',
           "Import: `import { LoadOnScroll } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -86,4 +88,8 @@ export const LoadsAsYouScroll: Story = {
     await waitFor(() => expect(canvas.getAllByText(/^Startup \d+$/)).toHaveLength(TOTAL_STARTUPS));
     await expect(canvas.queryByRole('button', { name: /load more/i })).toBeNull();
   },
+};
+
+export const LoadFailed: Story = {
+  args: { isLoading: false, error: 'More applications could not load.' },
 };
