@@ -102,6 +102,15 @@ describe('TextField stepper', () => {
     expect(screen.getByRole('button', { name: 'Increment' })).toBeEnabled();
     expect(screen.getByRole('button', { name: 'Decrement' })).not.toHaveAttribute('aria-disabled');
   });
+
+  it('stacks the vertical buttons in a column tall enough for two minimum targets', () => {
+    render(<TextField label="Count" stepper="vertical" defaultValue="3" />);
+
+    const column = screen.getByRole('button', { name: 'Increment' }).parentElement as HTMLElement;
+    expect(column.className).toContain('min-h-[calc(var(--target-minimum)*2)]');
+    expect(column.className).toContain('w-7');
+    expect(screen.getByRole('button', { name: 'Decrement' }).className).toContain('flex-1');
+  });
 });
 
 describe('TextField clear button', () => {

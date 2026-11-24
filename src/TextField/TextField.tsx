@@ -391,7 +391,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             </button>
           ) : null}
           {stepper === 'vertical' ? (
-            <span className="flex flex-none flex-col w-7">
+            <span className="flex flex-none flex-col w-7 min-h-[calc(var(--target-minimum)*2)]">
               <button
                 type="button"
                 className={joinClasses(
