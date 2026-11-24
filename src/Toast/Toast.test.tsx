@@ -135,6 +135,24 @@ describe('Toast action placement', () => {
     expect(screen.getByText('Deadline extended').parentElement).not.toHaveClass('pr-7');
   });
 
+  it('types inline only for a one line toast without body, timestamp or progress', () => {
+    const undo = [{ label: 'Undo' }];
+    render(
+      <>
+        {/* @ts-expect-error inline actions are only typed for a toast without children */}
+        <Toast title="With body" actions={undo} actionPlacement="inline">
+          Judges see it now.
+        </Toast>
+        {/* @ts-expect-error inline actions are only typed for a toast without a timestamp */}
+        <Toast title="With timestamp" actions={undo} actionPlacement="inline" when="Now" />
+        {/* @ts-expect-error inline actions are only typed for a toast without progress */}
+        <Toast title="With progress" actions={undo} actionPlacement="inline" progress={40} />
+        <Toast title="One line" actions={undo} actionPlacement="inline" />
+      </>,
+    );
+    expect(screen.getAllByRole('status')).toHaveLength(4);
+  });
+
   it('keeps the message clear of the dismiss button when inline has no actions', () => {
     render(<Toast title="Deadline extended" actionPlacement="inline" onDismiss={vi.fn()} />);
     expect(screen.getByText('Deadline extended').parentElement).toHaveClass('pr-7');
