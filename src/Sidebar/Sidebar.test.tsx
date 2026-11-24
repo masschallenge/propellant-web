@@ -317,6 +317,34 @@ describe('Sidebar', () => {
       expect(pitching).toHaveAttribute('aria-expanded', 'true');
     });
 
+    it('opens a parent of wrapped items only when the parent is marked in the trail', () => {
+      const WrappedItem = ({ label, isCurrent }: { label: string; isCurrent: boolean }) => (
+        <SidebarItem href={`/${label}`} current={isCurrent}>
+          {label}
+        </SidebarItem>
+      );
+      const renderWrapped = (isInTrail: boolean) => (
+        <Sidebar label="Console">
+          <SidebarSection>
+            <SidebarItem inTrail={isInTrail} subitems={<WrappedItem label="Panels" isCurrent />}>
+              Pitching
+            </SidebarItem>
+          </SidebarSection>
+        </Sidebar>
+      );
+      const { unmount } = render(renderWrapped(false));
+      expect(screen.getByRole('button', { name: /^Pitching/ })).toHaveAttribute(
+        'aria-expanded',
+        'false',
+      );
+      unmount();
+      render(renderWrapped(true));
+      expect(screen.getByRole('button', { name: /^Pitching/ })).toHaveAttribute(
+        'aria-expanded',
+        'true',
+      );
+    });
+
     describe('when the current page moves between sections', () => {
       type Step = 'judges' | 'panels';
       const renderSections = (

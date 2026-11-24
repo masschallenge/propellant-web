@@ -161,8 +161,11 @@ size. An explicit `size` sets the height of any row in the list.
   uncontrolled, a parent opens when it holds the current page (an item with `current` or
   `inTrail` anywhere below it), opens again when the current page moves into it, and closes again
   when the page leaves it. A parent someone opened stays open, and every other parent stays closed
-  until someone opens it. Set `defaultExpanded` to override the starting
-  state, or control it with `expanded` and `onExpandedChange`.
+  until someone opens it. The parent finds the current page by reading the `current` and `inTrail`
+  props of the `SidebarItem` elements passed to `subitems`. If you wrap items in your own
+  component, it cannot see those props, so set `inTrail` on the parent that holds the current
+  page. Set `defaultExpanded` to override the starting state, or control it with `expanded` and
+  `onExpandedChange`.
 - Set `collapsible={false}` on a parent that always shows its list, such as a program whose
   stages are always in view. It has no chevron and no `aria-expanded`. With an `href` it stays a
   link; without one it is a plain row that takes no focus and no clicks. At any depth, with or
