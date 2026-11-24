@@ -554,3 +554,20 @@ describe('SingleComboBox long option labels', () => {
     expect(shortLabel).toHaveAttribute('title', 'Ana');
   });
 });
+
+describe('SingleComboBox clear button target', () => {
+  it('sizes the clear button box to the hit target without moving its glyph', async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(
+      <SingleComboBox label="Primary industry" options={options} value="a" onChange={onChange} />,
+    );
+    const clearButton = screen.getByRole('button', { name: 'Clear selection' });
+    expect(clearButton.className).toContain('w-[var(--hit-target)]');
+    expect(clearButton.className).toContain('h-[var(--hit-target)]');
+    expect(clearButton.className).toContain('-my-[calc((var(--hit-target)-var(--icon-md))/2)]');
+    expect(clearButton.className).not.toContain('before:');
+    await user.click(clearButton);
+    expect(onChange).toHaveBeenCalled();
+  });
+});
