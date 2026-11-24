@@ -80,6 +80,7 @@ export const VerificationCodeInput = ({
     inputType: string | undefined,
   ) => {
     const characters = typed.replace(CODE_CHARACTER, '');
+    if (characters === current) return;
     const isWholeCode =
       WHOLE_CODE_INPUT_TYPES.has(inputType ?? '') ||
       (!TYPING_INPUT_TYPES.has(inputType ?? '') && characters.length >= length);
@@ -92,10 +93,9 @@ export const VerificationCodeInput = ({
   };
 
   const handleCellPaste = (index: number, event: React.ClipboardEvent<HTMLInputElement>) => {
-    const pasted = event.clipboardData.getData('text').replace(CODE_CHARACTER, '');
-    if (!pasted) return;
     event.preventDefault();
-    fillFrom(pasted.length >= length ? 0 : index, pasted);
+    const pasted = event.clipboardData.getData('text').replace(CODE_CHARACTER, '');
+    if (pasted) fillFrom(pasted.length >= length ? 0 : index, pasted);
   };
 
   const cells = Array.from({ length }, (_unused, index) => {

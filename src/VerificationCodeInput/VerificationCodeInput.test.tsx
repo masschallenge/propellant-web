@@ -125,6 +125,27 @@ describe('VerificationCodeInput', () => {
     expect(onChange).toHaveBeenLastCalledWith('8812');
   });
 
+  it('keeps the cell and its focus when someone types a character a code cannot hold', () => {
+    const onChange = vi.fn();
+    render(<VerificationCodeInput length={4} defaultValue="3" onChange={onChange} />);
+    const first = screen.getByRole('textbox', { name: 'Digit 1 of 4' });
+    first.focus();
+    fireEvent.input(first, { target: { value: '3-' }, inputType: 'insertText' });
+    expect(onChange).not.toHaveBeenCalled();
+    expect(first).toHaveFocus();
+    expect(first).toHaveValue('3');
+  });
+
+  it('blocks a paste with no code characters so the cell keeps its digit', () => {
+    const onChange = vi.fn();
+    render(<VerificationCodeInput length={4} defaultValue="3" onChange={onChange} />);
+    const first = screen.getByRole('textbox', { name: 'Digit 1 of 4' });
+    const pasteEvent = fireEvent.paste(first, { clipboardData: { getData: () => ' - ' } });
+    expect(pasteEvent).toBe(false);
+    expect(onChange).not.toHaveBeenCalled();
+    expect(first).toHaveValue('3');
+  });
+
   it('names the group by its label and describes every cell by the hint', () => {
     render(
       <VerificationCodeInput length={2} label="Sign in code" hint="Check your email." invalid />,
