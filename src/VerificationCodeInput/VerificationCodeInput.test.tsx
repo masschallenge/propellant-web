@@ -38,6 +38,52 @@ describe('VerificationCodeInput', () => {
     expect(container.textContent).toBe('');
   });
 
+  it('replaces the character in a filled cell with the one typed over it', () => {
+    const onChange = vi.fn();
+    render(<VerificationCodeInput length={4} defaultValue="12" onChange={onChange} />);
+    fireEvent.change(screen.getByRole('textbox', { name: 'Digit 1 of 4' }), {
+      target: { value: '19' },
+    });
+    expect(onChange).toHaveBeenLastCalledWith('92');
+    expect(screen.getByRole('textbox', { name: 'Digit 2 of 4' })).toHaveFocus();
+  });
+
+  it('spreads a pasted code across the cells and focuses the cell after it', () => {
+    const onChange = vi.fn();
+    render(<VerificationCodeInput length={6} onChange={onChange} />);
+    const first = screen.getByRole('textbox', { name: 'Digit 1 of 6' });
+    const pasteEvent = fireEvent.paste(first, { clipboardData: { getData: () => '48 1-2' } });
+    expect(pasteEvent).toBe(false);
+    expect(onChange).toHaveBeenLastCalledWith('4812');
+    expect(screen.getByRole('textbox', { name: 'Digit 4 of 6' })).toHaveValue('2');
+    expect(screen.getByRole('textbox', { name: 'Digit 5 of 6' })).toHaveFocus();
+  });
+
+  it('fills every cell from the start when a whole code is pasted into a later cell', () => {
+    const onChange = vi.fn();
+    render(<VerificationCodeInput length={4} onChange={onChange} />);
+    fireEvent.paste(screen.getByRole('textbox', { name: 'Digit 3 of 4' }), {
+      clipboardData: { getData: () => '904417' },
+    });
+    expect(onChange).toHaveBeenLastCalledWith('9044');
+    expect(screen.getByRole('textbox', { name: 'Digit 4 of 4' })).toHaveFocus();
+  });
+
+  it('lets the browser autofill a one time code into the first cell', () => {
+    const onChange = vi.fn();
+    render(<VerificationCodeInput length={6} onChange={onChange} />);
+    const first = screen.getByRole('textbox', { name: 'Digit 1 of 6' });
+    expect(first).toHaveAttribute('autocomplete', 'one-time-code');
+    expect(first).not.toHaveAttribute('maxlength');
+    expect(screen.getByRole('textbox', { name: 'Digit 2 of 6' })).toHaveAttribute(
+      'autocomplete',
+      'off',
+    );
+    fireEvent.change(first, { target: { value: '730215' } });
+    expect(onChange).toHaveBeenLastCalledWith('730215');
+    expect(screen.getByRole('textbox', { name: 'Digit 6 of 6' })).toHaveValue('5');
+  });
+
   it('names the group by its label and describes every cell by the hint', () => {
     render(
       <VerificationCodeInput length={2} label="Sign in code" hint="Check your email." invalid />,
