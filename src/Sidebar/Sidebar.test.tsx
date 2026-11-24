@@ -226,7 +226,7 @@ describe('Sidebar', () => {
 
     it('makes a parent with a destination a disclosure that only expands', async () => {
       const onExpandedChange = vi.fn();
-      renderTree({ onExpandedChange });
+      renderTree({ onExpandedChange, defaultExpanded: false });
       expect(screen.queryByRole('link', { name: /^Online review/ })).not.toBeInTheDocument();
       const stage = screen.getByRole('button', { name: /^Online review/ });
       expect(stage).not.toHaveAttribute('href');
@@ -239,7 +239,7 @@ describe('Sidebar', () => {
     });
 
     it('toggles a parent with Enter and Space', async () => {
-      renderTree();
+      renderTree({ defaultExpanded: false });
       const stage = screen.getByRole('button', { name: /^Online review/ });
       stage.focus();
       await userEvent.keyboard('{Enter}');
@@ -254,6 +254,67 @@ describe('Sidebar', () => {
         'aria-expanded',
         'true',
       );
+    });
+
+    it('opens the section that holds the current page and leaves the others closed', () => {
+      render(
+        <Sidebar label="Console">
+          <SidebarSection>
+            <SidebarItem subitems={<SidebarItem href="/review/judges">Judges</SidebarItem>}>
+              Online review
+            </SidebarItem>
+            <SidebarItem
+              subitems={
+                <SidebarItem href="/pitching/panels" current>
+                  Panels
+                </SidebarItem>
+              }
+            >
+              Pitching
+            </SidebarItem>
+          </SidebarSection>
+        </Sidebar>,
+      );
+      expect(screen.getByRole('button', { name: /^Online review/ })).toHaveAttribute(
+        'aria-expanded',
+        'false',
+      );
+      expect(screen.getByRole('button', { name: /^Pitching/ })).toHaveAttribute(
+        'aria-expanded',
+        'true',
+      );
+    });
+
+    it('opens a section when the current page moves into it', () => {
+      const renderStages = (currentStep: 'judges' | 'panels') => (
+        <Sidebar label="Console">
+          <SidebarSection>
+            <SidebarItem
+              subitems={
+                <SidebarItem href="/review/judges" current={currentStep === 'judges'}>
+                  Judges
+                </SidebarItem>
+              }
+            >
+              Online review
+            </SidebarItem>
+            <SidebarItem
+              subitems={
+                <SidebarItem href="/pitching/panels" current={currentStep === 'panels'}>
+                  Panels
+                </SidebarItem>
+              }
+            >
+              Pitching
+            </SidebarItem>
+          </SidebarSection>
+        </Sidebar>
+      );
+      const { rerender } = render(renderStages('judges'));
+      const pitching = screen.getByRole('button', { name: /^Pitching/ });
+      expect(pitching).toHaveAttribute('aria-expanded', 'false');
+      rerender(renderStages('panels'));
+      expect(pitching).toHaveAttribute('aria-expanded', 'true');
     });
 
     it('marks only the current page, not the branches above it', () => {
