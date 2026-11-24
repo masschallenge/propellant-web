@@ -5,8 +5,8 @@ import { LoadOnScroll } from './LoadOnScroll';
 import { ListRow, ListSection } from '../List/List';
 import { hide } from '../../.storybook/controls';
 
-const PAGE_SIZE = 12;
-const TOTAL_STARTUPS = 36;
+const PAGE_SIZE = 20;
+const TOTAL_STARTUPS = 60;
 
 const startupName = (index: number) => `Startup ${String(index + 1).padStart(2, '0')}`;
 
