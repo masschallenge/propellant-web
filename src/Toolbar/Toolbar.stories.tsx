@@ -19,6 +19,7 @@ const meta = {
       description: {
         component: [
           'The bar across the top of the content column, on the translucent bar material. Leading content names the context (a program picker or a title), trailing content holds the few commands that act on the whole page, and an optional accessory row carries a scope control such as the program stage. Inside an AppShell with a sidebar it adds the sidebar toggle, drawn as a sidebar panel by default or as a menu with `sidebarToggleIcon="menu"`.',
+          'A sticky toolbar adds its height to the scroll padding of the container it sticks in, on top of any padding the page already sets, so a focused control never scrolls under it. Propellant never stacks sticky bars: when two toolbars share a container, the padding is the tallest one, not their sum.',
           '',
           "Import: `import { Toolbar } from '@masschallenge/propellant-web'`",
         ].join('\n'),

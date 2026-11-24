@@ -32,6 +32,13 @@ const CELL_SIZES: Record<VCSize, string> = {
 
 const CODE_CHARACTER = /[^0-9a-zA-Z]/g;
 
+const WHOLE_CODE_INPUT_TYPES = new Set([
+  'insertReplacementText',
+  'insertFromPaste',
+  'insertFromDrop',
+]);
+const TYPING_INPUT_TYPES = new Set(['insertText', 'insertCompositionText']);
+
 export const VerificationCodeInput = ({
   length = 6,
   value,
@@ -52,15 +59,43 @@ export const VerificationCodeInput = ({
   const code = value === undefined ? internalCode : value;
   const inputRefs = React.useRef<(HTMLInputElement | null)[]>([]);
 
-  const setCharacterAt = (index: number, character: string) => {
+  const fillFrom = (index: number, characters: string) => {
+    const accepted = characters.slice(0, length - index);
+    const replacedCount = Math.max(accepted.length, 1);
     const padded = code.padEnd(length, ' ');
-    const nextCode = (padded.substring(0, index) + character + padded.substring(index + 1)).replace(
-      /\s+$/,
-      '',
-    );
+    const nextCode = (
+      padded.substring(0, index) +
+      accepted.padEnd(replacedCount, ' ') +
+      padded.substring(index + replacedCount)
+    ).replace(/\s+$/, '');
     if (value === undefined) setInternalCode(nextCode);
     onChange?.(nextCode);
-    if (character) inputRefs.current[index + 1]?.focus();
+    if (accepted) inputRefs.current[Math.min(index + accepted.length, length - 1)]?.focus();
+  };
+
+  const handleCellChange = (
+    index: number,
+    current: string,
+    typed: string,
+    inputType: string | undefined,
+  ) => {
+    const characters = typed.replace(CODE_CHARACTER, '');
+    if (characters === current) return;
+    const isWholeCode =
+      WHOLE_CODE_INPUT_TYPES.has(inputType ?? '') ||
+      (!TYPING_INPUT_TYPES.has(inputType ?? '') && characters.length >= length);
+    if (isWholeCode) {
+      fillFrom(characters.length >= length ? 0 : index, characters);
+      return;
+    }
+    const isReplacingCharacter = Boolean(current) && characters.length === 2;
+    fillFrom(index, isReplacingCharacter ? characters.replace(current, '') || current : characters);
+  };
+
+  const handleCellPaste = (index: number, event: React.ClipboardEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    const pasted = event.clipboardData.getData('text').replace(CODE_CHARACTER, '');
+    if (pasted) fillFrom(pasted.length >= length ? 0 : index, pasted);
   };
 
   const cells = Array.from({ length }, (_unused, index) => {
@@ -79,15 +114,21 @@ export const VerificationCodeInput = ({
             inputRefs.current[index] = element;
           }}
           inputMode="numeric"
-          maxLength={1}
+          autoComplete={index === 0 ? 'one-time-code' : 'off'}
           disabled={disabled}
           aria-label={`Digit ${index + 1} of ${length}`}
           aria-invalid={invalid || undefined}
           aria-describedby={hint ? hintId : undefined}
           value={character}
           onChange={(event) =>
-            setCharacterAt(index, event.target.value.replace(CODE_CHARACTER, '').slice(-1))
+            handleCellChange(
+              index,
+              character,
+              event.target.value,
+              (event.nativeEvent as InputEvent).inputType,
+            )
           }
+          onPaste={(event) => handleCellPaste(index, event)}
           onKeyDown={(event) => {
             if (event.key === 'Backspace' && !character) inputRefs.current[index - 1]?.focus();
           }}

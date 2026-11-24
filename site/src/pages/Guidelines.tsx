@@ -1,5 +1,5 @@
 import { Table } from '../../../src/index';
-import { Code, PageBody, PageHeading, Prose, Rules, Section } from '../parts/Page';
+import { Code, Note, PageBody, PageHeading, Prose, Rules, Section } from '../parts/Page';
 
 export const Accessibility = () => (
   <PageBody>
@@ -17,11 +17,11 @@ export const Accessibility = () => (
         works when everyone can get in the door.
       </Prose>
       <Prose>
-        Propellant is designed to meet WCAG 2.1 AA, the widely used standard for accessible
-        websites, and automated tests check every component for contrast and common accessibility
-        problems. The sections below are the commitments we design every component to keep. No
-        automated test catches everything, so try your own pages with a keyboard and a screen reader
-        too.
+        Propellant is designed to meet WCAG 2.2 AA, the current version of the widely used standard
+        for accessible websites, and automated tests check every component for contrast, target size
+        and common accessibility problems. The sections below are the commitments we design every
+        component to keep. No automated test catches everything, so try your own pages with a
+        keyboard and a screen reader too.
       </Prose>
     </Section>
     <Section title="Contrast">
@@ -41,15 +41,43 @@ export const Accessibility = () => (
           'Segmented controls, radio groups and menus move with the arrow keys. Pop up buttons also take Home, End and typeahead (typing the first letters of an option to jump to it).',
           'Sheets and the compact sidebar keep focus inside while open. Sheets, menus and the sidebar close on Escape and return focus to what opened them.',
           'A skip link, the first thing a keyboard user reaches, leads past the sidebar and toolbar to the main content.',
+          'The sticky toolbar never covers what has focus. It reserves its own height as scroll padding, so a control you tab to scrolls clear of it. Keep your own sticky bars, banners and toasts from covering focus in the same way.',
         ]}
       />
     </Section>
     <Section title="Targets">
       <Prose>
-        A target is the area you can click or tap. Visible controls can be 28px on a desktop, but
-        every one carries an invisible hit area of at least <Code>--hit-target</Code>, which is 28px
-        with a mouse and 44px on touch.
+        A target is the area you can click or tap. WCAG 2.2 AA asks for at least 24 by 24px, the{' '}
+        <Code>--target-minimum</Code> token. Visible controls can be 28px on a desktop, but every
+        one carries an invisible hit area of at least <Code>--hit-target</Code>, which is 28px with
+        a mouse and 44px on touch.
       </Prose>
+      <Rules
+        items={[
+          'Small indicators that sit side by side, such as pagination dots, each get a full hit target box, so neighboring hit areas never overlap.',
+          'A control inside another control, such as the clear button in a combo box, is a full hit target box of its own.',
+          'Propellant keeps every target at 24 by 24px or larger, except links inside running text. WCAG 2.2 allows a few other exceptions, but Propellant does not rely on them: build from the components or use the tokens to keep every target at the minimum.',
+        ]}
+      />
+    </Section>
+    <Section title="Dragging">
+      <Rules
+        items={[
+          'Anything you can drag also works with a single click or tap. A slider jumps to the point you click on its track and moves with the arrow keys.',
+          'The file uploader takes dropped files and also opens a file chooser from its browse link.',
+          'If you build a sortable list, a resizer or a drag and drop board, add buttons or menu items that do the same thing, such as Move up and Move down.',
+        ]}
+      />
+    </Section>
+    <Section title="Help, forms and signing in">
+      <Rules
+        items={[
+          'Put help, such as a support link, chat or contact details, in the same place on every page: Help in the account menu, in the sidebar footer, and the help slot in AuthLayout on sign in pages.',
+          'Never ask for the same information twice in one process. Fill in what the person already gave, or offer it to pick, such as Same as mailing address. Asking again is only for security, or when the earlier answer is no longer valid.',
+          'Signing in never depends on remembering, retyping or solving something. Fields accept paste and password managers: set autoComplete (email, username, current-password, new-password or one-time-code), keep the show password button, and never block paste.',
+          'The verification code input takes a pasted or autofilled code and spreads it across its cells. Prefer email links and single sign on, which need nothing typed from memory.',
+        ]}
+      />
     </Section>
     <Section title="Meaning without color">
       <Rules
@@ -135,6 +163,60 @@ export const Writing = () => (
           ]}
         />
       </div>
+    </Section>
+    <Section title="Text that earns its place">
+      <Prose>
+        Every line on a screen should help someone act. Text that explains how the interface works
+        is a sign the interface needs to be simpler, and people skip it anyway.
+      </Prose>
+      <Rules
+        items={[
+          'Never explain how the interface works, restate a title, describe ordering or logic, or reassure. Cut lines such as "Click a row to open it", "Exact matches first" or "Nothing is sent until you approve".',
+          'Keep real data: counts, dates, names, scores, statuses, and a reason that is data, such as "Near match: Medical devices".',
+          'Show real constraints as field hints: file types, size limits, character limits. A hint that only paraphrases the label goes.',
+          'A destructive action gets one short line on its consequence. Errors say what went wrong and how to fix it.',
+          'A page subtitle stays only when it carries live information, such as a count, a deadline or a status. When in doubt, delete.',
+        ]}
+      />
+    </Section>
+    <Section title="Dates and times">
+      <Rules
+        items={[
+          "Deadlines show the day, date, time and the viewer's time zone abbreviation: Mon, Nov 30 @ 5:00 PM ET.",
+          'Lists and rows show the date alone, Nov 30, and add the time only where it matters.',
+          'Ranges name the month once: Dec 8 to 9, or Nov 30 to Dec 4. Program dates without times are fine.',
+          'Logs show the date and time with the zone: Nov 24 @ 9:14 AM ET.',
+          'Use the zone abbreviation as the label. Never UTC, and never Eastern Time spelled out.',
+          'No relative times, except "just now" in a toast.',
+        ]}
+      />
+    </Section>
+    <Section title="Menus">
+      <Rules
+        items={[
+          'A menu lists actions first, then a separator, then the destructive item last in the critical color.',
+          'Never put Open or View in a menu. Rows open when clicked.',
+          'Critical actions are visible buttons, never only menu items.',
+          'Name the action, not the object: Continue, not Continue CareLoop.',
+          'Every row people can drag to reorder also offers Move up and Move down in its menu, so one click does the same.',
+        ]}
+      />
+    </Section>
+    <Section title="Product words (proposed)">
+      <Note>
+        Proposed wording, pending sign-off from MassChallenge Marketing. Treat this list as a
+        proposal until Marketing approves it; it is not yet a Propellant rule.
+      </Note>
+      <Rules
+        items={[
+          'Startup: an organization in a program. Company: the same organization in the Network and on its profile.',
+          "Founder: a person on a startup's team. The role is Founder, never Startup.",
+          'Evaluator, never judge. Mentor. Program manager, never PM in visible text except a tight table column.',
+          'Online selection and Pitching selection name the selection stages.',
+          'Cohort member, never finalist. Stage results are Advanced and Not advanced; the final result is Selected for the Cohort or Not selected.',
+          'Use one term for each idea, everywhere it appears.',
+        ]}
+      />
     </Section>
   </PageBody>
 );

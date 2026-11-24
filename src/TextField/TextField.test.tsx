@@ -102,6 +102,15 @@ describe('TextField stepper', () => {
     expect(screen.getByRole('button', { name: 'Increment' })).toBeEnabled();
     expect(screen.getByRole('button', { name: 'Decrement' })).not.toHaveAttribute('aria-disabled');
   });
+
+  it('stacks the vertical buttons in a column tall enough for two minimum targets', () => {
+    render(<TextField label="Count" stepper="vertical" defaultValue="3" />);
+
+    const column = screen.getByRole('button', { name: 'Increment' }).parentElement as HTMLElement;
+    expect(column.className).toContain('min-h-[calc(var(--target-minimum)*2)]');
+    expect(column.className).toContain('w-7');
+    expect(screen.getByRole('button', { name: 'Decrement' }).className).toContain('flex-1');
+  });
 });
 
 describe('TextField clear button', () => {
@@ -305,6 +314,26 @@ describe('TextField sizes and tags', () => {
       'aria-pressed',
       'true',
     );
+  });
+
+  it('lets password managers fill a password and never blocks pasting one', () => {
+    render(
+      <TextField
+        label="Password"
+        type="password"
+        passwordToggle
+        name="password"
+        autoComplete="current-password"
+      />,
+    );
+    const input = screen.getByLabelText('Password');
+    expect(input).toHaveAttribute('autocomplete', 'current-password');
+    expect(input).toHaveAttribute('name', 'password');
+    expect(fireEvent.paste(input, { clipboardData: { getData: () => 'correct horse' } })).toBe(
+      true,
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Show password' }));
+    expect(input).toHaveAttribute('autocomplete', 'current-password');
   });
 });
 

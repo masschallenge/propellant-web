@@ -8,6 +8,7 @@ const SIZE_TOKENS = [
   '--control-md',
   '--control-lg',
   '--hit-target',
+  '--target-minimum',
   '--row-dense',
   '--row',
   '--row-tall',
@@ -55,7 +56,8 @@ export const Layout = () => (
       </div>
       <Rules
         items={[
-          'Small controls keep a 28px invisible hit area, or 44px on touch, through a pseudo element. The newer WCAG 2.2 AA asks for at least 24px, so we clear it with room to spare.',
+          'Small controls keep a 28px invisible hit area, or 44px on touch, through a pseudo element. WCAG 2.2 AA asks for at least 24px, the --target-minimum token, so we clear it with room to spare.',
+          'Where small targets sit side by side, such as pagination dots, each gets a full hit target box instead, so neighboring hit areas never overlap.',
           'Rows are 36px in dense tables, 44px in lists and 56px for two line rows.',
           'Spacing comes in multiples of 4px. The common steps are 4, 8, 12, 16, 20, 24, 32 and 48.',
         ]}
@@ -79,6 +81,44 @@ export const Layout = () => (
         invisible hit area, and switches to touch sizes through{' '}
         <Code>@media (pointer: coarse)</Code>.
       </Prose>
+    </Section>
+
+    <Section title="The console shell">
+      <Prose>
+        Signed in consoles use <Code>AppShell</Code> with a <Code>Sidebar</Code>. The sidebar tree
+        shows where you are, so the console needs no top toolbar and no breadcrumbs.
+      </Prose>
+      <Rules
+        items={[
+          'Hierarchy lives in the sidebar tree. Only the section that holds the current page is open; every other section stays closed.',
+          'Page actions live in the page header: one primary button, at most one secondary, and everything else in the ⋯ menu at the far right.',
+          'No breadcrumbs anywhere in the signed in console, including detail pages. Breadcrumb is for public sites with deep pages.',
+          'Help in the account menu, in the sidebar footer: the menu opens from the avatar and name, and also holds Inbox, with the unread count on the avatar. Privacy and Terms sit in that menu above Sign out.',
+          'Leave the toolbar out. Below 1024px the shell shows its own button to open the sidebar.',
+        ]}
+      />
+    </Section>
+
+    <Section title="Containers">
+      <Rules
+        items={[
+          'The detail of a row in a list opens in an Inspector on the right, 480px wide (--inspector-width), or 640px for wide content (--inspector-width-wide).',
+          'Create, edit and confirm happen in a centered Sheet.',
+          'An object with sections of its own, such as an application, a program or a startup in a program, gets a full page.',
+          'Every scrim uses the --scrim token.',
+        ]}
+      />
+    </Section>
+
+    <Section title="Sizes and spacing in the console">
+      <Rules
+        items={[
+          'Text people read uses the type scale with a 12px floor, and 13px for any text needed to finish a task. The 10px Caption 2 style stays only for stage marker numbers and Avatar badges, until design decides whether those move to 12px.',
+          'Spacing stays on the 4px scale. Table rows are 36px (dense) or 44px.',
+          'Forms are one column. A segmented control holds at most about five options. Toasts are the light Propellant Toast.',
+          'Colors come from tokens only: no raw hex and no brand hex in the product. The tint is for actions and the current destination.',
+        ]}
+      />
     </Section>
   </PageBody>
 );

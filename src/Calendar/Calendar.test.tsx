@@ -95,6 +95,20 @@ describe('Calendar month view', () => {
     expect(chip.className).toContain('--cal-ev-brand-bg');
   });
 
+  it('keeps the button for events past the daily limit at least the minimum target tall', () => {
+    const extraEvents = ['second', 'third'].map((id) => ({ ...kickoff, id, title: id }));
+    render(
+      <Calendar
+        month="2026-07-01"
+        date="2026-07-15"
+        events={[kickoff, ...extraEvents]}
+        maxPerDay={1}
+      />,
+    );
+    const moreButton = screen.getByRole('button', { name: /2 more/ });
+    expect(moreButton.className).toContain('min-h-[var(--target-minimum)]');
+  });
+
   it('cycles the view and offers the add event action', () => {
     const onViewChange = vi.fn();
     const onAddEvent = vi.fn();

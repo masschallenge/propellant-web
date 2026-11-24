@@ -1,3 +1,6 @@
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import * as React from 'react';
 import { render, cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -29,14 +32,23 @@ const Launcher = ({ onClose = () => {} }: { onClose?: () => void }) => {
 };
 
 describe('Inspector width', () => {
-  it('keeps the default and wide widths and caps every size at the viewport', () => {
+  it('opens at the inspector width, wide at the wide width, and caps every size at the viewport', () => {
     const { rerender } = render(<Inspector open onClose={() => {}} title="Panel" />);
-    expect(screen.getByRole('dialog').className).toContain('w-[420px]');
+    expect(screen.getByRole('dialog').className).toContain('w-[var(--inspector-width)]');
     expect(screen.getByRole('dialog').className).toContain('max-w-full');
     rerender(<Inspector open onClose={() => {}} title="Panel" wide />);
-    expect(screen.getByRole('dialog').className).toContain('w-[480px]');
-    rerender(<Inspector open onClose={() => {}} title="Panel" wide size="xl" />);
-    expect(screen.getByRole('dialog').className).toContain('w-[640px]');
+    expect(screen.getByRole('dialog').className).toContain('w-[var(--inspector-width-wide)]');
+    rerender(<Inspector open onClose={() => {}} title="Panel" wide size="md" />);
+    expect(screen.getByRole('dialog').className).toContain('w-[420px]');
+  });
+
+  it('sets the row detail widths to 480px and 640px', () => {
+    const layoutTokens = readFileSync(
+      path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../tokens/layout.css'),
+      'utf8',
+    );
+    expect(layoutTokens).toContain('--inspector-width: 480px;');
+    expect(layoutTokens).toContain('--inspector-width-wide: 640px;');
   });
 });
 

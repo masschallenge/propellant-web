@@ -529,6 +529,13 @@ const RailLabel = ({
   </span>
 );
 
+const holdsCurrentPage = (subitems: ReactNode): boolean =>
+  React.Children.toArray(subitems).some((child) => {
+    if (!React.isValidElement<SidebarItemProps>(child)) return false;
+    const { current, inTrail, subitems: nestedSubitems, children } = child.props;
+    return Boolean(current || inTrail) || holdsCurrentPage(nestedSubitems ?? children);
+  });
+
 export const SidebarItem = ({
   icon,
   marker,
@@ -545,7 +552,7 @@ export const SidebarItem = ({
   navigates = false,
   collapsible = true,
   expanded,
-  defaultExpanded = false,
+  defaultExpanded,
   onExpandedChange,
   children,
   className,
@@ -553,7 +560,16 @@ export const SidebarItem = ({
   const shell = useAppShell();
   const { depth, indent, isInset } = React.useContext(SidebarLevelContext);
   const subitemsId = React.useId();
-  const [internalExpanded, setInternalExpanded] = React.useState(defaultExpanded);
+  const isActiveSection = inTrail || holdsCurrentPage(subitems);
+  const [chosenExpanded, setChosenExpanded] = React.useState<boolean | null>(
+    defaultExpanded ?? null,
+  );
+  const [wasActiveSection, setWasActiveSection] = React.useState(isActiveSection);
+  if (wasActiveSection !== isActiveSection) {
+    setWasActiveSection(isActiveSection);
+    if (isActiveSection && chosenExpanded === false) setChosenExpanded(null);
+  }
+  const internalExpanded = chosenExpanded ?? isActiveSection;
   const isRail = Boolean(shell?.isRail);
   const hasSubitems = React.Children.toArray(subitems).length > 0;
   const showsSubitems = hasSubitems && !isRail;
@@ -574,7 +590,7 @@ export const SidebarItem = ({
   );
   const tagText = roleTagText(accessory);
   const toggleExpanded = () => {
-    if (expanded === undefined) setInternalExpanded(!isExpanded);
+    if (expanded === undefined) setChosenExpanded(!isExpanded);
     onExpandedChange?.(!isExpanded);
   };
   const pinExpanded = () => {

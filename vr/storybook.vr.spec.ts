@@ -30,6 +30,7 @@ const waitForStoryRendered = async (page: Page) => {
 
 const STORIES_CAPTURED_WITH_SIDEBAR_OPEN = new Set([
   'components-layout-sidebar--tree-in-compact-overlay',
+  'components-layout-appshell--console-without-toolbar-compact',
 ]);
 
 const STORIES_CAPTURED_WITH_MENU_OPEN = new Map([
@@ -44,6 +45,7 @@ const STORIES_CAPTURED_WITH_MENU_OPEN = new Map([
 
 const STORIES_CAPTURED_WIDE = new Set([
   'components-layout-appshell--tree',
+  'components-layout-appshell--console-without-toolbar',
   'components-layout-appshell--rail',
   'components-layout-sidebar--tree',
   'components-layout-sidebar--linked-parent-with-logos',

@@ -307,10 +307,6 @@ html [data-propellant] {
 
   --icon-tile-closed-fg: var(--gray-600);
 
-  --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 28%, transparent);
-
-  --role-tag-mentor-label: var(--on-highlight);
-
   --avatar-gray-bg: color-mix(in srgb, var(--gray-75), var(--gray-100));
 
   --avatar-gray-fg: var(--gray-600);
@@ -776,6 +772,7 @@ html [data-propellant] {
   --control-md: 32px;
   --control-lg: 40px;
   --hit-target: 28px;
+  --target-minimum: 24px;
 
   --row-dense: 36px;
   --row: 44px;
@@ -785,7 +782,8 @@ html [data-propellant] {
   --toolbar-menu-max-width: min(320px, 60vw);
   --sidebar-width: 264px;
   --sidebar-rail-width: 56px;
-  --inspector-width: 360px;
+  --inspector-width: 480px;
+  --inspector-width-wide: 640px;
 
   --avatar-xs: 20px;
   --avatar-compact: 26px;
@@ -956,12 +954,42 @@ html:has([data-appearance='system']) [data-propellant]:not([data-theme='light'])
 }
 }
 
+/* The aliases repeat in each theme block on purpose: a nested theme must re-resolve them. */
 html [data-propellant] {
+  --role-tag-admin-fill: var(--critical-fill);
+  --role-tag-admin-label: var(--critical);
+  --role-tag-pm-fill: var(--tint-fill);
+  --role-tag-pm-label: var(--tint);
+  --role-tag-evaluator-fill: var(--warning-fill);
+  --role-tag-evaluator-label: var(--warning);
+  --role-tag-founder-fill: var(--success-fill);
+  --role-tag-founder-label: var(--success);
+  --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 28%, transparent);
+  --role-tag-mentor-label: var(--on-highlight);
+}
+
+[data-theme='light'] [data-propellant], [data-propellant][data-theme='light'], html [data-propellant] [data-theme='light'] {
+  --role-tag-admin-fill: var(--critical-fill);
+  --role-tag-admin-label: var(--critical);
+  --role-tag-pm-fill: var(--tint-fill);
+  --role-tag-pm-label: var(--tint);
+  --role-tag-evaluator-fill: var(--warning-fill);
+  --role-tag-evaluator-label: var(--warning);
+  --role-tag-founder-fill: var(--success-fill);
+  --role-tag-founder-label: var(--success);
   --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 28%, transparent);
   --role-tag-mentor-label: var(--on-highlight);
 }
 
 [data-theme='dark'] [data-propellant], [data-propellant][data-theme='dark'], html [data-propellant] [data-theme='dark'] {
+  --role-tag-admin-fill: var(--critical-fill);
+  --role-tag-admin-label: var(--critical);
+  --role-tag-pm-fill: var(--tint-fill);
+  --role-tag-pm-label: var(--tint);
+  --role-tag-evaluator-fill: var(--warning-fill);
+  --role-tag-evaluator-label: var(--warning);
+  --role-tag-founder-fill: var(--success-fill);
+  --role-tag-founder-label: var(--success);
   --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 20%, transparent);
   --role-tag-mentor-label: var(--highlight);
 }
@@ -969,6 +997,14 @@ html [data-propellant] {
 @media (prefers-color-scheme: dark) {
 
 html:has([data-appearance='system']) [data-propellant]:not([data-theme='light']) {
+  --role-tag-admin-fill: var(--critical-fill);
+  --role-tag-admin-label: var(--critical);
+  --role-tag-pm-fill: var(--tint-fill);
+  --role-tag-pm-label: var(--tint);
+  --role-tag-evaluator-fill: var(--warning-fill);
+  --role-tag-evaluator-label: var(--warning);
+  --role-tag-founder-fill: var(--success-fill);
+  --role-tag-founder-label: var(--success);
   --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 20%, transparent);
   --role-tag-mentor-label: var(--highlight);
 }

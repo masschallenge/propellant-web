@@ -15,7 +15,7 @@ const meta = {
     docs: {
       description: {
         component: [
-          'One-time-code field of single-character cells with auto-advance, backspace-to-previous, optional grouping separator, and six sizes.',
+          "One-time-code field of single-character cells with auto-advance, backspace-to-previous, optional grouping separator, and six sizes. Pasting a code or accepting the browser's one-time-code autofill spreads it across the cells, so people never have to retype or transcribe it.",
           '',
           "Import: `import { VerificationCodeInput } from '@masschallenge/propellant-web'`",
         ].join('\n'),

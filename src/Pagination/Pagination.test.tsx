@@ -101,6 +101,21 @@ describe('Pagination', () => {
     expect(onPageChange).toHaveBeenCalledWith(3);
   });
 
+  it.each(['dots', 'lines'] as const)(
+    'gives each %s indicator a full hit target box that does not overlap its neighbors',
+    (variant) => {
+      render(<Pagination page={1} pageCount={4} onPageChange={vi.fn()} variant={variant} />);
+      const tablist = screen.getByRole('tablist', { name: 'Pages' });
+      expect(tablist.className).not.toMatch(/\bgap-/);
+      screen.getAllByRole('tab').forEach((indicator) => {
+        expect(indicator.className).toContain('min-w-[var(--hit-target)]');
+        expect(indicator.className).toContain('h-[var(--hit-target)]');
+        expect(indicator.className).not.toContain('before:');
+        expect(indicator.firstElementChild).toHaveAttribute('aria-hidden', 'true');
+      });
+    },
+  );
+
   it('uses the given accessible name', () => {
     render(
       <Pagination page={1} pageCount={2} onPageChange={vi.fn()} aria-label="Applications pages" />,

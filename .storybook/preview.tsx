@@ -50,7 +50,12 @@ const preview: Preview = {
     layout: 'centered',
     a11y: {
       test: 'todo',
-      options: { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'] } },
+      options: {
+        runOnly: {
+          type: 'tag',
+          values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22a', 'wcag22aa'],
+        },
+      },
     },
     docs: {
       toc: true,

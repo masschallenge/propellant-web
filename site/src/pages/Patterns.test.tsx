@@ -1,0 +1,79 @@
+import { cleanup, render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { afterEach, describe, expect, it } from 'vitest';
+import { Patterns } from './Patterns';
+
+afterEach(cleanup);
+
+describe('Patterns page bulk confirm example', () => {
+  it('opens no dialog and traps no focus until someone asks for the confirm', async () => {
+    render(<Patterns />);
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    const trigger = screen.getByRole('button', { name: 'Decline 80' });
+    trigger.focus();
+    await userEvent.tab();
+    expect(trigger).not.toHaveFocus();
+    expect(document.activeElement).not.toBe(document.body);
+  });
+
+  it('opens the confirm from its button and gives focus back when it closes', async () => {
+    render(<Patterns />);
+    const trigger = screen.getByRole('button', { name: 'Decline 80' });
+    await userEvent.click(trigger);
+    const dialog = screen.getByRole('dialog', { name: 'Decline 80 startups?' });
+    expect(dialog).toBeInTheDocument();
+    const affectedRegion = screen.getByRole('region', { name: 'Declining 80 startups' });
+    expect(affectedRegion).toHaveAttribute('tabindex', '0');
+    expect(within(affectedRegion).getAllByRole('listitem')).toHaveLength(80);
+    await userEvent.keyboard('{Escape}');
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(trigger).toHaveFocus();
+
+    await userEvent.click(trigger);
+    const reopened = screen.getByRole('dialog', { name: 'Decline 80 startups?' });
+    await userEvent.click(within(reopened).getByRole('button', { name: 'Cancel' }));
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(trigger).toHaveFocus();
+  });
+});
+
+describe('Patterns page guidance', () => {
+  it('shows a field hint only for a real constraint', () => {
+    render(<Patterns />);
+    const pageText = document.body.textContent ?? '';
+    expect(pageText).not.toContain('As it should appear to judges.');
+    expect(pageText).toContain('Add a hint below only for a real constraint');
+    expect(screen.getByLabelText('Startup name')).not.toHaveAccessibleDescription();
+  });
+
+  it('uses the Accelerate words in its examples', () => {
+    render(<Patterns />);
+    const pageText = document.body.textContent ?? '';
+    [
+      'Evaluators per startup',
+      'Needs evaluator',
+      'No evaluators assigned',
+      'Assign evaluators',
+    ].forEach((phrase) => expect(pageText).toContain(phrase));
+    [
+      'Needs judge',
+      'Judges per startup',
+      'No judges assigned',
+      'Assign judges',
+      'Delete round',
+    ].forEach((phrase) => expect(pageText).not.toContain(phrase));
+  });
+
+  it('keeps Pagination for public pages only', () => {
+    render(<Patterns />);
+    expect(document.body.textContent).toContain('Only public pages use Pagination.');
+    expect(document.body.textContent).not.toMatch(/very large result sets/);
+  });
+
+  it('keeps explicit Save and Cancel for dialogs and create flows beside autosave', () => {
+    render(<Patterns />);
+    expect(screen.getByText(/Dialogs and create flows keep explicit buttons/)).toHaveTextContent(
+      'Save and Cancel',
+    );
+  });
+});

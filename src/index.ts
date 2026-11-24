@@ -22,6 +22,7 @@ export * from './IconButton/IconButton';
 export * from './IconTile/IconTile';
 export * from './Inspector/Inspector';
 export * from './List/List';
+export * from './LoadOnScroll/LoadOnScroll';
 export * from './Logo/Logo';
 export * from './Menu/Menu';
 export * from './PageContainer/PageContainer';
