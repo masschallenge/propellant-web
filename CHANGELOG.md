@@ -41,17 +41,33 @@ README say so, and the components below change to meet the criteria that are new
   spreads the code across its cells. Before, only the last character of a paste was kept
   (Accessible authentication).
 
+### Upgrade notes
+
+- `Inspector` opens at 480px instead of 420px, and `wide` at 640px instead of 480px. Pass
+  `size="md"` to keep 420px.
+- `RoleTag` is sentence case at 12px. Pass the words as people should read them; the tag no longer
+  turns them into capitals.
+- The sidebar program row is 2px taller (46px), to fit the whole 64 by 38 logo.
+- Uncontrolled `SidebarItem` parents now open and close on their own as the current page moves. Set
+  `defaultExpanded` or control `expanded` to keep the old behavior.
+- `AppShell` without a toolbar shows its own Show sidebar button below 1024px. Set
+  `showsSidebarToggle={false}` if you already have one.
+
 ### Accelerate design rules
 
 Propellant adopts the Accelerate design rules marked as moving to Propellant (Accelerate-Projects
 #11497), since Propellant is the design system of record.
 
 - Added `LoadOnScroll`, which loads the next page of a long working list as its end scrolls into
-  view, with announced placeholder rows and no Load more button.
+  view, with placeholder rows and no Load more button. One status region stays mounted and
+  announces loading and how many items arrived (`itemCount`); `error` stops loading and shows a
+  Retry button; a Load more button stands in where the browser has no IntersectionObserver.
 - `AppShell` runs without a toolbar: below 1024px it shows its own Show sidebar button, named by
-  the new `sidebarToggleLabel`, when there is a sidebar and no toolbar.
-- A `SidebarItem` parent opens on its own when it holds the current page, and again when the
-  current page moves into it. `defaultExpanded` and the controlled props still override it.
+  the new `sidebarToggleLabel`, when there is a sidebar and no toolbar. Set the new
+  `showsSidebarToggle={false}` to leave it out.
+- A `SidebarItem` parent opens on its own while it holds the current page and closes when the page
+  leaves it, unless someone opened it. Items wrapped in your own component need `inTrail` on the
+  parent. `defaultExpanded` and the controlled props still override it.
 - `RoleTag` is sentence case at 12px (the Caption style) instead of uppercase at 10px, and reads
   its colors from new `--role-tag-admin-*`, `-pm-*`, `-evaluator-*` and `-founder-*` tokens,
   which start at today's colors. New `evaluator` and `founder` tones; `judge` and `startup` stay as
