@@ -1274,7 +1274,7 @@ describe('Sidebar', () => {
       );
     });
 
-    it('keeps program covers cropped', () => {
+    it('shows a program logo whole in the thumbnail', () => {
       const { container } = render(
         <Sidebar>
           <SidebarSection>
@@ -1284,7 +1284,9 @@ describe('Sidebar', () => {
           </SidebarSection>
         </Sidebar>,
       );
-      expect(container.querySelector('img')).toHaveClass('w-15', 'object-cover');
+      const logo = container.querySelector('img');
+      expect(logo).toHaveClass('w-16', 'h-9.5', 'object-contain');
+      expect(logo).not.toHaveClass('object-cover');
     });
   });
 });

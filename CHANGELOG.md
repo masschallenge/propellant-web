@@ -6,6 +6,9 @@ property and from `@masschallenge/propellant-web/version`.
 
 ## Unreleased
 
+Propellant now targets WCAG 2.2 AA instead of WCAG 2.1 AA. The guidelines, the usage guide and the
+README say so, and the components below change to meet the criteria that are new in 2.2.
+
 ### Added
 
 - `SidebarItem` takes `navigates`: a parent with an `href` becomes a link that goes to its page
@@ -18,11 +21,6 @@ property and from `@masschallenge/propellant-web/version`.
   Without a `src`, `initials` show on a tinted square instead. Below a nested row with a logo,
   children line up with the row's name instead of its edge, and the children of a
   `navigates` parent line up with that parent.
-Propellant now targets WCAG 2.2 AA instead of WCAG 2.1 AA. The guidelines, the usage guide and the
-README say so, and the components below change to meet the criteria that are new in 2.2.
-
-### Added
-
 - The `--target-minimum` token, 24px, the smallest pointer target WCAG 2.2 AA allows. A unit test
   keeps `--hit-target` and `--control-sm` at or above it with a mouse and on touch.
 - `AuthLayout` takes a `help` slot that renders below every auth screen in the same place, for a

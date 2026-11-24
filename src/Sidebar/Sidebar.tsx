@@ -418,8 +418,8 @@ const SidebarMedia = ({ media, isRail }: { media: SidebarItemMedia; isRail: bool
           ? 'w-[var(--avatar-xs)] h-[var(--avatar-xs)] rounded-[var(--corner-sm)]'
           : isRail
             ? 'w-8.5 h-5 rounded-[var(--corner-sm)] shadow-[inset_0_0_0_1px_var(--separator)]'
-            : 'w-15 h-9 rounded-[var(--corner-thumbnail)]',
-        imageFitClass(media.shape !== 'logo'),
+            : 'w-16 h-9.5 rounded-[var(--corner-thumbnail)]',
+        imageFitClass(),
       )}
     />
   ) : (
