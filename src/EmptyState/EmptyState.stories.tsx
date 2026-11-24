@@ -44,6 +44,7 @@ const meta = {
         component: [
           'Placeholder for empty views: a plain symbol in tertiary label, a title in title 3, a short description in secondary callout, and actions.',
           'No rings, halos or tinted boxes. The `visual` prop picks the symbol (search, file) or a quiet row of avatars or tiles; `rings` and `live` are accepted and render the same calm layout.',
+          'In the console, keep it minimal: a short title, one plain line that says what will appear, the symbol, and at most one action. Inside a list group, pass `framed={false}` (the Unframed story). Never use the line to explain how the feature works, and give every primary list one where it can really be empty: before applications open, inbox zero, no search results.',
           '',
           "Import: `import { EmptyState } from '@masschallenge/propellant-web'`",
         ].join('\n'),
