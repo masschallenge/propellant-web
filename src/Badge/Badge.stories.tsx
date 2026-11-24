@@ -24,6 +24,8 @@ const meta = {
         component: [
           'A read-only status label. The label names the state, so color is never the only signal. Badges are capsules with a soft fill and no border; `emphasis="strong"` fills them solid for the one status that matters most on a row.',
           '',
+          'Statuses are neutral first: leave `tone` at `neutral` and add `dot="warning"` or `dot="critical"` only for something urgent. Keep color for warning and critical, use badges sparingly, and aim for one kind of badge on a screen. Roles take `RoleTag`, never a badge.',
+          '',
           '`shape="rounded"` swaps the capsule for small `--corner-sm` corners; at `size="sm"` it is the 20px badge the persona Home boards use for statuses in list rows.',
           '',
           '`dot` leads the label with a dot in the badge tone. Give `dot` a tone instead, such as `dot="warning"`, to keep a quiet neutral badge and let a 7px dot in that tone carry the alert, as for a failing integration among connected ones.',
