@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, within } from 'storybook/test';
 import { RoleTag } from './RoleTag';
 import { HStack } from '../../.storybook/stack';
 import { appearance, content, hide } from '../../.storybook/controls';
@@ -51,4 +52,29 @@ export const Tones: Story = {
       ))}
     </HStack>
   ),
+};
+
+export const NestedDarkTheme: Story = {
+  tags: ['interaction', '!autodocs'],
+  render: () => (
+    <div data-theme="light" className="flex flex-col gap-3 p-4">
+      <RoleTag tone="evaluator" data-testid="light-tag">
+        Evaluator
+      </RoleTag>
+      <div data-theme="dark" className="flex gap-3 p-4">
+        <RoleTag tone="evaluator" data-testid="dark-tag">
+          Evaluator
+        </RoleTag>
+        <span data-testid="dark-warning" className="text-[var(--warning)]">
+          Warning
+        </span>
+      </div>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const colorOf = (testId: string) => getComputedStyle(canvas.getByTestId(testId)).color;
+    await expect(colorOf('dark-tag')).toBe(colorOf('dark-warning'));
+    await expect(colorOf('dark-tag')).not.toBe(colorOf('light-tag'));
+  },
 };

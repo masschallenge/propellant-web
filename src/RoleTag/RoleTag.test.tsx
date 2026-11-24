@@ -1,3 +1,7 @@
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import postcss from 'postcss';
 import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { RoleTag } from './RoleTag';
@@ -64,4 +68,34 @@ describe('RoleTag', () => {
     expect(tag).toHaveClass('ml-auto');
     expect(tag).toHaveAttribute('title', 'Program manager');
   });
+});
+
+describe('RoleTag tokens', () => {
+  const packageDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+  const ROLE_ALIASES = ['admin', 'pm', 'evaluator', 'founder'].flatMap((role) => [
+    `--role-tag-${role}-fill`,
+    `--role-tag-${role}-label`,
+  ]);
+
+  const declaredUnder = (css: string, selector: string) => {
+    const declared = new Set<string>();
+    postcss.parse(css).walkRules((rule) => {
+      if (rule.parent?.type !== 'root' || !rule.selectors.includes(selector)) return;
+      rule.walkDecls((declaration) => {
+        declared.add(declaration.prop);
+      });
+    });
+    return declared;
+  };
+
+  it.each(['dist/styles.css', 'dist/website.css'])(
+    'redeclares every role alias in each theme block of %s, so a nested theme resolves its own colors',
+    (stylesheet) => {
+      const css = readFileSync(path.join(packageDir, stylesheet), 'utf8');
+      ["[data-theme='light']", "[data-theme='dark']"].forEach((themeSelector) => {
+        const declared = declaredUnder(css, themeSelector);
+        ROLE_ALIASES.forEach((alias) => expect(declared).toContain(alias));
+      });
+    },
+  );
 });
