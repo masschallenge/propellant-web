@@ -328,8 +328,7 @@ export const Patterns = () => (
             more button.
           </>,
           <>
-            Public pages and very large result sets that people jump around in use{' '}
-            <Code>Pagination</Code>.
+            Only public pages use <Code>Pagination</Code>.
           </>,
         ]}
       />

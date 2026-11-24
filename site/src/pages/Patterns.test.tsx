@@ -38,6 +38,12 @@ describe('Patterns page bulk confirm example', () => {
 });
 
 describe('Patterns page guidance', () => {
+  it('keeps Pagination for public pages only', () => {
+    render(<Patterns />);
+    expect(document.body.textContent).toContain('Only public pages use Pagination.');
+    expect(document.body.textContent).not.toMatch(/very large result sets/);
+  });
+
   it('keeps explicit Save and Cancel for dialogs and create flows beside autosave', () => {
     render(<Patterns />);
     expect(screen.getByText(/Dialogs and create flows keep explicit buttons/)).toHaveTextContent(
