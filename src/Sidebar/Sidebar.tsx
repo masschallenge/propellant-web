@@ -517,14 +517,15 @@ export const SidebarItem = ({
   const { depth, indent, isInset } = React.useContext(SidebarLevelContext);
   const subitemsId = React.useId();
   const isActiveSection = inTrail || holdsCurrentPage(subitems);
-  const [internalExpanded, setInternalExpanded] = React.useState(
-    defaultExpanded ?? isActiveSection,
+  const [chosenExpanded, setChosenExpanded] = React.useState<boolean | null>(
+    defaultExpanded ?? null,
   );
   const [wasActiveSection, setWasActiveSection] = React.useState(isActiveSection);
   if (wasActiveSection !== isActiveSection) {
     setWasActiveSection(isActiveSection);
-    if (isActiveSection) setInternalExpanded(true);
+    if (isActiveSection) setChosenExpanded(null);
   }
+  const internalExpanded = chosenExpanded ?? isActiveSection;
   const isRail = Boolean(shell?.isRail);
   const hasSubitems = React.Children.toArray(subitems).length > 0;
   const showsSubitems = hasSubitems && !isRail;
@@ -544,7 +545,7 @@ export const SidebarItem = ({
   );
   const tagText = roleTagText(accessory);
   const toggleExpanded = () => {
-    if (expanded === undefined) setInternalExpanded(!isExpanded);
+    if (expanded === undefined) setChosenExpanded(!isExpanded);
     onExpandedChange?.(!isExpanded);
   };
   const pinExpanded = () => {

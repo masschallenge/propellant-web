@@ -159,8 +159,9 @@ size. An explicit `size` sets the height of any row in the list.
   `aria-controls`; Enter and Space toggle it. It never navigates and never closes the compact
   overlay, so only leaves are destinations. Any `href` on a parent is ignored. Left
   uncontrolled, a parent opens when it holds the current page (an item with `current` or
-  `inTrail` anywhere below it) and opens again when the current page moves into it; every other
-  parent stays closed until someone opens it. Set `defaultExpanded` to override the starting
+  `inTrail` anywhere below it), opens again when the current page moves into it, and closes again
+  when the page leaves it. A parent someone opened stays open, and every other parent stays closed
+  until someone opens it. Set `defaultExpanded` to override the starting
   state, or control it with `expanded` and `onExpandedChange`.
 - Set `collapsible={false}` on a parent that always shows its list, such as a program whose
   stages are always in view. It has no chevron and no `aria-expanded`. With an `href` it stays a

@@ -317,6 +317,80 @@ describe('Sidebar', () => {
       expect(pitching).toHaveAttribute('aria-expanded', 'true');
     });
 
+    describe('when the current page moves between sections', () => {
+      type Step = 'judges' | 'panels';
+      const renderSections = (
+        currentStep: Step,
+        cohortProps: Partial<React.ComponentProps<typeof SidebarItem>> = {},
+      ) => (
+        <Sidebar label="Console">
+          <SidebarSection>
+            <SidebarItem
+              subitems={
+                <SidebarItem href="/review/judges" current={currentStep === 'judges'}>
+                  Judges
+                </SidebarItem>
+              }
+            >
+              Online review
+            </SidebarItem>
+            <SidebarItem
+              subitems={
+                <SidebarItem href="/pitching/panels" current={currentStep === 'panels'}>
+                  Panels
+                </SidebarItem>
+              }
+            >
+              Pitching
+            </SidebarItem>
+            <SidebarItem
+              subitems={<SidebarItem href="/cohort/mentors">Mentors</SidebarItem>}
+              {...cohortProps}
+            >
+              Cohort
+            </SidebarItem>
+          </SidebarSection>
+        </Sidebar>
+      );
+      const expandedState = (name: RegExp) =>
+        screen.getByRole('button', { name }).getAttribute('aria-expanded');
+
+      it('closes the section it opened on its own once the page leaves it', () => {
+        const { rerender } = render(renderSections('judges'));
+        expect(expandedState(/^Online review/)).toBe('true');
+        rerender(renderSections('panels'));
+        expect(expandedState(/^Online review/)).toBe('false');
+        expect(expandedState(/^Pitching/)).toBe('true');
+      });
+
+      it('keeps a section someone opened open as the page moves', async () => {
+        const { rerender } = render(renderSections('judges'));
+        await userEvent.click(screen.getByRole('button', { name: /^Cohort/ }));
+        expect(expandedState(/^Cohort/)).toBe('true');
+        rerender(renderSections('panels'));
+        expect(expandedState(/^Cohort/)).toBe('true');
+        expect(expandedState(/^Online review/)).toBe('false');
+      });
+
+      it('leaves a controlled section exactly as it is given', () => {
+        const { rerender } = render(renderSections('judges', { expanded: true }));
+        expect(expandedState(/^Cohort/)).toBe('true');
+        rerender(renderSections('panels', { expanded: true }));
+        expect(expandedState(/^Cohort/)).toBe('true');
+        rerender(renderSections('panels', { expanded: false }));
+        expect(expandedState(/^Cohort/)).toBe('false');
+      });
+
+      it('opens a section again when the page returns, even after someone closed it', async () => {
+        const { rerender } = render(renderSections('judges'));
+        await userEvent.click(screen.getByRole('button', { name: /^Online review/ }));
+        expect(expandedState(/^Online review/)).toBe('false');
+        rerender(renderSections('panels'));
+        rerender(renderSections('judges'));
+        expect(expandedState(/^Online review/)).toBe('true');
+      });
+    });
+
     it('marks only the current page, not the branches above it', () => {
       renderTree({ expanded: true });
       expect(screen.getByRole('link', { name: 'Judges' })).toHaveAttribute('aria-current', 'page');

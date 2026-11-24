@@ -526,7 +526,11 @@ export const RailInteraction: Story = {
       'aria-current',
       'page',
     );
+    await expect(review).toHaveAttribute('aria-expanded', 'false');
+    await expect(network).toHaveAttribute('aria-expanded', 'true');
+    await userEvent.click(review);
     await userEvent.click(canvas.getByRole('link', { name: 'Progress' }));
+    await expect(review).toHaveAttribute('aria-expanded', 'true');
     await userEvent.click(canvas.getByRole('button', { name: 'Collapse menu' }));
     await expect(canvas.queryByRole('link', { name: 'Progress' })).toBeNull();
     await expect(canvas.getByRole('link', { name: 'Platform settings' })).toBeInTheDocument();
