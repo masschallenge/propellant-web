@@ -1,6 +1,11 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
 import { useAppShell } from '../AppShell/AppShell';
+import {
+  releaseScrollPadding,
+  reserveScrollPadding,
+  scrollContainerOf,
+} from '../internal/scrollPadding';
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
@@ -50,18 +55,16 @@ const useScrollPaddingForStickyHeader = (
   React.useEffect(() => {
     const header = headerRef.current;
     if (!isSticky || !header) return;
-    const root = document.documentElement;
-    const previousPadding = root.style.scrollPaddingTop;
-    const reserveHeaderHeight = () => {
-      root.style.scrollPaddingTop = `${header.offsetHeight}px`;
-    };
+    const scroller = scrollContainerOf(header);
+    const owner = Symbol('toolbar');
+    const reserveHeaderHeight = () => reserveScrollPadding(scroller, owner, header.offsetHeight);
     reserveHeaderHeight();
     const observer =
       typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(reserveHeaderHeight);
     observer?.observe(header);
     return () => {
       observer?.disconnect();
-      root.style.scrollPaddingTop = previousPadding;
+      releaseScrollPadding(scroller, owner);
     };
   }, [headerRef, isSticky]);
 };
