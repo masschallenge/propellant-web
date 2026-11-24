@@ -38,6 +38,14 @@ describe('Patterns page bulk confirm example', () => {
 });
 
 describe('Patterns page guidance', () => {
+  it('shows a field hint only for a real constraint', () => {
+    render(<Patterns />);
+    const pageText = document.body.textContent ?? '';
+    expect(pageText).not.toContain('As it should appear to judges.');
+    expect(pageText).toContain('Add a hint below only for a real constraint');
+    expect(screen.getByLabelText('Startup name')).not.toHaveAccessibleDescription();
+  });
+
   it('uses the Accelerate words in its examples', () => {
     render(<Patterns />);
     const pageText = document.body.textContent ?? '';

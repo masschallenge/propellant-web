@@ -336,22 +336,19 @@ export const Patterns = () => (
 
     <Section title="Forms that collect text" wide>
       <Prose>
-        When people type, use fields with a visible label above and a hint below. Keep a form to one
-        column under 640px wide, and tuck secondary options behind a disclosure, a section that
-        opens when clicked.
+        When people type, use fields with a visible label above. Add a hint below only for a real
+        constraint, such as a file type or a character limit, never to repeat the label. Keep a form
+        to one column under 640px wide, and tuck secondary options behind a disclosure, a section
+        that opens when clicked.
       </Prose>
       <form
         className="flex flex-col gap-4 max-w-[var(--width-form)] p-5 rounded-[var(--corner-lg)] bg-[var(--bg)]"
         onSubmit={(event) => event.preventDefault()}
       >
-        <TextField
-          label="Startup name"
-          hint="As it should appear to judges."
-          defaultValue="Northwind Robotics"
-        />
+        <TextField label="Startup name" defaultValue="Northwind Robotics" />
         <TextField label="Website" type="url" placeholder="https://" />
         <DisclosureGroup title="Advanced">
-          <TextField label="Internal note" hint="Only your team sees this." />
+          <TextField label="Internal note" hint="Up to 280 characters." maxLength={280} />
         </DisclosureGroup>
         <div className="flex flex-wrap gap-2 justify-end">
           <Button variant="gray" type="button">
