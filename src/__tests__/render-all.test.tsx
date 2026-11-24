@@ -87,6 +87,7 @@ const EXPECTED_COMPONENTS = [
   'InspectorRow',
   'ListRow',
   'ListSection',
+  'LoadOnScroll',
   'Logo',
   'MailIcon',
   'Menu',
