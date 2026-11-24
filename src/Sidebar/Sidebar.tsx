@@ -382,8 +382,8 @@ const SidebarMedia = ({ media, isRail }: { media: SidebarItemMedia; isRail: bool
       'flex-none bg-[var(--bg)] outline-1 outline-solid outline-[var(--separator)] -outline-offset-1',
       isRail
         ? 'w-8.5 h-5 rounded-[var(--corner-sm)] shadow-[inset_0_0_0_1px_var(--separator)]'
-        : 'w-15 h-9 rounded-[var(--corner-thumbnail)]',
-      imageFitClass(true),
+        : 'w-16 h-9.5 rounded-[var(--corner-thumbnail)]',
+      imageFitClass(),
     )}
   />
 );

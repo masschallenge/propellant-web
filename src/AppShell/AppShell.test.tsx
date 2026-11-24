@@ -519,7 +519,7 @@ describe('AppShell', () => {
         'w-8.5',
         'h-5',
         'rounded-[var(--corner-sm)]',
-        'object-cover',
+        'object-contain',
         'shadow-[inset_0_0_0_1px_var(--separator)]',
       );
       expect(screen.getByRole('link', { name: 'Online review, in progress' })).toBeInTheDocument();

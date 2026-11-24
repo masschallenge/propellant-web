@@ -835,14 +835,15 @@ describe('Sidebar', () => {
       expect(screen.getByRole('link', { name: 'Schedule' })).toHaveClass('pl-16.5');
     });
 
-    it('crops program media to fill a rounded thumbnail beside a name that wraps', () => {
+    it('shows the whole program logo at least 64px wide beside a name that wraps', () => {
       renderTree();
       const logo = screen.getByRole('img', { name: 'HealthTech logo' });
       expect(logo).toHaveAttribute('src', '/logo.png');
+      expect(logo).not.toHaveClass('object-cover');
       expect(logo).toHaveClass(
-        'object-cover',
-        'w-15',
-        'h-9',
+        'object-contain',
+        'w-16',
+        'h-9.5',
         'rounded-[var(--corner-thumbnail)]',
         'bg-[var(--bg)]',
         'outline-1',

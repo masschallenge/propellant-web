@@ -453,7 +453,7 @@ export const ProgramUnderPersonaAlignment: Story = {
       outlineColor: 'rgb(219, 225, 227)',
       background: 'rgb(255, 255, 255)',
       radius: '5px',
-      fit: 'cover',
+      fit: 'contain',
     });
     const nameStyle = getComputedStyle(canvas.getByText('HealthTech Traction 2027'));
     const homeStyle = getComputedStyle(canvas.getByText('Home'));
@@ -486,9 +486,9 @@ export const ProgramUnderPersonaAlignment: Story = {
       personaRow: 36,
       personaLabel: '15px',
       personaIcon: 20,
-      programRow: 44,
-      logoWidth: 60,
-      logoHeight: 36,
+      programRow: 46,
+      logoWidth: 64,
+      logoHeight: 38,
       stageRow: 34,
       stageLabel: '15px',
       leafRow: 32,

@@ -161,9 +161,9 @@ size. An explicit `size` sets the height of any row in the list.
 - Set `current` on the current page only. Set `inTrail` on the top level item whose branch holds
   it, so the rail can show where people are.
 - `marker` shows a stage as `done`, `now` or `next` with its number, and its `label` is read by
-  assistive technology. `media` fills a 60 by 36 thumbnail with 5px corners,
-  `--corner-thumbnail`, cropping the logo to cover it, beside a name of up to two lines. The
-  program row and its rows sit 6px in from the sidebar edge, as one inset block.
+  assistive technology. `media` shows the program logo whole in a 64 by 38 thumbnail with 5px
+  corners, `--corner-thumbnail`, never cropped, beside a name of up to two lines. The program row
+  and its rows sit 6px in from the sidebar edge, as one inset block.
 - Pass a `RoleTag` to `accessory` to name the role a destination belongs to. Assistive technology
   reads it once, after the label, and not at all when it repeats the label.
 - Role tags are sentence case in the Caption text style, `text-caption`, at 12px. Name the role
