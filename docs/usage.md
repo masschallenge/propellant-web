@@ -284,12 +284,19 @@ reduced motion values.
 
 ## What stays with you
 
-Our components handle focus, keyboard support, contrast and announcements for screen readers. A
-few things only your product can do:
+Propellant is designed to meet WCAG 2.2 AA. Our components handle focus, keyboard support,
+contrast, target sizes and announcements for screen readers. A few things only your product can do:
 
 - give every page one `h1` and a sensible heading order,
 - write labels and button text that say what happens,
 - give icon only buttons an accessible name,
+- put help, such as a support link, in the same place on every page: the `Sidebar` footer, or the
+  `help` slot of `AuthLayout` on sign in pages,
+- never ask for the same information twice in one process; fill it in or offer it to pick,
+- let people paste and use password managers when they sign in: set `autoComplete` on email,
+  password and code fields and never block paste,
+- give anything people can drag a click or tap alternative, such as Move up and Move down buttons,
+- keep your own sticky bars, banners and toasts from covering the control that has focus,
 - keep personal data out of analytics; fields mark their values private by default.
 
 ## Versioning

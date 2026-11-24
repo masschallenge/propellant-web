@@ -8,6 +8,7 @@ const SIZE_TOKENS = [
   '--control-md',
   '--control-lg',
   '--hit-target',
+  '--target-minimum',
   '--row-dense',
   '--row',
   '--row-tall',
@@ -55,7 +56,8 @@ export const Layout = () => (
       </div>
       <Rules
         items={[
-          'Small controls keep a 28px invisible hit area, or 44px on touch, through a pseudo element. The newer WCAG 2.2 AA asks for at least 24px, so we clear it with room to spare.',
+          'Small controls keep a 28px invisible hit area, or 44px on touch, through a pseudo element. WCAG 2.2 AA asks for at least 24px, the --target-minimum token, so we clear it with room to spare.',
+          'Where small targets sit side by side, such as pagination dots, each gets a full hit target box instead, so neighboring hit areas never overlap.',
           'Rows are 36px in dense tables, 44px in lists and 56px for two line rows.',
           'Spacing comes in multiples of 4px. The common steps are 4, 8, 12, 16, 20, 24, 32 and 48.',
         ]}
