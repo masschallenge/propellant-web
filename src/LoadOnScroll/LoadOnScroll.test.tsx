@@ -95,6 +95,13 @@ describe('LoadOnScroll', () => {
     expect(screen.getByRole('status')).toHaveTextContent(failure);
   });
 
+  it('positions itself so its hidden status stays inside the panel that scrolls it', () => {
+    stubIntersectionObserver();
+    const { container } = render(<LoadOnScroll hasMore />);
+    expect(container.firstElementChild).toHaveClass('relative');
+    expect(screen.getByRole('status').parentElement).toBe(container.firstElementChild);
+  });
+
   it('keeps aria-busy off the hidden placeholder rows', () => {
     stubIntersectionObserver();
     const { container } = render(<LoadOnScroll hasMore isLoading />);

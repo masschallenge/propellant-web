@@ -89,7 +89,7 @@ export const LoadOnScroll = ({
   const showsLoadMoreButton = hasMore && !isLoading && !error && !canObserve;
 
   return (
-    <div className={joinClasses('flex flex-col', className)}>
+    <div className={joinClasses('relative flex flex-col', className)}>
       <span role="status" aria-live="polite" className="sr-only">
         {isLoading ? announcement : (error ?? announcement)}
       </span>
