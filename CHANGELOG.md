@@ -11,6 +11,16 @@ README say so, and the components below change to meet the criteria that are new
 
 ### Added
 
+- `SidebarItem` takes `navigates`: a parent with an `href` becomes a link that goes to its page
+  and opens its list, with a separate chevron button named for the section, such as "Your companies
+  pages", that opens and closes the list. `aria-expanded` says whether the list is open. Without
+  `navigates` a parent still only opens and closes.
+- `FileRow` takes `action` for a control beside the file, such as Replace, and
+  `showStatus={false}` to keep the upload status for screen readers only.
+- Sidebar `media` takes `shape: 'logo'` for a 20px square logo, contained rather than cropped.
+  Without a `src`, `initials` show on a tinted square instead. Below a nested row with a logo,
+  children line up with the row's name instead of its edge, and the children of a
+  `navigates` parent line up with that parent.
 - The `--target-minimum` token, 24px, the smallest pointer target WCAG 2.2 AA allows. A unit test
   keeps `--hit-target` and `--control-sm` at or above it with a mouse and on touch.
 - `AuthLayout` takes a `help` slot that renders below every auth screen in the same place, for a
