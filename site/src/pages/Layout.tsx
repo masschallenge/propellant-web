@@ -115,7 +115,7 @@ export const Layout = () => (
         items={[
           'Text uses the type scale with a 12px floor, and 13px for any text needed to finish a task.',
           'Spacing stays on the 4px scale. Table rows are 36px (dense) or 44px.',
-          'Forms are one column. A segmented control holds at most about five options.',
+          'Forms are one column. A segmented control holds at most about five options. Toasts are the light Propellant Toast.',
           'Colors come from tokens only: no raw hex and no brand hex in the product. The tint is for actions and the current destination.',
         ]}
       />
