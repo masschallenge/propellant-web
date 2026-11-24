@@ -22,7 +22,9 @@ describe('Patterns page bulk confirm example', () => {
     await userEvent.click(trigger);
     const dialog = screen.getByRole('dialog', { name: 'Decline 80 startups?' });
     expect(dialog).toBeInTheDocument();
-    expect(screen.getByRole('list', { name: 'Declining 80' })).toBeInTheDocument();
+    const affectedRegion = screen.getByRole('region', { name: 'Declining 80 startups' });
+    expect(affectedRegion).toHaveAttribute('tabindex', '0');
+    expect(within(affectedRegion).getAllByRole('listitem')).toHaveLength(80);
     await userEvent.keyboard('{Escape}');
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     expect(trigger).toHaveFocus();

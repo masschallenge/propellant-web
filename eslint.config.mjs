@@ -56,6 +56,7 @@ export default tseslint.config(
       'jsx-a11y/no-static-element-interactions': 'off',
       'jsx-a11y/interactive-supports-focus': 'off',
       'jsx-a11y/no-autofocus': 'off',
+      'jsx-a11y/no-noninteractive-tabindex': ['error', { tags: [], roles: ['tabpanel', 'region'] }],
       'jsx-a11y/no-noninteractive-element-to-interactive-role': [
         'error',
         {

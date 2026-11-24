@@ -88,7 +88,7 @@ const NeedsAttention = () => (
   </div>
 );
 
-const AFFECTED_STARTUPS = [
+const NAMED_STARTUPS = [
   'Northwind Robotics',
   'Verdant Bio',
   'Lumen Health',
@@ -96,6 +96,13 @@ const AFFECTED_STARTUPS = [
   'Harbor Analytics',
   'Pillar Energy',
 ];
+
+const DECLINED_COUNT = 80;
+
+const AFFECTED_STARTUPS = Array.from(
+  { length: DECLINED_COUNT },
+  (_unused, index) => NAMED_STARTUPS[index] ?? `Startup ${index + 1}`,
+);
 
 const BulkConfirm = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -129,16 +136,20 @@ const BulkConfirm = () => {
               Preview email
             </a>
           </p>
-          <ul
-            aria-label="Declining 80"
-            className="m-0 p-0 list-none max-h-40 overflow-y-auto rounded-[var(--corner-lg)] bg-[var(--bg-secondary)]"
+          <div
+            role="region"
+            aria-label={`Declining ${DECLINED_COUNT} startups`}
+            tabIndex={0}
+            className="max-h-40 overflow-y-auto rounded-[var(--corner-lg)] bg-[var(--bg-secondary)] focus-visible:outline-[length:var(--focus-width)] focus-visible:outline-solid focus-visible:outline-offset-[var(--focus-offset)] focus-visible:outline-[var(--focus-color)]"
           >
-            {AFFECTED_STARTUPS.map((name) => (
-              <li key={name} className="px-3 py-2 text-callout text-[var(--label)]">
-                {name}
-              </li>
-            ))}
-          </ul>
+            <ul className="m-0 p-0 list-none">
+              {AFFECTED_STARTUPS.map((name) => (
+                <li key={name} className="px-3 py-2 text-callout text-[var(--label)]">
+                  {name}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </Sheet>
     </div>
