@@ -56,7 +56,7 @@ export const Accessibility = () => (
         items={[
           'Small indicators that sit side by side, such as pagination dots, each get a full hit target box, so neighboring hit areas never overlap.',
           'A control inside another control, such as the clear button in a combo box, is a full hit target box of its own.',
-          'Links inside a sentence are the one exception. Everywhere else, build from the components or use the tokens to keep every target at the minimum.',
+          'Propellant keeps every target at 24 by 24px or larger, except links inside running text. WCAG 2.2 allows a few other exceptions, but Propellant does not rely on them: build from the components or use the tokens to keep every target at the minimum.',
         ]}
       />
     </Section>
