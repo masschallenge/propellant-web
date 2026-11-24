@@ -1,5 +1,5 @@
 import { Table } from '../../../src/index';
-import { Code, PageBody, PageHeading, Prose, Rules, Section } from '../parts/Page';
+import { Code, Note, PageBody, PageHeading, Prose, Rules, Section } from '../parts/Page';
 
 export const Accessibility = () => (
   <PageBody>
@@ -163,6 +163,60 @@ export const Writing = () => (
           ]}
         />
       </div>
+    </Section>
+    <Section title="Text that earns its place">
+      <Prose>
+        Every line on a screen should help someone act. Text that explains how the interface works
+        is a sign the interface needs to be simpler, and people skip it anyway.
+      </Prose>
+      <Rules
+        items={[
+          'Never explain how the interface works, restate a title, describe ordering or logic, or reassure. Cut lines such as "Click a row to open it", "Exact matches first" or "Nothing is sent until you approve".',
+          'Keep real data: counts, dates, names, scores, statuses, and a reason that is data, such as "Near match: Medical devices".',
+          'Show real constraints as field hints: file types, size limits, character limits. A hint that only paraphrases the label goes.',
+          'A destructive action gets one short line on its consequence. Errors say what went wrong and how to fix it.',
+          'A page subtitle stays only when it carries live information, such as a count, a deadline or a status. When in doubt, delete.',
+        ]}
+      />
+    </Section>
+    <Section title="Dates and times">
+      <Rules
+        items={[
+          "Deadlines show the day, date, time and the viewer's time zone abbreviation: Mon, Nov 30 @ 5:00 PM ET.",
+          'Lists and rows show the date alone, Nov 30, and add the time only where it matters.',
+          'Ranges name the month once: Dec 8 to 9, or Nov 30 to Dec 4. Program dates without times are fine.',
+          'Logs show the date and time with the zone: Nov 24 @ 9:14 AM ET.',
+          'Use the zone abbreviation as the label. Never UTC, and never Eastern Time spelled out.',
+          'No relative times, except "just now" in a toast.',
+        ]}
+      />
+    </Section>
+    <Section title="Menus">
+      <Rules
+        items={[
+          'A menu lists actions first, then a separator, then the destructive item last in the critical color.',
+          'Never put Open or View in a menu. Rows open when clicked.',
+          'Critical actions are visible buttons, never only menu items.',
+          'Name the action, not the object: Continue, not Continue CareLoop.',
+          'Every row people can drag to reorder also offers Move up and Move down in its menu, so one click does the same.',
+        ]}
+      />
+    </Section>
+    <Section title="Product words (proposed)">
+      <Note>
+        Proposed wording, pending sign-off from MassChallenge Marketing. Treat this list as a
+        proposal until Marketing approves it; it is not yet a Propellant rule.
+      </Note>
+      <Rules
+        items={[
+          'Startup: an organization in a program. Company: the same organization in the Network and on its profile.',
+          "Founder: a person on a startup's team. The role is Founder, never Startup.",
+          'Evaluator, never judge. Mentor. Program manager, never PM in visible text except a tight table column.',
+          'Online selection and Pitching selection name the selection stages.',
+          'Cohort member, never finalist. Stage results are Advanced and Not advanced; the final result is Selected for the Cohort or Not selected.',
+          'Use one term for each idea, everywhere it appears.',
+        ]}
+      />
     </Section>
   </PageBody>
 );

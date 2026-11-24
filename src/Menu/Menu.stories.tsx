@@ -84,7 +84,7 @@ const accountMenuItems: MenuItem[] = [
 
 const itemMenuItems: MenuItem[] = [
   { label: 'Review progress', icon: accountIcons.review, href: '#review-progress' },
-  { label: 'Open program', icon: accountIcons.program, href: '#program' },
+  { label: 'Program settings', icon: accountIcons.program, href: '#program-settings' },
   { label: 'Remind me tomorrow', icon: accountIcons.remind, onSelect: fn() },
 ];
 
