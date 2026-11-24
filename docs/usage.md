@@ -183,7 +183,9 @@ size. An explicit `size` sets the height of any row in the list.
   reads it once, after the label, and not at all when it repeats the label.
 - Role tags are sentence case in the Caption text style, `text-caption`, at 12px. Name the role
   as people read it: Evaluator, Founder, Program manager. Marker numbers use the Caption 2 text
-  style, `text-caption2`: 10px with 0.06em tracking. The component sets the weight.
+  style, `text-caption2`: 10px with 0.06em tracking. The component sets the weight. The 12px floor
+  on the Layout page is for text people read in the product; Caption 2 stays only for stage marker
+  numbers and Avatar badges until design decides whether those move to 12px.
 
 ```tsx
 <SidebarItem
