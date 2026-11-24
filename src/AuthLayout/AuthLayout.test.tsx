@@ -87,4 +87,38 @@ describe('AuthLayout', () => {
       within(screen.getByRole('main')).getByRole('img', { name: 'MassChallenge' }),
     ).toBeInTheDocument();
   });
+
+  it('keeps help in the same place below every auth screen', () => {
+    const help = <a href="#support">Contact support</a>;
+    const { rerender } = render(
+      <AuthLayout help={help}>
+        <form aria-label="Sign in" />
+      </AuthLayout>,
+    );
+    const helpLink = screen.getByRole('link', { name: 'Contact support' });
+    const signIn = screen.getByRole('form', { name: 'Sign in' });
+    expect(screen.getByRole('main')).toContainElement(helpLink);
+    expect(
+      signIn.compareDocumentPosition(helpLink) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+
+    rerender(
+      <AuthLayout help={help}>
+        <form aria-label="Check your email" />
+      </AuthLayout>,
+    );
+    const linkSent = screen.getByRole('form', { name: 'Check your email' });
+    expect(screen.getByRole('link', { name: 'Contact support' }).parentElement).toBe(
+      linkSent.nextElementSibling,
+    );
+  });
+
+  it('renders no help area unless help is given', () => {
+    const { container } = render(
+      <AuthLayout>
+        <form aria-label="Sign in" />
+      </AuthLayout>,
+    );
+    expect(container.querySelector('.propellant-auth-help')).toBeNull();
+  });
 });
