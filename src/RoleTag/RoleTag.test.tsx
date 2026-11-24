@@ -6,20 +6,35 @@ import type { RoleTagTone } from './RoleTag';
 afterEach(cleanup);
 
 const FILLS: [RoleTagTone, string][] = [
-  ['admin', 'bg-[var(--critical-fill)]'],
-  ['pm', 'bg-[var(--tint-fill)]'],
-  ['judge', 'bg-[var(--warning-fill)]'],
-  ['startup', 'bg-[var(--success-fill)]'],
+  ['admin', 'bg-[var(--role-tag-admin-fill)]'],
+  ['pm', 'bg-[var(--role-tag-pm-fill)]'],
+  ['evaluator', 'bg-[var(--role-tag-evaluator-fill)]'],
+  ['judge', 'bg-[var(--role-tag-evaluator-fill)]'],
+  ['founder', 'bg-[var(--role-tag-founder-fill)]'],
+  ['startup', 'bg-[var(--role-tag-founder-fill)]'],
   ['mentor', 'bg-[var(--role-tag-mentor-fill)]'],
   ['neutral', 'bg-[var(--fill-secondary)]'],
 ];
 
 describe('RoleTag', () => {
-  it('shows the role in uppercase while keeping the words it was given', () => {
-    render(<RoleTag tone="admin">Admin</RoleTag>);
-    const tag = screen.getByText('Admin');
-    expect(tag).toHaveClass('uppercase', 'text-caption2', 'min-h-4.5', 'leading-5');
-    expect(tag).toHaveTextContent(/^Admin$/);
+  it('shows the role in sentence case at the 12px caption size, as it was given', () => {
+    render(<RoleTag tone="evaluator">Evaluator</RoleTag>);
+    const tag = screen.getByText('Evaluator');
+    expect(tag).toHaveClass('text-caption', 'min-h-4.5', 'leading-4.5');
+    expect(tag).not.toHaveClass('uppercase');
+    expect(tag).not.toHaveClass('text-caption2');
+    expect(tag).toHaveTextContent(/^Evaluator$/);
+  });
+
+  it('colors roles from role tag tokens, never the status colors', () => {
+    (['admin', 'pm', 'evaluator', 'founder', 'mentor'] as RoleTagTone[]).forEach((tone) => {
+      const { unmount } = render(<RoleTag tone={tone}>Role</RoleTag>);
+      const tag = screen.getByText('Role');
+      expect(tag.className).toContain(`--role-tag-${tone}-fill`);
+      expect(tag.className).toContain(`--role-tag-${tone}-label`);
+      expect(tag.className).not.toMatch(/--(critical|warning|success)/);
+      unmount();
+    });
   });
 
   it.each(FILLS)('gives the %s role its own soft fill', (tone, fill) => {

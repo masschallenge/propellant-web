@@ -307,6 +307,22 @@ html [data-propellant] {
 
   --icon-tile-closed-fg: var(--gray-600);
 
+  --role-tag-admin-fill: var(--critical-fill);
+
+  --role-tag-admin-label: var(--critical);
+
+  --role-tag-pm-fill: var(--tint-fill);
+
+  --role-tag-pm-label: var(--tint);
+
+  --role-tag-evaluator-fill: var(--warning-fill);
+
+  --role-tag-evaluator-label: var(--warning);
+
+  --role-tag-founder-fill: var(--success-fill);
+
+  --role-tag-founder-label: var(--success);
+
   --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 28%, transparent);
 
   --role-tag-mentor-label: var(--on-highlight);
@@ -412,6 +428,22 @@ html [data-propellant] {
   --icon-tile-pitch-bg: var(--mc-navy);
 
   --icon-tile-pitch-fg: var(--mc-cyan);
+
+  --role-tag-admin-fill: var(--critical-fill);
+
+  --role-tag-admin-label: var(--critical);
+
+  --role-tag-pm-fill: var(--tint-fill);
+
+  --role-tag-pm-label: var(--tint);
+
+  --role-tag-evaluator-fill: var(--warning-fill);
+
+  --role-tag-evaluator-label: var(--warning);
+
+  --role-tag-founder-fill: var(--success-fill);
+
+  --role-tag-founder-label: var(--success);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -494,6 +526,22 @@ html:has([data-appearance='system']) [data-propellant]:not([data-theme='light'])
   --icon-tile-pitch-bg: var(--mc-navy);
 
   --icon-tile-pitch-fg: var(--mc-cyan);
+
+  --role-tag-admin-fill: var(--critical-fill);
+
+  --role-tag-admin-label: var(--critical);
+
+  --role-tag-pm-fill: var(--tint-fill);
+
+  --role-tag-pm-label: var(--tint);
+
+  --role-tag-evaluator-fill: var(--warning-fill);
+
+  --role-tag-evaluator-label: var(--warning);
+
+  --role-tag-founder-fill: var(--success-fill);
+
+  --role-tag-founder-label: var(--success);
 }
 }
 
@@ -958,6 +1006,14 @@ html:has([data-appearance='system']) [data-propellant]:not([data-theme='light'])
 }
 
 html [data-propellant] {
+  --role-tag-admin-fill: var(--critical-fill);
+  --role-tag-admin-label: var(--critical);
+  --role-tag-pm-fill: var(--tint-fill);
+  --role-tag-pm-label: var(--tint);
+  --role-tag-evaluator-fill: var(--warning-fill);
+  --role-tag-evaluator-label: var(--warning);
+  --role-tag-founder-fill: var(--success-fill);
+  --role-tag-founder-label: var(--success);
   --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 28%, transparent);
   --role-tag-mentor-label: var(--on-highlight);
 }

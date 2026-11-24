@@ -166,8 +166,9 @@ size. An explicit `size` sets the height of any row in the list.
   program row and its rows sit 6px in from the sidebar edge, as one inset block.
 - Pass a `RoleTag` to `accessory` to name the role a destination belongs to. Assistive technology
   reads it once, after the label, and not at all when it repeats the label.
-- Role tags and marker numbers use the Caption 2 text style, `text-caption2`: 10px with 0.06em
-  tracking. The component sets the weight.
+- Role tags are sentence case in the Caption text style, `text-caption`, at 12px. Name the role
+  as people read it: Evaluator, Founder, Program manager. Marker numbers use the Caption 2 text
+  style, `text-caption2`: 10px with 0.06em tracking. The component sets the weight.
 
 ```tsx
 <SidebarItem

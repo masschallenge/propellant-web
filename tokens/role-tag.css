@@ -1,4 +1,12 @@
 :root {
+  --role-tag-admin-fill: var(--critical-fill);
+  --role-tag-admin-label: var(--critical);
+  --role-tag-pm-fill: var(--tint-fill);
+  --role-tag-pm-label: var(--tint);
+  --role-tag-evaluator-fill: var(--warning-fill);
+  --role-tag-evaluator-label: var(--warning);
+  --role-tag-founder-fill: var(--success-fill);
+  --role-tag-founder-label: var(--success);
   --role-tag-mentor-fill: color-mix(in srgb, var(--yellow-400) 28%, transparent);
   --role-tag-mentor-label: var(--on-highlight);
 }
