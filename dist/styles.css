@@ -592,7 +592,8 @@
   --toolbar-menu-max-width: min(320px, 60vw);
   --sidebar-width: 264px;
   --sidebar-rail-width: 56px;
-  --inspector-width: 360px;
+  --inspector-width: 480px;
+  --inspector-width-wide: 640px;
 
   --avatar-xs: 20px;
   --avatar-compact: 26px;
