@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
+import { IconButton } from '../IconButton/IconButton';
 import { useStoredBoolean } from '../internal/useStoredBoolean';
 
 export type Appearance = 'system' | 'light' | 'dark';
@@ -57,6 +58,7 @@ export interface AppShellProps {
   appearance?: Appearance;
   skipLinkLabel?: string;
   sidebarLabel?: string;
+  sidebarToggleLabel?: string;
   sidebarCollapse?: SidebarCollapseMode;
   sidebarStorageKey?: string;
   defaultSidebarCollapsed?: boolean;
@@ -74,6 +76,19 @@ const RESIZE_SETTLE_MS = 400;
 const RESIZING_COLUMN =
   'overflow-hidden transition-[width,background-color] duration-[var(--duration-resize)] ease-[var(--ease-in-out)]';
 
+const MenuGlyph = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.75"
+    strokeLinecap="round"
+    aria-hidden="true"
+  >
+    <path d="M4 6.5h16M4 12h16M4 17.5h16" />
+  </svg>
+);
+
 const RAIL_COLUMN =
   'w-[var(--sidebar-rail-width)] overflow-hidden bg-[var(--material-sidebar-opaque)] border-r border-solid border-[var(--separator)] [border-right-width:var(--hairline)]';
 
@@ -88,6 +103,7 @@ export const AppShell = ({
   appearance = 'system',
   skipLinkLabel = 'Skip to content',
   sidebarLabel = 'Navigation',
+  sidebarToggleLabel = 'Show sidebar',
   sidebarCollapse = 'hide',
   sidebarStorageKey,
   defaultSidebarCollapsed = false,
@@ -240,6 +256,19 @@ export const AppShell = ({
         <div className="flex-1 min-w-0 flex flex-col">
           {banner}
           {toolbar}
+          {hasSidebar && isCompact && !toolbar ? (
+            <div className="flex items-center pt-3 px-[var(--page-margin)]">
+              <IconButton
+                variant="plain"
+                aria-label={sidebarToggleLabel}
+                aria-controls={sidebarId}
+                aria-expanded={isOverlayOpen}
+                onClick={contextValue.toggleSidebar}
+              >
+                <MenuGlyph />
+              </IconButton>
+            </div>
+          ) : null}
           <main
             id={mainId}
             tabIndex={-1}

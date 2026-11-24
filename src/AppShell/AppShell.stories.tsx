@@ -309,12 +309,12 @@ const CONSOLE_STAGES: { id: string; label: string; state: SidebarMarkerState; st
   ];
 
 const ROLE_DESTINATIONS = [
-  { id: 'applications', label: 'Your applications', icon: 'applications', tone: 'startup' },
-  { id: 'review-queue', label: 'Review queue', icon: 'review', tone: 'judge' },
+  { id: 'applications', label: 'Your applications', icon: 'applications', tone: 'founder' },
+  { id: 'review-queue', label: 'Review queue', icon: 'review', tone: 'evaluator' },
   { id: 'platform', label: 'Platform settings', icon: 'platform', tone: 'admin' },
 ] as const;
 
-const ROLE_TAG_LABELS = { startup: 'Startup', judge: 'Judge', admin: 'Admin' } as const;
+const ROLE_TAG_LABELS = { founder: 'Founder', evaluator: 'Evaluator', admin: 'Admin' } as const;
 
 const MARKER_LABELS: Record<SidebarMarkerState, string> = {
   done: 'completed',
@@ -331,7 +331,9 @@ const ConsoleHeader = () => (
 
 const ConsoleAccount = () => {
   const isRail = Boolean(useAppShell()?.isRail);
-  const avatar = <Avatar initials="AL" size={isRail ? 'xs' : 'sm'} />;
+  const avatar = (
+    <Avatar initials="AL" size={isRail ? 'xs' : 'sm'} count={3} countLabel="3 unread in Inbox" />
+  );
   if (isRail)
     return (
       <button
@@ -421,7 +423,6 @@ const ConsoleSidebar = ({
                     number: stageIndex + 1,
                     label: MARKER_LABELS[stage.state],
                   }}
-                  defaultExpanded={stage.state === 'now' || isInStage(stage)}
                   subitems={stage.steps.map((step) => (
                     <SidebarItem
                       key={step}
@@ -463,14 +464,20 @@ const ConsoleSidebar = ({
   );
 };
 
-const RailDemo = ({ defaultSidebarCollapsed }: { defaultSidebarCollapsed?: boolean }) => {
+const RailDemo = ({
+  defaultSidebarCollapsed,
+  hasToolbar = true,
+}: {
+  defaultSidebarCollapsed?: boolean;
+  hasToolbar?: boolean;
+}) => {
   const [destination, setDestination] = useState('review/Progress');
   return (
     <AppShell
       sidebarCollapse="rail"
       defaultSidebarCollapsed={defaultSidebarCollapsed}
       sidebar={<ConsoleSidebar current={destination} onNavigate={setDestination} />}
-      toolbar={<Toolbar title="HealthTech Traction 2027" />}
+      toolbar={hasToolbar ? <Toolbar title="HealthTech Traction 2027" /> : undefined}
     >
       <h1 className="m-0 text-large-title text-[var(--label)]">Progress</h1>
     </AppShell>
@@ -483,6 +490,16 @@ export const Tree: Story = {
 
 export const Rail: Story = {
   render: () => <RailDemo defaultSidebarCollapsed />,
+};
+
+export const ConsoleWithoutToolbar: Story = {
+  render: () => <RailDemo hasToolbar={false} />,
+};
+
+export const ConsoleWithoutToolbarCompact: Story = {
+  render: () => <RailDemo hasToolbar={false} />,
+  parameters: { viewport: { defaultViewport: 'mobile2' } },
+  globals: { viewport: { value: 'mobile2' } },
 };
 
 export const RailInteraction: Story = {

@@ -134,6 +134,15 @@ export const Layout = ({ children }: { children: React.ReactNode }) => (
 `SidebarItem` and `Button` render plain links by default. Pass your router's link component to
 `linkAs` to keep client side navigation, where pages change without a full reload.
 
+#### Without a toolbar
+
+The toolbar is optional. A console whose hierarchy lives in the sidebar tree, with page actions in
+the page header and inbox and help in the account menu, can leave `toolbar` out. On wide windows
+the sidebar stays in view (or collapses to the rail with `sidebarCollapse="rail"`). Below 1024px
+the shell shows its own Show sidebar button at the top of the page, named by
+`sidebarToggleLabel`, which opens the sidebar overlay. Show the inbox's unread count on the account
+button with the `count` and `countLabel` of its `Avatar`.
+
 #### Nest destinations in a tree
 
 A `SidebarItem` takes `subitems`, more `SidebarItem`s shown in a nested list below it. Top level

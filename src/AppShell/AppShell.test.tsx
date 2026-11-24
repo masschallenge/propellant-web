@@ -117,6 +117,32 @@ describe('AppShell', () => {
     expect(toggle).toHaveFocus();
   });
 
+  it('offers its own sidebar toggle on compact screens when there is no toolbar', async () => {
+    stubWidth(800);
+    renderShell({ toolbar: undefined, sidebarToggleLabel: 'Show navigation' });
+    expect(screen.queryByRole('banner')).not.toBeInTheDocument();
+    const toggle = screen.getByRole('button', { name: 'Show navigation' });
+    expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    await userEvent.click(toggle);
+    const overlay = screen.getByRole('dialog', { name: 'Navigation' });
+    expect(toggle).toHaveAttribute('aria-controls', overlay.id);
+    expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    await userEvent.keyboard('{Escape}');
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(toggle).toHaveFocus();
+  });
+
+  it('leaves the toggle to the toolbar, and shows none on wide screens without one', () => {
+    stubWidth(800);
+    renderShell();
+    expect(screen.getAllByRole('button', { name: 'Show sidebar' })).toHaveLength(1);
+    cleanup();
+    stubWidth(1280);
+    renderShell({ toolbar: undefined });
+    expect(screen.queryByRole('button', { name: 'Show sidebar' })).not.toBeInTheDocument();
+    expect(screen.getByRole('navigation', { name: 'Console' })).toBeInTheDocument();
+  });
+
   it('keeps Tab focus inside the overlay', async () => {
     stubWidth(800);
     renderShell();
