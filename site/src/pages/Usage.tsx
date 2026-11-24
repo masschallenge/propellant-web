@@ -89,8 +89,8 @@ export const Usage = () => (
         Install the package from GitHub at a released version. It is published as{' '}
         <Code>@masschallenge/propellant-web</Code>.
       </Prose>
-      <CodeBlock label="Install with npm">{`npm install github:masschallenge/propellant-web#v2.6.0`}</CodeBlock>
-      <CodeBlock label="Install with Yarn">{`yarn add github:masschallenge/propellant-web#v2.6.0`}</CodeBlock>
+      <CodeBlock label="Install with npm">{`npm install github:masschallenge/propellant-web#v2.8.0`}</CodeBlock>
+      <CodeBlock label="Install with Yarn">{`yarn add github:masschallenge/propellant-web#v2.8.0`}</CodeBlock>
     </Section>
 
     <Section title="Load the styles">
