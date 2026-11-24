@@ -118,7 +118,7 @@ const meta = {
       description: {
         component: [
           'Portalled action menu anchored to a trigger, on the elevated surface. Rows highlight with the tint, destructive rows read in critical, and sections use footnote headers. Optional search field and account summary.',
-          "The account menu opens from the avatar and name in the sidebar footer: Inbox with its unread count, the person's profile and settings, and Help, then a separator, Privacy and Terms, and Sign out last. Privacy and Terms live only here, never under the name in the sidebar, and there is no Cookies item.",
+          "The account menu opens from the avatar and name in the sidebar footer, and it is where Help lives on every page: Inbox with its unread count, the person's profile and settings, and Help, then a separator, Privacy and Terms, and Sign out last. Privacy and Terms live only here, never under the name in the sidebar, and there is no Cookies item.",
           '',
           "Import: `import { Menu } from '@masschallenge/propellant-web'`",
         ].join('\n'),

@@ -93,7 +93,7 @@ export const Layout = () => (
           'Hierarchy lives in the sidebar tree. Only the section that holds the current page is open; every other section stays closed.',
           'Page actions live in the page header: one primary button, at most one secondary, and everything else in the ⋯ menu at the far right.',
           'No breadcrumbs anywhere in the signed in console, including detail pages. Breadcrumb is for public sites with deep pages.',
-          'Inbox and Help live in the account menu that opens from the avatar and name in the sidebar footer, with the unread count on the avatar. Privacy and Terms sit in that menu above Sign out.',
+          'Help in the account menu, in the sidebar footer: the menu opens from the avatar and name, and also holds Inbox, with the unread count on the avatar. Privacy and Terms sit in that menu above Sign out.',
           'Leave the toolbar out. Below 1024px the shell shows its own button to open the sidebar.',
         ]}
       />

@@ -72,7 +72,7 @@ export const Accessibility = () => (
     <Section title="Help, forms and signing in">
       <Rules
         items={[
-          'Put help, such as a support link, chat or contact details, in the same place on every page: the sidebar footer in AppShell, and the help slot in AuthLayout on sign in pages.',
+          'Put help, such as a support link, chat or contact details, in the same place on every page: Help in the account menu, in the sidebar footer, and the help slot in AuthLayout on sign in pages.',
           'Never ask for the same information twice in one process. Fill in what the person already gave, or offer it to pick, such as Same as mailing address. Asking again is only for security, or when the earlier answer is no longer valid.',
           'Signing in never depends on remembering, retyping or solving something. Fields accept paste and password managers: set autoComplete (email, username, current-password, new-password or one-time-code), keep the show password button, and never block paste.',
           'The verification code input takes a pasted or autofilled code and spreads it across its cells. Prefer email links and single sign on, which need nothing typed from memory.',

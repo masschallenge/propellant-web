@@ -306,8 +306,8 @@ contrast, target sizes and announcements for screen readers. A few things only y
 - give every page one `h1` and a sensible heading order,
 - write labels and button text that say what happens,
 - give icon only buttons an accessible name,
-- put help, such as a support link, in the same place on every page: the `Sidebar` footer, or the
-  `help` slot of `AuthLayout` on sign in pages,
+- put help, such as a support link, in the same place on every page: Help in the account menu, in
+  the sidebar footer, and the `help` slot of `AuthLayout` on sign in pages,
 - never ask for the same information twice in one process; fill it in or offer it to pick,
 - let people paste and use password managers when they sign in: set `autoComplete` on email,
   password and code fields and never block paste,
