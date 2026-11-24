@@ -59,6 +59,7 @@ export interface AppShellProps {
   skipLinkLabel?: string;
   sidebarLabel?: string;
   sidebarToggleLabel?: string;
+  showsSidebarToggle?: boolean;
   sidebarCollapse?: SidebarCollapseMode;
   sidebarStorageKey?: string;
   defaultSidebarCollapsed?: boolean;
@@ -104,6 +105,7 @@ export const AppShell = ({
   skipLinkLabel = 'Skip to content',
   sidebarLabel = 'Navigation',
   sidebarToggleLabel = 'Show sidebar',
+  showsSidebarToggle = true,
   sidebarCollapse = 'hide',
   sidebarStorageKey,
   defaultSidebarCollapsed = false,
@@ -256,7 +258,7 @@ export const AppShell = ({
         <div className="flex-1 min-w-0 flex flex-col">
           {banner}
           {toolbar}
-          {hasSidebar && isCompact && !toolbar ? (
+          {hasSidebar && isCompact && !toolbar && showsSidebarToggle ? (
             <div className="flex items-center pt-3 px-[var(--page-margin)]">
               <IconButton
                 variant="plain"

@@ -132,6 +132,12 @@ describe('AppShell', () => {
     expect(toggle).toHaveFocus();
   });
 
+  it('leaves its toggle out when the product brings its own', () => {
+    stubWidth(800);
+    renderShell({ toolbar: undefined, showsSidebarToggle: false });
+    expect(screen.queryByRole('button', { name: 'Show sidebar' })).not.toBeInTheDocument();
+  });
+
   it('leaves the toggle to the toolbar, and shows none on wide screens without one', () => {
     stubWidth(800);
     renderShell();

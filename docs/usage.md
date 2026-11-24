@@ -140,7 +140,8 @@ The toolbar is optional. A console whose hierarchy lives in the sidebar tree, wi
 the page header and inbox and help in the account menu, can leave `toolbar` out. On wide windows
 the sidebar stays in view (or collapses to the rail with `sidebarCollapse="rail"`). Below 1024px
 the shell shows its own Show sidebar button at the top of the page, named by
-`sidebarToggleLabel`, which opens the sidebar overlay. Show the inbox's unread count on the account
+`sidebarToggleLabel`, which opens the sidebar overlay. If your page already has its own toggle
+that calls `useAppShell().toggleSidebar`, set `showsSidebarToggle={false}` so there are not two. Show the inbox's unread count on the account
 button with the `count` and `countLabel` of its `Avatar`.
 
 #### Nest destinations in a tree
