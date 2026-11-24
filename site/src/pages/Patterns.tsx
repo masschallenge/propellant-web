@@ -24,7 +24,7 @@ const STARTUPS = [
     id: 'northwind',
     name: 'Northwind Robotics',
     track: 'Hardware',
-    judges: '3 of 3',
+    evaluators: '3 of 3',
     score: 92,
     status: 'Scored',
   },
@@ -32,15 +32,15 @@ const STARTUPS = [
     id: 'verdant',
     name: 'Verdant Bio',
     track: 'Health',
-    judges: '2 of 3',
+    evaluators: '2 of 3',
     score: 88,
-    status: 'Needs judge',
+    status: 'Needs evaluator',
   },
   {
     id: 'lumen',
     name: 'Lumen Health',
     track: 'Health',
-    judges: '3 of 3',
+    evaluators: '3 of 3',
     score: 74,
     status: 'In review',
   },
@@ -48,13 +48,13 @@ const STARTUPS = [
     id: 'cobalt',
     name: 'Cobalt Freight',
     track: 'Climate',
-    judges: '1 of 3',
+    evaluators: '1 of 3',
     score: 81,
-    status: 'Needs judge',
+    status: 'Needs evaluator',
   },
 ];
 
-const URGENT_STATUSES = new Set(['Needs judge']);
+const URGENT_STATUSES = new Set(['Needs evaluator']);
 
 const MoreGlyph = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -210,30 +210,30 @@ const ReorderableCriteria = () => {
   );
 };
 
-const RoundSettings = () => {
-  const [judgesPerStartup, setJudgesPerStartup] = useState(3);
+const StageSettings = () => {
+  const [evaluatorsPerStartup, setEvaluatorsPerStartup] = useState(3);
   return (
     <div className="flex flex-col gap-6 max-w-[var(--width-form)]">
       <ListSection title="Online selection">
         <ListRow title="Scoring rubric" value="Standard 2026" href="#forms" />
         <ListRow
-          title="Judges per startup"
+          title="Evaluators per startup"
           accessory={
             <Stepper
-              aria-label="Judges per startup"
-              value={judgesPerStartup}
-              onChange={setJudgesPerStartup}
+              aria-label="Evaluators per startup"
+              value={evaluatorsPerStartup}
+              onChange={setEvaluatorsPerStartup}
               min={1}
               max={6}
               size="sm"
             />
           }
         />
-        <ListRow title="Show other judges' scores" accessory={<Switch />} />
-        <ListRow title="Email judges when assigned" accessory={<Switch defaultChecked />} />
+        <ListRow title="Show other evaluators' scores" accessory={<Switch />} />
+        <ListRow title="Email evaluators when assigned" accessory={<Switch defaultChecked />} />
       </ListSection>
       <ListSection>
-        <ListRow title="Delete round" destructive onClick={() => undefined} />
+        <ListRow title="Delete stage" destructive onClick={() => undefined} />
       </ListSection>
     </div>
   );
@@ -248,11 +248,11 @@ export const Patterns = () => (
 
     <Section title="Settings as grouped lists" wide>
       <Prose>
-        Most settings are a short list of named values: a round's rubric, how many judges, who gets
-        emailed. A grouped list reads faster than a column of boxed fields. It puts each value next
-        to its name, and a switch or stepper takes effect right away.
+        Most settings are a short list of named values: a stage's rubric, how many evaluators, who
+        gets emailed. A grouped list reads faster than a column of boxed fields. It puts each value
+        next to its name, and a switch or stepper takes effect right away.
       </Prose>
-      <RoundSettings />
+      <StageSettings />
       <Rules
         items={[
           'Group related settings under a short section title. Add a section footer only when it carries information people need.',
@@ -378,7 +378,7 @@ export const Patterns = () => (
       />
       <div className="overflow-x-auto">
         <Table
-          caption="Applications in online selection"
+          caption="Applications in Online selection"
           size="sm"
           rows={STARTUPS}
           rowId={(startup) => startup.id}
@@ -389,7 +389,7 @@ export const Patterns = () => (
               cell: (startup) => <span className="font-medium">{startup.name}</span>,
             },
             { key: 'track', header: 'Track', cell: (startup) => startup.track },
-            { key: 'judges', header: 'Judges', cell: (startup) => startup.judges },
+            { key: 'evaluators', header: 'Evaluators', cell: (startup) => startup.evaluators },
             {
               key: 'score',
               header: 'Score',
@@ -432,9 +432,9 @@ export const Patterns = () => (
       <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
         <div className="p-6 rounded-[var(--corner-lg)] bg-[var(--bg)]">
           <EmptyState
-            title="No judges assigned"
-            description="Judges you assign appear here."
-            actions={<Button size="sm">Assign judges</Button>}
+            title="No evaluators assigned"
+            description="Evaluators you assign appear here."
+            actions={<Button size="sm">Assign evaluators</Button>}
           />
         </div>
         <div

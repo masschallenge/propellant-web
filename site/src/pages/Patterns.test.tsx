@@ -38,6 +38,24 @@ describe('Patterns page bulk confirm example', () => {
 });
 
 describe('Patterns page guidance', () => {
+  it('uses the Accelerate words in its examples', () => {
+    render(<Patterns />);
+    const pageText = document.body.textContent ?? '';
+    [
+      'Evaluators per startup',
+      'Needs evaluator',
+      'No evaluators assigned',
+      'Assign evaluators',
+    ].forEach((phrase) => expect(pageText).toContain(phrase));
+    [
+      'Needs judge',
+      'Judges per startup',
+      'No judges assigned',
+      'Assign judges',
+      'Delete round',
+    ].forEach((phrase) => expect(pageText).not.toContain(phrase));
+  });
+
   it('keeps Pagination for public pages only', () => {
     render(<Patterns />);
     expect(document.body.textContent).toContain('Only public pages use Pagination.');
