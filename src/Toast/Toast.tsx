@@ -12,20 +12,33 @@ export interface ToastAction {
   muted?: boolean;
 }
 
-export interface ToastProps {
+interface ToastBaseProps {
   title: string;
-  children?: ReactNode;
   tone?: ToastTone;
-  when?: string;
   actions?: ToastAction[];
-  actionPlacement?: ToastActionPlacement;
   media?: ReactNode;
-  progress?: number;
-  progressLabel?: string;
   onDismiss?: () => void;
   announce?: boolean;
   className?: string;
 }
+
+interface ToastBelowProps extends ToastBaseProps {
+  actionPlacement?: 'below';
+  children?: ReactNode;
+  when?: string;
+  progress?: number;
+  progressLabel?: string;
+}
+
+interface ToastInlineProps extends ToastBaseProps {
+  actionPlacement: 'inline';
+  children?: never;
+  when?: never;
+  progress?: never;
+  progressLabel?: never;
+}
+
+export type ToastProps = ToastBelowProps | ToastInlineProps;
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');

@@ -23,6 +23,8 @@ README say so, and the components below change to meet the criteria that are new
 - `Toast` takes `actionPlacement="inline"` to put its actions on the right of the message line,
   vertically centred with the glyph and the message, for a short toast with one action such as
   Undo. The actions stay real buttons inside the live region. The default, `below`, is unchanged.
+  `inline` is typed only for a one line toast: it is a type error together with `children`,
+  `when` or `progress`.
 
 ### Changed
 
