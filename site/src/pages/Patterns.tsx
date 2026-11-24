@@ -5,15 +5,19 @@ import {
   Button,
   DisclosureGroup,
   EmptyState,
+  IconButton,
   ListRow,
   ListSection,
+  Menu,
+  Sheet,
   Skeleton,
   Stepper,
   Switch,
   Table,
   TextField,
+  Toast,
 } from '../../../src/index';
-import { PageBody, PageHeading, Prose, Rules, Section } from '../parts/Page';
+import { Code, PageBody, PageHeading, Prose, Rules, Section } from '../parts/Page';
 
 const STARTUPS = [
   {
@@ -50,20 +54,145 @@ const STARTUPS = [
   },
 ];
 
-const STATUS_TONE = {
-  Scored: 'success',
-  'Needs judge': 'warning',
-  'In review': 'info',
-} as const;
+const URGENT_STATUSES = new Set(['Needs judge']);
+
+const MoreGlyph = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <circle cx="5" cy="12" r="1.75" />
+    <circle cx="12" cy="12" r="1.75" />
+    <circle cx="19" cy="12" r="1.75" />
+  </svg>
+);
+
+const NEEDS_ATTENTION = [
+  { id: 'behind', sentence: '12 evaluators are behind on 47 reviews.', action: 'Email 12' },
+  { id: 'reads', sentence: '9 applications have fewer than 3 reads.', action: 'Reassign 27 reads' },
+  { id: 'ties', sentence: '3 startups tie at rank 40.', action: 'Advance 42' },
+];
+
+const NeedsAttention = () => (
+  <div className="max-w-[var(--width-form)]">
+    <ListSection title="Needs attention">
+      {NEEDS_ATTENTION.map((group) => (
+        <ListRow
+          key={group.id}
+          title={group.sentence}
+          accessory={
+            <Button size="sm" variant="gray">
+              {group.action}
+            </Button>
+          }
+        />
+      ))}
+    </ListSection>
+  </div>
+);
+
+const AFFECTED_STARTUPS = [
+  'Northwind Robotics',
+  'Verdant Bio',
+  'Lumen Health',
+  'Cobalt Freight',
+  'Harbor Analytics',
+  'Pillar Energy',
+];
+
+const BulkConfirm = () => (
+  <div className="relative h-120 max-w-[var(--width-form)] rounded-[var(--corner-lg)] bg-[var(--bg-grouped)] overflow-hidden">
+    <Sheet
+      open
+      inline
+      onClose={() => undefined}
+      hideIcon
+      title="Decline 80 startups?"
+      footer={
+        <>
+          <Button variant="gray">Cancel</Button>
+          <Button destructive>Decline 80 and email 80</Button>
+        </>
+      }
+    >
+      <div className="flex flex-col gap-3">
+        <p className="m-0 text-callout text-[var(--label)]">
+          All 80 founders get their result by email now.{' '}
+          <a href="#preview-email" className="text-[var(--tint)] underline underline-offset-2">
+            Preview email
+          </a>
+        </p>
+        <ul
+          aria-label="Declining 80"
+          className="m-0 p-0 list-none max-h-40 overflow-y-auto rounded-[var(--corner-lg)] bg-[var(--bg-secondary)]"
+        >
+          {AFFECTED_STARTUPS.map((name) => (
+            <li key={name} className="px-3 py-2 text-callout text-[var(--label)]">
+              {name}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Sheet>
+  </div>
+);
+
+const INITIAL_CRITERIA = ['Team', 'Market', 'Traction', 'Use of funds'];
+
+const ReorderableCriteria = () => {
+  const [criteria, setCriteria] = useState(INITIAL_CRITERIA);
+  const move = (fromIndex: number, toIndex: number) =>
+    setCriteria((current) => {
+      const reordered = [...current];
+      const [moved] = reordered.splice(fromIndex, 1);
+      reordered.splice(toIndex, 0, moved);
+      return reordered;
+    });
+  return (
+    <div className="max-w-[var(--width-form)]">
+      <ListSection title="Criteria">
+        {criteria.map((criterion, index) => (
+          <ListRow
+            key={criterion}
+            title={criterion}
+            accessory={
+              <Menu
+                align="end"
+                trigger={
+                  <IconButton variant="plain" size="sm" aria-label={`${criterion} actions`}>
+                    <MoreGlyph />
+                  </IconButton>
+                }
+                items={[
+                  {
+                    label: 'Move up',
+                    disabled: index === 0,
+                    onSelect: () => move(index, index - 1),
+                  },
+                  {
+                    label: 'Move down',
+                    disabled: index === criteria.length - 1,
+                    onSelect: () => move(index, index + 1),
+                  },
+                  { separator: true },
+                  {
+                    label: 'Remove',
+                    destructive: true,
+                    onSelect: () =>
+                      setCriteria((current) => current.filter((name) => name !== criterion)),
+                  },
+                ]}
+              />
+            }
+          />
+        ))}
+      </ListSection>
+    </div>
+  );
+};
 
 const RoundSettings = () => {
   const [judgesPerStartup, setJudgesPerStartup] = useState(3);
   return (
     <div className="flex flex-col gap-6 max-w-[var(--width-form)]">
-      <ListSection
-        title="Online selection"
-        footer="Judges see a startup only after its application is complete."
-      >
+      <ListSection title="Online selection">
         <ListRow title="Scoring rubric" value="Standard 2026" href="#forms" />
         <ListRow
           title="Judges per startup"
@@ -92,7 +221,7 @@ export const Patterns = () => (
   <PageBody>
     <PageHeading
       title="Patterns"
-      lede="Patterns are proven ways to put components together for screens we build again and again. Start here for settings, forms, review queues, status messages and the moments when there is nothing to show yet."
+      lede="Patterns are proven ways to put components together for screens we build again and again. Start here for settings, things that need attention, bulk confirms, ordered and long lists, review queues, status messages and the moments when there is nothing to show yet."
     />
 
     <Section title="Settings as grouped lists" wide>
@@ -104,9 +233,81 @@ export const Patterns = () => (
       <RoundSettings />
       <Rules
         items={[
-          'Group related settings under a short section title. Put the explanation in the section footer, not under every row.',
+          'Group related settings under a short section title. Add a section footer only when it carries information people need.',
           'Rows that open another screen show a chevron (a small arrow). Rows that change a value in place show the control and no chevron.',
+          'Settings pages and profiles save each change as it is made and confirm it with a short Saved toast. They have no Save button.',
+          'Never show a setting that cannot be changed, such as an Always on row. Something that should always be on is not a setting.',
+          'Prefer automatic behavior to a Run button when a setting already decides what should happen.',
           'Destructive actions, the ones that delete or cannot be undone, get their own section at the bottom, centered and in the critical color.',
+        ]}
+      />
+      <div className="max-w-90">
+        <Toast title="Saved" announce={false} />
+      </div>
+    </Section>
+
+    <Section title="Needs attention" wide>
+      <Prose>
+        Everything that needs someone to act goes in one list called Needs attention, near the top
+        of the page. Each item is a sentence with a count and one action that resolves it.
+      </Prose>
+      <NeedsAttention />
+      <Rules
+        items={[
+          'Group items by kind, never one row per person: "12 evaluators are behind on 47 reviews." with one action, "Email 12".',
+          'Name each action for what it does and the count it affects. No Do all, Fix all or Send all buttons.',
+          'No status badges in the list. The sentence says what is wrong.',
+          'Opening a group shows the people or items in it.',
+          'Needs attention is the only name for this list. Use a Banner only for a single notice about the whole page, such as a spending limit reached.',
+        ]}
+      />
+    </Section>
+
+    <Section title="Confirming bulk actions" wide>
+      <Prose>
+        An action that changes outcomes, sends messages to people or deletes asks first, in a Sheet
+        that shows exactly who is affected.
+      </Prose>
+      <BulkConfirm />
+      <Rules
+        items={[
+          'The title is a question that names the action and the count.',
+          'A scrollable list shows everyone affected, and one line states the consequence.',
+          'When email goes out, a Preview email link sits beside that line. Bulk email always opens this confirm, never a bare mailto link.',
+          'The confirm button names the action and the count, such as Decline 80. Destructive confirms use the destructive button.',
+          'A low impact bulk action that sends nothing skips the confirm and offers Undo in a toast instead.',
+        ]}
+      />
+    </Section>
+
+    <Section title="Reorderable lists" wide>
+      <Prose>
+        Lists whose order matters, such as questions or criteria, show the order itself and no
+        numbers. People reorder them by dragging the handle on a row, and every row also offers Move
+        up and Move down in its menu, so a single click does the same.
+      </Prose>
+      <ReorderableCriteria />
+      <Rules
+        items={[
+          'No numbers on ordered lists. The order shows the sequence.',
+          'Every draggable row has Move up and Move down in its ⋯ menu, disabled at the ends.',
+          'Rows open their detail when clicked, so the menu never offers Open or View.',
+        ]}
+      />
+    </Section>
+
+    <Section title="Long lists" wide>
+      <Rules
+        items={[
+          <>
+            Long working lists in the console load as people scroll. Put <Code>LoadOnScroll</Code>{' '}
+            after the list; it shows placeholder rows while the next page comes. Never add a Load
+            more button.
+          </>,
+          <>
+            Public pages and very large result sets that people jump around in use{' '}
+            <Code>Pagination</Code>.
+          </>,
         ]}
       />
     </Section>
@@ -145,6 +346,14 @@ export const Patterns = () => (
         use dense rows. Numbers are right aligned in tabular figures so they line up, and every
         status gets a word, not just a color.
       </Prose>
+      <Rules
+        items={[
+          'Statuses are neutral gray badges. Only warning and critical add color, as a small dot beside the word.',
+          'Use badges sparingly and prefer plain text. Aim for one kind of badge on a screen.',
+          'Badges are capsules. Roles use RoleTag, which has its own colors; a status never borrows a role color.',
+          'Every row opens its detail when clicked, with a chevron at the right.',
+        ]}
+      />
       <div className="overflow-x-auto">
         <Table
           caption="Applications in online selection"
@@ -169,7 +378,7 @@ export const Patterns = () => (
               key: 'status',
               header: 'Status',
               cell: (startup) => (
-                <Badge tone={STATUS_TONE[startup.status as keyof typeof STATUS_TONE]}>
+                <Badge dot={URGENT_STATUSES.has(startup.status) ? 'warning' : undefined}>
                   {startup.status}
                 </Badge>
               ),
@@ -192,7 +401,7 @@ export const Patterns = () => (
         items={[
           'Banners sit at the top of the content they describe, not floating over it.',
           'Screen readers announce critical banners right away; the others wait until the reader is free.',
-          'Toasts, brief pop up messages, confirm an action the person just took and leave on their own. Anything a person must act on is a banner.',
+          'Toasts, brief pop up messages, confirm an action the person just took and leave on their own. Anything a person must act on goes in Needs attention, or in a banner when it is one notice about the whole page.',
         ]}
       />
     </Section>
@@ -202,7 +411,7 @@ export const Patterns = () => (
         <div className="p-6 rounded-[var(--corner-lg)] bg-[var(--bg)]">
           <EmptyState
             title="No judges assigned"
-            description="Assign judges to start online selection for this round."
+            description="Judges you assign appear here."
             actions={<Button size="sm">Assign judges</Button>}
           />
         </div>
@@ -219,7 +428,9 @@ export const Patterns = () => (
       </div>
       <Rules
         items={[
-          'An empty state says what will appear and gives the one action that makes it appear.',
+          'Use EmptyState: a short title, one plain line, its symbol, and at most one action. No illustration in the console.',
+          'Say what will appear and give the one action that makes it appear. Never explain how the feature works.',
+          'Give every primary list an empty state wherever it can really be empty: before applications open, inbox zero, no search results.',
           'Loading placeholders take the shape of the content, so the page does not jump when it arrives.',
         ]}
       />
