@@ -4,7 +4,7 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
-## Unreleased
+## 2.8.0 (2026-11-24)
 
 Propellant now targets WCAG 2.2 AA instead of WCAG 2.1 AA. The guidelines, the usage guide and the
 README say so, and the components below change to meet the criteria that are new in 2.2.
