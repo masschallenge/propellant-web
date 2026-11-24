@@ -369,7 +369,7 @@ export const Patterns = () => (
         items={[
           'Statuses are neutral gray badges. Only warning and critical add color, as a small dot beside the word.',
           'Use badges sparingly and prefer plain text. Aim for one kind of badge on a screen.',
-          'Badges are capsules. Roles use RoleTag, which has its own colors; a status never borrows a role color.',
+          'Badges are capsules. Roles use RoleTag, never a badge. Role tags read their own tokens, which still share the status hues until design picks role colors.',
           'Every row opens its detail when clicked, with a chevron at the right.',
         ]}
       />

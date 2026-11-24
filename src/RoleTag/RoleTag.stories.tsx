@@ -23,7 +23,7 @@ const meta = {
     docs: {
       description: {
         component: [
-          'A small tag that names the role a destination belongs to, such as the Admin tag beside an admin console in the sidebar. It is set in sentence case at 12px. Each role has its own soft fill from the `--role-tag-*` tokens, kept apart from the status colors, and the word always names the role, so color is never the only signal. Use the `evaluator` and `founder` tones for Accelerate roles; `judge` and `startup` remain as aliases. Pass it to the `accessory` of a `SidebarItem`.',
+          'A small tag that names the role a destination belongs to, such as the Admin tag beside an admin console in the sidebar. It is set in sentence case at 12px. Each role reads its own `--role-tag-*` tokens, so roles can change color without touching status. For now those tokens still map to the tint and status hues, until design picks role colors. The word always names the role, so color is never the only signal. Use the `evaluator` and `founder` tones for Accelerate roles; `judge` and `startup` remain as aliases. Pass it to the `accessory` of a `SidebarItem`.',
           '',
           "Import: `import { RoleTag } from '@masschallenge/propellant-web'`",
         ].join('\n'),
