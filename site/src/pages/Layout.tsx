@@ -113,7 +113,7 @@ export const Layout = () => (
     <Section title="Sizes and spacing in the console">
       <Rules
         items={[
-          'Text uses the type scale with a 12px floor, and 13px for any text needed to finish a task.',
+          'Text people read uses the type scale with a 12px floor, and 13px for any text needed to finish a task. The 10px Caption 2 style stays only for stage marker numbers and Avatar badges, until design decides whether those move to 12px.',
           'Spacing stays on the 4px scale. Table rows are 36px (dense) or 44px.',
           'Forms are one column. A segmented control holds at most about five options. Toasts are the light Propellant Toast.',
           'Colors come from tokens only: no raw hex and no brand hex in the product. The tint is for actions and the current destination.',
