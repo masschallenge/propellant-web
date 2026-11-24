@@ -949,7 +949,7 @@ describe('Sidebar', () => {
       const link = screen.getByRole('link', { name: 'Your companies' });
       expect(link).toHaveAttribute('href', '/companies');
       expect(link).not.toHaveAttribute('aria-expanded');
-      const toggle = screen.getByRole('button', { name: 'Show Your companies pages' });
+      const toggle = screen.getByRole('button', { name: 'Your companies pages' });
       expect(toggle).toHaveAttribute('aria-expanded', 'false');
       await user.click(toggle);
       expect(onToggle).toHaveBeenLastCalledWith(true);
@@ -980,7 +980,7 @@ describe('Sidebar', () => {
       link.addEventListener('click', (event) => event.preventDefault());
       await user.click(link);
       expect(onToggle).not.toHaveBeenCalled();
-      await user.click(screen.getByRole('button', { name: 'Hide Your companies pages' }));
+      await user.click(screen.getByRole('button', { name: 'Your companies pages' }));
       expect(onToggle).toHaveBeenCalledWith(false);
     });
 
@@ -994,7 +994,7 @@ describe('Sidebar', () => {
           </SidebarSection>
         </Sidebar>,
       );
-      expect(screen.getByRole('button', { name: 'Show section pages' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'section pages' })).toBeInTheDocument();
     });
 
     it('lines companies up with a linked parent and their pages up with the name', () => {
@@ -1048,7 +1048,7 @@ describe('Sidebar', () => {
       expect(logo).toHaveClass('w-[var(--avatar-xs)]', 'h-[var(--avatar-xs)]', 'object-contain');
       const initials = screen.getByText('LG');
       expect(initials).toHaveAttribute('aria-hidden', 'true');
-      expect(initials).toHaveClass('bg-[var(--tint)]', 'w-[var(--avatar-xs)]');
+      expect(initials).toHaveClass('bg-[var(--tint)]', 'w-[var(--avatar-xs)]', 'text-caption');
     });
 
     it('lines the pages of a top level logo row up with its name', () => {

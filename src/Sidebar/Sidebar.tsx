@@ -425,7 +425,7 @@ const SidebarMedia = ({ media, isRail }: { media: SidebarItemMedia; isRail: bool
   ) : (
     <span
       aria-hidden="true"
-      className="flex-none inline-flex items-center justify-center w-[var(--avatar-xs)] h-[var(--avatar-xs)] rounded-[var(--corner-sm)] bg-[var(--tint)] text-[var(--on-tint)] text-[0.5625rem] font-bold leading-none"
+      className="flex-none inline-flex items-center justify-center w-[var(--avatar-xs)] h-[var(--avatar-xs)] rounded-[var(--corner-sm)] bg-[var(--tint)] text-[var(--on-tint)] text-caption font-bold leading-none"
     >
       {media.initials}
     </span>
@@ -654,7 +654,7 @@ export const SidebarItem = ({
             type="button"
             aria-expanded={isExpanded}
             aria-controls={subitemsId}
-            aria-label={`${isExpanded ? 'Hide' : 'Show'} ${sectionName} pages`}
+            aria-label={`${sectionName} pages`}
             onClick={toggleExpanded}
             className={DISCLOSURE_TOGGLE}
           >

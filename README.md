@@ -31,7 +31,7 @@ Google.
 ## Install
 
 ```bash
-npm install github:masschallenge/propellant-web#v2.7.0
+npm install github:masschallenge/propellant-web#v2.6.0
 ```
 
 ```css

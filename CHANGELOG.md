@@ -4,13 +4,14 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
-## 2.7.0 (2026-11-23)
+## Unreleased
 
 ### Added
 
 - `SidebarItem` takes `navigates`: a parent with an `href` becomes a link that goes to its page
-  and opens its list, with a separate chevron button, named "Show" or "Hide" and the label, that
-  opens and closes the list. Without `navigates` a parent still only opens and closes.
+  and opens its list, with a separate chevron button named for the section, such as "Your companies
+  pages", that opens and closes the list. `aria-expanded` says whether the list is open. Without
+  `navigates` a parent still only opens and closes.
 - `FileRow` takes `action` for a control beside the file, such as Replace, and
   `showStatus={false}` to keep the upload status for screen readers only.
 - Sidebar `media` takes `shape: 'logo'` for a 20px square logo, contained rather than cropped.

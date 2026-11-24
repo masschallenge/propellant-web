@@ -356,11 +356,11 @@ export const LinkedParentInteraction: Story = {
     const canvas = within(canvasElement);
     const companies = canvas.getByRole('link', { name: 'Your companies' });
     await expect(companies).toHaveAttribute('href', '#companies');
-    const toggle = canvas.getByRole('button', { name: 'Hide Your companies pages' });
+    const toggle = canvas.getByRole('button', { name: 'Your companies pages' });
     await userEvent.click(toggle);
     await expect(toggle).toHaveAttribute('aria-expanded', 'false');
     await userEvent.click(companies);
-    await expect(canvas.getByRole('button', { name: 'Hide Your companies pages' })).toBeVisible();
+    await expect(canvas.getByRole('button', { name: 'Your companies pages' })).toBeVisible();
   },
 };
 
