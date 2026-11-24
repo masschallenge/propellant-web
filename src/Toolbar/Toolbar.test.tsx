@@ -150,10 +150,10 @@ describe('Toolbar', () => {
     root.style.scrollPaddingTop = '8px';
     const appToolbar = render(<Toolbar title="Console" />);
     const pageToolbar = render(<Toolbar title="Round 1" />);
-    expect(root.style.scrollPaddingTop).toBe('96px');
+    expect(root.style.scrollPaddingTop).toBe('104px');
 
     appToolbar.unmount();
-    expect(root.style.scrollPaddingTop).toBe('96px');
+    expect(root.style.scrollPaddingTop).toBe('104px');
     pageToolbar.unmount();
     expect(root.style.scrollPaddingTop).toBe('8px');
     heightSpy.mockRestore();

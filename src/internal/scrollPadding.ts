@@ -1,5 +1,6 @@
 interface ScrollPaddingClaims {
   originalPadding: string;
+  basePadding: number;
   heights: Map<symbol, number>;
 }
 
@@ -15,13 +16,18 @@ export const scrollContainerOf = (element: HTMLElement): HTMLElement => {
   return document.documentElement;
 };
 
+const paddingInPixels = (scroller: HTMLElement) =>
+  parseFloat(getComputedStyle(scroller).scrollPaddingTop) || 0;
+
 const applyTallestClaim = (scroller: HTMLElement, claims: ScrollPaddingClaims) => {
-  scroller.style.scrollPaddingTop = `${Math.max(...claims.heights.values())}px`;
+  const tallestClaim = Math.max(...claims.heights.values());
+  scroller.style.scrollPaddingTop = `${claims.basePadding + tallestClaim}px`;
 };
 
 export const reserveScrollPadding = (scroller: HTMLElement, owner: symbol, height: number) => {
   const claims = claimsByScroller.get(scroller) ?? {
     originalPadding: scroller.style.scrollPaddingTop,
+    basePadding: paddingInPixels(scroller),
     heights: new Map<symbol, number>(),
   };
   claimsByScroller.set(scroller, claims);

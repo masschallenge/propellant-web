@@ -1,7 +1,8 @@
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { releaseScrollPadding, reserveScrollPadding, scrollContainerOf } from './scrollPadding';
 
 afterEach(() => {
+  vi.restoreAllMocks();
   document.body.innerHTML = '';
   document.documentElement.style.scrollPaddingTop = '';
 });
@@ -33,7 +34,7 @@ describe('scrollContainerOf', () => {
 });
 
 describe('scroll padding claims', () => {
-  it('pads by the tallest claim and restores the original value in any release order', () => {
+  it('adds the tallest claim to the starting padding and restores it in any release order', () => {
     const scroller = document.documentElement;
     scroller.style.scrollPaddingTop = '8px';
     const appToolbar = Symbol('app toolbar');
@@ -41,15 +42,47 @@ describe('scroll padding claims', () => {
 
     reserveScrollPadding(scroller, appToolbar, 52);
     reserveScrollPadding(scroller, pageToolbar, 96);
-    expect(scroller.style.scrollPaddingTop).toBe('96px');
+    expect(scroller.style.scrollPaddingTop).toBe('104px');
 
     releaseScrollPadding(scroller, pageToolbar);
-    expect(scroller.style.scrollPaddingTop).toBe('52px');
+    expect(scroller.style.scrollPaddingTop).toBe('60px');
     reserveScrollPadding(scroller, pageToolbar, 40);
     releaseScrollPadding(scroller, appToolbar);
-    expect(scroller.style.scrollPaddingTop).toBe('40px');
+    expect(scroller.style.scrollPaddingTop).toBe('48px');
     releaseScrollPadding(scroller, pageToolbar);
     expect(scroller.style.scrollPaddingTop).toBe('8px');
+  });
+
+  it('adds to padding a stylesheet sets and leaves no inline value behind', () => {
+    const scroller = document.documentElement;
+    const computedStyle = window.getComputedStyle;
+    vi.spyOn(window, 'getComputedStyle').mockImplementation((element) => {
+      const style = computedStyle(element);
+      return element === scroller && !scroller.style.scrollPaddingTop
+        ? ({ ...style, scrollPaddingTop: '12px' } as CSSStyleDeclaration)
+        : style;
+    });
+    const toolbar = Symbol('toolbar');
+    reserveScrollPadding(scroller, toolbar, 52);
+    expect(scroller.style.scrollPaddingTop).toBe('64px');
+    reserveScrollPadding(scroller, toolbar, 60);
+    expect(scroller.style.scrollPaddingTop).toBe('72px');
+    releaseScrollPadding(scroller, toolbar);
+    expect(scroller.style.scrollPaddingTop).toBe('');
+  });
+
+  it('treats a starting padding of auto as none', () => {
+    const scroller = document.documentElement;
+    const computedStyle = window.getComputedStyle;
+    vi.spyOn(window, 'getComputedStyle').mockImplementation((element) =>
+      element === scroller
+        ? ({ ...computedStyle(element), scrollPaddingTop: 'auto' } as CSSStyleDeclaration)
+        : computedStyle(element),
+    );
+    const toolbar = Symbol('toolbar');
+    reserveScrollPadding(scroller, toolbar, 52);
+    expect(scroller.style.scrollPaddingTop).toBe('52px');
+    releaseScrollPadding(scroller, toolbar);
   });
 
   it('keeps each scroller separate and ignores a release that was never reserved', () => {
