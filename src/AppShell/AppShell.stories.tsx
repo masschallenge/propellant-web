@@ -181,6 +181,36 @@ export const WithBanner: Story = {
   ),
 };
 
+const LONG_PAGE_ROWS = Array.from({ length: 40 }, (_unused, index) => `Startup ${index + 1}`);
+
+export const FocusClearsToolbar: Story = {
+  tags: ['interaction', '!autodocs'],
+  render: () => (
+    <AppShell toolbar={<Toolbar title="Startups" />}>
+      <div className="flex flex-col gap-2 max-w-[var(--width-form)]">
+        {LONG_PAGE_ROWS.map((name) => (
+          <Button key={name} variant="gray">
+            {name}
+          </Button>
+        ))}
+      </div>
+    </AppShell>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const header = canvas.getByRole('banner');
+    window.scrollTo(0, document.documentElement.scrollHeight);
+    const target = canvas.getByRole('button', { name: 'Startup 5' });
+    await expect(target.getBoundingClientRect().bottom).toBeLessThan(0);
+    target.focus({ preventScroll: true });
+    target.scrollIntoView({ block: 'start' });
+    await expect(target).toHaveFocus();
+    await expect(target.getBoundingClientRect().top).toBeGreaterThanOrEqual(
+      Math.floor(header.getBoundingClientRect().bottom),
+    );
+  },
+};
+
 export const Interaction: Story = {
   tags: ['interaction', '!autodocs'],
   render: () => <ShellDemo />,
