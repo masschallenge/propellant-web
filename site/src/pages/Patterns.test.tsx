@@ -36,3 +36,12 @@ describe('Patterns page bulk confirm example', () => {
     expect(trigger).toHaveFocus();
   });
 });
+
+describe('Patterns page guidance', () => {
+  it('keeps explicit Save and Cancel for dialogs and create flows beside autosave', () => {
+    render(<Patterns />);
+    expect(screen.getByText(/Dialogs and create flows keep explicit buttons/)).toHaveTextContent(
+      'Save and Cancel',
+    );
+  });
+});

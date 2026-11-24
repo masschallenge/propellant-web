@@ -258,6 +258,7 @@ export const Patterns = () => (
           'Group related settings under a short section title. Add a section footer only when it carries information people need.',
           'Rows that open another screen show a chevron (a small arrow). Rows that change a value in place show the control and no chevron.',
           'Settings pages and profiles save each change as it is made and confirm it with a short Saved toast. They have no Save button.',
+          'Dialogs and create flows keep explicit buttons, such as Save and Cancel or Create and Cancel. A page either saves as you go or has a Save button, never both.',
           'Never show a setting that cannot be changed, such as an Always on row. Something that should always be on is not a setting.',
           'Prefer automatic behavior to a Run button when a setting already decides what should happen.',
           'Destructive actions, the ones that delete or cannot be undone, get their own section at the bottom, centered and in the critical color.',
