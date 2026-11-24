@@ -37,6 +37,11 @@ const accountIcons = {
     'M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01',
   ),
   signOut: lineIcon('M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4', 'm16 17 5-5-5-5M21 12H9'),
+  privacy: lineIcon('M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'),
+  terms: lineIcon(
+    'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z',
+    'M14 2v6h6M8 13h8M8 17h5',
+  ),
   review: lineIcon(
     'M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z',
     'M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2',
@@ -72,6 +77,8 @@ const accountMenuItems: MenuItem[] = [
   { label: 'User settings', icon: accountIcons.settings, href: '#settings' },
   { label: 'Help', icon: accountIcons.help, href: '#help' },
   { separator: true },
+  { label: 'Privacy', icon: accountIcons.privacy, href: '#privacy' },
+  { label: 'Terms', icon: accountIcons.terms, href: '#terms' },
   { label: 'Sign out', icon: accountIcons.signOut, href: '#sign-out' },
 ];
 
@@ -111,6 +118,7 @@ const meta = {
       description: {
         component: [
           'Portalled action menu anchored to a trigger, on the elevated surface. Rows highlight with the tint, destructive rows read in critical, and sections use footnote headers. Optional search field and account summary.',
+          "The account menu opens from the avatar and name in the sidebar footer: Inbox with its unread count, the person's profile and settings, and Help, then a separator, Privacy and Terms, and Sign out last. Privacy and Terms live only here, never under the name in the sidebar, and there is no Cookies item.",
           '',
           "Import: `import { Menu } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -301,6 +309,11 @@ export const OpenAccountMenu: Story = {
     const inbox = within(menu).getByRole('menuitem', { name: 'Inbox 3 unread' });
     await expect(inbox).toHaveAttribute('href', '#inbox');
     inbox.focus();
+    const menuItemNames = within(menu)
+      .getAllByRole('menuitem')
+      .map((menuItem) => menuItem.textContent);
+    await expect(menuItemNames.slice(-3)).toEqual(['Privacy', 'Terms', 'Sign out']);
+    await expect(menuItemNames).not.toContain('Cookies');
     await userEvent.keyboard('{End}');
     await expect(within(menu).getByRole('menuitem', { name: 'Sign out' })).toHaveFocus();
     await userEvent.keyboard('{Escape}');
