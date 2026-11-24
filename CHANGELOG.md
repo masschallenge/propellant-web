@@ -4,6 +4,41 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+Propellant now targets WCAG 2.2 AA instead of WCAG 2.1 AA. The guidelines, the usage guide and the
+README say so, and the components below change to meet the criteria that are new in 2.2.
+
+### Added
+
+- The `--target-minimum` token, 24px, the smallest pointer target WCAG 2.2 AA allows. A unit test
+  keeps `--hit-target` and `--control-sm` at or above it with a mouse and on touch.
+- `AuthLayout` takes a `help` slot that renders below every auth screen in the same place, for a
+  support link or contact details (Consistent help).
+- Story accessibility checks include the WCAG 2.2 A and AA rules, and a story checks that a control
+  scrolled into view lands below the sticky toolbar.
+- The accessibility guidelines cover focus not hidden by sticky bars, a click alternative for every
+  drag, help in a consistent place, never asking for the same information twice, and sign in that
+  allows paste and password managers.
+
+### Changed
+
+- The sticky `Toolbar` reserves its height as scroll padding on the page, so a focused control
+  never scrolls under it (Focus not obscured).
+- `Pagination` dots and lines sit in a full `--hit-target` box each, so neighboring targets no
+  longer overlap. The dots are spaced wider apart (Target size).
+- The vertical stepper on `TextField` is tall enough for two 24px buttons, so a field with it is
+  48px tall (Target size).
+- The clear button in the single select `ComboBox` is a full `--hit-target` box instead of an 18px
+  button with a pseudo element, and the "more" button in `Calendar` month cells is at least 24px
+  tall (Target size).
+
+### Fixed
+
+- `VerificationCodeInput` accepts a pasted code and the browser's one-time-code autofill, and
+  spreads the code across its cells. Before, only the last character of a paste was kept
+  (Accessible authentication).
+
 ## 2.6.0 (2026-11-23)
 
 ### Added
