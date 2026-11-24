@@ -776,6 +776,7 @@ html [data-propellant] {
   --control-md: 32px;
   --control-lg: 40px;
   --hit-target: 28px;
+  --target-minimum: 24px;
 
   --row-dense: 36px;
   --row: 44px;
