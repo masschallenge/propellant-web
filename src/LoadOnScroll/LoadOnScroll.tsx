@@ -59,7 +59,8 @@ export const LoadOnScroll = ({
       setCountAtLoadStart(itemCount);
       setAnnouncement(loadingLabel);
     } else if (itemCount !== undefined && countAtLoadStart !== undefined) {
-      setAnnouncement(loadedLabel(itemCount - countAtLoadStart));
+      const newItemCount = itemCount - countAtLoadStart;
+      setAnnouncement(newItemCount > 0 ? loadedLabel(newItemCount) : '');
     } else {
       setAnnouncement('More loaded');
     }
@@ -90,10 +91,10 @@ export const LoadOnScroll = ({
   return (
     <div className={joinClasses('flex flex-col', className)}>
       <span role="status" aria-live="polite" className="sr-only">
-        {error ?? announcement}
+        {isLoading ? announcement : (error ?? announcement)}
       </span>
       {isLoading ? (
-        <div aria-hidden="true" aria-busy="true" className="flex flex-col">
+        <div aria-hidden="true" className="flex flex-col">
           {Array.from({ length: placeholderRows }, (_unused, index) => (
             <div
               key={index}

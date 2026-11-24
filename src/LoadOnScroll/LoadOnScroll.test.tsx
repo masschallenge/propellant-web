@@ -77,6 +77,30 @@ describe('LoadOnScroll', () => {
     expect(status).toHaveTextContent('1 more loaded');
   });
 
+  it('announces nothing when a load adds no items', () => {
+    stubIntersectionObserver();
+    const { rerender } = render(<LoadOnScroll hasMore isLoading itemCount={20} />);
+    rerender(<LoadOnScroll hasMore={false} itemCount={20} />);
+    expect(screen.getByRole('status')).toHaveTextContent(/^$/);
+  });
+
+  it('announces loading during a retry, and the error only once it fails again', () => {
+    stubIntersectionObserver();
+    const failure = 'More applications could not load.';
+    const { rerender } = render(<LoadOnScroll hasMore error={failure} />);
+    expect(screen.getByRole('status')).toHaveTextContent(failure);
+    rerender(<LoadOnScroll hasMore isLoading error={failure} />);
+    expect(screen.getByRole('status')).toHaveTextContent('Loading more');
+    rerender(<LoadOnScroll hasMore error={failure} />);
+    expect(screen.getByRole('status')).toHaveTextContent(failure);
+  });
+
+  it('keeps aria-busy off the hidden placeholder rows', () => {
+    stubIntersectionObserver();
+    const { container } = render(<LoadOnScroll hasMore isLoading />);
+    expect(container.querySelector('[aria-busy]')).toBeNull();
+  });
+
   it('says more loaded when it does not know the count', () => {
     stubIntersectionObserver();
     const { rerender } = render(<LoadOnScroll hasMore isLoading />);
