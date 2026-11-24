@@ -954,6 +954,7 @@ html:has([data-appearance='system']) [data-propellant]:not([data-theme='light'])
 }
 }
 
+/* The aliases repeat in each theme block on purpose: a nested theme must re-resolve them. */
 html [data-propellant] {
   --role-tag-admin-fill: var(--critical-fill);
   --role-tag-admin-label: var(--critical);

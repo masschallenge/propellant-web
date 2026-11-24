@@ -729,6 +729,7 @@
   --icon-tile-closed-fg: var(--label-secondary);
 }
 
+/* The aliases repeat in each theme block on purpose: a nested theme must re-resolve them. */
 :root {
   --role-tag-admin-fill: var(--critical-fill);
   --role-tag-admin-label: var(--critical);
