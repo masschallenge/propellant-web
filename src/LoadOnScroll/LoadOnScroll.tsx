@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button } from '../Button/Button';
 import { Skeleton } from '../Skeleton/Skeleton';
+import { scrollContainerOf } from '../internal/scrollPadding';
 
 export interface LoadOnScrollProps {
   hasMore: boolean;
@@ -73,11 +74,12 @@ export const LoadOnScroll = ({
   React.useEffect(() => {
     const sentinel = sentinelRef.current;
     if (!isWatching || !sentinel) return;
+    const scroller = scrollContainerOf(sentinel);
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) loadMoreRef.current?.();
       },
-      { rootMargin },
+      { root: scroller === document.documentElement ? null : scroller, rootMargin },
     );
     observer.observe(sentinel);
     return () => observer.disconnect();

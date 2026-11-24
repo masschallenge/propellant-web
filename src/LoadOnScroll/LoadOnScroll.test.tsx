@@ -33,11 +33,24 @@ describe('LoadOnScroll', () => {
     const { observers, scrollIntoView } = stubIntersectionObserver();
     const onLoadMore = vi.fn();
     render(<LoadOnScroll hasMore onLoadMore={onLoadMore} />);
-    expect(observers.at(-1)?.options).toEqual({ rootMargin: '400px' });
+    expect(observers.at(-1)?.options).toEqual({ root: null, rootMargin: '400px' });
     scrollIntoView(false);
     expect(onLoadMore).not.toHaveBeenCalled();
     scrollIntoView();
     expect(onLoadMore).toHaveBeenCalledTimes(1);
+  });
+
+  it('watches against the scrolling container it sits in, so the preload margin applies there', () => {
+    const { observers } = stubIntersectionObserver();
+    render(
+      <div data-testid="scroller" style={{ overflowY: 'auto' }}>
+        <LoadOnScroll hasMore />
+      </div>,
+    );
+    expect(observers.at(-1)?.options).toEqual({
+      root: screen.getByTestId('scroller'),
+      rootMargin: '400px',
+    });
   });
 
   it('shows placeholder rows while the next page comes and offers no button', () => {

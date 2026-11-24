@@ -50,7 +50,7 @@ const meta = {
     docs: {
       description: {
         component: [
-          'Loads the next page of a long working list as the end of it scrolls into view, with placeholder rows while the page comes. There is no Load more button. Put it right after the list; it watches a line at the end and calls `onLoadMore` once that line comes within `rootMargin` of the viewport.',
+          'Loads the next page of a long working list as the end of it scrolls into view, with placeholder rows while the page comes. There is no Load more button. Put it right after the list; it watches a line at the end and calls `onLoadMore` once that line comes within `rootMargin` of the scrolling container it sits in (the viewport when the page itself scrolls).',
           'Use it for long lists people work through in the console. Public pages keep `Pagination`.',
           'One polite status region stays mounted, so screen readers hear `loadingLabel` when a page starts loading and "12 more loaded" when it arrives; pass `itemCount` (the number of items shown) for the count. When a page fails, pass `error` with a short message: watching stops, so it never retries on its own, and a Retry button calls `onLoadMore`. Where the browser has no IntersectionObserver, a Load more button stands in for scrolling.',
           '',
