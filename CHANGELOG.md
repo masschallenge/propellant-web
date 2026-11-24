@@ -40,6 +40,32 @@ README say so, and the components below change to meet the criteria that are new
   spreads the code across its cells. Before, only the last character of a paste was kept
   (Accessible authentication).
 
+### Accelerate design rules
+
+Propellant adopts the Accelerate design rules marked as moving to Propellant (Accelerate-Projects
+#11497), since Propellant is the design system of record.
+
+- Added `LoadOnScroll`, which loads the next page of a long working list as its end scrolls into
+  view, with announced placeholder rows and no Load more button.
+- `AppShell` runs without a toolbar: below 1024px it shows its own Show sidebar button, named by
+  the new `sidebarToggleLabel`, when there is a sidebar and no toolbar.
+- A `SidebarItem` parent opens on its own when it holds the current page, and again when the
+  current page moves into it. `defaultExpanded` and the controlled props still override it.
+- `RoleTag` is sentence case at 12px (the Caption style) instead of uppercase at 10px, and reads
+  its colors from new `--role-tag-admin-*`, `-pm-*`, `-evaluator-*` and `-founder-*` tokens,
+  which start at today's colors. New `evaluator` and `founder` tones; `judge` and `startup` stay as
+  aliases.
+- `Sidebar` program logos show whole in a 64 by 38 box instead of cropped to 60 by 36, and the
+  program row grows from 44px to 46px.
+- `Inspector` opens at `--inspector-width`, now 480px (was 420px), and `wide` at the new
+  `--inspector-width-wide`, 640px (was 480px). `size="md"` keeps 420px.
+- The guidelines cover the console shell without a toolbar or breadcrumbs, containers, console
+  sizes, text that earns its place, date and time formats, menus, Needs attention, bulk confirms,
+  reorderable lists with Move up and Move down, long lists, autosave, neutral-first badges,
+  EmptyState usage and wide program logos. The account menu shows Privacy and Terms above Sign out.
+- A product word list is added to the Writing guidelines as proposed wording, pending MassChallenge
+  Marketing's sign-off.
+
 ## 2.6.0 (2026-11-23)
 
 ### Added
