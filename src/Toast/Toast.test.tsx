@@ -75,3 +75,86 @@ describe('Toast controls', () => {
     expect(screen.getByText('62%')).toBeInTheDocument();
   });
 });
+
+describe('Toast action placement', () => {
+  it('keeps actions under the title by default', () => {
+    render(<Toast title="New judge comment" actions={[{ label: 'Reply' }]} />);
+    const toast = screen.getByRole('status');
+    const reply = screen.getByRole('button', { name: 'Reply' });
+    expect(toast).not.toHaveClass('items-center');
+    expect(screen.getByText('New judge comment').parentElement).toContainElement(reply);
+  });
+
+  it('puts the action on the same line as the message, vertically centred', () => {
+    render(
+      <Toast
+        title="Deadline extended to Fri, Nov 13 @ 5:00 PM ET."
+        actions={[{ label: 'Undo' }]}
+        actionPlacement="inline"
+      />,
+    );
+    const toast = screen.getByRole('status');
+    const undo = screen.getByRole('button', { name: 'Undo' });
+    const message = screen.getByText('Deadline extended to Fri, Nov 13 @ 5:00 PM ET.');
+    expect(toast).toHaveClass('items-center');
+    expect(message.parentElement).not.toContainElement(undo);
+    expect(undo.parentElement).toHaveClass('flex-none');
+    expect(undo.parentElement?.parentElement).toBe(toast);
+    expect(toast.lastElementChild).toContainElement(undo);
+  });
+
+  it('keeps the inline action a keyboard reachable button inside the live region', async () => {
+    const onUndo = vi.fn();
+    render(
+      <Toast
+        title="Deadline extended"
+        tone="error"
+        actions={[{ label: 'Undo', onClick: onUndo }]}
+        actionPlacement="inline"
+      />,
+    );
+    await userEvent.tab();
+    const undo = screen.getByRole('button', { name: 'Undo' });
+    expect(undo).toHaveFocus();
+    expect(undo).toHaveAttribute('type', 'button');
+    await userEvent.keyboard('{Enter}');
+    expect(onUndo).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole('alert')).toContainElement(undo);
+  });
+
+  it('clears the dismiss button beside an inline action', () => {
+    render(
+      <Toast
+        title="Deadline extended"
+        actions={[{ label: 'Undo' }]}
+        actionPlacement="inline"
+        onDismiss={vi.fn()}
+      />,
+    );
+    expect(screen.getByRole('button', { name: 'Undo' }).parentElement).toHaveClass('pr-7');
+    expect(screen.getByText('Deadline extended').parentElement).not.toHaveClass('pr-7');
+  });
+
+  it('types inline only for a one line toast without body, timestamp or progress', () => {
+    const undo = [{ label: 'Undo' }];
+    render(
+      <>
+        {/* @ts-expect-error inline actions are only typed for a toast without children */}
+        <Toast title="With body" actions={undo} actionPlacement="inline">
+          Judges see it now.
+        </Toast>
+        {/* @ts-expect-error inline actions are only typed for a toast without a timestamp */}
+        <Toast title="With timestamp" actions={undo} actionPlacement="inline" when="Now" />
+        {/* @ts-expect-error inline actions are only typed for a toast without progress */}
+        <Toast title="With progress" actions={undo} actionPlacement="inline" progress={40} />
+        <Toast title="One line" actions={undo} actionPlacement="inline" />
+      </>,
+    );
+    expect(screen.getAllByRole('status')).toHaveLength(4);
+  });
+
+  it('keeps the message clear of the dismiss button when inline has no actions', () => {
+    render(<Toast title="Deadline extended" actionPlacement="inline" onDismiss={vi.fn()} />);
+    expect(screen.getByText('Deadline extended').parentElement).toHaveClass('pr-7');
+  });
+});
