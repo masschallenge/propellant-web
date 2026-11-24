@@ -138,6 +138,8 @@ export interface FileRowProps {
   badge?: { text: string; tone?: FileRowBadgeTone };
   onRetry?: () => void;
   onRemove?: () => void;
+  action?: React.ReactNode;
+  showStatus?: boolean;
   className?: string;
 }
 
@@ -220,6 +222,8 @@ export const FileRow = ({
   badge,
   onRetry,
   onRemove,
+  action,
+  showStatus = true,
   className,
 }: FileRowProps) => {
   const statusText =
@@ -253,6 +257,7 @@ export const FileRow = ({
           className={joinClasses(
             'inline-flex items-center gap-1.5 text-footnote',
             STATUS_TONE[status],
+            !showStatus && 'sr-only',
           )}
           role="status"
           aria-live={status === 'uploading' ? 'polite' : undefined}
@@ -301,6 +306,7 @@ export const FileRow = ({
           </span>
         ) : null}
       </div>
+      {action ? <div className="relative flex-none self-center">{action}</div> : null}
       {onRemove ? (
         <IconButton size="sm" aria-label={`Remove ${name}`} onClick={onRemove}>
           <svg
