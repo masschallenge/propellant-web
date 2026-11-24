@@ -97,42 +97,53 @@ const AFFECTED_STARTUPS = [
   'Pillar Energy',
 ];
 
-const BulkConfirm = () => (
-  <div className="relative h-120 max-w-[var(--width-form)] rounded-[var(--corner-lg)] bg-[var(--bg-grouped)] overflow-hidden">
-    <Sheet
-      open
-      inline
-      onClose={() => undefined}
-      hideIcon
-      title="Decline 80 startups?"
-      footer={
-        <>
-          <Button variant="gray">Cancel</Button>
-          <Button destructive>Decline 80 and email 80</Button>
-        </>
-      }
-    >
-      <div className="flex flex-col gap-3">
-        <p className="m-0 text-callout text-[var(--label)]">
-          All 80 founders get their result by email now.{' '}
-          <a href="#preview-email" className="text-[var(--tint)] underline underline-offset-2">
-            Preview email
-          </a>
-        </p>
-        <ul
-          aria-label="Declining 80"
-          className="m-0 p-0 list-none max-h-40 overflow-y-auto rounded-[var(--corner-lg)] bg-[var(--bg-secondary)]"
-        >
-          {AFFECTED_STARTUPS.map((name) => (
-            <li key={name} className="px-3 py-2 text-callout text-[var(--label)]">
-              {name}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </Sheet>
-  </div>
-);
+const BulkConfirm = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const close = () => setIsOpen(false);
+  return (
+    <div className="relative flex items-start h-120 max-w-[var(--width-form)] p-5 rounded-[var(--corner-lg)] bg-[var(--bg-grouped)] overflow-hidden">
+      <Button destructive onClick={() => setIsOpen(true)}>
+        Decline 80
+      </Button>
+      <Sheet
+        open={isOpen}
+        inline
+        onClose={close}
+        hideIcon
+        title="Decline 80 startups?"
+        footer={
+          <>
+            <Button variant="gray" onClick={close}>
+              Cancel
+            </Button>
+            <Button destructive onClick={close}>
+              Decline 80 and email 80
+            </Button>
+          </>
+        }
+      >
+        <div className="flex flex-col gap-3">
+          <p className="m-0 text-callout text-[var(--label)]">
+            All 80 founders get their result by email now.{' '}
+            <a href="#preview-email" className="text-[var(--tint)] underline underline-offset-2">
+              Preview email
+            </a>
+          </p>
+          <ul
+            aria-label="Declining 80"
+            className="m-0 p-0 list-none max-h-40 overflow-y-auto rounded-[var(--corner-lg)] bg-[var(--bg-secondary)]"
+          >
+            {AFFECTED_STARTUPS.map((name) => (
+              <li key={name} className="px-3 py-2 text-callout text-[var(--label)]">
+                {name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Sheet>
+    </div>
+  );
+};
 
 const INITIAL_CRITERIA = ['Team', 'Market', 'Traction', 'Use of funds'];
 
