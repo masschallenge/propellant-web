@@ -23,8 +23,9 @@ README say so, and the components below change to meet the criteria that are new
 
 ### Changed
 
-- The sticky `Toolbar` reserves its height as scroll padding on the page, so a focused control
-  never scrolls under it (Focus not obscured).
+- The sticky `Toolbar` reserves its height as scroll padding on the container it sticks in, so a
+  focused control never scrolls under it. Toolbars on the same container share the padding, and
+  the original value returns when the last one unmounts (Focus not obscured).
 - `Pagination` dots and lines sit in a full `--hit-target` box each, so neighboring targets no
   longer overlap. The dots are spaced wider apart (Target size).
 - The vertical stepper on `TextField` is tall enough for two 24px buttons, so a field with it is
