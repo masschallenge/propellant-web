@@ -64,7 +64,13 @@ export const WithHint: Story = {
 };
 export const Disabled: Story = { args: { disabled: true } };
 export const Password: Story = {
-  args: { label: 'Password', passwordToggle: true, type: 'password', placeholder: '' },
+  args: {
+    label: 'Password',
+    passwordToggle: true,
+    type: 'password',
+    autoComplete: 'current-password',
+    placeholder: '',
+  },
 };
 const PanelCountStepper = () => {
   const [panels, setPanels] = React.useState('1');

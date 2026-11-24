@@ -315,6 +315,26 @@ describe('TextField sizes and tags', () => {
       'true',
     );
   });
+
+  it('lets password managers fill a password and never blocks pasting one', () => {
+    render(
+      <TextField
+        label="Password"
+        type="password"
+        passwordToggle
+        name="password"
+        autoComplete="current-password"
+      />,
+    );
+    const input = screen.getByLabelText('Password');
+    expect(input).toHaveAttribute('autocomplete', 'current-password');
+    expect(input).toHaveAttribute('name', 'password');
+    expect(fireEvent.paste(input, { clipboardData: { getData: () => 'correct horse' } })).toBe(
+      true,
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Show password' }));
+    expect(input).toHaveAttribute('autocomplete', 'current-password');
+  });
 });
 
 describe('TextField native seams', () => {
