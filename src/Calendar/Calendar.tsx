@@ -434,7 +434,7 @@ export const Calendar = ({
                   <button
                     type="button"
                     className={joinClasses(
-                      'self-start px-1 py-0.5 border-0 bg-transparent rounded-[var(--corner-sm)] cursor-pointer text-footnote font-medium text-[var(--tint)] hover:text-[var(--tint-hover)]',
+                      'self-start min-h-[var(--target-minimum)] px-1 py-0.5 border-0 bg-transparent rounded-[var(--corner-sm)] cursor-pointer text-footnote font-medium text-[var(--tint)] hover:text-[var(--tint-hover)]',
                       FOCUS_RING,
                     )}
                   >

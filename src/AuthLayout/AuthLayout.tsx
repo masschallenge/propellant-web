@@ -12,6 +12,7 @@ export interface AuthLayoutProps {
   supportingCopy?: string;
   footnote?: string;
   version?: string;
+  help?: ReactNode;
   children?: ReactNode;
   className?: string;
 }
@@ -30,6 +31,7 @@ export const AuthLayout = ({
   supportingCopy = 'MassChallenge backs the rare humans with the grit to solve the toughest challenges. Pick up where you left off.',
   footnote = 'Since 2009 · Global network',
   version,
+  help,
   children,
   className,
 }: AuthLayoutProps) => {
@@ -70,6 +72,16 @@ export const AuthLayout = ({
             <div className="propellant-auth-mark flex justify-center">{brand ?? <Logo />}</div>
           ) : null}
           {children}
+          {help ? (
+            <div
+              className={joinClasses(
+                'propellant-auth-help text-footnote text-[var(--label-secondary)]',
+                !isCentered && 'mt-8',
+              )}
+            >
+              {help}
+            </div>
+          ) : null}
         </div>
       </main>
       {version ? (

@@ -6,8 +6,8 @@ export type InspectorSize = 'md' | 'lg' | 'xl';
 
 const WIDTHS: Record<InspectorSize, string> = {
   md: 'w-[420px]',
-  lg: 'w-[480px]',
-  xl: 'w-[640px]',
+  lg: 'w-[var(--inspector-width)]',
+  xl: 'w-[var(--inspector-width-wide)]',
 };
 
 const FOCUSABLE_SELECTOR =
@@ -117,7 +117,7 @@ export const Inspector = ({
           'absolute top-0 right-0 bottom-0 flex flex-col overflow-hidden outline-none max-w-full',
           'bg-[var(--bg-elevated)] shadow-[var(--shadow-sheet)]',
           'border-l-[length:var(--hairline)] border-solid border-[var(--separator)]',
-          WIDTHS[size ?? (wide ? 'lg' : 'md')],
+          WIDTHS[size ?? (wide ? 'xl' : 'lg')],
           className,
         )}
       >

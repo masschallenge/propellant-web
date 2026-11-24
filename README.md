@@ -22,8 +22,9 @@ Google.
 
 - **Design tokens** for color, type, shape, depth, motion and layout, in light and dark mode. Controls
   grow for touch screens, and motion calms down for people who ask their device to reduce it.
-- **Components** for buttons, forms, navigation, menus, messages and tables. Each one works with a
-  keyboard, makes sense to screen readers and comes with tests.
+- **Components** for buttons, forms, navigation, menus, messages and tables. Each one is designed to
+  meet WCAG 2.2 AA: it works with a keyboard, makes sense to screen readers, has targets big enough
+  to hit and comes with tests.
 - **An application layout** with a sidebar and a toolbar that adapts to narrow windows.
 - **The MassChallenge logo** as a component and as image files in three versions.
 - **Guidelines** for using Propellant and for the MassChallenge brand.

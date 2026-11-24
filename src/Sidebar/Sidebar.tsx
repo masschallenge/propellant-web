@@ -382,8 +382,8 @@ const SidebarMedia = ({ media, isRail }: { media: SidebarItemMedia; isRail: bool
       'flex-none bg-[var(--bg)] outline-1 outline-solid outline-[var(--separator)] -outline-offset-1',
       isRail
         ? 'w-8.5 h-5 rounded-[var(--corner-sm)] shadow-[inset_0_0_0_1px_var(--separator)]'
-        : 'w-15 h-9 rounded-[var(--corner-thumbnail)]',
-      imageFitClass(true),
+        : 'w-16 h-9.5 rounded-[var(--corner-thumbnail)]',
+      imageFitClass(),
     )}
   />
 );
@@ -486,6 +486,13 @@ const RailLabel = ({
   </span>
 );
 
+const holdsCurrentPage = (subitems: ReactNode): boolean =>
+  React.Children.toArray(subitems).some((child) => {
+    if (!React.isValidElement<SidebarItemProps>(child)) return false;
+    const { current, inTrail, subitems: nestedSubitems, children } = child.props;
+    return Boolean(current || inTrail) || holdsCurrentPage(nestedSubitems ?? children);
+  });
+
 export const SidebarItem = ({
   icon,
   marker,
@@ -501,7 +508,7 @@ export const SidebarItem = ({
   subitems,
   collapsible = true,
   expanded,
-  defaultExpanded = false,
+  defaultExpanded,
   onExpandedChange,
   children,
   className,
@@ -509,7 +516,16 @@ export const SidebarItem = ({
   const shell = useAppShell();
   const { depth, indent, isInset } = React.useContext(SidebarLevelContext);
   const subitemsId = React.useId();
-  const [internalExpanded, setInternalExpanded] = React.useState(defaultExpanded);
+  const isActiveSection = inTrail || holdsCurrentPage(subitems);
+  const [chosenExpanded, setChosenExpanded] = React.useState<boolean | null>(
+    defaultExpanded ?? null,
+  );
+  const [wasActiveSection, setWasActiveSection] = React.useState(isActiveSection);
+  if (wasActiveSection !== isActiveSection) {
+    setWasActiveSection(isActiveSection);
+    if (isActiveSection && chosenExpanded === false) setChosenExpanded(null);
+  }
+  const internalExpanded = chosenExpanded ?? isActiveSection;
   const isRail = Boolean(shell?.isRail);
   const hasSubitems = React.Children.toArray(subitems).length > 0;
   const showsSubitems = hasSubitems && !isRail;
@@ -529,7 +545,7 @@ export const SidebarItem = ({
   );
   const tagText = roleTagText(accessory);
   const toggleExpanded = () => {
-    if (expanded === undefined) setInternalExpanded(!isExpanded);
+    if (expanded === undefined) setChosenExpanded(!isExpanded);
     onExpandedChange?.(!isExpanded);
   };
   const pinExpanded = () => {

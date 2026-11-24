@@ -27,6 +27,7 @@ const meta = {
       description: {
         component: [
           'Location trail. Ancestors are plain capsule links, the account switcher is a gray capsule, and the current page reads in label color (bold, underlined, or a tint fill capsule in the pill variant).',
+          'Use it on public sites with deep pages. Signed in consoles show where people are in the sidebar tree and use no breadcrumbs.',
           'Optional home icon, a collapse control, and an organization and account segment.',
           '',
           "Import: `import { Breadcrumb } from '@masschallenge/propellant-web'`",

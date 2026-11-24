@@ -4,6 +4,85 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+Propellant now targets WCAG 2.2 AA instead of WCAG 2.1 AA. The guidelines, the usage guide and the
+README say so, and the components below change to meet the criteria that are new in 2.2.
+
+### Added
+
+- The `--target-minimum` token, 24px, the smallest pointer target WCAG 2.2 AA allows. A unit test
+  keeps `--hit-target` and `--control-sm` at or above it with a mouse and on touch.
+- `AuthLayout` takes a `help` slot that renders below every auth screen in the same place, for a
+  support link or contact details (Consistent help).
+- Story accessibility checks include the WCAG 2.2 A and AA rules, and a story checks that a control
+  scrolled into view lands below the sticky toolbar.
+- The accessibility guidelines cover focus not hidden by sticky bars, a click alternative for every
+  drag, help in a consistent place, never asking for the same information twice, and sign in that
+  allows paste and password managers.
+
+### Changed
+
+- The sticky `Toolbar` adds its height to the scroll padding of the container it sticks in, on top
+  of any padding the page already sets, so a focused control never scrolls under it. Toolbars on
+  the same container share the padding by the tallest one, since Propellant never stacks sticky
+  bars, and the original value returns when the last one unmounts (Focus not obscured).
+- `Pagination` dots and lines sit in a full `--hit-target` box each, so neighboring targets no
+  longer overlap. The dots are spaced wider apart (Target size).
+- The vertical stepper on `TextField` is tall enough for two 24px buttons, so a field with it is
+  48px tall (Target size).
+- The clear button in the single select `ComboBox` is a full `--hit-target` box instead of an 18px
+  button with a pseudo element, and the "more" button in `Calendar` month cells is at least 24px
+  tall (Target size).
+
+### Fixed
+
+- `VerificationCodeInput` accepts a pasted code and the browser's one-time-code autofill, and
+  spreads the code across its cells. Before, only the last character of a paste was kept
+  (Accessible authentication).
+
+### Upgrade notes
+
+- `Inspector` opens at 480px instead of 420px, and `wide` at 640px instead of 480px. Pass
+  `size="md"` to keep 420px.
+- `RoleTag` is sentence case at 12px. Pass the words as people should read them; the tag no longer
+  turns them into capitals.
+- The sidebar program row is 2px taller (46px), to fit the whole 64 by 38 logo.
+- Uncontrolled `SidebarItem` parents now open and close on their own as the current page moves. Set
+  `defaultExpanded` or control `expanded` to keep the old behavior.
+- `AppShell` without a toolbar shows its own Show sidebar button below 1024px. Set
+  `showsSidebarToggle={false}` if you already have one.
+
+### Accelerate design rules
+
+Propellant adopts the Accelerate design rules marked as moving to Propellant (Accelerate-Projects
+#11497), since Propellant is the design system of record.
+
+- Added `LoadOnScroll`, which loads the next page of a long working list as its end scrolls into
+  view, with placeholder rows and no Load more button. One status region stays mounted and
+  announces loading and how many items arrived (`itemCount`); `error` stops loading and shows a
+  Retry button; a Load more button stands in where the browser has no IntersectionObserver.
+- `AppShell` runs without a toolbar: below 1024px it shows its own Show sidebar button, named by
+  the new `sidebarToggleLabel`, when there is a sidebar and no toolbar. Set the new
+  `showsSidebarToggle={false}` to leave it out.
+- A `SidebarItem` parent opens on its own while it holds the current page and closes when the page
+  leaves it, unless someone opened it. Items wrapped in your own component need `inTrail` on the
+  parent. `defaultExpanded` and the controlled props still override it.
+- `RoleTag` is sentence case at 12px (the Caption style) instead of uppercase at 10px, and reads
+  its colors from new `--role-tag-admin-*`, `-pm-*`, `-evaluator-*` and `-founder-*` tokens,
+  which start at today's colors. New `evaluator` and `founder` tones; `judge` and `startup` stay as
+  aliases.
+- `Sidebar` program logos show whole in a 64 by 38 box instead of cropped to 60 by 36, and the
+  program row grows from 44px to 46px.
+- `Inspector` opens at `--inspector-width`, now 480px (was 420px), and `wide` at the new
+  `--inspector-width-wide`, 640px (was 480px). `size="md"` keeps 420px.
+- The guidelines cover the console shell without a toolbar or breadcrumbs, containers, console
+  sizes, text that earns its place, date and time formats, menus, Needs attention, bulk confirms,
+  reorderable lists with Move up and Move down, long lists, autosave, neutral-first badges,
+  EmptyState usage and wide program logos. The account menu shows Privacy and Terms above Sign out.
+- A product word list is added to the Writing guidelines as proposed wording, pending MassChallenge
+  Marketing's sign-off.
+
 ## 2.6.0 (2026-11-23)
 
 ### Added

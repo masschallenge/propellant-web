@@ -71,6 +71,30 @@ describe('Slider keyboard and pointer', () => {
     expect(onChange).toHaveBeenLastCalledWith(75);
   });
 
+  it('moves the nearest thumb to a single click on the track, with no drag needed', () => {
+    const onRangeChange = vi.fn();
+    render(<Slider defaultRangeValue={[20, 60]} min={0} max={100} onRangeChange={onRangeChange} />);
+    const [minimum] = screen.getAllByRole('slider');
+    const track = minimum.parentElement?.firstElementChild as HTMLElement;
+    vi.spyOn(track, 'getBoundingClientRect').mockReturnValue({
+      left: 0,
+      width: 200,
+      top: 0,
+      height: 4,
+      right: 200,
+      bottom: 4,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    });
+    fireEvent.pointerDown(track.parentElement as HTMLElement, { clientX: 180 });
+    fireEvent.pointerUp(document);
+    expect(onRangeChange).toHaveBeenLastCalledWith([20, 90]);
+    fireEvent.pointerDown(track.parentElement as HTMLElement, { clientX: 10 });
+    fireEvent.pointerUp(document);
+    expect(onRangeChange).toHaveBeenLastCalledWith([5, 90]);
+  });
+
   it('ignores the keyboard and pointer while disabled', () => {
     const onChange = vi.fn();
     render(<Slider defaultValue={4} aria-label="Score" onChange={onChange} disabled />);

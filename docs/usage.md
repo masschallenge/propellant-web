@@ -134,6 +134,16 @@ export const Layout = ({ children }: { children: React.ReactNode }) => (
 `SidebarItem` and `Button` render plain links by default. Pass your router's link component to
 `linkAs` to keep client side navigation, where pages change without a full reload.
 
+#### Without a toolbar
+
+The toolbar is optional. A console whose hierarchy lives in the sidebar tree, with page actions in
+the page header and inbox and help in the account menu, can leave `toolbar` out. On wide windows
+the sidebar stays in view (or collapses to the rail with `sidebarCollapse="rail"`). Below 1024px
+the shell shows its own Show sidebar button at the top of the page, named by
+`sidebarToggleLabel`, which opens the sidebar overlay. If your page already has its own toggle
+that calls `useAppShell().toggleSidebar`, set `showsSidebarToggle={false}` so there are not two. Show the inbox's unread count on the account
+button with the `count` and `countLabel` of its `Avatar`.
+
 #### Nest destinations in a tree
 
 A `SidebarItem` takes `subitems`, more `SidebarItem`s shown in a nested list below it. Top level
@@ -148,9 +158,15 @@ size. An explicit `size` sets the height of any row in the list.
 
 - A parent is a button that only opens and closes its list, with `aria-expanded` and
   `aria-controls`; Enter and Space toggle it. It never navigates and never closes the compact
-  overlay, so only leaves are destinations. Any `href` on a parent is ignored. Leave it
-  uncontrolled with `defaultExpanded`, or control it with `expanded` and `onExpandedChange`,
-  usually open for the branch that holds the current page.
+  overlay, so only leaves are destinations. Any `href` on a parent is ignored. Left
+  uncontrolled, a parent opens when it holds the current page (an item with `current` or
+  `inTrail` anywhere below it), opens again when the current page moves into it, and closes again
+  when the page leaves it. A parent someone opened stays open, and every other parent stays closed
+  until someone opens it. The parent finds the current page by reading the `current` and `inTrail`
+  props of the `SidebarItem` elements passed to `subitems`. If you wrap items in your own
+  component, it cannot see those props, so set `inTrail` on the parent that holds the current
+  page. Set `defaultExpanded` to override the starting state, or control it with `expanded` and
+  `onExpandedChange`.
 - Set `collapsible={false}` on a parent that always shows its list, such as a program whose
   stages are always in view. It has no chevron and no `aria-expanded`. With an `href` it stays a
   link; without one it is a plain row that takes no focus and no clicks. At any depth, with or
@@ -161,13 +177,16 @@ size. An explicit `size` sets the height of any row in the list.
 - Set `current` on the current page only. Set `inTrail` on the top level item whose branch holds
   it, so the rail can show where people are.
 - `marker` shows a stage as `done`, `now` or `next` with its number, and its `label` is read by
-  assistive technology. `media` fills a 60 by 36 thumbnail with 5px corners,
-  `--corner-thumbnail`, cropping the logo to cover it, beside a name of up to two lines. The
-  program row and its rows sit 6px in from the sidebar edge, as one inset block.
+  assistive technology. `media` shows the program logo whole in a 64 by 38 thumbnail with 5px
+  corners, `--corner-thumbnail`, never cropped, beside a name of up to two lines. The program row
+  and its rows sit 6px in from the sidebar edge, as one inset block.
 - Pass a `RoleTag` to `accessory` to name the role a destination belongs to. Assistive technology
   reads it once, after the label, and not at all when it repeats the label.
-- Role tags and marker numbers use the Caption 2 text style, `text-caption2`: 10px with 0.06em
-  tracking. The component sets the weight.
+- Role tags are sentence case in the Caption text style, `text-caption`, at 12px. Name the role
+  as people read it: Evaluator, Founder, Program manager. Marker numbers use the Caption 2 text
+  style, `text-caption2`: 10px with 0.06em tracking. The component sets the weight. The 12px floor
+  on the Layout page is for text people read in the product; Caption 2 stays only for stage marker
+  numbers and Avatar badges until design decides whether those move to 12px.
 
 ```tsx
 <SidebarItem
@@ -284,12 +303,19 @@ reduced motion values.
 
 ## What stays with you
 
-Our components handle focus, keyboard support, contrast and announcements for screen readers. A
-few things only your product can do:
+Propellant is designed to meet WCAG 2.2 AA. Our components handle focus, keyboard support,
+contrast, target sizes and announcements for screen readers. A few things only your product can do:
 
 - give every page one `h1` and a sensible heading order,
 - write labels and button text that say what happens,
 - give icon only buttons an accessible name,
+- put help, such as a support link, in the same place on every page: Help in the account menu, in
+  the sidebar footer, and the `help` slot of `AuthLayout` on sign in pages,
+- never ask for the same information twice in one process; fill it in or offer it to pick,
+- let people paste and use password managers when they sign in: set `autoComplete` on email,
+  password and code fields and never block paste,
+- give anything people can drag a click or tap alternative, such as Move up and Move down buttons,
+- keep your own sticky bars, banners and toasts from covering the control that has focus,
 - keep personal data out of analytics; fields mark their values private by default.
 
 ## Versioning

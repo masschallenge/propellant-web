@@ -186,7 +186,7 @@ export const Pagination = ({
     const isDots = variant === 'dots';
     return (
       <nav aria-label={ariaLabel} className={joinClasses('flex justify-center', className)}>
-        <div role="tablist" aria-label="Pages" className="flex items-center gap-2">
+        <div role="tablist" aria-label="Pages" className="flex items-center">
           {Array.from({ length: pageCount }, (_unused, index) => index + 1).map((pageNumber) => {
             const isCurrent = pageNumber === page;
             return (
@@ -198,18 +198,24 @@ export const Pagination = ({
                 aria-label={`Go to page ${pageNumber}`}
                 onClick={() => goTo(pageNumber)}
                 className={joinClasses(
-                  'relative border-0 p-0 rounded-[var(--corner-capsule)] cursor-pointer transition-[width,background-color] duration-[var(--spring-snappy-duration)] ease-[var(--spring-snappy)]',
-                  HIT_AREA,
+                  'group inline-flex items-center justify-center min-w-[var(--hit-target)] h-[var(--hit-target)] border-0 p-0 bg-transparent rounded-[var(--corner-capsule)] cursor-pointer',
                   FOCUS_RING,
-                  isDots
-                    ? isCurrent
-                      ? 'w-5 h-2 bg-[var(--tint)]'
-                      : 'w-2 h-2 bg-[var(--control-border)] hover:bg-[var(--label-tertiary)]'
-                    : isCurrent
-                      ? 'w-8 h-1 bg-[var(--tint)]'
-                      : 'w-5 h-1 bg-[var(--control-border)] hover:bg-[var(--label-tertiary)]',
                 )}
-              />
+              >
+                <span
+                  aria-hidden="true"
+                  className={joinClasses(
+                    'block rounded-[var(--corner-capsule)] transition-[width,background-color] duration-[var(--spring-snappy-duration)] ease-[var(--spring-snappy)]',
+                    isDots
+                      ? isCurrent
+                        ? 'w-5 h-2 bg-[var(--tint)]'
+                        : 'w-2 h-2 bg-[var(--control-border)] group-hover:bg-[var(--label-tertiary)]'
+                      : isCurrent
+                        ? 'w-8 h-1 bg-[var(--tint)]'
+                        : 'w-5 h-1 bg-[var(--control-border)] group-hover:bg-[var(--label-tertiary)]',
+                  )}
+                />
+              </button>
             );
           })}
         </div>

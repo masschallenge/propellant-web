@@ -22,7 +22,7 @@ const meta = {
         component: [
           'The list of destinations in the AppShell sidebar. Sections group destinations under a footnote title; the current destination takes a gray fill and semibold label and is announced with `aria-current="page"`. Items render as links when given `href` (pass `linkAs` for a router link) and close the compact overlay once chosen. Items are the small control height by default; `size="md"` gives top level places the medium control height.',
           '',
-          'Pass `subitems` to nest destinations as a tree of disclosure lists. A parent is a button that only opens and closes its list, uncontrolled with `defaultExpanded` or controlled with `expanded` and `onExpandedChange`; it never navigates and never closes the sidebar, so only leaves are destinations. Set `collapsible={false}` for a parent that always shows its list, with no chevron; with an `href` it stays a link, and without one it is a plain row that takes no focus and no clicks. Top level items with nothing nested keep the height `size` gives them, while parents, nested rows and program rows take the tree sizes. In an AppShell with `sidebarCollapse="rail"`, as in the console, every top level row takes the tree size too: the Tree and Program Under Persona stories render that way, and Tree In Hide Mode shows the same tree with flat small and medium top level rows. Children of an icon row line up with its label, leaves take the smaller secondary row, a `marker` shows a stage as done, now or next, `media` shows a logo beside a program name, labels wrap to two lines, and `SidebarSeparator` draws a hairline between groups.',
+          'Pass `subitems` to nest destinations as a tree of disclosure lists. A parent is a button that only opens and closes its list. Left uncontrolled, it opens while it holds the current page and closes when the page leaves it, unless someone opened it; it finds the page from the `current` and `inTrail` props of the `SidebarItem` elements in `subitems`, so when items are wrapped in your own component, set `inTrail` on the parent. Override with `defaultExpanded`, or control it with `expanded` and `onExpandedChange`; it never navigates and never closes the sidebar, so only leaves are destinations. Set `collapsible={false}` for a parent that always shows its list, with no chevron; with an `href` it stays a link, and without one it is a plain row that takes no focus and no clicks. Top level items with nothing nested keep the height `size` gives them, while parents, nested rows and program rows take the tree sizes. In an AppShell with `sidebarCollapse="rail"`, as in the console, every top level row takes the tree size too: the Tree and Program Under Persona stories render that way, and Tree In Hide Mode shows the same tree with flat small and medium top level rows. Children of an icon row line up with its label, leaves take the smaller secondary row, a `marker` shows a stage as done, now or next, `media` shows a logo beside a program name, labels wrap to two lines, and `SidebarSeparator` draws a hairline between groups.',
           '',
           "Import: `import { Sidebar, SidebarSection, SidebarItem, SidebarSeparator } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -453,7 +453,7 @@ export const ProgramUnderPersonaAlignment: Story = {
       outlineColor: 'rgb(219, 225, 227)',
       background: 'rgb(255, 255, 255)',
       radius: '5px',
-      fit: 'cover',
+      fit: 'contain',
     });
     const nameStyle = getComputedStyle(canvas.getByText('HealthTech Traction 2027'));
     const homeStyle = getComputedStyle(canvas.getByText('Home'));
@@ -486,9 +486,9 @@ export const ProgramUnderPersonaAlignment: Story = {
       personaRow: 36,
       personaLabel: '15px',
       personaIcon: 20,
-      programRow: 44,
-      logoWidth: 60,
-      logoHeight: 36,
+      programRow: 46,
+      logoWidth: 64,
+      logoHeight: 38,
       stageRow: 34,
       stageLabel: '15px',
       leafRow: 32,

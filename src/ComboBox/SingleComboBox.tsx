@@ -449,7 +449,7 @@ export const SingleComboBox = ({
                 clear();
               }}
               onKeyDown={(event) => event.stopPropagation()}
-              className="relative ml-auto flex-none flex items-center justify-center w-[var(--icon-md)] h-[var(--icon-md)] p-0 border-0 bg-transparent cursor-pointer rounded-full text-[var(--label-tertiary)] hover:text-[var(--label-secondary)] focus-visible:outline-[length:var(--focus-width)] focus-visible:outline-solid focus-visible:outline-offset-[var(--focus-offset)] focus-visible:outline-[var(--focus-color)] before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:w-[var(--hit-target)] before:h-[var(--hit-target)] before:-translate-x-1/2 before:-translate-y-1/2"
+              className="ml-auto flex-none flex items-center justify-center w-[var(--hit-target)] h-[var(--hit-target)] -mr-[calc((var(--hit-target)-var(--icon-md))/2)] -my-[calc((var(--hit-target)-var(--icon-md))/2)] p-0 border-0 bg-transparent cursor-pointer rounded-full text-[var(--label-tertiary)] hover:text-[var(--label-secondary)] focus-visible:outline-[length:var(--focus-width)] focus-visible:outline-solid focus-visible:outline-offset-[calc(var(--focus-offset)-(var(--hit-target)-var(--icon-md))/2)] focus-visible:outline-[var(--focus-color)]"
             >
               <svg
                 viewBox="0 0 24 24"

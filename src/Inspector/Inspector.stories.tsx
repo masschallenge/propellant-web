@@ -48,6 +48,7 @@ const meta = {
       description: {
         component: [
           'Trailing inspector panel on the elevated surface with a hairline edge, a titled header, header actions, a scrollable body, and a sticky footer. Closes on scrim click, the close button, or Escape.',
+          'Use it for the detail of a row in a list. It opens at `--inspector-width` (480px); pass `wide` for wide content at `--inspector-width-wide` (640px). A centered dialog for create, edit and confirm is a `Sheet`, and an object with sections of its own gets a full page.',
           '',
           "Import: `import { Inspector, InspectorRow } from '@masschallenge/propellant-web'`",
           '',

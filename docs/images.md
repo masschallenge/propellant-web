@@ -32,7 +32,7 @@ are the minimums: larger images are welcome, smaller ones still work but may loo
 | --- | --- | --- | --- | --- |
 | Profile photo | Square (1:1) | 400 × 400 px | In a circle | Yes. Suggest a crop on the face when one is detected, otherwise start with the whole photo. |
 | Organization or startup logo | Square (1:1) recommended | 400 × 400 px | Whole, on a quiet background | Optional. Starts with the whole logo. |
-| Program logo | Square (1:1) | 400 × 400 px | Whole, on a quiet background | Optional. Starts with the whole logo. |
+| Program logo | Wide (5:3) | 500 × 300 px | Whole, on a quiet background, never less than 64 px wide on screen | Optional. Starts with the whole logo. |
 | Program cover image | Wide (16:9) | 1600 × 900 px | Across the top of the program page | Optional. Starts with the whole image. |
 
 For logos, ask for a PNG with a transparent background or an SVG, so the logo sits cleanly on light
@@ -69,6 +69,10 @@ Propellant components follow the rule for you:
   and `PopUpButton`, use `object-fit: contain`. They show the whole image and never crop it.
 - `Avatar` and `EmptyState` tiles accept `autoCrop` for images we own. Use it only for designated
   images, never for uploads.
+- Program logos keep their wide shape. A `ListRow` logo and a `Sidebar` program row show the
+  whole logo in a 64 by 38 box, the smallest a program logo appears. Show a program on its own
+  row or header, never mixed into a row with another program's items.
+- Person photos are circles, through `Avatar`.
 
 In your own code:
 

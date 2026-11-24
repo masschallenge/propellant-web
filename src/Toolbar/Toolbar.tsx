@@ -1,6 +1,11 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
 import { useAppShell } from '../AppShell/AppShell';
+import {
+  releaseScrollPadding,
+  reserveScrollPadding,
+  scrollContainerOf,
+} from '../internal/scrollPadding';
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
@@ -43,6 +48,27 @@ const TOGGLE_GLYPHS: Record<ToolbarSidebarToggleIcon, ReactNode> = {
   menu: <path d="M4 6.5h16M4 12h16M4 17.5h16" />,
 };
 
+const useScrollPaddingForStickyHeader = (
+  headerRef: React.RefObject<HTMLElement | null>,
+  isSticky: boolean,
+) => {
+  React.useEffect(() => {
+    const header = headerRef.current;
+    if (!isSticky || !header) return;
+    const scroller = scrollContainerOf(header);
+    const owner = Symbol('toolbar');
+    const reserveHeaderHeight = () => reserveScrollPadding(scroller, owner, header.offsetHeight);
+    reserveHeaderHeight();
+    const observer =
+      typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(reserveHeaderHeight);
+    observer?.observe(header);
+    return () => {
+      observer?.disconnect();
+      releaseScrollPadding(scroller, owner);
+    };
+  }, [headerRef, isSticky]);
+};
+
 export const Toolbar = ({
   leading,
   title,
@@ -57,8 +83,11 @@ export const Toolbar = ({
   const showsToggle = Boolean(
     shell?.hasSidebar && !(shell.collapseMode === 'rail' && !shell.isCompact),
   );
+  const headerRef = React.useRef<HTMLElement>(null);
+  useScrollPaddingForStickyHeader(headerRef, sticky);
   return (
     <header
+      ref={headerRef}
       data-propellant-app-header=""
       className={joinClasses(
         'flex flex-col bg-[var(--material-bar)] [backdrop-filter:var(--material-blur)] [-webkit-backdrop-filter:var(--material-blur)]',

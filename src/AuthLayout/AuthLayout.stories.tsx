@@ -12,7 +12,13 @@ const DemoForm = () => (
       <h2 className="m-0 text-title1 text-[var(--label)]">Welcome back</h2>
       <p className="m-0 text-callout text-[var(--label-secondary)]">Continue to your account.</p>
     </div>
-    <TextField label="Email" type="email" placeholder="maya@foundry.io" />
+    <TextField
+      label="Email"
+      type="email"
+      name="email"
+      autoComplete="email"
+      placeholder="maya@foundry.io"
+    />
     <Button size="lg">Email me a sign in link</Button>
     <Separator label="or" />
     <div className="flex flex-col gap-2">
@@ -38,6 +44,7 @@ const meta = {
           'Split screen sign in layout for public pages: a brand panel (MassChallenge logo, eyebrow, headline, supporting copy, footnote) on the brand surface beside a centered form column, with the app version in the corner.',
           'The hero headline is the one place Propellant sets the brand face (Oswald) in capitals. The brand panel hides below 880px, so the form column carries anything that must show on mobile. Mounts its own `[data-propellant]` boundary; the auth screen (login form, link sent, verifying) renders in `children`.',
           'Set `variant="centered"` for a single column on the grouped background: no brand panel, the MassChallenge logo above the form, or the `brand` you pass in its place, such as a product lockup. The panel props do not apply there.',
+          'Pass `help` for the way to get help, such as a support link. It sits in the same place below every auth screen, so people find it where they found it last time (WCAG 2.2 Consistent help).',
           '',
           "Import: `import { AuthLayout } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -50,6 +57,17 @@ const meta = {
     supportingCopy:
       'MassChallenge backs the rare humans with the grit to solve the toughest challenges. Pick up where you left off.',
     version: 'v1.0.0',
+    help: (
+      <>
+        Trouble signing in?{' '}
+        <a
+          href="#support"
+          className="font-semibold text-[var(--tint)] underline underline-offset-2"
+        >
+          Contact support
+        </a>
+      </>
+    ),
     children: <DemoForm />,
   },
   argTypes: {
@@ -60,6 +78,7 @@ const meta = {
     supportingCopy: { control: 'text' },
     footnote: { control: 'text' },
     version: { control: 'text' },
+    help: hide,
     children: hide,
     className: hide,
   },
