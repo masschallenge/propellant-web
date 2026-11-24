@@ -41,6 +41,7 @@ const meta = {
   },
   argTypes: {
     tone: { control: 'select', options: TONES, ...appearance },
+    actionPlacement: { control: 'inline-radio', options: ['below', 'inline'], ...appearance },
     title: { control: 'text', ...content },
     children: { control: 'text', ...content },
     when: { control: 'text', ...content },
@@ -76,6 +77,16 @@ export const WithActions: Story = {
       { label: 'Reply', onClick: fn() },
       { label: 'Mark as read', muted: true, onClick: fn() },
     ],
+  },
+};
+
+export const InlineAction: Story = {
+  args: {
+    title: 'Deadline extended to Fri, Nov 13 @ 5:00 PM ET.',
+    children: undefined,
+    actions: [{ label: 'Undo', onClick: fn() }],
+    actionPlacement: 'inline',
+    onDismiss: undefined,
   },
 };
 
