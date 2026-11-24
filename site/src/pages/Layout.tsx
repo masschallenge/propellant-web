@@ -82,5 +82,43 @@ export const Layout = () => (
         <Code>@media (pointer: coarse)</Code>.
       </Prose>
     </Section>
+
+    <Section title="The console shell">
+      <Prose>
+        Signed in consoles use <Code>AppShell</Code> with a <Code>Sidebar</Code>. The sidebar tree
+        shows where you are, so the console needs no top toolbar and no breadcrumbs.
+      </Prose>
+      <Rules
+        items={[
+          'Hierarchy lives in the sidebar tree. Only the section that holds the current page is open; every other section stays closed.',
+          'Page actions live in the page header: one primary button, at most one secondary, and everything else in the ⋯ menu at the far right.',
+          'No breadcrumbs anywhere in the signed in console, including detail pages. Breadcrumb is for public sites with deep pages.',
+          'Inbox and Help live in the account menu that opens from the avatar and name in the sidebar footer, with the unread count on the avatar. Privacy and Terms sit in that menu above Sign out.',
+          'Leave the toolbar out. Below 1024px the shell shows its own button to open the sidebar.',
+        ]}
+      />
+    </Section>
+
+    <Section title="Containers">
+      <Rules
+        items={[
+          'The detail of a row in a list opens in an Inspector on the right, 480px wide (--inspector-width), or 640px for wide content (--inspector-width-wide).',
+          'Create, edit and confirm happen in a centered Sheet.',
+          'An object with sections of its own, such as an application, a program or a startup in a program, gets a full page.',
+          'Every scrim uses the --scrim token.',
+        ]}
+      />
+    </Section>
+
+    <Section title="Sizes and spacing in the console">
+      <Rules
+        items={[
+          'Text uses the type scale with a 12px floor, and 13px for any text needed to finish a task.',
+          'Spacing stays on the 4px scale. Table rows are 36px (dense) or 44px.',
+          'Forms are one column. A segmented control holds at most about five options.',
+          'Colors come from tokens only: no raw hex and no brand hex in the product. The tint is for actions and the current destination.',
+        ]}
+      />
+    </Section>
   </PageBody>
 );
