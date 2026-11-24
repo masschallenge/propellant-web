@@ -32,6 +32,13 @@ const CELL_SIZES: Record<VCSize, string> = {
 
 const CODE_CHARACTER = /[^0-9a-zA-Z]/g;
 
+const WHOLE_CODE_INPUT_TYPES = new Set([
+  'insertReplacementText',
+  'insertFromPaste',
+  'insertFromDrop',
+]);
+const TYPING_INPUT_TYPES = new Set(['insertText', 'insertCompositionText']);
+
 export const VerificationCodeInput = ({
   length = 6,
   value,
@@ -66,8 +73,20 @@ export const VerificationCodeInput = ({
     if (accepted) inputRefs.current[Math.min(index + accepted.length, length - 1)]?.focus();
   };
 
-  const handleCellChange = (index: number, current: string, typed: string) => {
+  const handleCellChange = (
+    index: number,
+    current: string,
+    typed: string,
+    inputType: string | undefined,
+  ) => {
     const characters = typed.replace(CODE_CHARACTER, '');
+    const isWholeCode =
+      WHOLE_CODE_INPUT_TYPES.has(inputType ?? '') ||
+      (!TYPING_INPUT_TYPES.has(inputType ?? '') && characters.length >= length);
+    if (isWholeCode) {
+      fillFrom(characters.length >= length ? 0 : index, characters);
+      return;
+    }
     const isReplacingCharacter = Boolean(current) && characters.length === 2;
     fillFrom(index, isReplacingCharacter ? characters.replace(current, '') || current : characters);
   };
@@ -101,7 +120,14 @@ export const VerificationCodeInput = ({
           aria-invalid={invalid || undefined}
           aria-describedby={hint ? hintId : undefined}
           value={character}
-          onChange={(event) => handleCellChange(index, character, event.target.value)}
+          onChange={(event) =>
+            handleCellChange(
+              index,
+              character,
+              event.target.value,
+              (event.nativeEvent as InputEvent).inputType,
+            )
+          }
           onPaste={(event) => handleCellPaste(index, event)}
           onKeyDown={(event) => {
             if (event.key === 'Backspace' && !character) inputRefs.current[index - 1]?.focus();

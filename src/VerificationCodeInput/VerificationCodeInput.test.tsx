@@ -84,6 +84,47 @@ describe('VerificationCodeInput', () => {
     expect(screen.getByRole('textbox', { name: 'Digit 6 of 6' })).toHaveValue('5');
   });
 
+  it('takes a whole autofilled code into a two cell input that already holds a digit', () => {
+    const onChange = vi.fn();
+    render(<VerificationCodeInput length={2} defaultValue="1" onChange={onChange} />);
+    fireEvent.input(screen.getByRole('textbox', { name: 'Digit 1 of 2' }), {
+      target: { value: '12' },
+      inputType: 'insertReplacementText',
+    });
+    expect(onChange).toHaveBeenLastCalledWith('12');
+    expect(screen.getByRole('textbox', { name: 'Digit 2 of 2' })).toHaveValue('2');
+  });
+
+  it('treats a value as long as the code as a whole code when the input type is unknown', () => {
+    const onChange = vi.fn();
+    render(<VerificationCodeInput length={2} defaultValue="1" onChange={onChange} />);
+    fireEvent.change(screen.getByRole('textbox', { name: 'Digit 1 of 2' }), {
+      target: { value: '12' },
+    });
+    expect(onChange).toHaveBeenLastCalledWith('12');
+  });
+
+  it('still replaces the digit when someone types over a filled cell of a two cell input', () => {
+    const onChange = vi.fn();
+    render(<VerificationCodeInput length={2} defaultValue="1" onChange={onChange} />);
+    fireEvent.input(screen.getByRole('textbox', { name: 'Digit 1 of 2' }), {
+      target: { value: '19' },
+      inputType: 'insertText',
+    });
+    expect(onChange).toHaveBeenLastCalledWith('9');
+    expect(screen.getByRole('textbox', { name: 'Digit 2 of 2' })).toHaveFocus();
+  });
+
+  it('fills from the first cell when a whole code is autofilled into a later cell', () => {
+    const onChange = vi.fn();
+    render(<VerificationCodeInput length={4} defaultValue="5" onChange={onChange} />);
+    fireEvent.input(screen.getByRole('textbox', { name: 'Digit 3 of 4' }), {
+      target: { value: '8812' },
+      inputType: 'insertReplacementText',
+    });
+    expect(onChange).toHaveBeenLastCalledWith('8812');
+  });
+
   it('names the group by its label and describes every cell by the hint', () => {
     render(
       <VerificationCodeInput length={2} label="Sign in code" hint="Check your email." invalid />,
