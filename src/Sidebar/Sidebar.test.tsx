@@ -400,6 +400,39 @@ describe('Sidebar', () => {
         expect(expandedState(/^Online review/)).toBe('false');
       });
 
+      it('keeps a section someone opened open after the page passes through it', async () => {
+        const renderWithCohortStep = (currentStep: Step | 'mentors') => (
+          <Sidebar label="Console">
+            <SidebarSection>
+              <SidebarItem
+                subitems={
+                  <SidebarItem href="/review/judges" current={currentStep === 'judges'}>
+                    Judges
+                  </SidebarItem>
+                }
+              >
+                Online review
+              </SidebarItem>
+              <SidebarItem
+                subitems={
+                  <SidebarItem href="/cohort/mentors" current={currentStep === 'mentors'}>
+                    Mentors
+                  </SidebarItem>
+                }
+              >
+                Cohort
+              </SidebarItem>
+            </SidebarSection>
+          </Sidebar>
+        );
+        const { rerender } = render(renderWithCohortStep('judges'));
+        await userEvent.click(screen.getByRole('button', { name: /^Cohort/ }));
+        rerender(renderWithCohortStep('mentors'));
+        expect(expandedState(/^Cohort/)).toBe('true');
+        rerender(renderWithCohortStep('judges'));
+        expect(expandedState(/^Cohort/)).toBe('true');
+      });
+
       it('leaves a controlled section exactly as it is given', () => {
         const { rerender } = render(renderSections('judges', { expanded: true }));
         expect(expandedState(/^Cohort/)).toBe('true');
