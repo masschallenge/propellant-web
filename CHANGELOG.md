@@ -19,6 +19,16 @@ property and from `@masschallenge/propellant-web/version`.
 - The brand guidelines cover favicons, with `<link>` and Next.js `metadata.icons` snippets, and share
   images: 1200 by 630 with a safe area, logos shown whole, and a generic product card for pages
   behind sign in so nothing private leaks.
+- A `RadioCardGroup` option takes `readableLinks` to keep its links usable when it is disabled. The
+  links sit inline after the hint, at full contrast and focusable, while the rest of the card fades
+  as before and stays unselectable and announced as disabled. A faded link fell to about 2:1, below
+  WCAG 2.2 AA; the readable link measures at least 7.0:1 in light and 8.5:1 in dark. It applies to
+  the `row` layout, for example a company that already applied, "Applied Nov 4. View
+  application". Without it a disabled card is unchanged.
+- `ComboBox` takes `panelWidth="content"`, single or multiple, to size the open panel to its longest
+  option instead of the trigger: never narrower than the trigger, and capped to the window less an
+  8px gap on each side, so long labels such as "Healthcare IT and digital health" read in full from
+  a narrow filter. The closed control and the default, `trigger`, are unchanged.
 
 ## 2.9.0 (2026-11-25)
 
