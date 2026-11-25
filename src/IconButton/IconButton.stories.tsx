@@ -27,7 +27,7 @@ const meta = {
     docs: {
       description: {
         component: [
-          'A compact action shown as a symbol. Plain icon buttons sit in toolbars and table rows and highlight on hover, and fill while the menu they open is open (`aria-haspopup` with `aria-expanded`, which `Menu` sets on its trigger); `shape="capsule"` makes a plain one circular, like the item menu trigger on Home. Gray, tinted and filled are circular and stand on their own. `inverse` is for a dark or colored band, such as a banner header: a white glyph on a 15% white fill that deepens to 30% on hover and while its menu is open. It is a rounded rectangle like plain, and has no destructive style. Always provide `aria-label`.',
+          'A compact action shown as a symbol. Plain icon buttons sit in toolbars and table rows and highlight on hover, and fill while the menu they open is open (`aria-haspopup` with `aria-expanded`, which `Menu` sets on its trigger); `shape="capsule"` makes a plain one circular, like the item menu trigger on Home. Gray, tinted and filled are circular and stand on their own. `inverse` is for a dark or colored band, such as a banner header: a white glyph on a 15% white fill that deepens to 30% on hover and while its menu is open. Its focus ring is white so it stands out on the band. It is a rounded rectangle like plain, and has no destructive style, so `destructive` with `inverse` is a type error. Always provide `aria-label`.',
           '',
           "Import: `import { IconButton } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -132,25 +132,36 @@ export const Shapes: Story = {
 };
 
 export const Inverse: Story = {
-  render: (args) => (
+  render: ({ onClick }) => (
     <HStack>
       <div className="flex items-center gap-3 p-4 rounded-[var(--corner-lg)] bg-[var(--brand-surface)]">
-        <IconButton {...args} variant="inverse" size="sm" aria-label="More actions">
+        <IconButton variant="inverse" size="sm" aria-label="More actions" onClick={onClick}>
           {MORE_GLYPH}
         </IconButton>
         <IconButton
-          {...args}
           variant="inverse"
           size="sm"
           aria-haspopup="menu"
           aria-expanded
           aria-label="More actions, open"
+          onClick={onClick}
+        >
+          {MORE_GLYPH}
+        </IconButton>
+        <IconButton
+          variant="inverse"
+          size="sm"
+          aria-label="More actions, focused"
+          onClick={onClick}
         >
           {MORE_GLYPH}
         </IconButton>
       </div>
     </HStack>
   ),
+  play: async ({ canvasElement }) => {
+    within(canvasElement).getByRole('button', { name: 'More actions, focused' }).focus();
+  },
 };
 
 export const Disabled: Story = {

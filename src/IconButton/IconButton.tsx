@@ -5,17 +5,23 @@ export type IconButtonVariant = 'plain' | 'gray' | 'tinted' | 'filled' | 'invers
 export type IconButtonSize = 'sm' | 'md' | 'lg';
 export type IconButtonShape = 'rounded' | 'capsule';
 
-export interface IconButtonProps extends Omit<
+type StandardVariant = Exclude<IconButtonVariant, 'inverse'>;
+
+interface IconButtonBaseProps extends Omit<
   React.ComponentPropsWithoutRef<'button'>,
   'children' | 'aria-label'
 > {
-  variant?: IconButtonVariant;
   size?: IconButtonSize;
   shape?: IconButtonShape;
-  destructive?: boolean;
   'aria-label': string;
   children?: ReactNode;
 }
+
+export type IconButtonProps = IconButtonBaseProps &
+  (
+    | { variant?: StandardVariant; destructive?: boolean }
+    | { variant: 'inverse'; destructive?: never }
+  );
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
@@ -42,7 +48,7 @@ const SHAPES: Record<IconButtonShape, string> = {
 const OPEN_PLAIN = '[&[aria-haspopup]:not(:disabled)[aria-expanded=true]]:bg-[var(--fill)]';
 
 const INVERSE =
-  'bg-[var(--inverse-fill)] text-[var(--inverse)] hover:not-disabled:bg-[var(--inverse-fill-hover)] aria-expanded:bg-[var(--inverse-fill-hover)] focus-visible:outline-[var(--focus-color)]';
+  'bg-[var(--inverse-fill)] text-[var(--inverse)] hover:not-disabled:bg-[var(--inverse-fill-hover)] aria-expanded:bg-[var(--inverse-fill-hover)] focus-visible:outline-[var(--inverse)]';
 
 const ROUNDED_BY_DEFAULT = new Set<IconButtonVariant>(['plain', 'inverse']);
 
@@ -56,7 +62,7 @@ const STANDARD: Record<IconButtonVariant, string> = {
   inverse: INVERSE,
 };
 
-const DESTRUCTIVE: Record<IconButtonVariant, string> = {
+const DESTRUCTIVE: Record<StandardVariant, string> = {
   plain:
     'bg-transparent text-[var(--label-secondary)] hover:not-disabled:bg-[var(--critical-fill)] hover:not-disabled:text-[var(--critical)] focus-visible:not-disabled:bg-[var(--critical-fill)] focus-visible:not-disabled:text-[var(--critical)] focus-visible:outline-[var(--focus-color-critical)]',
   gray: 'bg-[var(--fill-secondary)] text-[var(--critical)] hover:not-disabled:bg-[var(--fill)] focus-visible:outline-[var(--focus-color-critical)]',
@@ -64,7 +70,6 @@ const DESTRUCTIVE: Record<IconButtonVariant, string> = {
     'bg-[var(--critical-fill)] text-[var(--critical)] hover:not-disabled:bg-[var(--critical-fill-hover)] focus-visible:outline-[var(--focus-color-critical)]',
   filled:
     'bg-[var(--critical-solid)] text-[var(--on-critical)] hover:not-disabled:bg-[var(--critical-solid-hover)] active:not-disabled:bg-[var(--critical-solid-pressed)] focus-visible:outline-[var(--focus-color-critical)]',
-  inverse: INVERSE,
 };
 
 export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
@@ -88,7 +93,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         BASE,
         SIZES[size],
         SHAPES[shape ?? (ROUNDED_BY_DEFAULT.has(variant) ? 'rounded' : 'capsule')],
-        (destructive ? DESTRUCTIVE : STANDARD)[variant],
+        destructive && variant !== 'inverse' ? DESTRUCTIVE[variant] : STANDARD[variant],
         className,
       )}
       {...rest}
