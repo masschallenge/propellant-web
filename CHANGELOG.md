@@ -29,6 +29,10 @@ property and from `@masschallenge/propellant-web/version`.
   option instead of the trigger: never narrower than the trigger, and capped to the window less an
   8px gap on each side, so long labels such as "Healthcare IT and digital health" read in full from
   a narrow filter. The closed control and the default, `trigger`, are unchanged.
+- `Sheet` takes `header="divided"` to draw a stacked sheet's header as one row: the icon on the
+  left, a 17px title over a 13px sub line, and the close button on the right, with a separator
+  between the header and the body, as on the message and announcement sheets. The default header is
+  unchanged, and the horizontal and split layouts ignore it.
 
 ## 2.9.0 (2026-11-25)
 
