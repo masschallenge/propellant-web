@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { AnchoredPanelWidth } from '../internal/anchoredLayer';
 import { SingleComboBox } from './SingleComboBox';
 import type { ComboBoxOption, ComboBoxSize, SingleComboBoxProps } from './SingleComboBox';
 import { MultiComboBox } from './MultiComboBox';
@@ -8,6 +9,8 @@ import type {
   MultiComboBoxOptionMarker,
   MultiComboBoxProps,
 } from './MultiComboBox';
+
+export type ComboBoxPanelWidth = AnchoredPanelWidth;
 
 export type {
   ComboBoxOption,

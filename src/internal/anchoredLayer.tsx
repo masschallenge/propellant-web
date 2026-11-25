@@ -12,8 +12,11 @@ export type AnchoredAlignment = 'start' | 'end';
 
 export interface AnchoredPanelStyleOptions {
   matchWidth?: boolean;
+  fitsContent?: boolean;
   capsHeight?: boolean;
 }
+
+export type AnchoredPanelWidth = 'trigger' | 'content';
 
 const VIEWPORT_GAP = 8;
 const ANCHOR_GAP = 6;
@@ -99,14 +102,22 @@ export const useAnchoredPosition = (
 
 export const anchoredPanelStyle = (
   position: AnchoredPosition | null,
-  { matchWidth = false, capsHeight = true }: AnchoredPanelStyleOptions = {},
+  { matchWidth = false, fitsContent = false, capsHeight = true }: AnchoredPanelStyleOptions = {},
 ): React.CSSProperties => {
+  const anchorWidth = position ? position.width : 0;
+  const widthStyle: React.CSSProperties = fitsContent
+    ? {
+        width: 'max-content',
+        minWidth: anchorWidth,
+        maxWidth: `calc(100vw - ${2 * VIEWPORT_GAP}px)`,
+      }
+    : { width: matchWidth ? anchorWidth : undefined };
   return {
     position: 'fixed',
     zIndex: 'var(--layer-overlay)',
     left: position ? position.left : -9999,
     top: position ? position.top : 0,
-    width: matchWidth ? (position ? position.width : 0) : undefined,
+    ...widthStyle,
     maxHeight: capsHeight && position ? position.available : undefined,
     visibility: position ? 'visible' : 'hidden',
   };
