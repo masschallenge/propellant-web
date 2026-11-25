@@ -14,10 +14,10 @@ property and from `@masschallenge/propellant-web/version`.
   200px. Narrower, it is centered like `center`.
 - `Sheet` takes `closeButton="plain"` for a close button without a fill, with a 24px glyph at a 1.5
   stroke. The default, `gray`, is unchanged.
-- `IconButton` takes `variant="on-dark"` for a dark or colored band: a white glyph on a 15% white
+- `IconButton` takes `variant="inverse"` for a dark or colored band: a white glyph on a 15% white
   fill that deepens to 30% on hover and while its menu is open. It is a rounded rectangle by default
   and has no destructive style.
-- The `--on-dark`, `--on-dark-fill` and `--on-dark-fill-hover` color tokens, the same in light and
+- The `--inverse`, `--inverse-fill` and `--inverse-fill-hover` color tokens, the same in light and
   dark, for content on a dark or colored band.
 
 ## 2.8.0 (2026-11-24)

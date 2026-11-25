@@ -107,7 +107,7 @@ describe('IconButton', () => {
   });
 });
 
-describe('IconButton on dark', () => {
+describe('inverse IconButton', () => {
   const colorTokens = parseTokens(
     readFileSync(
       path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../tokens/color.css'),
@@ -121,33 +121,33 @@ describe('IconButton on dark', () => {
 
   it('draws a white glyph on a translucent white fill that deepens on hover and while open', () => {
     render(
-      <IconButton aria-label="More actions" variant="on-dark" aria-haspopup="menu" aria-expanded>
+      <IconButton aria-label="More actions" variant="inverse" aria-haspopup="menu" aria-expanded>
         m
       </IconButton>,
     );
     const classes = classesOf(screen.getByRole('button', { name: 'More actions' }));
-    expect(classes).toContain('text-[var(--on-dark)]');
-    expect(classes).toContain('bg-[var(--on-dark-fill)]');
-    expect(classes).toContain('hover:not-disabled:bg-[var(--on-dark-fill-hover)]');
-    expect(classes).toContain('aria-expanded:bg-[var(--on-dark-fill-hover)]');
+    expect(classes).toContain('text-[var(--inverse)]');
+    expect(classes).toContain('bg-[var(--inverse-fill)]');
+    expect(classes).toContain('hover:not-disabled:bg-[var(--inverse-fill-hover)]');
+    expect(classes).toContain('aria-expanded:bg-[var(--inverse-fill-hover)]');
     expect(classes).toContain('rounded-[var(--corner-md)]');
   });
 
-  it('keeps the on dark look when marked destructive', () => {
+  it('keeps the inverse look when marked destructive', () => {
     render(
-      <IconButton aria-label="Remove" variant="on-dark" destructive>
+      <IconButton aria-label="Remove" variant="inverse" destructive>
         x
       </IconButton>,
     );
     expect(classesOf(screen.getByRole('button', { name: 'Remove' }))).toContain(
-      'bg-[var(--on-dark-fill)]',
+      'bg-[var(--inverse-fill)]',
     );
   });
 
   it.each([
-    ['--on-dark', 'var(--gray-0)'],
-    ['--on-dark-fill', 'rgb(255 255 255 / 0.15)'],
-    ['--on-dark-fill-hover', 'rgb(255 255 255 / 0.3)'],
+    ['--inverse', 'var(--gray-0)'],
+    ['--inverse-fill', 'rgb(255 255 255 / 0.15)'],
+    ['--inverse-fill-hover', 'rgb(255 255 255 / 0.3)'],
   ])('defines %s as %s in light and dark', (name, value) => {
     expect(valuesOf(name)).toEqual([value, value]);
   });
