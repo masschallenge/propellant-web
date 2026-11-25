@@ -386,6 +386,56 @@ describe('Sheet surface', () => {
   });
 });
 
+describe('Sheet divided header', () => {
+  it('keeps the stacked title2 header and floating close button by default', () => {
+    render(<Sheet open title="Office hours added" description="Mon, Nov 23" onClose={() => {}} />);
+    const title = screen.getByRole('heading', { name: 'Office hours added' });
+    expect(title).toHaveClass('text-title2');
+    expect(screen.getByText('Mon, Nov 23')).toHaveClass('text-callout');
+    expect(screen.getByRole('button', { name: 'Close' }).parentElement).toHaveClass('absolute');
+  });
+
+  it('draws the icon, title and close in one row above a separator', () => {
+    render(
+      <Sheet
+        open
+        header="divided"
+        closeButton="plain"
+        icon={<svg data-testid="message-icon" />}
+        title="Office hours added"
+        description="Mon, Nov 23"
+        onClose={() => {}}
+      >
+        <p>Body</p>
+      </Sheet>,
+    );
+    const title = screen.getByRole('heading', { name: 'Office hours added' });
+    expect(title).toHaveClass('text-title3');
+    expect(screen.getByText('Mon, Nov 23')).toHaveClass('text-subheadline');
+    const headerRow = title.parentElement?.parentElement as HTMLElement;
+    expect(headerRow).toHaveClass('flex', 'items-center', 'border-b', 'border-[var(--separator)]');
+    expect(headerRow).toContainElement(screen.getByTestId('message-icon'));
+    const close = screen.getByRole('button', { name: 'Close' });
+    expect(headerRow).toContainElement(close);
+    expect(close.parentElement).not.toHaveClass('absolute');
+    expect(headerRow).not.toContainElement(screen.getByText('Body'));
+    expect(screen.getByRole('dialog')).toHaveAccessibleDescription('Mon, Nov 23');
+  });
+
+  it('closes from the close button in the divided header', async () => {
+    const onClose = vi.fn();
+    render(<Sheet open header="divided" title="Office hours added" onClose={onClose} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Close' }));
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('leaves the horizontal layout header as it was', () => {
+    render(<Sheet open header="divided" layout="horizontal" title="Deck" onClose={() => {}} />);
+    expect(screen.getByRole('heading', { name: 'Deck' })).toHaveClass('text-title2');
+    expect(screen.getByRole('button', { name: 'Close' }).parentElement).toHaveClass('absolute');
+  });
+});
+
 describe('Sheet content placement', () => {
   const overlayOf = (dialog: HTMLElement) => dialog.parentElement as HTMLElement;
   const overlayClassesOf = (name: string) =>
