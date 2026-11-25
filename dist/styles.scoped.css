@@ -251,6 +251,10 @@ html [data-propellant] {
   --on-brand-surface: var(--gray-0);
   --brand-accent: var(--teal-400);
 
+  --on-dark: var(--gray-0);
+  --on-dark-fill: rgb(255 255 255 / 0.15);
+  --on-dark-fill-hover: rgb(255 255 255 / 0.3);
+
   --scrim: rgb(11 15 17 / 0.4);
   --focus-color: var(--tint);
   --focus-color-critical: var(--critical);
@@ -385,6 +389,10 @@ html [data-propellant] {
   --on-brand-surface: var(--gray-75);
   --brand-accent: var(--teal-400);
 
+  --on-dark: var(--gray-0);
+  --on-dark-fill: rgb(255 255 255 / 0.15);
+  --on-dark-fill-hover: rgb(255 255 255 / 0.3);
+
   --scrim: rgb(0 0 0 / 0.6);
   --focus-color: var(--tint);
   --focus-color-critical: var(--critical);
@@ -466,6 +474,10 @@ html:has([data-appearance='system']) [data-propellant]:not([data-theme='light'])
   --brand-surface: var(--gray-900);
   --on-brand-surface: var(--gray-75);
   --brand-accent: var(--teal-400);
+
+  --on-dark: var(--gray-0);
+  --on-dark-fill: rgb(255 255 255 / 0.15);
+  --on-dark-fill-hover: rgb(255 255 255 / 0.3);
 
   --scrim: rgb(0 0 0 / 0.6);
   --focus-color: var(--tint);
