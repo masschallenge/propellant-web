@@ -133,8 +133,20 @@ describe('inverse IconButton', () => {
     expect(classes).toContain('rounded-[var(--corner-md)]');
   });
 
-  it('keeps the inverse look when marked destructive', () => {
+  it('draws a white focus ring so it reads on the band', () => {
     render(
+      <IconButton aria-label="More actions" variant="inverse">
+        m
+      </IconButton>,
+    );
+    const classes = classesOf(screen.getByRole('button', { name: 'More actions' }));
+    expect(classes).toContain('focus-visible:outline-[var(--inverse)]');
+    expect(classes).not.toContain('focus-visible:outline-[var(--focus-color)]');
+  });
+
+  it('rejects destructive with inverse at the type level', () => {
+    render(
+      // @ts-expect-error inverse has no destructive style
       <IconButton aria-label="Remove" variant="inverse" destructive>
         x
       </IconButton>,
