@@ -5,6 +5,8 @@ import { Sheet } from './Sheet';
 import { Button } from '../Button/Button';
 import { ListRow, ListSection } from '../List/List';
 import { SearchField } from '../SearchField/SearchField';
+import { AppShell } from '../AppShell/AppShell';
+import { Sidebar, SidebarItem, SidebarSection } from '../Sidebar/Sidebar';
 import { appearance, content, hide } from '../../.storybook/controls';
 
 const Launcher = (args: React.ComponentProps<typeof Sheet>) => {
@@ -27,6 +29,8 @@ const meta = {
       description: {
         component: [
           'Portalled dialog on the elevated surface over a scrim, with a focus trap and an inert background. Stacked, horizontal, or split layouts. `placement="side"` opens it as a full height panel on the right, full width on phones, for previews that sit beside the work. Footer actions sit in a right aligned row and stack full width, primary on top, on narrow screens.',
+          '',
+          '`placement="content"` is for sheets opened inside an `AppShell`. On wide screens (1024px and up) it centers the sheet over the content area beside the sidebar instead of the whole window, and aligns its top edge a set distance from the top of the window: 64px (`topOffset="sm"`, the default), 160px (`md`), 180px (`lg`) or 200px (`xl`). Narrower, it is centered like `center`. It assumes the sidebar is pinned at `--sidebar-width`.',
           '',
           '`closeButton="plain"` draws the close button without a fill, with a 24px glyph at a 1.5 stroke, for sheets whose header reads lighter. The default, `gray`, is unchanged.',
           '',
@@ -61,7 +65,12 @@ const meta = {
     },
     layout: { control: 'inline-radio', options: ['stacked', 'horizontal', 'split'], ...appearance },
     size: { control: 'inline-radio', options: ['sm', 'md', 'md-wide', 'lg', 'xl'], ...appearance },
-    placement: { control: 'inline-radio', options: ['center', 'side'], ...appearance },
+    placement: {
+      control: 'inline-radio',
+      options: ['center', 'side', 'content'],
+      ...appearance,
+    },
+    topOffset: { control: 'inline-radio', options: ['sm', 'md', 'lg', 'xl'], ...appearance },
     closeButton: { control: 'inline-radio', options: ['gray', 'plain'], ...appearance },
     eyebrow: { control: 'text', ...content },
     title: { control: 'text', ...content },
@@ -222,6 +231,40 @@ export const EmailConfirmation: Story = {
       <Sheet {...args} />
     </div>
   ),
+};
+
+export const ContentPlacement: Story = {
+  args: {
+    open: true,
+    placement: 'content',
+    topOffset: 'md',
+    tone: 'warning',
+    title: 'Archive the Review stage?',
+    description: 'Startups in this stage keep their scores, and judges lose access to it.',
+    footer: (
+      <>
+        <Button variant="gray">Cancel</Button>
+        <Button variant="filled">Archive stage</Button>
+      </>
+    ),
+  },
+  render: (args) => (
+    <AppShell
+      sidebar={
+        <Sidebar label="Main">
+          <SidebarSection title="Boston 2026">
+            <SidebarItem current>Overview</SidebarItem>
+            <SidebarItem>Startups</SidebarItem>
+            <SidebarItem>Judges</SidebarItem>
+          </SidebarSection>
+        </Sidebar>
+      }
+    >
+      <h1 className="m-0 text-large-title text-[var(--label)]">Stages</h1>
+      <Sheet {...args} />
+    </AppShell>
+  ),
+  parameters: { layout: 'fullscreen' },
 };
 
 export const PlainCloseButton: Story = {

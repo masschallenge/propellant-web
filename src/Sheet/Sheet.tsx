@@ -9,7 +9,8 @@ const openSheetStack: object[] = [];
 export type SheetTone = 'neutral' | 'info' | 'success' | 'warning' | 'critical';
 export type SheetSize = 'sm' | 'md' | 'md-wide' | 'lg' | 'xl' | 'full';
 export type SheetLayout = 'stacked' | 'horizontal' | 'split';
-export type SheetPlacement = 'center' | 'side';
+export type SheetPlacement = 'center' | 'side' | 'content';
+export type SheetTopOffset = 'sm' | 'md' | 'lg' | 'xl';
 export type SheetCloseButton = 'gray' | 'plain';
 
 export interface SheetProps {
@@ -29,6 +30,7 @@ export interface SheetProps {
   role?: 'dialog' | 'alertdialog';
   size?: SheetSize;
   placement?: SheetPlacement;
+  topOffset?: SheetTopOffset;
   closeButton?: SheetCloseButton;
   inline?: boolean;
   className?: string;
@@ -75,6 +77,13 @@ const SIDE_WIDTH: Record<SheetSize, string> = {
   lg: 'sm:max-w-[640px]',
   xl: 'sm:max-w-[1152px]',
   full: 'max-w-none',
+};
+
+const TOP_OFFSET: Record<SheetTopOffset, string> = {
+  sm: 'lg:pt-16',
+  md: 'lg:pt-40',
+  lg: 'lg:pt-45',
+  xl: 'lg:pt-50',
 };
 
 const CloseGlyph = ({ strokeWidth, className }: { strokeWidth: string; className?: string }) => (
@@ -131,6 +140,7 @@ export const Sheet = ({
   footerLayout = 'row',
   size = 'md',
   placement = 'center',
+  topOffset = 'sm',
   closeButton = 'gray',
   role = 'dialog',
   inline = false,
@@ -280,6 +290,7 @@ export const Sheet = ({
   );
 
   const isSide = placement === 'side';
+  const isContent = placement === 'content';
   const scrollsBody = layout === 'stacked' && (size !== 'full' || isSide);
 
   const footerNode = footer ? (
@@ -344,6 +355,7 @@ export const Sheet = ({
         isSide
           ? 'flex items-stretch justify-end overflow-hidden bg-[var(--scrim)]'
           : 'flex items-center justify-center p-4 sm:p-6 bg-[var(--scrim)]',
+        isContent && joinClasses('lg:items-start', TOP_OFFSET[topOffset]),
       )}
       onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
         if (event.target !== event.currentTarget) return;
@@ -365,6 +377,7 @@ export const Sheet = ({
             ? joinClasses('h-full max-w-none', SIDE_WIDTH[size])
             : joinClasses('rounded-[var(--corner-xl)]', WIDTH[size]),
           scrollsBody && !inline && !isSide && 'max-h-full',
+          isContent && 'lg:translate-x-[calc(var(--sidebar-width)/2)]',
           className,
         )}
       >

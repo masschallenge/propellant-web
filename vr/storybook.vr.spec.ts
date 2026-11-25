@@ -51,6 +51,7 @@ const STORIES_CAPTURED_WIDE = new Set([
   'components-layout-sidebar--linked-parent-with-logos',
   'components-layout-sidebar--program-under-persona',
   'components-layout-sidebar--program-without-cover-under-persona',
+  'components-overlays-sheet--content-placement',
 ]);
 
 const WIDE_VIEWPORT = { width: 1280, height: 800 };
