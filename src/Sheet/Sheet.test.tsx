@@ -384,3 +384,65 @@ describe('Sheet surface', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 });
+
+describe('Sheet content placement', () => {
+  const overlayOf = (dialog: HTMLElement) => dialog.parentElement as HTMLElement;
+
+  it('centers over the shell content area and aligns to the top on wide screens', () => {
+    render(<Sheet open placement="content" title="Archive stage?" onClose={() => {}} />);
+    const dialog = screen.getByRole('dialog', { name: 'Archive stage?' });
+    expect(dialog).toHaveAttribute('data-placement', 'content');
+    expect(dialog.className).toContain('lg:translate-x-[calc(var(--sidebar-width)/2)]');
+    expect(overlayOf(dialog).className).toContain('lg:items-start');
+    expect(overlayOf(dialog).className).toContain('lg:pt-16');
+    expect(dialog.className).toContain('max-h-full');
+  });
+
+  it.each([
+    ['sm', 'lg:pt-16'],
+    ['md', 'lg:pt-40'],
+    ['lg', 'lg:pt-45'],
+    ['xl', 'lg:pt-50'],
+  ] as const)('sets the %s top offset with %s', (topOffset, padding) => {
+    render(
+      <Sheet open placement="content" topOffset={topOffset} title="Offset" onClose={() => {}} />,
+    );
+    expect(overlayOf(screen.getByRole('dialog', { name: 'Offset' })).className).toContain(padding);
+  });
+
+  it('leaves the center placement vertically centered and unshifted', () => {
+    render(<Sheet open topOffset="xl" title="Centered" onClose={() => {}} />);
+    const dialog = screen.getByRole('dialog', { name: 'Centered' });
+    expect(dialog.className).not.toContain('translate-x');
+    expect(overlayOf(dialog).className).not.toContain('lg:items-start');
+    expect(overlayOf(dialog).className).not.toContain('lg:pt-50');
+  });
+});
+
+describe('Sheet close button', () => {
+  it('is a gray button with the regular glyph by default', () => {
+    render(<Sheet open title="Gray close" onClose={() => {}} />);
+    const close = screen.getByRole('button', { name: 'Close' });
+    expect(close.className).toContain('bg-[var(--fill-secondary)]');
+    expect(close.querySelector('svg')).toHaveAttribute('stroke-width', '2.2');
+  });
+
+  it('drops the fill and draws a 24px glyph at stroke 1.5 when plain', () => {
+    render(<Sheet open closeButton="plain" title="Plain close" onClose={() => {}} />);
+    const close = screen.getByRole('button', { name: 'Close' });
+    expect(close.className.split(' ')).toContain('bg-transparent');
+    expect(close.className.split(' ')).not.toContain('bg-[var(--fill-secondary)]');
+    const glyphBox = close.firstElementChild as HTMLElement;
+    expect(glyphBox.className).toContain('w-6');
+    expect(glyphBox.className).toContain('h-6');
+    expect(glyphBox.className).toContain('text-[var(--label)]');
+    expect(close.querySelector('svg')).toHaveAttribute('stroke-width', '1.5');
+  });
+
+  it('still closes when plain', async () => {
+    const onClose = vi.fn();
+    render(<Sheet open closeButton="plain" title="Plain close" onClose={onClose} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Close' }));
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+});
