@@ -28,6 +28,8 @@ const meta = {
         component: [
           'Portalled dialog on the elevated surface over a scrim, with a focus trap and an inert background. Stacked, horizontal, or split layouts. `placement="side"` opens it as a full height panel on the right, full width on phones, for previews that sit beside the work. Footer actions sit in a right aligned row and stack full width, primary on top, on narrow screens.',
           '',
+          '`closeButton="plain"` draws the close button without a fill, with a 24px glyph at a 1.5 stroke, for sheets whose header reads lighter. The default, `gray`, is unchanged.',
+          '',
           'Sizes cap the width at 400px (`sm`), 520px (`md`, the default), 540px (`md-wide`), 640px (`lg`) and 1152px (`xl`), or fill the viewport (`full`). `md-wide` fits a confirmation that lists people, such as the email confirmation with a framed recipient list.',
           '',
           "Import: `import { Sheet } from '@masschallenge/propellant-web'`",
@@ -60,6 +62,7 @@ const meta = {
     layout: { control: 'inline-radio', options: ['stacked', 'horizontal', 'split'], ...appearance },
     size: { control: 'inline-radio', options: ['sm', 'md', 'md-wide', 'lg', 'xl'], ...appearance },
     placement: { control: 'inline-radio', options: ['center', 'side'], ...appearance },
+    closeButton: { control: 'inline-radio', options: ['gray', 'plain'], ...appearance },
     eyebrow: { control: 'text', ...content },
     title: { control: 'text', ...content },
     description: { control: 'text', ...content },
@@ -216,6 +219,29 @@ export const EmailConfirmation: Story = {
   },
   render: (args) => (
     <div className="relative w-[640px] h-[560px]">
+      <Sheet {...args} />
+    </div>
+  ),
+};
+
+export const PlainCloseButton: Story = {
+  args: {
+    open: true,
+    inline: true,
+    closeButton: 'plain',
+    hideIcon: true,
+    tone: 'info',
+    title: 'Rename stage',
+    description: 'Founders and judges see the new name right away.',
+    footer: (
+      <>
+        <Button variant="gray">Cancel</Button>
+        <Button variant="filled">Save</Button>
+      </>
+    ),
+  },
+  render: (args) => (
+    <div className="relative w-[640px] h-[360px]">
       <Sheet {...args} />
     </div>
   ),

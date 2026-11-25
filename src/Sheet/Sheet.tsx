@@ -10,6 +10,7 @@ export type SheetTone = 'neutral' | 'info' | 'success' | 'warning' | 'critical';
 export type SheetSize = 'sm' | 'md' | 'md-wide' | 'lg' | 'xl' | 'full';
 export type SheetLayout = 'stacked' | 'horizontal' | 'split';
 export type SheetPlacement = 'center' | 'side';
+export type SheetCloseButton = 'gray' | 'plain';
 
 export interface SheetProps {
   open: boolean;
@@ -28,6 +29,7 @@ export interface SheetProps {
   role?: 'dialog' | 'alertdialog';
   size?: SheetSize;
   placement?: SheetPlacement;
+  closeButton?: SheetCloseButton;
   inline?: boolean;
   className?: string;
   children?: ReactNode;
@@ -75,6 +77,32 @@ const SIDE_WIDTH: Record<SheetSize, string> = {
   full: 'max-w-none',
 };
 
+const CloseGlyph = ({ strokeWidth, className }: { strokeWidth: string; className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={strokeWidth}
+    strokeLinecap="round"
+    aria-hidden="true"
+  >
+    <path d="M17 7 7 17M7 7l10 10" />
+  </svg>
+);
+
+const CLOSE_BUTTON: Record<SheetCloseButton, { variant: 'gray' | 'plain'; glyph: ReactNode }> = {
+  gray: { variant: 'gray', glyph: <CloseGlyph strokeWidth="2.2" /> },
+  plain: {
+    variant: 'plain',
+    glyph: (
+      <span className="flex w-6 h-6 text-[var(--label)]">
+        <CloseGlyph strokeWidth="1.5" className="w-full h-full" />
+      </span>
+    ),
+  },
+};
+
 const FOOTER_LAYOUT = {
   row: 'flex flex-col-reverse gap-2 [&>*]:w-full sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-3 sm:[&>*]:w-auto',
   wide: 'flex flex-col-reverse gap-2 [&>*]:w-full',
@@ -103,6 +131,7 @@ export const Sheet = ({
   footerLayout = 'row',
   size = 'md',
   placement = 'center',
+  closeButton = 'gray',
   role = 'dialog',
   inline = false,
   className,
@@ -216,19 +245,15 @@ export const Sheet = ({
     </span>
   ) : null;
 
-  const closeButton = (
+  const closeControl = (
     <span className="absolute top-4 right-4 z-[2] flex">
-      <IconButton variant="gray" size="sm" aria-label="Close" onClick={onClose}>
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.2"
-          strokeLinecap="round"
-          aria-hidden="true"
-        >
-          <path d="M17 7 7 17M7 7l10 10" />
-        </svg>
+      <IconButton
+        variant={CLOSE_BUTTON[closeButton].variant}
+        size="sm"
+        aria-label="Close"
+        onClick={onClose}
+      >
+        {CLOSE_BUTTON[closeButton].glyph}
       </IconButton>
     </span>
   );
@@ -343,7 +368,7 @@ export const Sheet = ({
           className,
         )}
       >
-        {closeButton}
+        {closeControl}
         {content}
       </div>
     </div>
