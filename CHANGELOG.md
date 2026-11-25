@@ -4,6 +4,22 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+### Added
+
+- `Sheet` takes `placement="content"` for sheets opened inside an `AppShell`. On wide screens it
+  centers the sheet over the content area beside the pinned sidebar and aligns it to the top, at
+  `topOffset` from the top of the window: `sm` 64px (the default), `md` 160px, `lg` 180px or `xl`
+  200px. Narrower, it is centered like `center`.
+- `Sheet` takes `closeButton="plain"` for a close button without a fill, with a 24px glyph at a 1.5
+  stroke. The default, `gray`, is unchanged.
+- `IconButton` takes `variant="on-dark"` for a dark or colored band: a white glyph on a 15% white
+  fill that deepens to 30% on hover and while its menu is open. It is a rounded rectangle by default
+  and has no destructive style.
+- The `--on-dark`, `--on-dark-fill` and `--on-dark-fill-hover` color tokens, the same in light and
+  dark, for content on a dark or colored band.
+
 ## 2.8.0 (2026-11-24)
 
 Propellant now targets WCAG 2.2 AA instead of WCAG 2.1 AA. The guidelines, the usage guide and the
