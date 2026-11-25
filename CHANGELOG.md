@@ -4,6 +4,27 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+### Added
+
+- `Sheet` takes `placement="content"` for sheets opened inside an `AppShell`. On wide screens it
+  centers the sheet within the content area and aligns it to the top, at `topOffset` from the top
+  of the window: `sm` 64px (the default), `md` 160px, `lg` 180px or `xl` 200px. It leaves room for
+  a pinned sidebar or a rail, uses the whole window when the sidebar is hidden or absent, and keeps
+  wide sizes such as `xl` and `full` inside the content area. Narrower, or outside an `AppShell`, it
+  is centered like `center`.
+- `Sheet` takes `closeButton="plain"` for a close button without a fill, with a 24px glyph at a 1.5
+  stroke. The default, `gray`, is unchanged.
+- `IconButton` takes `variant="inverse"` for a dark or colored band: a white glyph on a 15% white
+  fill that deepens to 30% on hover and while its menu is open, with a white focus ring. It is a
+  rounded rectangle by default and has no destructive style: `destructive` with `inverse` is a type
+  error.
+- The `--inverse`, `--inverse-fill` and `--inverse-fill-hover` color tokens, the same in light and
+  dark, for content on a dark or colored band.
+- The `--sheet-offset-sm`, `--sheet-offset-md`, `--sheet-offset-lg` and `--sheet-offset-xl` layout
+  tokens, 64px, 160px, 180px and 200px, for the `Sheet` top offsets.
+
 ## 2.8.0 (2026-11-24)
 
 Propellant now targets WCAG 2.2 AA instead of WCAG 2.1 AA. The guidelines, the usage guide and the

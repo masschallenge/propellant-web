@@ -251,6 +251,10 @@ html [data-propellant] {
   --on-brand-surface: var(--gray-0);
   --brand-accent: var(--teal-400);
 
+  --inverse: var(--gray-0);
+  --inverse-fill: rgb(255 255 255 / 0.15);
+  --inverse-fill-hover: rgb(255 255 255 / 0.3);
+
   --scrim: rgb(11 15 17 / 0.4);
   --focus-color: var(--tint);
   --focus-color-critical: var(--critical);
@@ -385,6 +389,10 @@ html [data-propellant] {
   --on-brand-surface: var(--gray-75);
   --brand-accent: var(--teal-400);
 
+  --inverse: var(--gray-0);
+  --inverse-fill: rgb(255 255 255 / 0.15);
+  --inverse-fill-hover: rgb(255 255 255 / 0.3);
+
   --scrim: rgb(0 0 0 / 0.6);
   --focus-color: var(--tint);
   --focus-color-critical: var(--critical);
@@ -466,6 +474,10 @@ html:has([data-appearance='system']) [data-propellant]:not([data-theme='light'])
   --brand-surface: var(--gray-900);
   --on-brand-surface: var(--gray-75);
   --brand-accent: var(--teal-400);
+
+  --inverse: var(--gray-0);
+  --inverse-fill: rgb(255 255 255 / 0.15);
+  --inverse-fill-hover: rgb(255 255 255 / 0.3);
 
   --scrim: rgb(0 0 0 / 0.6);
   --focus-color: var(--tint);
@@ -784,6 +796,10 @@ html [data-propellant] {
   --sidebar-rail-width: 56px;
   --inspector-width: 480px;
   --inspector-width-wide: 640px;
+  --sheet-offset-sm: 64px;
+  --sheet-offset-md: 160px;
+  --sheet-offset-lg: 180px;
+  --sheet-offset-xl: 200px;
 
   --avatar-xs: 20px;
   --avatar-compact: 26px;
