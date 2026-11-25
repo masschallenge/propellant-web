@@ -48,8 +48,13 @@ const STORIES_CAPTURED_WIDE = new Set([
   'components-layout-appshell--console-without-toolbar',
   'components-layout-appshell--rail',
   'components-layout-sidebar--tree',
+  'components-layout-sidebar--linked-parent-with-logos',
   'components-layout-sidebar--program-under-persona',
   'components-layout-sidebar--program-without-cover-under-persona',
+  'components-overlays-sheet--content-placement',
+  'components-overlays-sheet--content-placement-rail',
+  'components-overlays-sheet--content-placement-collapsed',
+  'components-overlays-sheet--content-placement-extra-large',
 ]);
 
 const WIDE_VIEWPORT = { width: 1280, height: 800 };

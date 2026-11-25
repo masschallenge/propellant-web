@@ -1,7 +1,11 @@
 import * as React from 'react';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { render, cleanup, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { IconButton } from './IconButton';
+import { parseTokens } from '../../site/tooling/tokens';
 
 afterEach(cleanup);
 
@@ -100,5 +104,63 @@ describe('IconButton', () => {
       </IconButton>,
     );
     expect(ref.current).toBe(screen.getByRole('button', { name: 'More' }));
+  });
+});
+
+describe('inverse IconButton', () => {
+  const colorTokens = parseTokens(
+    readFileSync(
+      path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../tokens/color.css'),
+      'utf8',
+    ),
+    'color',
+  );
+
+  const valuesOf = (name: string) =>
+    colorTokens.find((token) => token.name === name)?.values.map((entry) => entry.value);
+
+  it('draws a white glyph on a translucent white fill that deepens on hover and while open', () => {
+    render(
+      <IconButton aria-label="More actions" variant="inverse" aria-haspopup="menu" aria-expanded>
+        m
+      </IconButton>,
+    );
+    const classes = classesOf(screen.getByRole('button', { name: 'More actions' }));
+    expect(classes).toContain('text-[var(--inverse)]');
+    expect(classes).toContain('bg-[var(--inverse-fill)]');
+    expect(classes).toContain('hover:not-disabled:bg-[var(--inverse-fill-hover)]');
+    expect(classes).toContain('aria-expanded:bg-[var(--inverse-fill-hover)]');
+    expect(classes).toContain('rounded-[var(--corner-md)]');
+  });
+
+  it('draws a white focus ring so it reads on the band', () => {
+    render(
+      <IconButton aria-label="More actions" variant="inverse">
+        m
+      </IconButton>,
+    );
+    const classes = classesOf(screen.getByRole('button', { name: 'More actions' }));
+    expect(classes).toContain('focus-visible:outline-[var(--inverse)]');
+    expect(classes).not.toContain('focus-visible:outline-[var(--focus-color)]');
+  });
+
+  it('rejects destructive with inverse at the type level', () => {
+    render(
+      // @ts-expect-error inverse has no destructive style
+      <IconButton aria-label="Remove" variant="inverse" destructive>
+        x
+      </IconButton>,
+    );
+    expect(classesOf(screen.getByRole('button', { name: 'Remove' }))).toContain(
+      'bg-[var(--inverse-fill)]',
+    );
+  });
+
+  it.each([
+    ['--inverse', 'var(--gray-0)'],
+    ['--inverse-fill', 'rgb(255 255 255 / 0.15)'],
+    ['--inverse-fill-hover', 'rgb(255 255 255 / 0.3)'],
+  ])('defines %s as %s in light and dark', (name, value) => {
+    expect(valuesOf(name)).toEqual([value, value]);
   });
 });

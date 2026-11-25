@@ -3,6 +3,7 @@ import { render, cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Sheet } from './Sheet';
+import { AppShell } from '../AppShell/AppShell';
 import { Tooltip, TooltipTrigger } from '../Tooltip/Tooltip';
 
 afterEach(cleanup);
@@ -380,6 +381,114 @@ describe('Sheet surface', () => {
   it('closes from the close button', async () => {
     const onClose = vi.fn();
     render(<Sheet open title="Round settings" onClose={onClose} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Close' }));
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('Sheet content placement', () => {
+  const overlayOf = (dialog: HTMLElement) => dialog.parentElement as HTMLElement;
+  const overlayClassesOf = (name: string) =>
+    overlayOf(screen.getByRole('dialog', { name })).className.split(' ');
+
+  const renderInShell = (
+    sheet: React.ReactNode,
+    shellProps: Partial<React.ComponentProps<typeof AppShell>> = {},
+  ) =>
+    render(
+      <AppShell sidebar={<nav aria-label="Main">Links</nav>} {...shellProps}>
+        {sheet}
+      </AppShell>,
+    );
+
+  it('insets by the pinned sidebar and aligns to the top on wide screens', () => {
+    renderInShell(<Sheet open placement="content" title="Archive stage?" onClose={() => {}} />);
+    const dialog = screen.getByRole('dialog', { name: 'Archive stage?' });
+    expect(dialog).toHaveAttribute('data-placement', 'content');
+    expect(dialog.className).not.toContain('translate-x');
+    expect(dialog.className).toContain('max-h-full');
+    const overlayClasses = overlayClassesOf('Archive stage?');
+    expect(overlayClasses).toContain('lg:items-start');
+    expect(overlayClasses).toContain('lg:pt-[var(--sheet-offset-sm)]');
+    expect(overlayClasses).toContain('lg:pl-[calc(var(--sidebar-width)+var(--space-6))]');
+  });
+
+  it('insets by the rail width when the sidebar is a rail', () => {
+    renderInShell(<Sheet open placement="content" title="Rail" onClose={() => {}} />, {
+      sidebarCollapse: 'rail',
+      defaultSidebarCollapsed: true,
+    });
+    const overlayClasses = overlayClassesOf('Rail');
+    expect(overlayClasses).toContain('lg:pl-[calc(var(--sidebar-rail-width)+var(--space-6))]');
+    expect(overlayClasses).not.toContain('lg:pl-[calc(var(--sidebar-width)+var(--space-6))]');
+  });
+
+  it.each([
+    ['collapsed', { defaultSidebarCollapsed: true }],
+    ['absent', { sidebar: undefined }],
+  ] as const)('spans the window when the sidebar is %s', (_state, shellProps) => {
+    renderInShell(<Sheet open placement="content" title="No sidebar" onClose={() => {}} />, {
+      ...shellProps,
+    });
+    const overlayClasses = overlayClassesOf('No sidebar');
+    expect(overlayClasses).toContain('lg:items-start');
+    expect(overlayClasses.some((name) => name.startsWith('lg:pl-'))).toBe(false);
+  });
+
+  it.each([
+    ['sm', 'lg:pt-[var(--sheet-offset-sm)]'],
+    ['md', 'lg:pt-[var(--sheet-offset-md)]'],
+    ['lg', 'lg:pt-[var(--sheet-offset-lg)]'],
+    ['xl', 'lg:pt-[var(--sheet-offset-xl)]'],
+  ] as const)('sets the %s top offset with %s', (topOffset, padding) => {
+    renderInShell(
+      <Sheet open placement="content" topOffset={topOffset} title="Offset" onClose={() => {}} />,
+    );
+    expect(overlayClassesOf('Offset')).toContain(padding);
+  });
+
+  it('falls back to center outside an AppShell', () => {
+    render(<Sheet open placement="content" topOffset="xl" title="Loose" onClose={() => {}} />);
+    expect(screen.getByRole('dialog', { name: 'Loose' })).toHaveAttribute(
+      'data-placement',
+      'center',
+    );
+    const overlayClasses = overlayClassesOf('Loose');
+    expect(overlayClasses).not.toContain('lg:items-start');
+    expect(overlayClasses).not.toContain('lg:pt-[var(--sheet-offset-xl)]');
+  });
+
+  it('leaves the center placement vertically centered and uninset in a shell', () => {
+    renderInShell(<Sheet open topOffset="xl" title="Centered" onClose={() => {}} />);
+    const overlayClasses = overlayClassesOf('Centered');
+    expect(overlayClasses).not.toContain('lg:items-start');
+    expect(overlayClasses.some((name) => name.startsWith('lg:pl-'))).toBe(false);
+  });
+});
+
+describe('Sheet close button', () => {
+  it('is a gray button with the regular glyph by default', () => {
+    render(<Sheet open title="Gray close" onClose={() => {}} />);
+    const close = screen.getByRole('button', { name: 'Close' });
+    expect(close.className).toContain('bg-[var(--fill-secondary)]');
+    expect(close.querySelector('svg')).toHaveAttribute('stroke-width', '2.2');
+  });
+
+  it('drops the fill and draws a 24px glyph at stroke 1.5 when plain', () => {
+    render(<Sheet open closeButton="plain" title="Plain close" onClose={() => {}} />);
+    const close = screen.getByRole('button', { name: 'Close' });
+    expect(close.className.split(' ')).toContain('bg-transparent');
+    expect(close.className.split(' ')).not.toContain('bg-[var(--fill-secondary)]');
+    const glyphBox = close.firstElementChild as HTMLElement;
+    expect(glyphBox.className).toContain('w-6');
+    expect(glyphBox.className).toContain('h-6');
+    expect(glyphBox.className).toContain('text-[var(--label)]');
+    expect(close.querySelector('svg')).toHaveAttribute('stroke-width', '1.5');
+  });
+
+  it('still closes when plain', async () => {
+    const onClose = vi.fn();
+    render(<Sheet open closeButton="plain" title="Plain close" onClose={onClose} />);
     await userEvent.click(screen.getByRole('button', { name: 'Close' }));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
