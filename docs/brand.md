@@ -106,6 +106,86 @@ The `Logo` component renders at 24px tall by default. Size it with a height clas
 - Do not place the logo inside a shape or container that crowds its clear space.
 - Do not use the MC mark as a letter in a word or headline.
 
+### Favicons
+
+A favicon is the small icon in a browser tab, a bookmark or a phone's home screen. Propellant ships
+two ready made sets. Use them as they are: do not crop, recolor or redraw them.
+
+| Set | Use it for |
+| --- | --- |
+| `assets/favicons/masschallenge/` | Every MassChallenge product and website, Accelerate included: the full color MC mark on a white tile. |
+| `assets/favicons/propellant/` | Propellant's own documentation site and Storybook only: the Propellant icon. Never use it on a product or website. |
+
+Each folder holds the same files:
+
+| File | Size | What it is for |
+| --- | --- | --- |
+| `favicon.ico` | 16, 32 and 48px in one file | Older browsers, and tools that ask for `/favicon.ico` |
+| `favicon.svg` | Vector | Modern browsers. Propellant set only, because there is no vector MC mark yet |
+| `favicon-16x16.png` and `favicon-32x32.png` | 16 and 32px | Browser tabs |
+| `apple-touch-icon.png` | 180px, opaque | iPhone and iPad home screens |
+| `android-chrome-192x192.png` and `android-chrome-512x512.png` | 192 and 512px | Android home screens and installed web apps, through the manifest |
+| `site.webmanifest` | | The name, icons and theme color for Android and installed web apps |
+
+Copy the whole folder to the root of your site, so the manifest's icon paths keep working, and
+link the files from every page:
+
+```html
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+<link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+<link rel="manifest" href="/site.webmanifest" />
+```
+
+The Propellant set adds `<link rel="icon" href="/favicon.svg" type="image/svg+xml" />` before the
+PNG links.
+
+In a Next.js app, copy the set from `@masschallenge/propellant-web/assets/favicons/masschallenge/`
+into `public/` when you pick up a release, and declare it in the root layout's metadata:
+
+```ts
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '16x16 32x32 48x48' },
+      { url: '/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+  },
+  manifest: '/site.webmanifest',
+};
+```
+
+Do not also add a `favicon.ico` to the `app` folder, or the page gets two.
+
+The MC mark is nearly twice as wide as it is tall, so in a square icon its width sets its size. It is
+about 8px tall in the 16px icon and 15px tall in the 32px icon, below its 16px minimum, and its clear
+space is narrower than the logo rules ask for. The 48px and larger icons meet the minimum. A
+simplified small size mark can only come from MassChallenge Marketing; never draw one yourself.
+
+### Share images
+
+When someone shares a link, sites such as LinkedIn, Slack and X show a preview card with a share
+image, set with the Open Graph `og:image` tag. Propellant does not ship share images: each product
+makes its own, following these rules.
+
+- Make the image 1200 by 630 pixels. Keep text and logos inside a safe area 60px in from every
+  edge, and keep anything essential near the center, since some apps crop the image to a square.
+- Show logos whole, with their [clear space](#clear-space) and at least their
+  [minimum size](#minimum-size). Never let an edge or a crop cut into a logo, and show program and
+  partner logos whole as the [images guide](images.md) describes.
+- Give a public page, such as a program's application link, an image of its own that names the
+  page, such as the program.
+- Give every page behind sign in the same generic product card: the product's name and the
+  MassChallenge logo, nothing else. Links to those pages get pasted into public channels, so the
+  card must never show a person, a company, a score or anything else from inside the product.
+- Describe the image with `og:image:alt`, and set `og:image:width` and `og:image:height` so the card
+  appears without waiting for the image.
+
 ## Color
 
 The palette comes from the MassChallenge brand guidelines. It applies everywhere the brand appears:
@@ -575,7 +655,7 @@ its name.
 | `assets/brand/propellant-lockup-white.svg` | Deep teal, dark surfaces and dark mode. |
 | `assets/brand/propellant-lockup-black.svg` | Single color print and light backgrounds the color version does not suit. |
 | `assets/brand/propellant-mark-*.svg` | The mark alone, in the same three treatments, where the name is already clear. |
-| `assets/brand/propellant-icon.svg` | Favicons and app icons: the mark on a deep teal tile with concentric corners. |
+| `assets/brand/propellant-icon.svg` | Favicons and app icons: the mark on a deep teal tile with concentric corners. The ready made sizes are in `assets/favicons/propellant/`; see [Favicons](#favicons). |
 
 - Use the Propellant mark only to refer to the design system. Never use it in place of the
   MassChallenge logo in a product or website, and never place the two marks so they read as one.
