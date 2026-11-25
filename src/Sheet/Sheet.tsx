@@ -2,6 +2,8 @@ import * as React from 'react';
 import type { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { IconButton } from '../IconButton/IconButton';
+import { useAppShell } from '../AppShell/AppShell';
+import type { AppShellContextValue } from '../AppShell/AppShell';
 import { imageFitClass } from '../internal/imageFit';
 
 const openSheetStack: object[] = [];
@@ -86,6 +88,20 @@ const TOP_OFFSET: Record<SheetTopOffset, string> = {
   xl: 'lg:pt-[var(--sheet-offset-xl)]',
 };
 
+type ShellSidebar = 'pinned' | 'rail' | 'none';
+
+const shellSidebarOf = (shell: AppShellContextValue): ShellSidebar => {
+  if (!shell.hasSidebar) return 'none';
+  if (shell.isRail) return 'rail';
+  return shell.isCollapsed ? 'none' : 'pinned';
+};
+
+const CONTENT_INSET: Record<ShellSidebar, string | false> = {
+  pinned: 'lg:pl-[calc(var(--sidebar-width)+var(--space-6))]',
+  rail: 'lg:pl-[calc(var(--sidebar-rail-width)+var(--space-6))]',
+  none: false,
+};
+
 const CloseGlyph = ({ strokeWidth, className }: { strokeWidth: string; className?: string }) => (
   <svg
     className={className}
@@ -152,6 +168,7 @@ export const Sheet = ({
   const overlayRef = React.useRef<HTMLDivElement>(null);
   const previouslyFocusedRef = React.useRef<Element | null>(null);
   const latestOnCloseRef = React.useRef(onClose);
+  const shell = useAppShell();
 
   React.useEffect(() => {
     latestOnCloseRef.current = onClose;
@@ -289,8 +306,9 @@ export const Sheet = ({
     </div>
   );
 
-  const isSide = placement === 'side';
-  const isContent = placement === 'content';
+  const shownPlacement = placement === 'content' && !shell ? 'center' : placement;
+  const isSide = shownPlacement === 'side';
+  const isContent = shownPlacement === 'content';
   const scrollsBody = layout === 'stacked' && (size !== 'full' || isSide);
 
   const footerNode = footer ? (
@@ -355,7 +373,13 @@ export const Sheet = ({
         isSide
           ? 'flex items-stretch justify-end overflow-hidden bg-[var(--scrim)]'
           : 'flex items-center justify-center p-4 sm:p-6 bg-[var(--scrim)]',
-        isContent && joinClasses('lg:items-start', TOP_OFFSET[topOffset]),
+        isContent &&
+          shell &&
+          joinClasses(
+            'lg:items-start',
+            TOP_OFFSET[topOffset],
+            CONTENT_INSET[shellSidebarOf(shell)],
+          ),
       )}
       onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
         if (event.target !== event.currentTarget) return;
@@ -370,14 +394,13 @@ export const Sheet = ({
         aria-labelledby={title ? titleId : undefined}
         aria-describedby={description ? descriptionId : undefined}
         tabIndex={-1}
-        data-placement={placement}
+        data-placement={shownPlacement}
         className={joinClasses(
           'relative w-full flex flex-col gap-5 p-6 outline-none bg-[var(--bg-elevated)] shadow-[var(--shadow-sheet)]',
           isSide
             ? joinClasses('h-full max-w-none', SIDE_WIDTH[size])
             : joinClasses('rounded-[var(--corner-xl)]', WIDTH[size]),
           scrollsBody && !inline && !isSide && 'max-h-full',
-          isContent && 'lg:translate-x-[calc(var(--sidebar-width)/2)]',
           className,
         )}
       >

@@ -8,6 +8,7 @@ import { SearchField } from '../SearchField/SearchField';
 import { AppShell } from '../AppShell/AppShell';
 import { Sidebar, SidebarItem, SidebarSection } from '../Sidebar/Sidebar';
 import { appearance, content, hide } from '../../.storybook/controls';
+import { icons } from '../../.storybook/icons';
 
 const Launcher = (args: React.ComponentProps<typeof Sheet>) => {
   const [open, setOpen] = React.useState(false);
@@ -30,7 +31,7 @@ const meta = {
         component: [
           'Portalled dialog on the elevated surface over a scrim, with a focus trap and an inert background. Stacked, horizontal, or split layouts. `placement="side"` opens it as a full height panel on the right, full width on phones, for previews that sit beside the work. Footer actions sit in a right aligned row and stack full width, primary on top, on narrow screens.',
           '',
-          '`placement="content"` is for sheets opened inside an `AppShell`. On wide screens (1024px and up) it centers the sheet over the content area beside the sidebar instead of the whole window, and aligns its top edge a set distance from the top of the window: 64px (`topOffset="sm"`, the default), 160px (`md`), 180px (`lg`) or 200px (`xl`). Narrower, it is centered like `center`. It assumes the sidebar is pinned at `--sidebar-width`.',
+          '`placement="content"` is for sheets opened inside an `AppShell`. On wide screens (1024px and up) it centers the sheet over the content area beside the sidebar instead of the whole window, and aligns its top edge a set distance from the top of the window: 64px (`topOffset="sm"`, the default), 160px (`md`), 180px (`lg`) or 200px (`xl`). Narrower, it is centered like `center`. It reads the shell: beside a pinned sidebar it leaves `--sidebar-width`, beside a rail `--sidebar-rail-width`, and with the sidebar hidden or absent it uses the whole window, so wide sizes such as `xl` and `full` stay inside the content area. Outside an `AppShell` it falls back to `center`. The offsets are the `--sheet-offset-sm`, `-md`, `-lg` and `-xl` tokens.',
           '',
           '`closeButton="plain"` draws the close button without a fill, with a 24px glyph at a 1.5 stroke, for sheets whose header reads lighter. The default, `gray`, is unchanged.',
           '',
@@ -233,6 +234,29 @@ export const EmailConfirmation: Story = {
   ),
 };
 
+const ContentShell = ({
+  sheet,
+  ...shellProps
+}: { sheet: React.ComponentProps<typeof Sheet> } & React.ComponentProps<typeof AppShell>) => (
+  <AppShell
+    {...shellProps}
+    sidebar={
+      <Sidebar label="Main">
+        <SidebarSection title="Boston 2026">
+          <SidebarItem icon={icons.star} current>
+            Overview
+          </SidebarItem>
+          <SidebarItem icon={icons.check}>Startups</SidebarItem>
+          <SidebarItem icon={icons.person}>Judges</SidebarItem>
+        </SidebarSection>
+      </Sidebar>
+    }
+  >
+    <h1 className="m-0 text-large-title text-[var(--label)]">Stages</h1>
+    <Sheet {...sheet} />
+  </AppShell>
+);
+
 export const ContentPlacement: Story = {
   args: {
     open: true,
@@ -248,23 +272,23 @@ export const ContentPlacement: Story = {
       </>
     ),
   },
-  render: (args) => (
-    <AppShell
-      sidebar={
-        <Sidebar label="Main">
-          <SidebarSection title="Boston 2026">
-            <SidebarItem current>Overview</SidebarItem>
-            <SidebarItem>Startups</SidebarItem>
-            <SidebarItem>Judges</SidebarItem>
-          </SidebarSection>
-        </Sidebar>
-      }
-    >
-      <h1 className="m-0 text-large-title text-[var(--label)]">Stages</h1>
-      <Sheet {...args} />
-    </AppShell>
-  ),
+  render: (args) => <ContentShell sheet={args} />,
   parameters: { layout: 'fullscreen' },
+};
+
+export const ContentPlacementRail: Story = {
+  ...ContentPlacement,
+  render: (args) => <ContentShell sheet={args} sidebarCollapse="rail" defaultSidebarCollapsed />,
+};
+
+export const ContentPlacementCollapsed: Story = {
+  ...ContentPlacement,
+  render: (args) => <ContentShell sheet={args} defaultSidebarCollapsed />,
+};
+
+export const ContentPlacementExtraLarge: Story = {
+  ...ContentPlacement,
+  args: { ...ContentPlacement.args, size: 'xl', topOffset: 'sm' },
 };
 
 export const PlainCloseButton: Story = {
