@@ -815,7 +815,7 @@
   --radio-card-compact-selected-bg: var(--tint-fill);
 }
 :root {
-  --propellant-version: '2.9.0';
+  --propellant-version: '2.10.0';
 }
 
 .propellant-text {
