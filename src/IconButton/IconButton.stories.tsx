@@ -6,6 +6,15 @@ import { appearance, content, events, hide, state } from '../../.storybook/contr
 import { icons, iconOptions } from '../../.storybook/icons';
 
 const VARIANTS = ['plain', 'gray', 'tinted', 'filled'] as const;
+const ALL_VARIANTS = [...VARIANTS, 'on-dark'] as const;
+
+const MORE_GLYPH = (
+  <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true">
+    <circle cx="5" cy="10" r="1.5" />
+    <circle cx="10" cy="10" r="1.5" />
+    <circle cx="15" cy="10" r="1.5" />
+  </svg>
+);
 const SIZES = ['sm', 'md', 'lg'] as const;
 const SHAPES = ['rounded', 'capsule'] as const;
 
@@ -18,7 +27,7 @@ const meta = {
     docs: {
       description: {
         component: [
-          'A compact action shown as a symbol. Plain icon buttons sit in toolbars and table rows and highlight on hover, and fill while the menu they open is open (`aria-haspopup` with `aria-expanded`, which `Menu` sets on its trigger); `shape="capsule"` makes a plain one circular, like the item menu trigger on Home. Gray, tinted and filled are circular and stand on their own. Always provide `aria-label`.',
+          'A compact action shown as a symbol. Plain icon buttons sit in toolbars and table rows and highlight on hover, and fill while the menu they open is open (`aria-haspopup` with `aria-expanded`, which `Menu` sets on its trigger); `shape="capsule"` makes a plain one circular, like the item menu trigger on Home. Gray, tinted and filled are circular and stand on their own. `on-dark` is for a dark or colored band, such as a banner header: a white glyph on a 15% white fill that deepens to 30% on hover and while its menu is open. It is a rounded rectangle like plain, and has no destructive style. Always provide `aria-label`.',
           '',
           "Import: `import { IconButton } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -34,7 +43,7 @@ const meta = {
     onClick: fn(),
   },
   argTypes: {
-    variant: { control: 'inline-radio', options: VARIANTS, ...appearance },
+    variant: { control: 'inline-radio', options: ALL_VARIANTS, ...appearance },
     size: { control: 'inline-radio', options: SIZES, ...appearance },
     shape: { control: 'inline-radio', options: SHAPES, ...appearance },
     destructive: { control: 'boolean', ...appearance },
@@ -119,6 +128,28 @@ export const Shapes: Story = {
         ))}
       </HStack>
     </VStack>
+  ),
+};
+
+export const OnDark: Story = {
+  render: (args) => (
+    <HStack>
+      <div className="flex items-center gap-3 p-4 rounded-[var(--corner-lg)] bg-[var(--brand-surface)]">
+        <IconButton {...args} variant="on-dark" size="sm" aria-label="More actions">
+          {MORE_GLYPH}
+        </IconButton>
+        <IconButton
+          {...args}
+          variant="on-dark"
+          size="sm"
+          aria-haspopup="menu"
+          aria-expanded
+          aria-label="More actions, open"
+        >
+          {MORE_GLYPH}
+        </IconButton>
+      </div>
+    </HStack>
   ),
 };
 

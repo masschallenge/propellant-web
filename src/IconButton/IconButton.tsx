@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
 
-export type IconButtonVariant = 'plain' | 'gray' | 'tinted' | 'filled';
+export type IconButtonVariant = 'plain' | 'gray' | 'tinted' | 'filled' | 'on-dark';
 export type IconButtonSize = 'sm' | 'md' | 'lg';
 export type IconButtonShape = 'rounded' | 'capsule';
 
@@ -41,6 +41,11 @@ const SHAPES: Record<IconButtonShape, string> = {
 
 const OPEN_PLAIN = '[&[aria-haspopup]:not(:disabled)[aria-expanded=true]]:bg-[var(--fill)]';
 
+const ON_DARK =
+  'bg-[var(--on-dark-fill)] text-[var(--on-dark)] hover:not-disabled:bg-[var(--on-dark-fill-hover)] aria-expanded:bg-[var(--on-dark-fill-hover)] focus-visible:outline-[var(--focus-color)]';
+
+const ROUNDED_BY_DEFAULT = new Set<IconButtonVariant>(['plain', 'on-dark']);
+
 const STANDARD: Record<IconButtonVariant, string> = {
   plain: `bg-transparent text-[var(--label-secondary)] hover:not-disabled:bg-[var(--fill-tertiary)] hover:not-disabled:text-[var(--label)] active:not-disabled:bg-[var(--fill-secondary)] ${OPEN_PLAIN} focus-visible:outline-[var(--focus-color)]`,
   gray: 'bg-[var(--fill-secondary)] text-[var(--label)] hover:not-disabled:bg-[var(--fill)] focus-visible:outline-[var(--focus-color)]',
@@ -48,6 +53,7 @@ const STANDARD: Record<IconButtonVariant, string> = {
     'bg-[var(--tint-fill)] text-[var(--tint)] hover:not-disabled:bg-[var(--tint-fill-hover)] focus-visible:outline-[var(--focus-color)]',
   filled:
     'bg-[var(--tint)] text-[var(--on-tint)] hover:not-disabled:bg-[var(--tint-hover)] active:not-disabled:bg-[var(--tint-pressed)] focus-visible:outline-[var(--focus-color)]',
+  'on-dark': ON_DARK,
 };
 
 const DESTRUCTIVE: Record<IconButtonVariant, string> = {
@@ -58,6 +64,7 @@ const DESTRUCTIVE: Record<IconButtonVariant, string> = {
     'bg-[var(--critical-fill)] text-[var(--critical)] hover:not-disabled:bg-[var(--critical-fill-hover)] focus-visible:outline-[var(--focus-color-critical)]',
   filled:
     'bg-[var(--critical-solid)] text-[var(--on-critical)] hover:not-disabled:bg-[var(--critical-solid-hover)] active:not-disabled:bg-[var(--critical-solid-pressed)] focus-visible:outline-[var(--focus-color-critical)]',
+  'on-dark': ON_DARK,
 };
 
 export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
@@ -80,7 +87,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       className={joinClasses(
         BASE,
         SIZES[size],
-        SHAPES[shape ?? (variant === 'plain' ? 'rounded' : 'capsule')],
+        SHAPES[shape ?? (ROUNDED_BY_DEFAULT.has(variant) ? 'rounded' : 'capsule')],
         (destructive ? DESTRUCTIVE : STANDARD)[variant],
         className,
       )}
