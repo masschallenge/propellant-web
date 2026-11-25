@@ -571,3 +571,28 @@ describe('SingleComboBox clear button target', () => {
     expect(onChange).toHaveBeenCalled();
   });
 });
+
+describe('SingleComboBox panel width', () => {
+  const longOptions = [
+    { value: 'health-it', label: 'Healthcare IT and digital health' },
+    { value: 'devices', label: 'Medical devices' },
+  ];
+
+  it('matches the trigger width by default', async () => {
+    render(<SingleComboBox ariaLabel="Sub-industry" options={longOptions} />);
+    await userEvent.click(screen.getByRole('combobox', { name: 'Sub-industry' }));
+    const panel = (await screen.findByRole('listbox')).parentElement as HTMLElement;
+
+    expect(panel.style.width).not.toBe('max-content');
+    expect(panel.style.maxWidth).toBe('');
+  });
+
+  it('sizes the panel to its labels when panelWidth is content', async () => {
+    render(<SingleComboBox ariaLabel="Sub-industry" panelWidth="content" options={longOptions} />);
+    await userEvent.click(screen.getByRole('combobox', { name: 'Sub-industry' }));
+    const panel = (await screen.findByRole('listbox')).parentElement as HTMLElement;
+
+    expect(panel.style.width).toBe('max-content');
+    expect(panel.style.maxWidth).toBe('calc(100vw - 16px)');
+  });
+});
