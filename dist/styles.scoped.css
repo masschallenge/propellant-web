@@ -796,6 +796,10 @@ html [data-propellant] {
   --sidebar-rail-width: 56px;
   --inspector-width: 480px;
   --inspector-width-wide: 640px;
+  --sheet-offset-sm: 64px;
+  --sheet-offset-md: 160px;
+  --sheet-offset-lg: 180px;
+  --sheet-offset-xl: 200px;
 
   --avatar-xs: 20px;
   --avatar-compact: 26px;

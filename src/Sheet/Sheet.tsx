@@ -80,10 +80,10 @@ const SIDE_WIDTH: Record<SheetSize, string> = {
 };
 
 const TOP_OFFSET: Record<SheetTopOffset, string> = {
-  sm: 'lg:pt-16',
-  md: 'lg:pt-40',
-  lg: 'lg:pt-45',
-  xl: 'lg:pt-50',
+  sm: 'lg:pt-[var(--sheet-offset-sm)]',
+  md: 'lg:pt-[var(--sheet-offset-md)]',
+  lg: 'lg:pt-[var(--sheet-offset-lg)]',
+  xl: 'lg:pt-[var(--sheet-offset-xl)]',
 };
 
 const CloseGlyph = ({ strokeWidth, className }: { strokeWidth: string; className?: string }) => (
