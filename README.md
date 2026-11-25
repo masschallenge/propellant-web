@@ -26,7 +26,7 @@ Google.
   meet WCAG 2.2 AA: it works with a keyboard, makes sense to screen readers, has targets big enough
   to hit and comes with tests.
 - **An application layout** with a sidebar and a toolbar that adapts to narrow windows.
-- **The MassChallenge logo** as a component and as image files in three versions.
+- **The MassChallenge logo** as a component, as image files in three versions and as a favicon set.
 - **Guidelines** for using Propellant and for the MassChallenge brand.
 
 ## Install

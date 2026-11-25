@@ -4,6 +4,22 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+### Added
+
+- Favicon sets in `assets/favicons/masschallenge/`, for every MassChallenge product and website,
+  and `assets/favicons/propellant/`, for Propellant's own site. Each has `favicon.ico` (16, 32 and
+  48px), `favicon-16x16.png`, `favicon-32x32.png`, an opaque 180px `apple-touch-icon.png`,
+  `android-chrome-192x192.png`, `android-chrome-512x512.png` and a `site.webmanifest` with token
+  colors. The Propellant set adds `favicon.svg`; the MassChallenge set has none, because there is no
+  vector MC mark. A unit test checks every size and that each manifest points at real files.
+- The documentation site shows the Propellant favicon set, with PNG fallbacks and an apple touch
+  icon beside the SVG.
+- The brand guidelines cover favicons, with `<link>` and Next.js `metadata.icons` snippets, and share
+  images: 1200 by 630 with a safe area, logos shown whole, and a generic product card for pages
+  behind sign in so nothing private leaks.
+
 ## 2.9.0 (2026-11-25)
 
 ### Added
