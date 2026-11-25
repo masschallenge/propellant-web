@@ -8,6 +8,22 @@ property and from `@masschallenge/propellant-web/version`.
 
 ### Added
 
+- Favicon sets in `assets/favicons/masschallenge/`, for every MassChallenge product and website,
+  and `assets/favicons/propellant/`, for Propellant's own site. Each has `favicon.ico` (16, 32 and
+  48px), `favicon-16x16.png`, `favicon-32x32.png`, an opaque 180px `apple-touch-icon.png`,
+  `android-chrome-192x192.png`, `android-chrome-512x512.png` and a `site.webmanifest` with token
+  colors. The Propellant set adds `favicon.svg`; the MassChallenge set has none, because there is no
+  vector MC mark. A unit test checks every size and that each manifest points at real files.
+- The documentation site shows the Propellant favicon set, with PNG fallbacks and an apple touch
+  icon beside the SVG.
+- The brand guidelines cover favicons, with `<link>` and Next.js `metadata.icons` snippets, and share
+  images: 1200 by 630 with a safe area, logos shown whole, and a generic product card for pages
+  behind sign in so nothing private leaks.
+
+## 2.9.0 (2026-11-25)
+
+### Added
+
 - `Sheet` takes `placement="content"` for sheets opened inside an `AppShell`. On wide screens it
   centers the sheet within the content area and aligns it to the top, at `topOffset` from the top
   of the window: `sm` 64px (the default), `md` 160px, `lg` 180px or `xl` 200px. It leaves room for
@@ -24,17 +40,6 @@ property and from `@masschallenge/propellant-web/version`.
   dark, for content on a dark or colored band.
 - The `--sheet-offset-sm`, `--sheet-offset-md`, `--sheet-offset-lg` and `--sheet-offset-xl` layout
   tokens, 64px, 160px, 180px and 200px, for the `Sheet` top offsets.
-- Favicon sets in `assets/favicons/masschallenge/`, for every MassChallenge product and website,
-  and `assets/favicons/propellant/`, for Propellant's own site. Each has `favicon.ico` (16, 32 and
-  48px), `favicon-16x16.png`, `favicon-32x32.png`, an opaque 180px `apple-touch-icon.png`,
-  `android-chrome-192x192.png`, `android-chrome-512x512.png` and a `site.webmanifest` with token
-  colors. The Propellant set adds `favicon.svg`; the MassChallenge set has none, because there is no
-  vector MC mark. A unit test checks every size and that each manifest points at real files.
-- The documentation site shows the Propellant favicon set, with PNG fallbacks and an apple touch
-  icon beside the SVG.
-- The brand guidelines cover favicons, with `<link>` and Next.js `metadata.icons` snippets, and share
-  images: 1200 by 630 with a safe area, logos shown whole, and a generic product card for pages
-  behind sign in so nothing private leaks.
 
 ## 2.8.0 (2026-11-24)
 
