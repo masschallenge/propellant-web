@@ -8,6 +8,8 @@ property and from `@masschallenge/propellant-web/version`.
 
 ### Added
 
+- `Table` takes `onRowClick` so a pointer click anywhere on a row opens it. Clicks on the row's own
+  links, buttons and inputs are left to them, and keyboard users keep the row's own control.
 - `ListSection` takes `subtitle` and `media` for a group header that names its source: a
   logo in the list logo shape, then the title with a quiet line under it. The plain title is
   unchanged.

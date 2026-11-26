@@ -216,3 +216,38 @@ describe('Table row breaks and accents', () => {
     );
   });
 });
+
+describe('Table row click', () => {
+  it('opens a row clicked anywhere but leaves its own controls alone', async () => {
+    const onRowClick = vi.fn();
+    const onOpen = vi.fn();
+    render(
+      <Table
+        caption="Coverage"
+        rows={[{ id: 'a', name: 'Therapeutics', reads: 18 }]}
+        rowId={(row) => row.id}
+        onRowClick={onRowClick}
+        columns={[
+          {
+            key: 'name',
+            header: 'Sub-industry',
+            cell: (row) => (
+              <button type="button" onClick={onOpen}>
+                {row.name}
+              </button>
+            ),
+          },
+          { key: 'reads', header: 'Reads', align: 'right' },
+        ]}
+      />,
+    );
+
+    await userEvent.click(screen.getByRole('cell', { name: '18' }));
+    expect(onRowClick).toHaveBeenCalledWith({ id: 'a', name: 'Therapeutics', reads: 18 }, 0);
+    expect(screen.getByRole('cell', { name: '18' }).closest('tr')).toHaveClass('cursor-pointer');
+
+    await userEvent.click(screen.getByRole('button', { name: 'Therapeutics' }));
+    expect(onOpen).toHaveBeenCalledTimes(1);
+    expect(onRowClick).toHaveBeenCalledTimes(1);
+  });
+});

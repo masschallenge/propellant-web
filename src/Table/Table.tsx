@@ -32,6 +32,7 @@ export interface TableProps<Row = unknown> {
   rowActions?: (row: Row, index: number) => ReactNode;
   rowBreakAfter?: (row: Row, index: number) => ReactNode;
   rowAccent?: (row: Row, index: number) => TableRowAccent | null | undefined;
+  onRowClick?: (row: Row, index: number) => void;
   className?: string;
 }
 
@@ -42,6 +43,13 @@ const ROW_ACCENT: Record<TableRowAccent, string> = {
 };
 
 type CheckState = 'true' | 'false' | 'mixed';
+
+const CONTROL_SELECTOR = 'a, button, input, select, textarea, label, [role="button"]';
+
+const isFromControl = (target: EventTarget, row: HTMLElement) => {
+  const control = target instanceof Element ? target.closest(CONTROL_SELECTOR) : null;
+  return control !== null && row.contains(control);
+};
 
 const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
@@ -157,6 +165,7 @@ export const Table = <Row,>({
   rowActions,
   rowBreakAfter,
   rowAccent,
+  onRowClick,
   className,
 }: TableProps<Row>) => {
   const columnCount = columns.length + (selectable ? 1 : 0) + (rowActions ? 1 : 0);
@@ -269,7 +278,18 @@ export const Table = <Row,>({
           const rowBreak = rowBreakAfter?.(row, index);
           return (
             <React.Fragment key={identifier}>
-              <tr aria-selected={ariaSelected} className="group">
+              <tr
+                aria-selected={ariaSelected}
+                className={joinClasses('group', onRowClick && 'cursor-pointer')}
+                onClick={
+                  onRowClick
+                    ? (event) => {
+                        if (isFromControl(event.target, event.currentTarget)) return;
+                        onRowClick(row, index);
+                      }
+                    : undefined
+                }
+              >
                 {selectable ? (
                   <td className={joinClasses(cellClass(false), 'w-10 pr-0', leadClass)}>
                     <TableCheckbox
