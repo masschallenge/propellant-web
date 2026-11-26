@@ -7,6 +7,7 @@ import {
   AnchoredSearchField,
   FieldChevron,
   OptionCheckmark,
+  type AnchoredPanelWidth,
   anchoredOptionClasses,
   anchoredPanelStyle,
   useAnchoredPosition,
@@ -42,6 +43,7 @@ export interface SingleComboBoxProps {
   searchPlaceholder?: string;
   emptyText?: string;
   size?: ComboBoxSize;
+  panelWidth?: AnchoredPanelWidth;
   invalid?: boolean;
   disabled?: boolean;
   required?: boolean;
@@ -103,6 +105,7 @@ export const SingleComboBox = ({
   searchPlaceholder = 'Search…',
   emptyText = 'No results',
   size = 'md',
+  panelWidth = 'trigger',
   invalid = false,
   disabled = false,
   required = false,
@@ -473,7 +476,11 @@ export const SingleComboBox = ({
           <AnchoredLayer host={layerHost} isPrivate={isPrivate}>
             <div
               ref={panelRef}
-              style={anchoredPanelStyle(position, { matchWidth: true, capsHeight: false })}
+              style={anchoredPanelStyle(position, {
+                matchWidth: true,
+                fitsContent: panelWidth === 'content',
+                capsHeight: false,
+              })}
               className={joinClasses(ANCHORED_SURFACE_CLASSES, 'overflow-hidden text-callout')}
             >
               <div className="px-1.5 pt-1.5 pb-1">

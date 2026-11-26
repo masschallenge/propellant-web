@@ -5,6 +5,7 @@ import { Sheet } from './Sheet';
 import { Button } from '../Button/Button';
 import { ListRow, ListSection } from '../List/List';
 import { SearchField } from '../SearchField/SearchField';
+import { IconTile } from '../IconTile/IconTile';
 import { AppShell } from '../AppShell/AppShell';
 import { Sidebar, SidebarItem, SidebarSection } from '../Sidebar/Sidebar';
 import { appearance, content, hide } from '../../.storybook/controls';
@@ -36,6 +37,8 @@ const meta = {
           '`placement="content"` is for sheets opened inside an `AppShell`. On wide screens (1024px and up) it centers the sheet over the content area beside the sidebar instead of the whole window, and aligns its top edge a set distance from the top of the window: 64px (`topOffset="sm"`, the default), 160px (`md`), 180px (`lg`) or 200px (`xl`). Narrower, it is centered like `center`. It reads the shell: beside a pinned sidebar it leaves `--sidebar-width`, beside a rail `--sidebar-rail-width`, and with the sidebar hidden or absent it uses the whole window, so wide sizes such as `xl` and `full` stay inside the content area. Outside an `AppShell` it falls back to `center`. The offsets are the `--sheet-offset-sm`, `-md`, `-lg` and `-xl` tokens.',
           '',
           '`closeButton="plain"` draws the close button without a fill, with a 24px glyph at a 1.5 stroke, for sheets whose header reads lighter. The default, `gray`, is unchanged.',
+          '',
+          '`header="divided"` draws a stacked sheet\'s header as one row: the icon on the left, a 17px title over a 13px sub line, and the close button on the right, with a separator between the header and the body. It suits reading sheets such as a message or an announcement. The default header is unchanged, and the horizontal and split layouts ignore it.',
           '',
           'Sizes cap the width at 400px (`sm`), 520px (`md`, the default), 540px (`md-wide`), 640px (`lg`) and 1152px (`xl`), or fill the viewport (`full`). `md-wide` fits a confirmation that lists people, such as the email confirmation with a framed recipient list.',
           '',
@@ -79,6 +82,7 @@ const meta = {
     },
     topOffset: { control: 'inline-radio', options: ['sm', 'md', 'lg', 'xl'], ...appearance },
     closeButton: { control: 'inline-radio', options: ['gray', 'plain'], ...appearance },
+    header: { control: 'inline-radio', options: ['default', 'divided'], ...appearance },
     eyebrow: { control: 'text', ...content },
     title: { control: 'text', ...content },
     description: { control: 'text', ...content },
@@ -349,4 +353,36 @@ export const Sectioned: Story = {
   },
   render: (args) => <ContentShell sheet={args} />,
   parameters: { layout: 'fullscreen' },
+};
+
+export const DividedHeader: Story = {
+  args: {
+    placement: 'side',
+    header: 'divided',
+    closeButton: 'plain',
+    icon: <IconTile icon={icons.calendar} tone="gray" />,
+    title: 'Office hours added',
+    description: 'HealthTech Traction 2027 team. Mon, Nov 23',
+    footer: undefined,
+    children: (
+      <div className="flex flex-col gap-3">
+        <p className="m-0">Book a slot with the program team on Thursdays from 2 to 4 PM ET.</p>
+        <p className="m-0 text-[var(--label-secondary)]">Founders in HealthTech Traction 2027</p>
+      </div>
+    ),
+  },
+  render: (args) => (
+    <div className="relative w-full" style={{ height: '30rem' }}>
+      <Sheet {...args} open inline />
+    </div>
+  ),
+  parameters: { layout: 'fullscreen' },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const title = canvas.getByRole('heading', { name: 'Office hours added' });
+    await expect(title).toHaveClass('text-title3');
+    await expect(canvas.getByRole('button', { name: 'Close' }).parentElement).not.toHaveClass(
+      'absolute',
+    );
+  },
 };

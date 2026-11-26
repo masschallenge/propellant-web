@@ -62,6 +62,25 @@ property and from `@masschallenge/propellant-web/version`.
 - `Textarea` with `rows` takes its height from the rows instead of the size's minimum height, so
   `rows={2}` gives a two line field. Without `rows` the minimum height is unchanged.
 
+## 2.11.0 (2026-11-26)
+
+### Added
+
+- A `RadioCardGroup` option takes `readableLinks` to keep its links usable when it is disabled. The
+  links sit inline after the hint, at full contrast and focusable, while the rest of the card fades
+  as before and stays unselectable and announced as disabled. A faded link fell to about 2:1, below
+  WCAG 2.2 AA; the readable link measures at least 7.0:1 in light and 8.5:1 in dark. It applies to
+  the `row` layout, for example a company that already applied, "Applied Nov 4. View
+  application". Without it a disabled card is unchanged.
+- `ComboBox` takes `panelWidth="content"`, single or multiple, to size the open panel to its longest
+  option instead of the trigger: never narrower than the trigger, and capped to the window less an
+  8px gap on each side, so long labels such as "Healthcare IT and digital health" read in full from
+  a narrow filter. The closed control and the default, `trigger`, are unchanged.
+- `Sheet` takes `header="divided"` to draw a stacked sheet's header as one row: the icon on the
+  left, a 17px title over a 13px sub line, and the close button on the right, with a separator
+  between the header and the body, as on the message and announcement sheets. The default header is
+  unchanged, and the horizontal and split layouts ignore it.
+
 ## 2.10.0 (2026-11-25)
 
 ### Added

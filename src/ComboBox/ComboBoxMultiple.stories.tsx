@@ -35,6 +35,7 @@ const meta = {
   args: { label: 'Industries', placeholder: 'Choose industries', options, onChange: fn() },
   argTypes: {
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'], ...appearance },
+    panelWidth: { control: 'inline-radio', options: ['trigger', 'content'], ...appearance },
     searchable: { control: 'boolean', ...appearance },
     chipTone: { control: 'inline-radio', options: ['neutral', 'tint'], ...appearance },
     invalid: { control: 'boolean', ...state },
@@ -125,5 +126,32 @@ export const MarkerNames: Story = {
     await userEvent.click(within(listbox).getByRole('option', { name: 'Healthcare' }));
     await expect(args.onChange).toHaveBeenCalledWith(['climate', 'health']);
     await userEvent.keyboard('{Escape}');
+  },
+};
+
+export const ContentWidthPanel: Story = {
+  tags: ['interaction', '!autodocs'],
+  args: {
+    label: 'Sub-industries',
+    placeholder: 'All sub-industries',
+    size: 'sm',
+    panelWidth: 'content',
+    options: [
+      { value: 'health-it', label: 'Healthcare IT and digital health' },
+      { value: 'devices', label: 'Medical devices and diagnostics' },
+      { value: 'biotech', label: 'Biotechnology and pharmaceuticals' },
+    ],
+    className: 'w-44',
+  },
+  play: async ({ canvasElement }) => {
+    const trigger = within(canvasElement).getByRole('combobox');
+    await userEvent.click(trigger);
+    const listbox = await within(document.body).findByRole('listbox');
+    const panel = listbox.parentElement as HTMLElement;
+    const label = within(listbox).getByText('Healthcare IT and digital health');
+    await waitFor(() => expect(panel.style.visibility).toBe('visible'));
+    const panelRect = panel.getBoundingClientRect();
+    await expect(panelRect.right).toBeLessThanOrEqual(window.innerWidth);
+    await expect(label.scrollWidth).toBeLessThanOrEqual(label.clientWidth);
   },
 };

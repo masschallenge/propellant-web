@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, fn, userEvent, within } from 'storybook/test';
+import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
 import { SingleComboBox } from './SingleComboBox';
 import { appearance, content, events, hide, state } from '../../.storybook/controls';
 
@@ -30,6 +30,7 @@ const meta = {
   args: { label: 'Program location', placeholder: 'Choose a location', options, onChange: fn() },
   argTypes: {
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'], ...appearance },
+    panelWidth: { control: 'inline-radio', options: ['trigger', 'content'], ...appearance },
     clearable: { control: 'boolean', ...appearance },
     invalid: { control: 'boolean', ...state },
     disabled: { control: 'boolean', ...state },
@@ -103,5 +104,38 @@ export const LockedWithReasons: Story = {
     await expect(within(listbox).getByText('No matching industry')).toBeVisible();
     await userEvent.click(within(listbox).getByText('Di Park'));
     await expect(args.onChange).not.toHaveBeenCalled();
+  },
+};
+
+const subIndustryOptions = [
+  { value: 'health-it', label: 'Healthcare IT and digital health' },
+  { value: 'devices', label: 'Medical devices and diagnostics' },
+  { value: 'biotech', label: 'Biotechnology and pharmaceuticals' },
+  { value: 'climate', label: 'Climate' },
+];
+
+export const ContentWidthPanel: Story = {
+  tags: ['interaction', '!autodocs'],
+  args: {
+    label: undefined,
+    ariaLabel: 'Sub-industry',
+    placeholder: 'All sub-industries',
+    size: 'sm',
+    panelWidth: 'content',
+    options: subIndustryOptions,
+    className: 'w-44',
+  },
+  play: async ({ canvasElement }) => {
+    const trigger = within(canvasElement).getByRole('combobox');
+    await userEvent.click(trigger);
+    const listbox = await within(document.body).findByRole('listbox');
+    const panel = listbox.parentElement as HTMLElement;
+    const label = within(listbox).getByText('Healthcare IT and digital health');
+    await waitFor(() => expect(panel.style.visibility).toBe('visible'));
+    const panelRect = panel.getBoundingClientRect();
+    await expect(panelRect.width).toBeGreaterThan(trigger.getBoundingClientRect().width);
+    await expect(panelRect.left).toBeGreaterThanOrEqual(0);
+    await expect(panelRect.right).toBeLessThanOrEqual(window.innerWidth);
+    await expect(label.scrollWidth).toBeLessThanOrEqual(label.clientWidth);
   },
 };

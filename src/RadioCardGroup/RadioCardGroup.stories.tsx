@@ -363,3 +363,47 @@ export const DenseRows: Story = {
     ],
   },
 };
+
+const APPLY_AS_OPTIONS: RadioCardOption[] = [
+  {
+    value: 'careloop',
+    title: 'CareLoop',
+    hint: 'Applied Nov 4.',
+    icon: companyLogo('C'),
+    disabled: true,
+    readableLinks: true,
+    links: [{ label: 'View application', onClick: fn() }],
+  },
+  {
+    value: 'corbel',
+    title: 'Corbel Genomics',
+    hint: "Advisor. View-only access can't apply",
+    icon: companyLogo('C'),
+    disabled: true,
+  },
+  { value: 'new', title: 'New company', hint: 'Create a company and apply as it' },
+];
+
+export const DisabledWithReadableLink: Story = {
+  args: {
+    legend: 'Apply as',
+    density: 'compact',
+    defaultValue: 'new',
+    options: APPLY_AS_OPTIONS,
+  },
+};
+
+export const DisabledWithReadableLinkInteraction: Story = {
+  args: DisabledWithReadableLink.args,
+  tags: ['interaction', '!autodocs'],
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const link = canvas.getByRole('link', { name: 'View application' });
+    await expect(canvas.getByRole('radio', { name: /CareLoop/ })).toBeDisabled();
+    await userEvent.tab();
+    await expect(link).toHaveFocus();
+    await expect(getComputedStyle(link).opacity).toBe('1');
+    await userEvent.click(canvas.getByText('CareLoop'));
+    await expect(args.onChange).not.toHaveBeenCalled();
+  },
+};

@@ -177,4 +177,17 @@ describe('anchoredPanelStyle', () => {
     expect(style.maxHeight).toBeUndefined();
     expect(anchoredPanelStyle(null, { matchWidth: true })).toMatchObject({ width: 0 });
   });
+
+  it('sizes the panel to its content, never narrower than the anchor nor wider than the viewport', () => {
+    const style = anchoredPanelStyle(
+      { left: 10, top: 20, width: 180, available: 300 },
+      { matchWidth: true, fitsContent: true, capsHeight: false },
+    );
+
+    expect(style).toMatchObject({
+      width: 'max-content',
+      minWidth: 180,
+      maxWidth: 'calc(100vw - 16px)',
+    });
+  });
 });

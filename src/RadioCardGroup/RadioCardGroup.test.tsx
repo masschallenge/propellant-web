@@ -389,3 +389,84 @@ describe('RadioCardGroup dense rows', () => {
     expect(screen.getByRole('radio', { name: '5 · Recommend' })).toBeChecked();
   });
 });
+
+describe('RadioCardGroup readable links', () => {
+  const appliedOption = {
+    value: 'careloop',
+    title: 'CareLoop',
+    hint: 'Applied Nov 4.',
+    disabled: true,
+    links: [{ label: 'View application', href: '/application/1' }],
+  };
+
+  it('fades the whole disabled card, links included, by default', () => {
+    render(<RadioCardGroup legend="Apply as" options={[appliedOption]} />);
+    const card = screen.getByRole('radio').closest('label');
+
+    expect(card).toHaveClass('opacity-[var(--opacity-disabled)]');
+    expect(screen.getByRole('link', { name: 'View application' }).parentElement).toHaveClass(
+      'flex',
+    );
+  });
+
+  it('keeps the links of a disabled card at full contrast and inline with the hint', () => {
+    render(
+      <RadioCardGroup legend="Apply as" options={[{ ...appliedOption, readableLinks: true }]} />,
+    );
+    const radio = screen.getByRole('radio');
+    const card = radio.closest('label') as HTMLElement;
+    const link = screen.getByRole('link', { name: 'View application' });
+
+    expect(radio).toBeDisabled();
+    expect(card).not.toHaveClass('opacity-[var(--opacity-disabled)]');
+    expect(card).toHaveClass('cursor-not-allowed');
+    let ancestor: HTMLElement | null = link;
+    while (ancestor && ancestor !== card) {
+      expect(ancestor).not.toHaveClass('opacity-[var(--opacity-disabled)]');
+      ancestor = ancestor.parentElement;
+    }
+    expect(screen.getByText('Applied Nov 4.')).toHaveClass('opacity-[var(--opacity-disabled)]');
+    expect(screen.getByText('CareLoop').parentElement).toHaveClass(
+      'opacity-[var(--opacity-disabled)]',
+    );
+    expect(link.parentElement?.parentElement).toContainElement(screen.getByText('Applied Nov 4.'));
+  });
+
+  it('keeps the link focusable and clickable while the card stays unselectable', async () => {
+    const onChange = vi.fn();
+    const onLinkClick = vi.fn();
+    render(
+      <RadioCardGroup
+        legend="Apply as"
+        onChange={onChange}
+        options={[
+          {
+            ...appliedOption,
+            readableLinks: true,
+            links: [{ label: 'View application', onClick: onLinkClick }],
+          },
+        ]}
+      />,
+    );
+
+    await userEvent.tab();
+    expect(screen.getByRole('link', { name: 'View application' })).toHaveFocus();
+    await userEvent.click(screen.getByRole('link', { name: 'View application' }));
+    await userEvent.click(screen.getByText('CareLoop'));
+    expect(onLinkClick).toHaveBeenCalledTimes(1);
+    expect(onChange).not.toHaveBeenCalled();
+    expect(screen.getByRole('radio')).not.toBeChecked();
+  });
+
+  it('ignores the flag on an enabled option and keeps links on their own line', () => {
+    render(
+      <RadioCardGroup
+        legend="Apply as"
+        options={[{ ...appliedOption, disabled: false, readableLinks: true }]}
+      />,
+    );
+    expect(screen.getByRole('link', { name: 'View application' }).parentElement).toHaveClass(
+      'flex',
+    );
+  });
+});

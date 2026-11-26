@@ -24,6 +24,7 @@ export interface RadioCardOption {
   links?: RadioCardLink[];
   badge?: string;
   disabled?: boolean;
+  readableLinks?: boolean;
   ariaLabel?: string;
   distinct?: boolean;
 }
@@ -86,17 +87,29 @@ const HIDDEN_INPUT = 'absolute top-0 left-0 w-px h-px m-0 p-0 border-0 overflow-
 
 const LARGE_MARK_SIZE = 'w-5 h-5';
 
+const FADED = 'opacity-[var(--opacity-disabled)]';
+
+const LINK_CLASSES =
+  'text-subheadline font-medium text-[var(--tint)] no-underline hover:underline hover:text-[var(--tint-hover)] focus-visible:outline-[length:var(--focus-width)] focus-visible:outline-solid focus-visible:outline-offset-[var(--focus-offset)] focus-visible:outline-[var(--focus-color)] rounded-[var(--corner-sm)]';
+
 interface SelectionMarkProps {
   isSelected: boolean;
   isSquare: boolean;
   isCompact?: boolean;
+  className?: string;
 }
 
-const SelectionMark = ({ isSelected, isSquare, isCompact = false }: SelectionMarkProps) => (
+const SelectionMark = ({
+  isSelected,
+  isSquare,
+  isCompact = false,
+  className,
+}: SelectionMarkProps) => (
   <span
     aria-hidden="true"
     className={joinClasses(
       'relative flex-none flex items-center justify-center',
+      className,
       isCompact ? LARGE_MARK_SIZE : joinClasses('mt-px', INDICATOR_SIZES.md),
       isSquare ? 'rounded-[var(--corner-sm)]' : 'rounded-full',
       isSelected
@@ -191,19 +204,31 @@ export const RadioCardGroup = ({
   const cards = options.map((option) => {
     const isOn = isSelected(option.value);
     const isInteractive = !isOn && !option.disabled;
+    const keepsLinksReadable = Boolean(
+      layout === 'row' && option.disabled && option.readableLinks && option.links?.length,
+    );
+    const piece = keepsLinksReadable ? FADED : undefined;
     const mark = isMarkless ? null : (
-      <SelectionMark isSelected={isOn} isSquare={isSquare} isCompact={isCompactRow} />
+      <SelectionMark
+        isSelected={isOn}
+        isSquare={isSquare}
+        isCompact={isCompactRow}
+        className={piece}
+      />
     );
     const icon = option.icon ? (
       <span
-        className="flex-none flex items-center justify-center mt-px text-[var(--label-secondary)] [&>svg]:block [&>svg]:w-[var(--icon-lg)] [&>svg]:h-[var(--icon-lg)]"
+        className={joinClasses(
+          'flex-none flex items-center justify-center mt-px text-[var(--label-secondary)] [&>svg]:block [&>svg]:w-[var(--icon-lg)] [&>svg]:h-[var(--icon-lg)]',
+          piece,
+        )}
         aria-hidden="true"
       >
         {option.icon}
       </span>
     ) : null;
     const badge = option.badge ? (
-      <Badge tone="success" size="sm" dot>
+      <Badge tone="success" size="sm" dot className={piece}>
         {option.badge}
       </Badge>
     ) : null;
@@ -218,6 +243,17 @@ export const RadioCardGroup = ({
         aria-label={option.ariaLabel}
         className={HIDDEN_INPUT}
       />
+    );
+    const surface = joinClasses(
+      SURFACE_TRANSITION,
+      isOn
+        ? isCompactRow
+          ? COMPACT_SELECTED_SURFACE
+          : SELECTED_SURFACE
+        : joinClasses(
+            'bg-[var(--bg)]',
+            error ? ERROR_EDGE : isMarklessRow ? MARKLESS_RESTING_EDGE : RESTING_EDGE,
+          ),
     );
     const cardClasses = joinClasses(
       'relative flex cursor-pointer',
@@ -235,19 +271,37 @@ export const RadioCardGroup = ({
         : isCompactRow || isDenseRow
           ? 'items-center'
           : 'items-start',
-      SURFACE_TRANSITION,
-      isOn
-        ? isCompactRow
-          ? COMPACT_SELECTED_SURFACE
-          : SELECTED_SURFACE
-        : joinClasses(
-            'bg-[var(--bg)]',
-            error ? ERROR_EDGE : isMarklessRow ? MARKLESS_RESTING_EDGE : RESTING_EDGE,
-          ),
-      option.disabled && 'opacity-[var(--opacity-disabled)] cursor-not-allowed',
+      keepsLinksReadable ? 'isolate cursor-not-allowed' : surface,
+      option.disabled &&
+        !keepsLinksReadable &&
+        'opacity-[var(--opacity-disabled)] cursor-not-allowed',
       isInteractive && 'hover:bg-[var(--bg-secondary)]',
       FOCUS_WITHIN,
     );
+    const fadedSurface = keepsLinksReadable ? (
+      <span
+        aria-hidden="true"
+        className={joinClasses(
+          'absolute inset-0 -z-10 rounded-[inherit] pointer-events-none',
+          FADED,
+          surface,
+        )}
+      />
+    ) : null;
+    const links = option.links?.map((link) => (
+      <a
+        key={link.label}
+        href={link.href || '#'}
+        onClick={(event) => {
+          event.stopPropagation();
+          if (!link.href) event.preventDefault();
+          link.onClick?.();
+        }}
+        className={LINK_CLASSES}
+      >
+        {link.label}
+      </a>
+    ));
 
     if (isTile) {
       const restingTile = option.distinct
@@ -361,13 +415,23 @@ export const RadioCardGroup = ({
       );
     }
 
+    const hintTone =
+      isCompactRow || isMarklessRow
+        ? 'text-[var(--label-tertiary)]'
+        : 'text-[var(--label-secondary)]';
+    const hintSize = isMarklessRow ? 'text-footnote' : 'text-subheadline';
+
     return (
       <label key={option.value} className={cardClasses}>
+        {fadedSurface}
         {input}
         {controlOnRight ? null : mark}
         {option.avatar ? (
           <img
-            className={`flex-none w-10 h-10 rounded-full ${imageFitClass()} bg-[var(--bg-secondary)]`}
+            className={joinClasses(
+              `flex-none w-10 h-10 rounded-full ${imageFitClass()} bg-[var(--bg-secondary)]`,
+              piece,
+            )}
             src={option.avatar}
             alt=""
           />
@@ -376,14 +440,17 @@ export const RadioCardGroup = ({
         )}
         {option.mark ? (
           <span
-            className="flex-none flex items-center justify-center w-12 h-8 rounded-[var(--corner-sm)] bg-[var(--bg-secondary)] text-footnote font-semibold text-[var(--label-secondary)]"
+            className={joinClasses(
+              'flex-none flex items-center justify-center w-12 h-8 rounded-[var(--corner-sm)] bg-[var(--bg-secondary)] text-footnote font-semibold text-[var(--label-secondary)]',
+              piece,
+            )}
             aria-hidden="true"
           >
             {option.mark}
           </span>
         ) : null}
         <span className="flex flex-col gap-0.5 min-w-0">
-          <span className="flex items-baseline gap-2 flex-wrap">
+          <span className={joinClasses('flex items-baseline gap-2 flex-wrap', piece)}>
             <span
               className={joinClasses(
                 isCompactRow ? 'text-body' : isDenseRow ? 'text-subheadline' : 'text-callout',
@@ -402,37 +469,23 @@ export const RadioCardGroup = ({
               </span>
             ) : null}
           </span>
-          {option.hint ? (
-            <span
-              className={joinClasses(
-                'text-pretty',
-                isMarklessRow ? 'text-footnote' : 'text-subheadline',
-                isCompactRow || isMarklessRow
-                  ? 'text-[var(--label-tertiary)]'
-                  : 'text-[var(--label-secondary)]',
-              )}
-            >
-              {option.hint}
+          {keepsLinksReadable ? (
+            <span className={joinClasses(hintSize, 'text-pretty', hintTone)}>
+              {option.hint ? <span className={FADED}>{option.hint} </span> : null}
+              <span className="inline-flex flex-wrap gap-x-4 ml-[calc(var(--focus-width)+var(--focus-offset))]">
+                {links}
+              </span>
             </span>
-          ) : null}
-          {option.links && option.links.length ? (
-            <span className="flex gap-4 mt-0.5">
-              {option.links.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href || '#'}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    if (!link.href) event.preventDefault();
-                    link.onClick?.();
-                  }}
-                  className="text-subheadline font-medium text-[var(--tint)] no-underline hover:underline hover:text-[var(--tint-hover)] focus-visible:outline-[length:var(--focus-width)] focus-visible:outline-solid focus-visible:outline-offset-[var(--focus-offset)] focus-visible:outline-[var(--focus-color)] rounded-[var(--corner-sm)]"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </span>
-          ) : null}
+          ) : (
+            <>
+              {option.hint ? (
+                <span className={joinClasses(hintSize, 'text-pretty', hintTone)}>
+                  {option.hint}
+                </span>
+              ) : null}
+              {links?.length ? <span className="flex gap-4 mt-0.5">{links}</span> : null}
+            </>
+          )}
           {badge ? <span className="mt-1">{badge}</span> : null}
         </span>
         {controlOnRight ? <span className="ml-auto self-start">{mark}</span> : null}
