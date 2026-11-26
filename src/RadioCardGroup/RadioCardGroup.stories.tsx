@@ -347,3 +347,19 @@ export const Markless: Story = {
     await expect(args.onChange).toHaveBeenCalledWith('written');
   },
 };
+
+export const DenseRows: Story = {
+  args: {
+    legend: 'Overall recommendation',
+    density: 'dense',
+    defaultValue: '5',
+    options: [
+      { value: '1', title: '1 · Strongly do not recommend' },
+      { value: '2', title: '2 · Do not recommend' },
+      { value: '3', title: '3 · Lean no' },
+      { value: '4', title: '4 · Lean yes' },
+      { value: '5', title: '5 · Recommend' },
+      { value: '6', title: '6 · Strongly recommend' },
+    ],
+  },
+};

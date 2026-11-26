@@ -47,7 +47,7 @@ interface RadioCardGroupBaseProps {
   className?: string;
 }
 
-export type RadioCardDensity = 'default' | 'compact';
+export type RadioCardDensity = 'default' | 'compact' | 'dense';
 
 interface RadioCardGroupRowProps extends RadioCardGroupBaseProps {
   layout?: 'row';
@@ -184,6 +184,7 @@ export const RadioCardGroup = ({
   const isTile = layout === 'tile';
   const isStrong = emphasis === 'strong';
   const isCompactRow = density === 'compact' && layout === 'row';
+  const isDenseRow = density === 'dense' && layout === 'row';
   const isMarkless = control === 'none';
   const isMarklessRow = isMarkless && layout === 'row';
 
@@ -219,16 +220,19 @@ export const RadioCardGroup = ({
       />
     );
     const cardClasses = joinClasses(
-      'relative flex gap-3 min-h-[var(--row)] cursor-pointer',
-      isMarklessRow ? 'rounded-[var(--corner-tile)]' : 'rounded-[var(--corner-lg)]',
+      'relative flex cursor-pointer',
+      isDenseRow ? 'gap-2.5' : 'gap-3 min-h-[var(--row)]',
+      isMarklessRow || isDenseRow ? 'rounded-[var(--corner-tile)]' : 'rounded-[var(--corner-lg)]',
       isMarklessRow
         ? 'py-[var(--space-3)] px-[var(--space-3-5)]'
-        : isCompactRow
-          ? 'p-[var(--space-3-5)]'
-          : 'p-[var(--space-4)]',
+        : isDenseRow
+          ? 'py-[var(--space-2)] px-[var(--space-3)]'
+          : isCompactRow
+            ? 'p-[var(--space-3-5)]'
+            : 'p-[var(--space-4)]',
       layout === 'card' || layout === 'choice'
         ? 'flex-col'
-        : isCompactRow
+        : isCompactRow || isDenseRow
           ? 'items-center'
           : 'items-start',
       SURFACE_TRANSITION,
@@ -382,8 +386,9 @@ export const RadioCardGroup = ({
           <span className="flex items-baseline gap-2 flex-wrap">
             <span
               className={joinClasses(
-                isCompactRow ? 'text-body' : 'text-callout',
-                'font-semibold text-[var(--label)]',
+                isCompactRow ? 'text-body' : isDenseRow ? 'text-subheadline' : 'text-callout',
+                isDenseRow ? 'font-normal' : 'font-semibold',
+                'text-[var(--label)]',
               )}
             >
               {option.title}

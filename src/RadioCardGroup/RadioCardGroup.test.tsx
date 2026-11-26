@@ -366,3 +366,26 @@ describe('RadioCardGroup density', () => {
     expect(defaultCard?.className).toContain('linear-gradient(var(--tint-fill),var(--tint-fill))');
   });
 });
+
+describe('RadioCardGroup dense rows', () => {
+  it('sets each level as a short row with a regular weight title', () => {
+    render(
+      <RadioCardGroup
+        legend="Overall recommendation"
+        density="dense"
+        value="5"
+        options={[
+          { value: '4', title: '4 · Lean yes' },
+          { value: '5', title: '5 · Recommend' },
+        ]}
+      />,
+    );
+    const title = screen.getByText('5 · Recommend');
+    expect(title).toHaveClass('font-normal');
+    expect(title).toHaveClass('text-subheadline');
+    const card = title.closest('label');
+    expect(card).toHaveClass('py-[var(--space-2)]');
+    expect(card).not.toHaveClass('min-h-[var(--row)]');
+    expect(screen.getByRole('radio', { name: '5 · Recommend' })).toBeChecked();
+  });
+});

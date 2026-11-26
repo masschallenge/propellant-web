@@ -51,6 +51,8 @@ property and from `@masschallenge/propellant-web/version`.
 - `Inspector` takes `variant="divided"` for list and detail sheets: a headline title, a plain
   close glyph, a hairline under the header, 24px side padding and footer actions at their natural
   width on the trailing edge. The default is unchanged.
+- `RadioCardGroup` rows take `density="dense"` for a scale of labeled levels: about 38px tall,
+  8px by 12px padding, the tile corner and a regular weight title beside the radio.
 
 ### Changed
 
