@@ -4,6 +4,13 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+### Added
+
+- `Banner` takes `hideIcon` for a plain note without a glyph. The icon and its gap are left out
+  entirely.
+
 ## 2.10.0 (2026-11-25)
 
 ### Added

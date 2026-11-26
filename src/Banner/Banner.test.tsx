@@ -56,4 +56,13 @@ describe('Banner', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Hide notice' }));
     expect(onDismiss).toHaveBeenCalledTimes(1);
   });
+
+  it('drops the icon and its gap when hideIcon is set', () => {
+    const { rerender } = render(<Banner>Some reviews are already in.</Banner>);
+    expect(screen.getByRole('status').querySelector('[aria-hidden="true"]')).not.toBeNull();
+    rerender(<Banner hideIcon>Some reviews are already in.</Banner>);
+    const banner = screen.getByRole('status');
+    expect(banner.querySelector('svg')).toBeNull();
+    expect(banner.children).toHaveLength(1);
+  });
 });

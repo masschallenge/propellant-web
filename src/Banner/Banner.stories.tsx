@@ -16,7 +16,7 @@ const meta = {
     docs: {
       description: {
         component: [
-          'An inline message about the page or a task on it. The tone sets a soft fill and a glyph, so the state never depends on color alone. Critical banners are announced as alerts, the rest as status. Use `full` for an edge-to-edge strip and `solid` (or the masquerade tone) for a strong bar such as impersonation.',
+          'An inline message about the page or a task on it. The tone sets a soft fill and a glyph, so the state never depends on color alone. Critical banners are announced as alerts, the rest as status. Use `hideIcon` for a plain note without a glyph. Use `full` for an edge-to-edge strip and `solid` (or the masquerade tone) for a strong bar such as impersonation.',
           '',
           "Import: `import { Banner } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -36,6 +36,7 @@ const meta = {
     },
     full: { control: 'boolean', ...appearance },
     solid: { control: 'boolean', ...appearance },
+    hideIcon: { control: 'boolean', ...appearance },
     title: { control: 'text', ...content },
     children: { control: 'text', ...content },
     onDismiss: { ...events },
@@ -98,5 +99,15 @@ export const Dismissible: Story = {
   play: async ({ args, canvasElement }) => {
     await userEvent.click(within(canvasElement).getByRole('button', { name: 'Dismiss' }));
     await expect(args.onDismiss).toHaveBeenCalledTimes(1);
+  },
+};
+
+export const WithoutIcon: Story = {
+  args: {
+    tone: 'neutral',
+    hideIcon: true,
+    title: undefined,
+    children:
+      "297 reviews are already in. They won't have a Clinical evidence score, so their scores use the other criteria.",
   },
 };
