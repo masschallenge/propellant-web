@@ -23,6 +23,11 @@ property and from `@masschallenge/propellant-web/version`.
   Optional low and high captions sit under the row, the high one ending under the last number
   rather than under N/A, and describe the group. The squares are native radios in a `radiogroup`,
   so the arrow keys move the choice.
+- `Sheet` takes `layout="sectioned"` for wide dialogs: a header bar with a 17px semibold title and
+  the close button, padded 20px by 24px over a hairline; a scrolling body on `--bg-grouped`, padded
+  20px by 24px, so white cards and lists stand out; and a footer bar on the elevated surface, padded
+  16px by 24px under a hairline. The panel has no outer padding. The focus trap, labelling, close
+  button and placements are unchanged.
 
 ## 2.10.0 (2026-11-25)
 

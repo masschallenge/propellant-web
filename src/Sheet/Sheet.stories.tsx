@@ -31,6 +31,8 @@ const meta = {
         component: [
           'Portalled dialog on the elevated surface over a scrim, with a focus trap and an inert background. Stacked, horizontal, or split layouts. `placement="side"` opens it as a full height panel on the right, full width on phones, for previews that sit beside the work. Footer actions sit in a right aligned row and stack full width, primary on top, on narrow screens.',
           '',
+          '`layout="sectioned"` is for wide dialogs such as a list to pick from: a header bar with the title and close button, a scrolling body on the grouped background so white cards stand out, and a footer bar, split by hairlines, with no padding around the panel.',
+          '',
           '`placement="content"` is for sheets opened inside an `AppShell`. On wide screens (1024px and up) it centers the sheet over the content area beside the sidebar instead of the whole window, and aligns its top edge a set distance from the top of the window: 64px (`topOffset="sm"`, the default), 160px (`md`), 180px (`lg`) or 200px (`xl`). Narrower, it is centered like `center`. It reads the shell: beside a pinned sidebar it leaves `--sidebar-width`, beside a rail `--sidebar-rail-width`, and with the sidebar hidden or absent it uses the whole window, so wide sizes such as `xl` and `full` stay inside the content area. Outside an `AppShell` it falls back to `center`. The offsets are the `--sheet-offset-sm`, `-md`, `-lg` and `-xl` tokens.',
           '',
           '`closeButton="plain"` draws the close button without a fill, with a 24px glyph at a 1.5 stroke, for sheets whose header reads lighter. The default, `gray`, is unchanged.',
@@ -64,7 +66,11 @@ const meta = {
       options: ['neutral', 'info', 'success', 'warning', 'critical'],
       ...appearance,
     },
-    layout: { control: 'inline-radio', options: ['stacked', 'horizontal', 'split'], ...appearance },
+    layout: {
+      control: 'inline-radio',
+      options: ['stacked', 'horizontal', 'split', 'sectioned'],
+      ...appearance,
+    },
     size: { control: 'inline-radio', options: ['sm', 'md', 'md-wide', 'lg', 'xl'], ...appearance },
     placement: {
       control: 'inline-radio',
@@ -312,4 +318,35 @@ export const PlainCloseButton: Story = {
       <Sheet {...args} />
     </div>
   ),
+};
+
+export const Sectioned: Story = {
+  args: {
+    open: true,
+    layout: 'sectioned',
+    size: 'xl',
+    placement: 'content',
+    title: 'Suggest evaluators',
+    description: undefined,
+    footer: (
+      <>
+        <Button variant="gray">Cancel</Button>
+        <Button variant="filled">Invite 3 evaluators</Button>
+      </>
+    ),
+    children: (
+      <div className="flex flex-col gap-[var(--space-3)]">
+        {['Priya Raman', 'Grace Hopper', 'Ada Lovelace'].map((name) => (
+          <div
+            key={name}
+            className="p-[var(--space-4)] rounded-[var(--corner-lg)] bg-[var(--bg)] text-callout text-[var(--label)]"
+          >
+            {name}
+          </div>
+        ))}
+      </div>
+    ),
+  },
+  render: (args) => <ContentShell sheet={args} />,
+  parameters: { layout: 'fullscreen' },
 };

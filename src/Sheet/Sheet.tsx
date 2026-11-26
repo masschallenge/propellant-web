@@ -10,7 +10,7 @@ const openSheetStack: object[] = [];
 
 export type SheetTone = 'neutral' | 'info' | 'success' | 'warning' | 'critical';
 export type SheetSize = 'sm' | 'md' | 'md-wide' | 'lg' | 'xl' | 'full';
-export type SheetLayout = 'stacked' | 'horizontal' | 'split';
+export type SheetLayout = 'stacked' | 'horizontal' | 'split' | 'sectioned';
 export type SheetPlacement = 'center' | 'side' | 'content';
 export type SheetTopOffset = 'sm' | 'md' | 'lg' | 'xl';
 export type SheetCloseButton = 'gray' | 'plain';
@@ -132,6 +132,8 @@ const FOOTER_LAYOUT = {
   row: 'flex flex-col-reverse gap-2 [&>*]:w-full sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-3 sm:[&>*]:w-auto',
   wide: 'flex flex-col-reverse gap-2 [&>*]:w-full',
 };
+
+const SECTION_SEPARATOR = 'border-solid border-[var(--separator)]';
 
 const isTabbable = (element: HTMLElement) =>
   element.tabIndex >= 0 &&
@@ -272,26 +274,34 @@ export const Sheet = ({
     </span>
   ) : null;
 
-  const closeControl = (
-    <span className="absolute top-4 right-4 z-[2] flex">
-      <IconButton
-        variant={CLOSE_BUTTON[closeButton].variant}
-        size="sm"
-        aria-label="Close"
-        onClick={onClose}
-      >
-        {CLOSE_BUTTON[closeButton].glyph}
-      </IconButton>
-    </span>
+  const isSectioned = layout === 'sectioned';
+
+  const closeButtonNode = (
+    <IconButton
+      variant={CLOSE_BUTTON[closeButton].variant}
+      size="sm"
+      aria-label="Close"
+      onClick={onClose}
+    >
+      {CLOSE_BUTTON[closeButton].glyph}
+    </IconButton>
   );
 
+  const closeControl = <span className="absolute top-4 right-4 z-[2] flex">{closeButtonNode}</span>;
+
   const heading = (
-    <div className="flex flex-col gap-1 min-w-0 pr-10">
+    <div className={joinClasses('flex flex-col gap-1 min-w-0', !isSectioned && 'pr-10')}>
       {eyebrow ? (
         <span className="text-subheadline text-[var(--label-secondary)]">{eyebrow}</span>
       ) : null}
       {title ? (
-        <h2 id={titleId} className="m-0 text-title2 text-[var(--label)] [overflow-wrap:anywhere]">
+        <h2
+          id={titleId}
+          className={joinClasses(
+            'm-0 text-[var(--label)] [overflow-wrap:anywhere]',
+            isSectioned ? 'text-title3' : 'text-title2',
+          )}
+        >
           {title}
         </h2>
       ) : null}
@@ -309,7 +319,7 @@ export const Sheet = ({
   const shownPlacement = placement === 'content' && !shell ? 'center' : placement;
   const isSide = shownPlacement === 'side';
   const isContent = shownPlacement === 'content';
-  const scrollsBody = layout === 'stacked' && (size !== 'full' || isSide);
+  const scrollsBody = (layout === 'stacked' || isSectioned) && (size !== 'full' || isSide);
 
   const footerNode = footer ? (
     <div className={joinClasses(FOOTER_LAYOUT[footerLayout], scrollsBody && 'shrink-0')}>
@@ -330,37 +340,64 @@ export const Sheet = ({
     </div>
   ) : null;
 
-  const content =
-    layout === 'horizontal' ? (
-      <div className="flex items-start gap-4">
-        {lead}
-        <div className="flex-1 min-w-0 flex flex-col gap-4">
-          {heading}
-          {body}
-          {footerNode}
-        </div>
+  const content = isSectioned ? (
+    <>
+      <div
+        className={joinClasses(
+          'shrink-0 flex items-center gap-3 py-[var(--space-5)] px-[var(--space-6)] border-b-[length:var(--hairline)]',
+          SECTION_SEPARATOR,
+        )}
+      >
+        <div className="flex-1 min-w-0">{heading}</div>
+        <span className="flex-none flex">{closeButtonNode}</span>
       </div>
-    ) : layout === 'split' ? (
-      <div className="flex items-stretch gap-4">
-        <div className="flex-none w-45 rounded-[var(--corner-lg)] overflow-hidden bg-[var(--bg-secondary)] flex items-center justify-center">
-          {media}
+      {children ? (
+        <div className="flex-1 min-h-0 overflow-y-auto py-[var(--space-5)] px-[var(--space-6)] bg-[var(--bg-grouped)] text-callout text-[var(--label)]">
+          {children}
         </div>
-        <div className="flex-1 min-w-0 flex flex-col gap-4">
-          {heading}
-          {body}
-          {footerNode}
+      ) : null}
+      {footer ? (
+        <div
+          className={joinClasses(
+            'shrink-0 py-[var(--space-4)] px-[var(--space-6)] bg-[var(--bg-elevated)] border-t-[length:var(--hairline)]',
+            SECTION_SEPARATOR,
+            FOOTER_LAYOUT[footerLayout],
+          )}
+        >
+          {footer}
         </div>
-      </div>
-    ) : (
-      <>
-        <div className="shrink-0 flex flex-col gap-3">
-          {lead}
-          {heading}
-        </div>
+      ) : null}
+    </>
+  ) : layout === 'horizontal' ? (
+    <div className="flex items-start gap-4">
+      {lead}
+      <div className="flex-1 min-w-0 flex flex-col gap-4">
+        {heading}
         {body}
         {footerNode}
-      </>
-    );
+      </div>
+    </div>
+  ) : layout === 'split' ? (
+    <div className="flex items-stretch gap-4">
+      <div className="flex-none w-45 rounded-[var(--corner-lg)] overflow-hidden bg-[var(--bg-secondary)] flex items-center justify-center">
+        {media}
+      </div>
+      <div className="flex-1 min-w-0 flex flex-col gap-4">
+        {heading}
+        {body}
+        {footerNode}
+      </div>
+    </div>
+  ) : (
+    <>
+      <div className="shrink-0 flex flex-col gap-3">
+        {lead}
+        {heading}
+      </div>
+      {body}
+      {footerNode}
+    </>
+  );
 
   const sheet = (
     <div
@@ -396,7 +433,8 @@ export const Sheet = ({
         tabIndex={-1}
         data-placement={shownPlacement}
         className={joinClasses(
-          'relative w-full flex flex-col gap-5 p-6 outline-none bg-[var(--bg-elevated)] shadow-[var(--shadow-sheet)]',
+          'relative w-full flex flex-col outline-none bg-[var(--bg-elevated)] shadow-[var(--shadow-sheet)]',
+          isSectioned ? 'overflow-hidden' : 'gap-5 p-6',
           isSide
             ? joinClasses('h-full max-w-none', SIDE_WIDTH[size])
             : joinClasses('rounded-[var(--corner-xl)]', WIDTH[size]),
@@ -404,7 +442,7 @@ export const Sheet = ({
           className,
         )}
       >
-        {closeControl}
+        {isSectioned ? null : closeControl}
         {content}
       </div>
     </div>

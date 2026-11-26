@@ -493,3 +493,65 @@ describe('Sheet close button', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 });
+
+describe('Sheet sectioned layout', () => {
+  const renderSectioned = (onClose = () => {}) =>
+    render(
+      <Sheet
+        open
+        inline
+        layout="sectioned"
+        size="xl"
+        title="Suggest evaluators"
+        onClose={onClose}
+        footer={<button type="button">Invite</button>}
+      >
+        <button type="button">Inside</button>
+      </Sheet>,
+    );
+
+  it('splits the panel into a header, a grouped body and a footer with no outer padding', () => {
+    renderSectioned();
+    const dialog = screen.getByRole('dialog', { name: 'Suggest evaluators' });
+    expect(dialog).toHaveClass('overflow-hidden', 'rounded-[var(--corner-xl)]', 'max-w-[1152px]');
+    expect(dialog).not.toHaveClass('p-6');
+    const [header, body, footer] = Array.from(dialog.children) as HTMLElement[];
+    expect(header).toHaveClass(
+      'py-[var(--space-5)]',
+      'px-[var(--space-6)]',
+      'border-b-[length:var(--hairline)]',
+    );
+    expect(header).toContainElement(screen.getByRole('button', { name: 'Close' }));
+    expect(screen.getByRole('heading', { name: 'Suggest evaluators' })).toHaveClass('text-title3');
+    expect(body).toHaveClass(
+      'overflow-y-auto',
+      'bg-[var(--bg-grouped)]',
+      'py-[var(--space-5)]',
+      'px-[var(--space-6)]',
+    );
+    expect(body).toContainElement(screen.getByRole('button', { name: 'Inside' }));
+    expect(footer).toHaveClass(
+      'py-[var(--space-4)]',
+      'px-[var(--space-6)]',
+      'border-t-[length:var(--hairline)]',
+      'bg-[var(--bg-elevated)]',
+    );
+    expect(footer).toContainElement(screen.getByRole('button', { name: 'Invite' }));
+  });
+
+  it('keeps the close button and the Tab trap', async () => {
+    const onClose = vi.fn();
+    renderSectioned(onClose);
+    const dialog = screen.getByRole('dialog');
+    expect(dialog).toHaveFocus();
+    await userEvent.tab();
+    expect(screen.getByRole('button', { name: 'Close' })).toHaveFocus();
+    await userEvent.tab();
+    await userEvent.tab();
+    expect(screen.getByRole('button', { name: 'Invite' })).toHaveFocus();
+    await userEvent.tab();
+    expect(screen.getByRole('button', { name: 'Close' })).toHaveFocus();
+    await userEvent.click(screen.getByRole('button', { name: 'Close' }));
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+});
