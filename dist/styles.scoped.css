@@ -1141,6 +1141,9 @@ html [data-propellant] .propellant-field {
   background: var(--bg);
   box-shadow: var(--shadow-none);
 }
+html [data-propellant] .propellant-field[data-readonly='true'] {
+  background: var(--fill-tertiary);
+}
 html [data-propellant] .propellant-field-ring {
   pointer-events: none;
   position: absolute;
