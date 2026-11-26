@@ -30,8 +30,16 @@ export interface TableProps<Row = unknown> {
   onSelectionChange?: (ids: string[]) => void;
   rowLabel?: (row: Row, index: number) => string;
   rowActions?: (row: Row, index: number) => ReactNode;
+  rowBreakAfter?: (row: Row, index: number) => ReactNode;
+  rowAccent?: (row: Row, index: number) => TableRowAccent | null | undefined;
   className?: string;
 }
+
+export type TableRowAccent = 'warning';
+
+const ROW_ACCENT: Record<TableRowAccent, string> = {
+  warning: 'shadow-[inset_3px_0_0_var(--warning-solid)]',
+};
 
 type CheckState = 'true' | 'false' | 'mixed';
 
@@ -147,8 +155,11 @@ export const Table = <Row,>({
   onSelectionChange,
   rowLabel,
   rowActions,
+  rowBreakAfter,
+  rowAccent,
   className,
 }: TableProps<Row>) => {
+  const columnCount = columns.length + (selectable ? 1 : 0) + (rowActions ? 1 : 0);
   const [internalSelection, setInternalSelection] = React.useState<string[]>(defaultSelectedIds);
   const selection = selectedIds ?? internalSelection;
   const idOf = (row: Row, index: number) => (rowId ? rowId(row, index) : defaultRowId(row, index));
@@ -253,28 +264,49 @@ export const Table = <Row,>({
                   ? 'bg-[var(--bg-secondary)] group-hover:bg-[var(--fill-tertiary)]'
                   : 'group-hover:bg-[var(--fill-tertiary)]',
             );
+          const accent = rowAccent?.(row, index);
+          const leadClass = accent ? ROW_ACCENT[accent] : undefined;
+          const rowBreak = rowBreakAfter?.(row, index);
           return (
-            <tr key={identifier} aria-selected={ariaSelected} className="group">
-              {selectable ? (
-                <td className={joinClasses(cellClass(false), 'w-10 pr-0')}>
-                  <TableCheckbox
-                    state={isSelected ? 'true' : 'false'}
-                    label={`Select ${labelOf(row, index)}`}
-                    onToggle={() => toggleRow(identifier)}
-                  />
-                </td>
+            <React.Fragment key={identifier}>
+              <tr aria-selected={ariaSelected} className="group">
+                {selectable ? (
+                  <td className={joinClasses(cellClass(false), 'w-10 pr-0', leadClass)}>
+                    <TableCheckbox
+                      state={isSelected ? 'true' : 'false'}
+                      label={`Select ${labelOf(row, index)}`}
+                      onToggle={() => toggleRow(identifier)}
+                    />
+                  </td>
+                ) : null}
+                {columns.map((column, columnIndex) => (
+                  <td
+                    key={column.key}
+                    className={joinClasses(
+                      cellClass(column.align === 'right'),
+                      !selectable && columnIndex === 0 && leadClass,
+                    )}
+                  >
+                    {column.cell ? column.cell(row, index) : readCell(row, column.key)}
+                  </td>
+                ))}
+                {rowActions ? (
+                  <td className={joinClasses(cellClass(true), 'w-[1%] whitespace-nowrap')}>
+                    {rowActions(row, index)}
+                  </td>
+                ) : null}
+              </tr>
+              {rowBreak ? (
+                <tr>
+                  <td
+                    colSpan={columnCount}
+                    className="px-5 py-1.5 bg-[var(--bg-secondary)] border-0 border-t-2 border-b border-solid border-t-[var(--label)] border-b-[var(--separator)] text-footnote font-semibold text-[var(--label)]"
+                  >
+                    {rowBreak}
+                  </td>
+                </tr>
               ) : null}
-              {columns.map((column) => (
-                <td key={column.key} className={cellClass(column.align === 'right')}>
-                  {column.cell ? column.cell(row, index) : readCell(row, column.key)}
-                </td>
-              ))}
-              {rowActions ? (
-                <td className={joinClasses(cellClass(true), 'w-[1%] whitespace-nowrap')}>
-                  {rowActions(row, index)}
-                </td>
-              ) : null}
-            </tr>
+            </React.Fragment>
           );
         })}
       </tbody>

@@ -41,6 +41,9 @@ property and from `@masschallenge/propellant-web/version`.
 - `FileRow` takes `badgeStyle="tile"` for a file list: the type, such as PDF, on a solid 36px tile
   with a medium corner, in an outlined row with the content centered. `badge.tone` takes `warning`
   for an orange tile. The default, `glyph`, is unchanged.
+- `Table` takes `rowBreakAfter`, a full-width row after any row, such as the line between startups
+  that advance and those that don't, on the secondary surface under a strong rule. `rowAccent` marks a
+  row with a 3px bar on its leading edge; `warning` flags rows tied at that line.
 
 ### Changed
 
