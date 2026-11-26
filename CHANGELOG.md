@@ -44,6 +44,10 @@ property and from `@masschallenge/propellant-web/version`.
 - `Table` takes `rowBreakAfter`, a full-width row after any row, such as the line between startups
   that advance and those that don't, on the secondary surface under a strong rule. `rowAccent` marks a
   row with a 3px bar on its leading edge; `warning` flags rows tied at that line.
+- `SearchField` takes `shape="rounded"` for a full-width field with a medium corner instead of a
+  capsule. The default, `capsule`, is unchanged.
+- An inline plain `Button` takes `underline` to stay underlined at rest, like a text link, rather
+  than only on hover.
 
 ### Changed
 

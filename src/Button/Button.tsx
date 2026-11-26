@@ -14,6 +14,7 @@ export interface ButtonProps extends NativeButtonProps {
   destructive?: boolean;
   size?: ButtonSize;
   inline?: boolean;
+  underline?: boolean;
   iconLeading?: ReactNode;
   iconTrailing?: ReactNode;
   iconOnly?: boolean;
@@ -116,6 +117,7 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
       destructive = false,
       size = 'md',
       inline = false,
+      underline = false,
       iconLeading,
       iconTrailing,
       iconOnly = false,
@@ -134,6 +136,7 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
     ref,
   ) => {
     const isInline = inline && variant === 'plain' && !iconOnly;
+    const isUnderlined = isInline && underline;
     const isSoftDisabled = disabled && focusableWhenDisabled;
     const wrapsLabel = wrap && !iconOnly;
     const truncatesLabel = truncate && !iconOnly && !wrapsLabel;
@@ -156,7 +159,7 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
       ) : null;
 
     const classes = joinClasses(
-      BASE,
+      isUnderlined ? BASE.replace('no-underline', 'underline') : BASE,
       tone,
       ring,
       HIT_AREA,

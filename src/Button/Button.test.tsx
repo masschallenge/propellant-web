@@ -80,6 +80,34 @@ describe('Button inline', () => {
     expect(classes).not.toContain('min-h-[var(--control-md)]');
   });
 
+  it('underlines an inline link all the time when asked', () => {
+    render(
+      <>
+        <Button variant="plain" inline underline href="#">
+          Invite someone new
+        </Button>
+        <Button variant="plain" inline href="#">
+          Review the rubric
+        </Button>
+      </>,
+    );
+    const underlined = classesOf(screen.getByRole('link', { name: 'Invite someone new' }));
+    expect(underlined).toContain('underline');
+    expect(underlined).not.toContain('no-underline');
+    expect(classesOf(screen.getByRole('link', { name: 'Review the rubric' }))).toContain(
+      'no-underline',
+    );
+  });
+
+  it('ignores underline on a button that is not inline', () => {
+    render(
+      <Button variant="plain" underline>
+        Cancel
+      </Button>,
+    );
+    expect(classesOf(screen.getByRole('button'))).toContain('no-underline');
+  });
+
   it('ignores inline on other styles', () => {
     render(
       <Button variant="filled" inline>
