@@ -105,6 +105,7 @@ const meta = {
       description: {
         component: [
           'Selectable cards with single (radio) or multiple (checkbox) semantics, row or tall card layout, and icon, avatar, mark, and badge treatments.',
+          '`control="none"` drops the selection mark, so the ring and fill alone show the choice. With `sideBySide`, the cards sit in one row of equal columns, for a short pick such as a criterion type. The native radios stay for keyboard and screen readers.',
           '`layout="choice"` is for a short first decision, such as how to start: an icon tile on the left, an optional neutral badge and the radio on the right, and the title on its own line.',
           '',
           "Import: `import { RadioCardGroup } from '@masschallenge/propellant-web'`",
@@ -124,7 +125,11 @@ const meta = {
   },
   argTypes: {
     selectionMode: { control: 'inline-radio', options: ['single', 'multiple'], ...appearance },
-    control: { control: 'inline-radio', options: ['auto', 'check', 'radio'], ...appearance },
+    control: {
+      control: 'inline-radio',
+      options: ['auto', 'check', 'radio', 'none'],
+      ...appearance,
+    },
     layout: {
       control: 'inline-radio',
       options: ['row', 'card', 'tile', 'choice'],
@@ -313,5 +318,32 @@ export const CompactRows: Story = {
         disabled: true,
       },
     ],
+  },
+};
+
+export const Markless: Story = {
+  decorators: [
+    (Story: React.ComponentType) => (
+      <div style={{ width: 'min(560px, 100%)' }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    legend: 'Type',
+    control: 'none',
+    sideBySide: true,
+    defaultValue: 'score',
+    options: [
+      { value: 'score', title: 'Score', hint: 'A number on a scale' },
+      { value: 'labeled', title: 'Labeled scale', hint: 'Pick one labeled level' },
+      { value: 'written', title: 'Written feedback', hint: 'Words, with a minimum' },
+    ],
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByText('Written feedback'));
+    await expect(canvas.getByRole('radio', { name: /Written feedback/ })).toBeChecked();
+    await expect(args.onChange).toHaveBeenCalledWith('written');
   },
 };

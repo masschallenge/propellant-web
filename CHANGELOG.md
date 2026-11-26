@@ -13,6 +13,11 @@ property and from `@masschallenge/propellant-web/version`.
 - `Switch` takes `labelPlacement="leading"` for settings rows: a semibold label on the left and the
   switch pushed to the right edge. Clicking the label still toggles it. The default, `trailing`, is
   unchanged.
+- `RadioCardGroup` takes `control="none"` for cards without a selection mark: a 1px separator ring
+  at rest, and the tint ring and fill when selected, with 12px by 14px padding, a 10px corner and a
+  12px tertiary hint on row cards. With `sideBySide`, markless cards sit in one row of equal
+  columns with a 10px gap, stacking on narrow screens. The hidden native radios keep keyboard and
+  screen reader support.
 
 ## 2.10.0 (2026-11-25)
 

@@ -36,7 +36,7 @@ interface RadioCardGroupBaseProps {
   defaultValue?: RadioCardSelection;
   onChange?: (value: RadioCardSelection) => void;
   selectionMode?: 'single' | 'multiple';
-  control?: 'auto' | 'check' | 'radio';
+  control?: 'auto' | 'check' | 'radio' | 'none';
   sideBySide?: boolean;
   legend?: ReactNode;
   description?: ReactNode;
@@ -71,6 +71,8 @@ const COMPACT_SELECTED_SURFACE =
   'bg-[var(--radio-card-compact-selected-bg)] shadow-[inset_0_0_0_var(--stroke-strong)_var(--tint)]';
 
 const RESTING_EDGE = 'shadow-[inset_0_0_0_var(--hairline)_var(--control-border)]';
+
+const MARKLESS_RESTING_EDGE = 'shadow-[inset_0_0_0_1px_var(--separator)]';
 
 const ERROR_EDGE = 'shadow-[inset_0_0_0_var(--hairline)_var(--critical)]';
 
@@ -182,11 +184,15 @@ export const RadioCardGroup = ({
   const isTile = layout === 'tile';
   const isStrong = emphasis === 'strong';
   const isCompactRow = density === 'compact' && layout === 'row';
+  const isMarkless = control === 'none';
+  const isMarklessRow = isMarkless && layout === 'row';
 
   const cards = options.map((option) => {
     const isOn = isSelected(option.value);
     const isInteractive = !isOn && !option.disabled;
-    const mark = <SelectionMark isSelected={isOn} isSquare={isSquare} isCompact={isCompactRow} />;
+    const mark = isMarkless ? null : (
+      <SelectionMark isSelected={isOn} isSquare={isSquare} isCompact={isCompactRow} />
+    );
     const icon = option.icon ? (
       <span
         className="flex-none flex items-center justify-center mt-px text-[var(--label-secondary)] [&>svg]:block [&>svg]:w-[var(--icon-lg)] [&>svg]:h-[var(--icon-lg)]"
@@ -213,8 +219,13 @@ export const RadioCardGroup = ({
       />
     );
     const cardClasses = joinClasses(
-      'relative flex gap-3 min-h-[var(--row)] rounded-[var(--corner-lg)] cursor-pointer',
-      isCompactRow ? 'p-[var(--space-3-5)]' : 'p-[var(--space-4)]',
+      'relative flex gap-3 min-h-[var(--row)] cursor-pointer',
+      isMarklessRow ? 'rounded-[var(--corner-tile)]' : 'rounded-[var(--corner-lg)]',
+      isMarklessRow
+        ? 'py-[var(--space-3)] px-[var(--space-3-5)]'
+        : isCompactRow
+          ? 'p-[var(--space-3-5)]'
+          : 'p-[var(--space-4)]',
       layout === 'card' || layout === 'choice'
         ? 'flex-col'
         : isCompactRow
@@ -225,7 +236,10 @@ export const RadioCardGroup = ({
         ? isCompactRow
           ? COMPACT_SELECTED_SURFACE
           : SELECTED_SURFACE
-        : joinClasses('bg-[var(--bg)]', error ? ERROR_EDGE : RESTING_EDGE),
+        : joinClasses(
+            'bg-[var(--bg)]',
+            error ? ERROR_EDGE : isMarklessRow ? MARKLESS_RESTING_EDGE : RESTING_EDGE,
+          ),
       option.disabled && 'opacity-[var(--opacity-disabled)] cursor-not-allowed',
       isInteractive && 'hover:bg-[var(--bg-secondary)]',
       FOCUS_WITHIN,
@@ -386,8 +400,11 @@ export const RadioCardGroup = ({
           {option.hint ? (
             <span
               className={joinClasses(
-                'text-subheadline text-pretty',
-                isCompactRow ? 'text-[var(--label-tertiary)]' : 'text-[var(--label-secondary)]',
+                'text-pretty',
+                isMarklessRow ? 'text-footnote' : 'text-subheadline',
+                isCompactRow || isMarklessRow
+                  ? 'text-[var(--label-tertiary)]'
+                  : 'text-[var(--label-secondary)]',
               )}
             >
               {option.hint}
@@ -455,6 +472,10 @@ export const RadioCardGroup = ({
               : 'grid-cols-[repeat(auto-fill,minmax(5rem,1fr))]',
           )}
         >
+          {cards}
+        </div>
+      ) : sideBySide && isMarklessRow ? (
+        <div className="grid gap-[var(--space-2-5)] grid-cols-1 sm:grid-flow-col sm:auto-cols-fr">
           {cards}
         </div>
       ) : sideBySide ? (
