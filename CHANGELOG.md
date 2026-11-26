@@ -10,6 +10,9 @@ property and from `@masschallenge/propellant-web/version`.
 
 - `Banner` takes `hideIcon` for a plain note without a glyph. The icon and its gap are left out
   entirely.
+- `Switch` takes `labelPlacement="leading"` for settings rows: a semibold label on the left and the
+  switch pushed to the right edge. Clicking the label still toggles it. The default, `trailing`, is
+  unchanged.
 
 ## 2.10.0 (2026-11-25)
 

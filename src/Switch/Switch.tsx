@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 
 export type SwitchSize = 'sm' | 'compact' | 'md';
 export type SwitchTone = 'tint' | 'success';
+export type SwitchLabelPlacement = 'trailing' | 'leading';
 
 type NativeSwitchProps = Omit<
   React.ComponentPropsWithoutRef<'button'>,
@@ -17,6 +18,7 @@ export interface SwitchProps extends NativeSwitchProps {
   tone?: SwitchTone;
   label?: ReactNode;
   hint?: ReactNode;
+  labelPlacement?: SwitchLabelPlacement;
   disabled?: boolean;
 }
 
@@ -48,6 +50,7 @@ export const Switch = ({
   tone = 'tint',
   label,
   hint,
+  labelPlacement = 'trailing',
   disabled = false,
   id,
   className,
@@ -58,6 +61,7 @@ export const Switch = ({
   const [internalChecked, setInternalChecked] = React.useState(defaultChecked);
   const isOn = checked === undefined ? internalChecked : checked;
   const hasText = Boolean(label || hint);
+  const isLeading = labelPlacement === 'leading';
 
   const toggle = () => {
     if (disabled) return;
@@ -106,33 +110,39 @@ export const Switch = ({
 
   if (!hasText) return control;
 
+  const text = (
+    <span className="flex flex-col gap-0.5 min-w-0">
+      {label ? (
+        <label
+          htmlFor={fieldId}
+          className={joinClasses(
+            'text-callout text-[var(--label)]',
+            isLeading && 'font-semibold',
+            disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+          )}
+        >
+          {label}
+        </label>
+      ) : null}
+      {hint ? (
+        <span id={`${fieldId}-hint`} className="text-subheadline text-[var(--label-secondary)]">
+          {hint}
+        </span>
+      ) : null}
+    </span>
+  );
+
   return (
     <div
       className={joinClasses(
         'flex items-start gap-3',
+        isLeading && 'justify-between',
         disabled && 'opacity-[var(--opacity-disabled)]',
         className,
       )}
     >
-      {control}
-      <span className="flex flex-col gap-0.5 min-w-0">
-        {label ? (
-          <label
-            htmlFor={fieldId}
-            className={joinClasses(
-              'text-callout text-[var(--label)]',
-              disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-            )}
-          >
-            {label}
-          </label>
-        ) : null}
-        {hint ? (
-          <span id={`${fieldId}-hint`} className="text-subheadline text-[var(--label-secondary)]">
-            {hint}
-          </span>
-        ) : null}
-      </span>
+      {isLeading ? text : control}
+      {isLeading ? control : text}
     </div>
   );
 };
