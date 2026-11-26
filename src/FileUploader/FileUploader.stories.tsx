@@ -89,6 +89,34 @@ export const WithFiles: Story = {
   ),
 };
 
+export const TileBadges: Story = {
+  render: () => (
+    <VStack>
+      <FileRow
+        name="Pitch deck"
+        meta="nimbus-deck.pdf, 2.4 MB"
+        badge={{ text: 'PDF', tone: 'danger' }}
+        badgeStyle="tile"
+        showStatus={false}
+      />
+      <FileRow
+        name="Traction update"
+        meta="nimbus-traction.pptx, 5.1 MB"
+        badge={{ text: 'PPT', tone: 'warning' }}
+        badgeStyle="tile"
+        showStatus={false}
+      />
+      <FileRow
+        name="Clinical evidence summary"
+        meta="nimbus-clinical-summary.docx, 340 KB"
+        badge={{ text: 'DOC', tone: 'brand' }}
+        badgeStyle="tile"
+        showStatus={false}
+      />
+    </VStack>
+  ),
+};
+
 export const Interaction: Story = {
   tags: ['interaction', '!autodocs'],
   play: async ({ args, canvasElement }) => {

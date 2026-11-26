@@ -121,3 +121,29 @@ describe('FileRow action', () => {
     expect(screen.getByText('3.1 MB')).toBeInTheDocument();
   });
 });
+
+describe('FileRow tile badge', () => {
+  it('shows the file type on a solid tile in an outlined row', () => {
+    const { container } = render(
+      <FileRow
+        name="Traction update"
+        meta="nimbus-traction.pptx"
+        badge={{ text: 'PPT', tone: 'warning' }}
+        badgeStyle="tile"
+        showStatus={false}
+      />,
+    );
+    const tile = screen.getByText('PPT');
+    expect(tile.tagName).toBe('SPAN');
+    expect(tile).toHaveClass('bg-[var(--warning-solid)]');
+    expect(container.querySelector('svg text')).toBeNull();
+    expect(container.firstElementChild).toHaveClass('items-center');
+  });
+
+  it('keeps the page glyph by default', () => {
+    const { container } = render(
+      <FileRow name="deck.pdf" badge={{ text: 'PDF', tone: 'danger' }} showStatus={false} />,
+    );
+    expect(container.querySelector('svg text')).toHaveTextContent('PDF');
+  });
+});

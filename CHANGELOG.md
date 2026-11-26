@@ -38,6 +38,9 @@ property and from `@masschallenge/propellant-web/version`.
   field's focus ring, for dictation controls.
 - `TextField` with `readOnly` sits on the `--fill-tertiary` surface with the text in the label
   color, not dimmed like a disabled field. `locked` adds a trailing lock glyph.
+- `FileRow` takes `badgeStyle="tile"` for a file list: the type, such as PDF, on a solid 36px tile
+  with a medium corner, in an outlined row with the content centered. `badge.tone` takes `warning`
+  for an orange tile. The default, `glyph`, is unchanged.
 
 ### Changed
 
