@@ -14,7 +14,7 @@ const meta = {
     docs: {
       description: {
         component: [
-          'Multi-line text input with label, hint, and validation states.',
+          'Multi-line text input with label, hint, and validation states. Without `rows` it keeps a minimum height for its size; with `rows`, the rows set the height, so `rows={2}` gives a short two line field.',
           '',
           "Import: `import { Textarea } from '@masschallenge/propellant-web'`",
         ].join('\n'),
@@ -57,5 +57,13 @@ export const StrongLabel: Story = {
   play: async ({ canvasElement }) => {
     const label = within(canvasElement).getByText('Feedback for the founders');
     await expect(label).toHaveClass('font-semibold');
+  },
+};
+
+export const TwoRows: Story = {
+  args: {
+    label: 'Guidance for evaluators',
+    rows: 2,
+    placeholder: 'What should evaluators look for?',
   },
 };

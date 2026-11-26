@@ -36,6 +36,11 @@ property and from `@masschallenge/propellant-web/version`.
 - `TextField` with `readOnly` sits on the `--fill-tertiary` surface with the text in the label
   color, not dimmed like a disabled field. `locked` adds a trailing lock glyph.
 
+### Changed
+
+- `Textarea` with `rows` takes its height from the rows instead of the size's minimum height, so
+  `rows={2}` gives a two line field. Without `rows` the minimum height is unchanged.
+
 ## 2.10.0 (2026-11-25)
 
 ### Added

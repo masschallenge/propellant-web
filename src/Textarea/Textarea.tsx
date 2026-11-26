@@ -24,8 +24,13 @@ const joinClasses = (...names: (string | false | null | undefined)[]) =>
   names.filter(Boolean).join(' ');
 
 const SIZES: Record<TextareaSize, string> = {
-  sm: 'min-h-22 px-2.5 py-1.5 text-subheadline',
-  md: 'min-h-30 px-3 py-2 text-callout',
+  sm: 'px-2.5 py-1.5 text-subheadline',
+  md: 'px-3 py-2 text-callout',
+};
+
+const MIN_HEIGHTS: Record<TextareaSize, string> = {
+  sm: 'min-h-22',
+  md: 'min-h-30',
 };
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
@@ -41,6 +46,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       disabled = false,
       id,
       className,
+      rows,
       'aria-describedby': describedByProp,
       ...rest
     },
@@ -73,7 +79,9 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
               'fs-mask block w-full resize-y border-0 bg-transparent outline-none font-normal text-[var(--label)]',
               'placeholder:text-[var(--label-tertiary)] disabled:cursor-not-allowed',
               SIZES[size],
+              rows === undefined && MIN_HEIGHTS[size],
             )}
+            rows={rows}
             disabled={disabled}
             required={required}
             aria-invalid={invalid || undefined}

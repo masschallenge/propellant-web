@@ -90,3 +90,17 @@ describe('Textarea ref', () => {
     expect(ref.current).toBe(screen.getByRole('textbox', { name: 'Reason' }));
   });
 });
+
+describe('Textarea rows', () => {
+  it('keeps the size minimum height without rows and lets rows set the height when given', () => {
+    const { rerender } = render(<Textarea aria-label="Guidance" />);
+    expect(screen.getByRole('textbox')).toHaveClass('min-h-30');
+    rerender(<Textarea aria-label="Guidance" size="sm" />);
+    expect(screen.getByRole('textbox')).toHaveClass('min-h-22');
+    rerender(<Textarea aria-label="Guidance" rows={2} />);
+    const textbox = screen.getByRole('textbox');
+    expect(textbox).toHaveAttribute('rows', '2');
+    expect(textbox).not.toHaveClass('min-h-30');
+    expect(textbox).toHaveClass('px-3', 'py-2', 'text-callout');
+  });
+});
