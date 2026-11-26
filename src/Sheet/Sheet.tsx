@@ -14,6 +14,7 @@ export type SheetLayout = 'stacked' | 'horizontal' | 'split';
 export type SheetPlacement = 'center' | 'side' | 'content';
 export type SheetTopOffset = 'sm' | 'md' | 'lg' | 'xl';
 export type SheetCloseButton = 'gray' | 'plain';
+export type SheetHeader = 'default' | 'divided';
 
 export interface SheetProps {
   open: boolean;
@@ -34,6 +35,7 @@ export interface SheetProps {
   placement?: SheetPlacement;
   topOffset?: SheetTopOffset;
   closeButton?: SheetCloseButton;
+  header?: SheetHeader;
   inline?: boolean;
   className?: string;
   children?: ReactNode;
@@ -128,6 +130,21 @@ const CLOSE_BUTTON: Record<SheetCloseButton, { variant: 'gray' | 'plain'; glyph:
   },
 };
 
+const PANEL_EDGE = { padding: 'p-6', headerBleed: '-mx-6 -mt-6 px-6' } as const;
+
+const HEADING_TYPE: Record<SheetHeader, { wrapper: string; title: string; description: string }> = {
+  default: {
+    wrapper: 'flex flex-col gap-1 min-w-0 pr-10',
+    title: 'text-title2',
+    description: 'text-callout',
+  },
+  divided: {
+    wrapper: 'flex-1 flex flex-col min-w-0',
+    title: 'text-title3',
+    description: 'text-subheadline',
+  },
+};
+
 const FOOTER_LAYOUT = {
   row: 'flex flex-col-reverse gap-2 [&>*]:w-full sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-3 sm:[&>*]:w-auto',
   wide: 'flex flex-col-reverse gap-2 [&>*]:w-full',
@@ -158,6 +175,7 @@ export const Sheet = ({
   placement = 'center',
   topOffset = 'sm',
   closeButton = 'gray',
+  header = 'default',
   role = 'dialog',
   inline = false,
   className,
@@ -272,37 +290,65 @@ export const Sheet = ({
     </span>
   ) : null;
 
-  const closeControl = (
-    <span className="absolute top-4 right-4 z-[2] flex">
-      <IconButton
-        variant={CLOSE_BUTTON[closeButton].variant}
-        size="sm"
-        aria-label="Close"
-        onClick={onClose}
-      >
-        {CLOSE_BUTTON[closeButton].glyph}
-      </IconButton>
-    </span>
+  const closeButtonNode = (
+    <IconButton
+      variant={CLOSE_BUTTON[closeButton].variant}
+      size="sm"
+      aria-label="Close"
+      onClick={onClose}
+    >
+      {CLOSE_BUTTON[closeButton].glyph}
+    </IconButton>
   );
 
+  const isDividedHeader = header === 'divided' && layout === 'stacked';
+
+  const closeControl = isDividedHeader ? null : (
+    <span className="absolute top-4 right-4 z-[2] flex">{closeButtonNode}</span>
+  );
+
+  const headingType = HEADING_TYPE[isDividedHeader ? 'divided' : 'default'];
+
   const heading = (
-    <div className="flex flex-col gap-1 min-w-0 pr-10">
+    <div className={headingType.wrapper}>
       {eyebrow ? (
         <span className="text-subheadline text-[var(--label-secondary)]">{eyebrow}</span>
       ) : null}
       {title ? (
-        <h2 id={titleId} className="m-0 text-title2 text-[var(--label)] [overflow-wrap:anywhere]">
+        <h2
+          id={titleId}
+          className={joinClasses(
+            'm-0 text-[var(--label)] [overflow-wrap:anywhere]',
+            headingType.title,
+          )}
+        >
           {title}
         </h2>
       ) : null}
       {description ? (
         <p
           id={descriptionId}
-          className="m-0 text-callout text-[var(--label-secondary)] [overflow-wrap:anywhere]"
+          className={joinClasses(
+            'm-0 text-[var(--label-secondary)] [overflow-wrap:anywhere]',
+            headingType.description,
+          )}
         >
           {description}
         </p>
       ) : null}
+    </div>
+  );
+
+  const dividedHeading = (
+    <div
+      className={joinClasses(
+        'shrink-0 flex items-center gap-3 py-5 border-b border-solid border-[var(--separator)]',
+        PANEL_EDGE.headerBleed,
+      )}
+    >
+      {lead}
+      {heading}
+      <span className="flex-none flex">{closeButtonNode}</span>
     </div>
   );
 
@@ -353,10 +399,14 @@ export const Sheet = ({
       </div>
     ) : (
       <>
-        <div className="shrink-0 flex flex-col gap-3">
-          {lead}
-          {heading}
-        </div>
+        {isDividedHeader ? (
+          dividedHeading
+        ) : (
+          <div className="shrink-0 flex flex-col gap-3">
+            {lead}
+            {heading}
+          </div>
+        )}
         {body}
         {footerNode}
       </>
@@ -396,7 +446,8 @@ export const Sheet = ({
         tabIndex={-1}
         data-placement={shownPlacement}
         className={joinClasses(
-          'relative w-full flex flex-col gap-5 p-6 outline-none bg-[var(--bg-elevated)] shadow-[var(--shadow-sheet)]',
+          'relative w-full flex flex-col gap-5 outline-none bg-[var(--bg-elevated)] shadow-[var(--shadow-sheet)]',
+          PANEL_EDGE.padding,
           isSide
             ? joinClasses('h-full max-w-none', SIDE_WIDTH[size])
             : joinClasses('rounded-[var(--corner-xl)]', WIDTH[size]),

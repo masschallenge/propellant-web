@@ -286,3 +286,24 @@ describe('MultiComboBox chip tone and markers', () => {
     ).not.toHaveAttribute('aria-hidden');
   });
 });
+
+describe('MultiComboBox panel width', () => {
+  const longOptions = [
+    { value: 'health-it', label: 'Healthcare IT and digital health' },
+    { value: 'devices', label: 'Medical devices' },
+  ];
+
+  it('sizes the panel to its labels only when panelWidth is content', async () => {
+    const { unmount } = render(<MultiComboBox label="Sub-industries" options={longOptions} />);
+    await userEvent.click(screen.getByRole('combobox', { name: 'Sub-industries' }));
+    const defaultPanel = (await screen.findByRole('listbox')).parentElement as HTMLElement;
+    expect(defaultPanel.style.width).not.toBe('max-content');
+    unmount();
+
+    render(<MultiComboBox label="Sub-industries" panelWidth="content" options={longOptions} />);
+    await userEvent.click(screen.getByRole('combobox', { name: 'Sub-industries' }));
+    const contentPanel = (await screen.findByRole('listbox')).parentElement as HTMLElement;
+    expect(contentPanel.style.width).toBe('max-content');
+    expect(contentPanel.style.maxWidth).toBe('calc(100vw - 16px)');
+  });
+});

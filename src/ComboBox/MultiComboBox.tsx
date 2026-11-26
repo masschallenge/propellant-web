@@ -7,6 +7,7 @@ import {
   FieldChevron,
   anchoredOptionClasses,
   anchoredPanelStyle,
+  type AnchoredPanelWidth,
   useAnchoredPosition,
 } from '../internal/anchoredLayer';
 import { Button } from '../Button/Button';
@@ -44,6 +45,7 @@ export interface MultiComboBoxProps {
   hint?: string;
   placeholder?: string;
   size?: MultiComboBoxSize;
+  panelWidth?: AnchoredPanelWidth;
   searchable?: boolean;
   summarySecondary?: string;
   chipTone?: MultiComboBoxChipTone;
@@ -94,6 +96,7 @@ export const MultiComboBox = ({
   hint,
   placeholder = 'Select…',
   size = 'md',
+  panelWidth = 'trigger',
   searchable = true,
   summarySecondary,
   chipTone = 'neutral',
@@ -422,7 +425,11 @@ export const MultiComboBox = ({
           <AnchoredLayer isPrivate={isPrivate}>
             <div
               ref={panelRef}
-              style={anchoredPanelStyle(position, { matchWidth: true, capsHeight: false })}
+              style={anchoredPanelStyle(position, {
+                matchWidth: true,
+                fitsContent: panelWidth === 'content',
+                capsHeight: false,
+              })}
               className={joinClasses(
                 ANCHORED_SURFACE_CLASSES,
                 'min-w-[16.25rem] overflow-hidden text-callout',
