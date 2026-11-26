@@ -16,6 +16,8 @@ export interface TextareaProps extends NativeTextareaProps {
   invalid?: boolean;
   disabled?: boolean;
   rows?: number;
+  accessory?: ReactNode;
+  footer?: ReactNode;
   id?: string;
   className?: string;
 }
@@ -33,6 +35,8 @@ const MIN_HEIGHTS: Record<TextareaSize, string> = {
   md: 'min-h-30',
 };
 
+const ACCESSORY_ROOM = 'pr-[calc(var(--control-sm)+var(--space-4))]';
+
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {
@@ -47,6 +51,8 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       id,
       className,
       rows,
+      accessory,
+      footer,
       'aria-describedby': describedByProp,
       ...rest
     },
@@ -57,6 +63,26 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     const hintId = hint ? `${fieldId}-hint` : undefined;
     const hintEndId = hintEnd !== undefined && hintEnd !== null ? `${fieldId}-hint-end` : undefined;
     const describedBy = [describedByProp, hintId, hintEndId].filter(Boolean).join(' ') || undefined;
+
+    const field = (
+      <textarea
+        ref={forwardedRef}
+        id={fieldId}
+        className={joinClasses(
+          'fs-mask block w-full resize-y border-0 bg-transparent outline-none font-normal text-[var(--label)]',
+          'placeholder:text-[var(--label-tertiary)] disabled:cursor-not-allowed',
+          SIZES[size],
+          rows === undefined && MIN_HEIGHTS[size],
+          Boolean(accessory) && ACCESSORY_ROOM,
+        )}
+        rows={rows}
+        disabled={disabled}
+        required={required}
+        aria-invalid={invalid || undefined}
+        aria-describedby={describedBy}
+        {...rest}
+      />
+    );
 
     return (
       <div
@@ -71,23 +97,21 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
             {label}
           </FieldLabel>
         ) : null}
-        <div className="propellant-field" data-invalid={invalid ? 'true' : undefined}>
-          <textarea
-            ref={forwardedRef}
-            id={fieldId}
-            className={joinClasses(
-              'fs-mask block w-full resize-y border-0 bg-transparent outline-none font-normal text-[var(--label)]',
-              'placeholder:text-[var(--label-tertiary)] disabled:cursor-not-allowed',
-              SIZES[size],
-              rows === undefined && MIN_HEIGHTS[size],
-            )}
-            rows={rows}
-            disabled={disabled}
-            required={required}
-            aria-invalid={invalid || undefined}
-            aria-describedby={describedBy}
-            {...rest}
-          />
+        <div
+          className={joinClasses('propellant-field', Boolean(footer) && 'flex-col')}
+          data-invalid={invalid ? 'true' : undefined}
+        >
+          {accessory ? (
+            <div className="relative flex-1 min-w-0">
+              {field}
+              <span className="absolute right-[var(--space-2)] bottom-[var(--space-2)] flex">
+                {accessory}
+              </span>
+            </div>
+          ) : (
+            field
+          )}
+          {footer ? <div className="w-full">{footer}</div> : null}
           <span className="propellant-field-ring" aria-hidden="true" />
         </div>
         <FieldHintRow

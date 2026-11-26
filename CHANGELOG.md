@@ -33,6 +33,9 @@ property and from `@masschallenge/propellant-web/version`.
   draft; `getTagLabel` and `getTagIcon` show a display name and a leading icon for a tag;
   `visibleTagLimit` shows only the first tags and a "2 more" button, named by `moreTagsLabel`, that
   reveals the rest.
+- `Textarea` takes `accessory`, placed at the bottom right inside the border with the text kept
+  clear of it, and `footer`, a full width bar inside the border under the text. Both share the
+  field's focus ring, for dictation controls.
 - `TextField` with `readOnly` sits on the `--fill-tertiary` surface with the text in the label
   color, not dimmed like a disabled field. `locked` adds a trailing lock glyph.
 
