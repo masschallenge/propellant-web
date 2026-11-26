@@ -42,6 +42,7 @@ const OVERRIDES: Record<string, Record<string, unknown>> = {
   ProgressRing: { value: 50 },
   RadialProgress: { value: 50 },
   ProgressCircle: { value: 50 },
+  ScoreScale: { min: 1, max: 5, value: null },
   Slider: { value: 50 },
   VerificationCodeInput: { length: 4 },
 };
@@ -105,6 +106,7 @@ const EXPECTED_COMPONENTS = [
   'RadioCardGroup',
   'RadioGroup',
   'RoleTag',
+  'ScoreScale',
   'SearchField',
   'SegmentedControl',
   'Separator',

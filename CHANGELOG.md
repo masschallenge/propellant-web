@@ -18,6 +18,11 @@ property and from `@masschallenge/propellant-web/version`.
   12px tertiary hint on row cards. With `sideBySide`, markless cards sit in one row of equal
   columns with a 10px gap, stacking on narrow screens. The hidden native radios keep keyboard and
   screen reader support.
+- `ScoreScale`, a single choice from a row of numbers, min to max, with an optional N/A. Each
+  score is a 34px square with an 8px corner and a separator ring, filled with the tint when chosen.
+  Optional low and high captions sit under the row, the high one ending under the last number
+  rather than under N/A, and describe the group. The squares are native radios in a `radiogroup`,
+  so the arrow keys move the choice.
 
 ## 2.10.0 (2026-11-25)
 
