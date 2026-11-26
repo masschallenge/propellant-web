@@ -351,3 +351,115 @@ describe('TextField native seams', () => {
     expect(screen.getByRole('textbox', { name: 'Panels' })).toHaveAttribute('inputmode', 'numeric');
   });
 });
+
+const PEOPLE: Record<string, string> = { 'ada@example.org': 'Ada Lovelace' };
+
+const InviteField = ({
+  initialTags = [],
+  onTagAdd,
+  visibleTagLimit,
+}: {
+  initialTags?: string[];
+  onTagAdd?: (draft: string) => string | null;
+  visibleTagLimit?: number;
+}) => {
+  const [tags, setTags] = useState(initialTags);
+  return (
+    <TextField
+      label="Email or name"
+      tags={tags}
+      onTagsChange={setTags}
+      onTagAdd={onTagAdd}
+      visibleTagLimit={visibleTagLimit}
+      getTagLabel={(tag) => PEOPLE[tag] ?? tag}
+      getTagIcon={(tag) => (PEOPLE[tag] ? <span data-testid={`icon-${tag}`}>AL</span> : null)}
+    />
+  );
+};
+
+describe('TextField recipient tags', () => {
+  it('shows a display name and a leading icon for known people and the raw value otherwise', () => {
+    render(<InviteField initialTags={['ada@example.org', 'sam@example.org']} />);
+    expect(screen.getByText('Ada Lovelace')).toBeInTheDocument();
+    expect(screen.getByTestId('icon-ada@example.org')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Remove Ada Lovelace' })).toBeInTheDocument();
+    expect(screen.getByText('sam@example.org')).toBeInTheDocument();
+    expect(screen.queryByTestId('icon-sam@example.org')).not.toBeInTheDocument();
+  });
+
+  it('commits a draft on Enter, on comma and on blur', () => {
+    render(<InviteField />);
+    const input = screen.getByRole('textbox', { name: 'Email or name' }) as HTMLInputElement;
+    fireEvent.change(input, { target: { value: 'one@example.org' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
+    fireEvent.change(input, { target: { value: 'two@example.org' } });
+    fireEvent.keyDown(input, { key: ',' });
+    fireEvent.change(input, { target: { value: 'three@example.org' } });
+    fireEvent.blur(input);
+    ['one@example.org', 'two@example.org', 'three@example.org'].forEach((email) =>
+      expect(screen.getByText(email)).toBeInTheDocument(),
+    );
+    expect(input.value).toBe('');
+  });
+
+  it('adds what onTagAdd returns and keeps the draft when it refuses', () => {
+    const onTagAdd = vi.fn((draft: string) => (draft.includes('@') ? draft.toLowerCase() : null));
+    render(<InviteField onTagAdd={onTagAdd} />);
+    const input = screen.getByRole('textbox', { name: 'Email or name' }) as HTMLInputElement;
+    fireEvent.change(input, { target: { value: 'not an email' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
+    expect(onTagAdd).toHaveBeenCalledWith('not an email');
+    expect(input.value).toBe('not an email');
+    expect(screen.queryByRole('button', { name: /^Remove/ })).not.toBeInTheDocument();
+    fireEvent.change(input, { target: { value: 'Ada@Example.org' } });
+    fireEvent.keyDown(input, { key: ',' });
+    expect(screen.getByText('Ada Lovelace')).toBeInTheDocument();
+    expect(input.value).toBe('');
+  });
+
+  it('shows only the first tags with a more button that reveals the rest', () => {
+    render(
+      <InviteField
+        visibleTagLimit={2}
+        initialTags={['a@example.org', 'b@example.org', 'c@example.org', 'd@example.org']}
+      />,
+    );
+    expect(screen.getByText('b@example.org')).toBeInTheDocument();
+    expect(screen.queryByText('c@example.org')).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: '2 more' }));
+    expect(screen.getByText('d@example.org')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '2 more' })).not.toBeInTheDocument();
+  });
+
+  it('names the more button with moreTagsLabel', () => {
+    render(
+      <TextField
+        label="Email or name"
+        tags={['a@example.org', 'b@example.org']}
+        visibleTagLimit={1}
+        moreTagsLabel={(hiddenCount) => `+${hiddenCount}`}
+      />,
+    );
+    expect(screen.getByRole('button', { name: '+1' })).toBeInTheDocument();
+  });
+});
+
+describe('TextField read only', () => {
+  it('fills the shell, keeps the label colour and adds a lock only when locked', () => {
+    const { rerender, container } = render(
+      <TextField label="Program" readOnly value="HealthTech Traction 2027" />,
+    );
+    const shell = container.querySelector('.propellant-field') as HTMLElement;
+    expect(shell).toHaveAttribute('data-readonly', 'true');
+    expect(screen.getByRole('textbox', { name: 'Program' })).toHaveClass('text-[var(--label)]');
+    expect(shell.querySelector('rect')).toBeNull();
+    rerender(<TextField label="Program" readOnly locked value="Evaluator" />);
+    expect(shell.querySelector('rect')).not.toBeNull();
+    expect(shell.parentElement).not.toHaveClass('opacity-[var(--opacity-disabled)]');
+  });
+
+  it('leaves editable fields on the plain surface', () => {
+    const { container } = render(<TextField label="Name" />);
+    expect(container.querySelector('.propellant-field')).not.toHaveAttribute('data-readonly');
+  });
+});

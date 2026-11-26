@@ -6,6 +6,9 @@
   background: var(--bg);
   box-shadow: var(--shadow-none);
 }
+.propellant-field[data-readonly='true'] {
+  background: var(--fill-tertiary);
+}
 .propellant-field-ring {
   pointer-events: none;
   position: absolute;

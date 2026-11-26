@@ -28,6 +28,13 @@ property and from `@masschallenge/propellant-web/version`.
   20px by 24px, so white cards and lists stand out; and a footer bar on the elevated surface, padded
   16px by 24px under a hairline. The panel has no outer padding. The focus trap, labelling, close
   button and placements are unchanged.
+- `TextField` tags commit on comma and on blur as well as Enter. New optional props for a
+  recipient field: `onTagAdd` rewrites a draft or refuses it by returning `null`, which keeps the
+  draft; `getTagLabel` and `getTagIcon` show a display name and a leading icon for a tag;
+  `visibleTagLimit` shows only the first tags and a "2 more" button, named by `moreTagsLabel`, that
+  reveals the rest.
+- `TextField` with `readOnly` sits on the `--fill-tertiary` surface with the text in the label
+  color, not dimmed like a disabled field. `locked` adds a trailing lock glyph.
 
 ## 2.10.0 (2026-11-25)
 
