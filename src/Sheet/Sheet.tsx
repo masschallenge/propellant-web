@@ -130,6 +130,8 @@ const CLOSE_BUTTON: Record<SheetCloseButton, { variant: 'gray' | 'plain'; glyph:
   },
 };
 
+const PANEL_EDGE = { padding: 'p-6', headerBleed: '-mx-6 -mt-6 px-6' } as const;
+
 const HEADING_TYPE: Record<SheetHeader, { wrapper: string; title: string; description: string }> = {
   default: {
     wrapper: 'flex flex-col gap-1 min-w-0 pr-10',
@@ -338,7 +340,12 @@ export const Sheet = ({
   );
 
   const dividedHeading = (
-    <div className="shrink-0 -mx-6 -mt-6 flex items-center gap-3 px-6 py-5 border-b border-solid border-[var(--separator)]">
+    <div
+      className={joinClasses(
+        'shrink-0 flex items-center gap-3 py-5 border-b border-solid border-[var(--separator)]',
+        PANEL_EDGE.headerBleed,
+      )}
+    >
       {lead}
       {heading}
       <span className="flex-none flex">{closeButtonNode}</span>
@@ -439,7 +446,8 @@ export const Sheet = ({
         tabIndex={-1}
         data-placement={shownPlacement}
         className={joinClasses(
-          'relative w-full flex flex-col gap-5 p-6 outline-none bg-[var(--bg-elevated)] shadow-[var(--shadow-sheet)]',
+          'relative w-full flex flex-col gap-5 outline-none bg-[var(--bg-elevated)] shadow-[var(--shadow-sheet)]',
+          PANEL_EDGE.padding,
           isSide
             ? joinClasses('h-full max-w-none', SIDE_WIDTH[size])
             : joinClasses('rounded-[var(--corner-xl)]', WIDTH[size]),
