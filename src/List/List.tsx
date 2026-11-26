@@ -13,8 +13,15 @@ export type ListDensity = 'regular' | 'dense' | 'roomy';
 
 export type ListSectionHeadingProps = Omit<React.ComponentPropsWithRef<'h2'>, 'children' | 'id'>;
 
+export interface ListSectionMedia {
+  src: string;
+  alt?: string;
+}
+
 export interface ListSectionProps extends Omit<React.ComponentPropsWithoutRef<'section'>, 'title'> {
   title?: ReactNode;
+  subtitle?: ReactNode;
+  media?: ListSectionMedia;
   titleAs?: 'h2' | 'h3' | 'h4';
   headingProps?: ListSectionHeadingProps;
   footer?: ReactNode;
@@ -28,6 +35,8 @@ const ListDensityContext = React.createContext<ListDensity>('regular');
 
 export const ListSection = ({
   title,
+  subtitle,
+  media,
   titleAs: TitleTag = 'h3',
   headingProps,
   footer,
@@ -43,7 +52,23 @@ export const ListSection = ({
   const header =
     title || trailing ? (
       <div className={layout.header}>
-        {title ? (
+        {title && (subtitle || media) ? (
+          <div className="flex min-w-0 items-center gap-2.5">
+            {media ? <RowImage media={{ src: media.src, alt: media.alt, shape: 'logo' }} /> : null}
+            <div className="flex min-w-0 flex-col">
+              <TitleTag
+                {...headingProps}
+                id={titleId}
+                className={joinClasses(layout.title, headingProps?.className)}
+              >
+                {title}
+              </TitleTag>
+              {subtitle ? (
+                <p className="m-0 text-subheadline text-[var(--label-tertiary)]">{subtitle}</p>
+              ) : null}
+            </div>
+          </div>
+        ) : title ? (
           <TitleTag
             {...headingProps}
             id={titleId}

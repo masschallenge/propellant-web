@@ -717,3 +717,34 @@ describe('ListRow', () => {
     });
   });
 });
+
+describe('ListSection header media', () => {
+  it('sets a logo and a subtitle beside the title', () => {
+    render(
+      <ListSection
+        title="Sanofi THRIVE Challenge"
+        titleAs="h2"
+        subtitle="Online selection"
+        media={{ src: '/logo.png', alt: 'Sanofi logo' }}
+      >
+        <ListRow title="3 reviews left" />
+      </ListSection>,
+    );
+    const heading = screen.getByRole('heading', { level: 2, name: 'Sanofi THRIVE Challenge' });
+    expect(screen.getByRole('region', { name: 'Sanofi THRIVE Challenge' })).toBeInTheDocument();
+    expect(heading.nextElementSibling).toHaveTextContent('Online selection');
+    expect(screen.getByRole('img', { name: 'Sanofi logo' })).toHaveAttribute('data-shape', 'logo');
+  });
+
+  it('keeps the plain title when there is no media or subtitle', () => {
+    render(
+      <ListSection title="To review">
+        <ListRow title="CareLoop" />
+      </ListSection>,
+    );
+    expect(screen.getByRole('heading', { name: 'To review' }).parentElement).not.toHaveClass(
+      'flex-col',
+    );
+    expect(screen.queryByRole('img')).not.toBeInTheDocument();
+  });
+});

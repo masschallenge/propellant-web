@@ -8,6 +8,9 @@ property and from `@masschallenge/propellant-web/version`.
 
 ### Added
 
+- `ListSection` takes `subtitle` and `media` for a group header that names its source: a
+  logo in the list logo shape, then the title with a quiet line under it. The plain title is
+  unchanged.
 - `Banner` takes `hideIcon` for a plain note without a glyph. The icon and its gap are left out
   entirely.
 - `Switch` takes `labelPlacement="leading"` for settings rows: a semibold label on the left and the
