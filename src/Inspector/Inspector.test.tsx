@@ -221,3 +221,43 @@ describe('Inspector close label', () => {
     expect(screen.getByRole('button', { name: 'Close filters' })).toBeInTheDocument();
   });
 });
+
+describe('Inspector divided', () => {
+  it('rules off the header, uses a plain close and ends the footer at its natural width', () => {
+    render(
+      <Inspector
+        open
+        variant="divided"
+        title="12 applications have fewer than 3 reads"
+        description="20 reads to reassign."
+        onClose={() => undefined}
+        footer={<button type="button">Reassign 20 reads</button>}
+      >
+        <p>Rows</p>
+      </Inspector>,
+    );
+    const heading = screen.getByRole('heading', {
+      name: '12 applications have fewer than 3 reads',
+    });
+    expect(heading).toHaveClass('text-headline');
+    expect(heading.parentElement?.parentElement).toHaveClass('border-b-[length:var(--hairline)]');
+    const footer = screen.getByRole('button', { name: 'Reassign 20 reads' }).parentElement;
+    expect(footer).toHaveClass('justify-end');
+    expect(footer).not.toHaveClass('[&>*]:flex-1');
+  });
+
+  it('keeps the default look when no variant is given', () => {
+    render(
+      <Inspector
+        open
+        title="Details"
+        onClose={() => undefined}
+        footer={<button type="button">Done</button>}
+      >
+        <p>Rows</p>
+      </Inspector>,
+    );
+    expect(screen.getByRole('heading', { name: 'Details' })).toHaveClass('text-title3');
+    expect(screen.getByRole('button', { name: 'Done' }).parentElement).toHaveClass('[&>*]:flex-1');
+  });
+});

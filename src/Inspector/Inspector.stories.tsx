@@ -90,6 +90,7 @@ export const Playground: Story = {};
 export const Wide: Story = { args: { wide: true } };
 export const ExtraWide: Story = { args: { size: 'xl' } };
 export const NoFooter: Story = { args: { footer: undefined } };
+export const Divided: Story = { args: { variant: 'divided' } };
 
 export const Open: Story = {
   tags: ['interaction', '!autodocs'],

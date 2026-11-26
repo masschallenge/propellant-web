@@ -48,6 +48,9 @@ property and from `@masschallenge/propellant-web/version`.
   capsule. The default, `capsule`, is unchanged.
 - An inline plain `Button` takes `underline` to stay underlined at rest, like a text link, rather
   than only on hover.
+- `Inspector` takes `variant="divided"` for list and detail sheets: a headline title, a plain
+  close glyph, a hairline under the header, 24px side padding and footer actions at their natural
+  width on the trailing edge. The default is unchanged.
 
 ### Changed
 
