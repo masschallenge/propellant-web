@@ -748,3 +748,29 @@ describe('ListSection header media', () => {
     expect(screen.queryByRole('img')).not.toBeInTheDocument();
   });
 });
+
+describe('ListSection header parts', () => {
+  it('shows a subtitle without a logo', () => {
+    render(
+      <ListSection title="Sanofi THRIVE Challenge" subtitle="Online selection">
+        <ListRow title="3 reviews left" />
+      </ListSection>,
+    );
+    expect(
+      screen.getByRole('heading', { name: 'Sanofi THRIVE Challenge' }).nextElementSibling,
+    ).toHaveTextContent('Online selection');
+    expect(screen.queryByRole('img')).not.toBeInTheDocument();
+  });
+
+  it('shows a logo without a subtitle', () => {
+    render(
+      <ListSection title="Sanofi THRIVE Challenge" media={{ src: '/logo.png', alt: 'Sanofi logo' }}>
+        <ListRow title="3 reviews left" />
+      </ListSection>,
+    );
+    expect(screen.getByRole('img', { name: 'Sanofi logo' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: 'Sanofi THRIVE Challenge' }).nextElementSibling,
+    ).toBeNull();
+  });
+});

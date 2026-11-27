@@ -471,3 +471,35 @@ describe('TextField read only', () => {
     expect(container.querySelector('.propellant-field')).not.toHaveAttribute('data-readonly');
   });
 });
+
+describe('TextField tag drafts', () => {
+  it('ignores an empty blur and clears a duplicate draft without adding it', () => {
+    render(<InviteField initialTags={['a@example.org']} />);
+    const input = screen.getByRole('textbox', { name: 'Email or name' }) as HTMLInputElement;
+    fireEvent.blur(input);
+    fireEvent.change(input, { target: { value: 'a@example.org' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
+    expect(screen.getAllByText('a@example.org')).toHaveLength(1);
+    expect(input.value).toBe('');
+  });
+
+  it('passes blur through on a plain field', () => {
+    const onBlur = vi.fn();
+    render(<TextField label="Name" onBlur={onBlur} />);
+    fireEvent.blur(screen.getByRole('textbox', { name: 'Name' }));
+    expect(onBlur).toHaveBeenCalledTimes(1);
+  });
+
+  it('cuts outer tags to the limit too', () => {
+    render(
+      <TextField
+        label="Email or name"
+        tagPlacement="outer"
+        tags={['a@example.org', 'b@example.org']}
+        visibleTagLimit={1}
+      />,
+    );
+    expect(screen.queryByText('b@example.org')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '1 more' })).toBeInTheDocument();
+  });
+});

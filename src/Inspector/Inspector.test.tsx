@@ -261,3 +261,16 @@ describe('Inspector divided', () => {
     expect(screen.getByRole('button', { name: 'Done' }).parentElement).toHaveClass('[&>*]:flex-1');
   });
 });
+
+describe('Inspector divided flush', () => {
+  it('drops the side padding when flush', () => {
+    render(
+      <Inspector open variant="divided" flush title="Reads" onClose={() => undefined}>
+        <p>Rows</p>
+      </Inspector>,
+    );
+    const body = screen.getByText('Rows').parentElement;
+    expect(body).toHaveClass('px-0');
+    expect(body).not.toHaveClass('px-6');
+  });
+});

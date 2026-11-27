@@ -92,3 +92,12 @@ describe('Switch', () => {
     expect(screen.getByText('Email judges')).not.toHaveClass('font-semibold');
   });
 });
+
+describe('Switch leading hint', () => {
+  it('puts a hint before the switch when there is no label', () => {
+    render(<Switch aria-label="Allow N/A" hint="Judges can skip" labelPlacement="leading" />);
+    const control = screen.getByRole('switch', { name: 'Allow N/A' });
+    expect(control.parentElement?.lastElementChild).toBe(control);
+    expect(screen.getByText('Judges can skip')).toBeInTheDocument();
+  });
+});

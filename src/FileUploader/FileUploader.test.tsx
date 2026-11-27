@@ -147,3 +147,12 @@ describe('FileRow tile badge', () => {
     expect(container.querySelector('svg text')).toHaveTextContent('PDF');
   });
 });
+
+describe('FileRow tile badge tone', () => {
+  it('falls back to the brand tile when the badge has no tone', () => {
+    render(
+      <FileRow name="notes.doc" badge={{ text: 'DOC' }} badgeStyle="tile" showStatus={false} />,
+    );
+    expect(screen.getByText('DOC')).toHaveClass('bg-[var(--tint)]');
+  });
+});

@@ -98,3 +98,15 @@ describe('ScoreScale', () => {
     expect(screen.getByRole('radio', { name: '5' })).toBeChecked();
   });
 });
+
+describe('ScoreScale single caption', () => {
+  it('describes the group by the low caption alone', () => {
+    render(<LabelledScale lowLabel="No proof yet" />);
+    expect(screen.getByRole('radiogroup')).toHaveAccessibleDescription('No proof yet');
+  });
+
+  it('describes the group by the high caption alone', () => {
+    render(<LabelledScale highLabel="Peer reviewed" />);
+    expect(screen.getByRole('radiogroup')).toHaveAccessibleDescription('Peer reviewed');
+  });
+});

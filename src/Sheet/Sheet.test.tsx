@@ -605,3 +605,27 @@ describe('Sheet sectioned layout', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 });
+
+describe('Sheet sectioned without body or footer', () => {
+  it('renders only the header', () => {
+    render(<Sheet open inline layout="sectioned" title="Suggest evaluators" onClose={() => {}} />);
+    const dialog = screen.getByRole('dialog', { name: 'Suggest evaluators' });
+    expect(dialog.children).toHaveLength(1);
+    expect(dialog).toContainElement(screen.getByRole('button', { name: 'Close' }));
+  });
+});
+
+describe('Sheet split layout', () => {
+  it('sets the media beside the heading', () => {
+    render(
+      <Sheet open inline layout="split" title="Welcome" media={<span>Art</span>} onClose={() => {}}>
+        Body
+      </Sheet>,
+    );
+    const mediaPanel = screen.getByText('Art').parentElement as HTMLElement;
+    expect(mediaPanel).toHaveClass('w-45');
+    expect(mediaPanel.nextElementSibling).toContainElement(
+      screen.getByRole('heading', { name: 'Welcome' }),
+    );
+  });
+});
