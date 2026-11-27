@@ -320,7 +320,7 @@ export const Table = <Row,>({
                 <tr>
                   <td
                     colSpan={columnCount}
-                    className="px-5 py-1.5 bg-[var(--bg-secondary)] border-0 border-t-2 border-b border-solid border-t-[var(--label)] border-b-[var(--separator)] text-footnote font-semibold text-[var(--label)]"
+                    className="px-5 py-1.5 bg-[var(--bg-secondary)] border-0 border-t-[length:var(--stroke-strong)] border-b border-solid border-t-[var(--label)] border-b-[var(--separator)] text-footnote font-semibold text-[var(--label)]"
                   >
                     {rowBreak}
                   </td>

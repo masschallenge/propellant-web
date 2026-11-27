@@ -186,6 +186,7 @@ describe('Table row breaks and accents', () => {
     const breakCell = screen.getByText('Advancing 2 · Not advancing 1');
     expect(breakCell.tagName).toBe('TD');
     expect(breakCell).toHaveAttribute('colspan', '2');
+    expect(breakCell).toHaveClass('border-t-[length:var(--stroke-strong)]');
     const bodyRows = screen.getAllByRole('row').slice(1);
     expect(bodyRows.map((row) => row.textContent)).toEqual([
       'Cadence BioMore',
