@@ -431,6 +431,14 @@ describe('TextField recipient tags', () => {
     expect(screen.queryByRole('button', { name: '2 more' })).not.toBeInTheDocument();
   });
 
+  it('moves focus to the input when the more button goes away', () => {
+    render(<InviteField visibleTagLimit={1} initialTags={['a@example.org', 'b@example.org']} />);
+    const more = screen.getByRole('button', { name: '1 more' });
+    more.focus();
+    fireEvent.click(more);
+    expect(screen.getByRole('textbox', { name: 'Email or name' })).toHaveFocus();
+  });
+
   it('names the more button with moreTagsLabel', () => {
     render(
       <TextField

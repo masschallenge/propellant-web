@@ -259,7 +259,10 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             type="button"
             className={MORE_TAGS_BUTTON}
             disabled={disabled}
-            onClick={() => setAreAllTagsShown(true)}
+            onClick={() => {
+              setAreAllTagsShown(true);
+              inputRef.current?.focus();
+            }}
           >
             {moreTagsLabel(hiddenTagCount)}
           </button>
