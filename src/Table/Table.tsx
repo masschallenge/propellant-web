@@ -46,8 +46,8 @@ type CheckState = 'true' | 'false' | 'mixed';
 
 const CONTROL_SELECTOR = 'a, button, input, select, textarea, label, [role="button"]';
 
-const isFromControl = (target: EventTarget, row: HTMLElement) => {
-  const control = target instanceof Element ? target.closest(CONTROL_SELECTOR) : null;
+const isFromControl = (target: Element, row: HTMLElement) => {
+  const control = target.closest(CONTROL_SELECTOR);
   return control !== null && row.contains(control);
 };
 
@@ -284,7 +284,7 @@ export const Table = <Row,>({
                 onClick={
                   onRowClick
                     ? (event) => {
-                        if (isFromControl(event.target, event.currentTarget)) return;
+                        if (isFromControl(event.target as Element, event.currentTarget)) return;
                         onRowClick(row, index);
                       }
                     : undefined
