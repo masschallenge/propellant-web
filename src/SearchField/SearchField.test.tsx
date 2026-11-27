@@ -76,3 +76,14 @@ describe('SearchField', () => {
     expect(screen.getByRole('searchbox')).toBeDisabled();
   });
 });
+
+describe('SearchField shape', () => {
+  it('is a capsule by default and a rounded rectangle when asked', () => {
+    const { container, rerender } = render(<SearchField aria-label="Search the network" />);
+    expect(container.firstElementChild).toHaveClass('rounded-[var(--corner-capsule)]');
+
+    rerender(<SearchField aria-label="Search the network" shape="rounded" />);
+    expect(container.firstElementChild).toHaveClass('rounded-[var(--corner-md)]');
+    expect(container.firstElementChild).not.toHaveClass('rounded-[var(--corner-capsule)]');
+  });
+});

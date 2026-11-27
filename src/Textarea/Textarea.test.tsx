@@ -90,3 +90,58 @@ describe('Textarea ref', () => {
     expect(ref.current).toBe(screen.getByRole('textbox', { name: 'Reason' }));
   });
 });
+
+describe('Textarea rows', () => {
+  it('keeps the size minimum height without rows and lets rows set the height when given', () => {
+    const { rerender } = render(<Textarea aria-label="Guidance" />);
+    expect(screen.getByRole('textbox')).toHaveClass('min-h-30');
+    rerender(<Textarea aria-label="Guidance" size="sm" />);
+    expect(screen.getByRole('textbox')).toHaveClass('min-h-22');
+    rerender(<Textarea aria-label="Guidance" rows={2} />);
+    const textbox = screen.getByRole('textbox');
+    expect(textbox).toHaveAttribute('rows', '2');
+    expect(textbox).not.toHaveClass('min-h-30');
+    expect(textbox).toHaveClass('px-3', 'py-2', 'text-callout');
+  });
+});
+
+describe('Textarea accessory and footer', () => {
+  it('places the accessory inside the field and keeps text clear of it', () => {
+    const { container } = render(
+      <Textarea
+        aria-label="Feedback"
+        accessory={
+          <button type="button" aria-label="Dictate">
+            mic
+          </button>
+        }
+      />,
+    );
+    const shell = container.querySelector('.propellant-field') as HTMLElement;
+    expect(shell).toContainElement(screen.getByRole('button', { name: 'Dictate' }));
+    expect(screen.getByRole('textbox')).toHaveClass('pr-[calc(var(--control-sm)+var(--space-4))]');
+    expect(screen.getByRole('button', { name: 'Dictate' }).parentElement).toHaveClass(
+      'absolute',
+      'right-[var(--space-2)]',
+      'bottom-[var(--space-2)]',
+    );
+  });
+
+  it('stacks the footer under the text inside the same field and ring', () => {
+    const { container } = render(
+      <Textarea aria-label="Feedback" footer={<button type="button">Stop</button>} />,
+    );
+    const shell = container.querySelector('.propellant-field') as HTMLElement;
+    expect(shell).toHaveClass('flex-col');
+    expect(shell).toContainElement(screen.getByRole('button', { name: 'Stop' }));
+    expect(shell.querySelectorAll('.propellant-field-ring')).toHaveLength(1);
+    expect(shell.lastElementChild).toHaveClass('propellant-field-ring');
+  });
+
+  it('keeps the plain layout without the slots', () => {
+    const { container } = render(<Textarea aria-label="Feedback" />);
+    const shell = container.querySelector('.propellant-field') as HTMLElement;
+    expect(shell).not.toHaveClass('flex-col');
+    expect(shell.firstElementChild).toBe(screen.getByRole('textbox'));
+  });
+});

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fn, userEvent, within } from 'storybook/test';
 import { Switch } from './Switch';
-import { VStack } from '../../.storybook/stack';
+import { VStack, field } from '../../.storybook/stack';
 import { appearance, content, events, hide, state } from '../../.storybook/controls';
 
 const meta = {
@@ -14,6 +14,7 @@ const meta = {
       description: {
         component: [
           'An on or off setting that takes effect immediately. The knob springs across the track; the off track keeps a 3:1 edge so the control is identifiable without color. Use a checkbox instead when the choice is submitted with a form.',
+          '`labelPlacement="leading"` is for settings rows: a semibold label on the left and the switch pushed to the right edge of its container. Clicking the label still toggles it.',
           '`tone="success"` fills the on track with the success green, for lists of stages or assistants that are switched on. The green is light against white, so the on track keeps a 1px success edge.',
           '',
           "Import: `import { Switch } from '@masschallenge/propellant-web'`",
@@ -25,6 +26,7 @@ const meta = {
   argTypes: {
     size: { control: 'inline-radio', options: ['sm', 'compact', 'md'], ...appearance },
     tone: { control: 'inline-radio', options: ['tint', 'success'], ...appearance },
+    labelPlacement: { control: 'inline-radio', options: ['trailing', 'leading'], ...appearance },
     checked: { control: 'boolean', ...state },
     disabled: { control: 'boolean', ...state },
     label: { control: 'text', ...content },
@@ -72,6 +74,22 @@ export const Sizes: Story = {
       <Switch {...args} label="Medium" size="md" defaultChecked />
     </VStack>
   ),
+};
+
+export const LabelLeading: Story = {
+  decorators: [field],
+  render: (args) => (
+    <VStack>
+      <Switch {...args} label="Allow N/A" labelPlacement="leading" defaultChecked />
+      <Switch {...args} label="Required" labelPlacement="leading" />
+    </VStack>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const control = canvas.getByRole('switch', { name: 'Required' });
+    await userEvent.click(canvas.getByText('Required'));
+    await expect(control).toHaveAttribute('aria-checked', 'true');
+  },
 };
 
 export const Interaction: Story = {

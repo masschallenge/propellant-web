@@ -164,3 +164,91 @@ describe('TableEmptyState', () => {
     expect(alert.querySelector('[data-tone="critical"]')).not.toBeNull();
   });
 });
+
+describe('Table row breaks and accents', () => {
+  const rows = [
+    { id: 'a', name: 'Cadence Bio' },
+    { id: 'b', name: 'Lattice Genomics' },
+    { id: 'c', name: 'Meridian Sleep' },
+  ];
+
+  it('puts a full-width row after the row it is asked for', () => {
+    render(
+      <Table
+        caption="Ranking"
+        columns={[{ key: 'name', header: 'Startup' }]}
+        rows={rows}
+        rowId={(row) => row.id}
+        rowActions={() => <button type="button">More</button>}
+        rowBreakAfter={(_row, index) => (index === 1 ? 'Advancing 2 · Not advancing 1' : null)}
+      />,
+    );
+    const breakCell = screen.getByText('Advancing 2 · Not advancing 1');
+    expect(breakCell.tagName).toBe('TD');
+    expect(breakCell).toHaveAttribute('colspan', '2');
+    expect(breakCell).toHaveClass('border-t-[length:var(--stroke-strong)]');
+    const bodyRows = screen.getAllByRole('row').slice(1);
+    expect(bodyRows.map((row) => row.textContent)).toEqual([
+      'Cadence BioMore',
+      'Lattice GenomicsMore',
+      'Advancing 2 · Not advancing 1',
+      'Meridian SleepMore',
+    ]);
+  });
+
+  it('marks a row with an accent on its leading edge', () => {
+    render(
+      <Table
+        caption="Ranking"
+        columns={[
+          { key: 'name', header: 'Startup' },
+          { key: 'id', header: 'Id' },
+        ]}
+        rows={rows}
+        rowId={(row) => row.id}
+        rowAccent={(row) => (row.id === 'b' ? 'warning' : null)}
+      />,
+    );
+    expect(screen.getByText('Lattice Genomics')).toHaveClass(
+      'shadow-[inset_3px_0_0_var(--warning-solid)]',
+    );
+    expect(screen.getByText('Cadence Bio')).not.toHaveClass(
+      'shadow-[inset_3px_0_0_var(--warning-solid)]',
+    );
+  });
+});
+
+describe('Table row click', () => {
+  it('opens a row clicked anywhere but leaves its own controls alone', async () => {
+    const onRowClick = vi.fn();
+    const onOpen = vi.fn();
+    render(
+      <Table
+        caption="Coverage"
+        rows={[{ id: 'a', name: 'Therapeutics', reads: 18 }]}
+        rowId={(row) => row.id}
+        onRowClick={onRowClick}
+        columns={[
+          {
+            key: 'name',
+            header: 'Sub-industry',
+            cell: (row) => (
+              <button type="button" onClick={onOpen}>
+                {row.name}
+              </button>
+            ),
+          },
+          { key: 'reads', header: 'Reads', align: 'right' },
+        ]}
+      />,
+    );
+
+    await userEvent.click(screen.getByRole('cell', { name: '18' }));
+    expect(onRowClick).toHaveBeenCalledWith({ id: 'a', name: 'Therapeutics', reads: 18 }, 0);
+    expect(screen.getByRole('cell', { name: '18' }).closest('tr')).toHaveClass('cursor-pointer');
+
+    await userEvent.click(screen.getByRole('button', { name: 'Therapeutics' }));
+    expect(onOpen).toHaveBeenCalledTimes(1);
+    expect(onRowClick).toHaveBeenCalledTimes(1);
+  });
+});

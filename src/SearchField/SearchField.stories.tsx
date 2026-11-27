@@ -62,6 +62,14 @@ export const Sizes: Story = {
   ),
 };
 
+export const Rounded: Story = {
+  args: {
+    className: 'w-full',
+    shape: 'rounded',
+    placeholder: 'Search the network by name or expertise',
+  },
+};
+
 export const InAList: Story = {
   args: { variant: 'inset', placeholder: 'Search all programs', 'aria-label': 'Search programs' },
   render: (args) => (

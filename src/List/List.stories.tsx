@@ -399,3 +399,22 @@ export const HeadingFocus: Story = {
     await expect(canvas.getByRole('region', { name: 'To do' })).toBeInTheDocument();
   },
 };
+
+export const SectionWithLogo: Story = {
+  render: () => (
+    <ListSection
+      title="Sanofi THRIVE Challenge"
+      titleAs="h2"
+      subtitle="Online selection"
+      media={{ src: MC_MONOGRAM, alt: '' }}
+    >
+      <ListRow
+        icon={icons.check}
+        title="3 reviews left"
+        titleEmphasis="strong"
+        subtitle="Due Mon, Nov 30 @ 11:59 PM ET. About 60 min"
+        accessory={<Button variant="filled">Continue</Button>}
+      />
+    </ListSection>
+  ),
+};

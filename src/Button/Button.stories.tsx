@@ -129,6 +129,16 @@ export const Inline: Story = {
   ),
 };
 
+export const InlineUnderlined: Story = {
+  args: {
+    variant: 'plain',
+    inline: true,
+    underline: true,
+    href: '#',
+    children: 'Invite someone new',
+  },
+};
+
 export const Loading: Story = { args: { loading: true } };
 
 export const Disabled: Story = {

@@ -191,3 +191,26 @@ export const Empty: Story = {
     </div>
   ),
 };
+
+export const LineAndTies: Story = {
+  render: () => (
+    <Table
+      caption="Advancement ranking"
+      size="sm"
+      columns={[
+        { key: 'rank', header: '', cell: (_row, index) => index + 1 },
+        { key: 'company', header: 'Startup' },
+        { key: 'score', header: 'Score', align: 'right' },
+      ]}
+      rows={[
+        { id: '1', company: 'Cadence Bio', score: '8.21' },
+        { id: '2', company: 'Bellwether Diagnostics', score: '6.56' },
+        { id: '3', company: 'Summit Dermatology', score: '6.56' },
+        { id: '4', company: 'Spruce Pediatrics', score: '6.55' },
+      ]}
+      rowId={(row) => row.id}
+      rowAccent={(row) => (row.score === '6.56' ? 'warning' : null)}
+      rowBreakAfter={(_row, index) => (index === 1 ? 'Advancing 2 · Not advancing 2' : null)}
+    />
+  ),
+};

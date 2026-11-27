@@ -37,7 +37,7 @@ interface RadioCardGroupBaseProps {
   defaultValue?: RadioCardSelection;
   onChange?: (value: RadioCardSelection) => void;
   selectionMode?: 'single' | 'multiple';
-  control?: 'auto' | 'check' | 'radio';
+  control?: 'auto' | 'check' | 'radio' | 'none';
   sideBySide?: boolean;
   legend?: ReactNode;
   description?: ReactNode;
@@ -48,7 +48,7 @@ interface RadioCardGroupBaseProps {
   className?: string;
 }
 
-export type RadioCardDensity = 'default' | 'compact';
+export type RadioCardDensity = 'default' | 'compact' | 'dense';
 
 interface RadioCardGroupRowProps extends RadioCardGroupBaseProps {
   layout?: 'row';
@@ -72,6 +72,8 @@ const COMPACT_SELECTED_SURFACE =
   'bg-[var(--radio-card-compact-selected-bg)] shadow-[inset_0_0_0_var(--stroke-strong)_var(--tint)]';
 
 const RESTING_EDGE = 'shadow-[inset_0_0_0_var(--hairline)_var(--control-border)]';
+
+const MARKLESS_RESTING_EDGE = 'shadow-[inset_0_0_0_1px_var(--separator)]';
 
 const ERROR_EDGE = 'shadow-[inset_0_0_0_var(--hairline)_var(--critical)]';
 
@@ -195,6 +197,9 @@ export const RadioCardGroup = ({
   const isTile = layout === 'tile';
   const isStrong = emphasis === 'strong';
   const isCompactRow = density === 'compact' && layout === 'row';
+  const isDenseRow = density === 'dense' && layout === 'row';
+  const isMarkless = control === 'none';
+  const isMarklessRow = isMarkless && layout === 'row';
 
   const cards = options.map((option) => {
     const isOn = isSelected(option.value);
@@ -203,7 +208,7 @@ export const RadioCardGroup = ({
       layout === 'row' && option.disabled && option.readableLinks && option.links?.length,
     );
     const piece = keepsLinksReadable ? FADED : undefined;
-    const mark = (
+    const mark = isMarkless ? null : (
       <SelectionMark
         isSelected={isOn}
         isSquare={isSquare}
@@ -245,14 +250,25 @@ export const RadioCardGroup = ({
         ? isCompactRow
           ? COMPACT_SELECTED_SURFACE
           : SELECTED_SURFACE
-        : joinClasses('bg-[var(--bg)]', error ? ERROR_EDGE : RESTING_EDGE),
+        : joinClasses(
+            'bg-[var(--bg)]',
+            error ? ERROR_EDGE : isMarklessRow ? MARKLESS_RESTING_EDGE : RESTING_EDGE,
+          ),
     );
     const cardClasses = joinClasses(
-      'relative flex gap-3 min-h-[var(--row)] rounded-[var(--corner-lg)] cursor-pointer',
-      isCompactRow ? 'p-[var(--space-3-5)]' : 'p-[var(--space-4)]',
+      'relative flex cursor-pointer',
+      isDenseRow ? 'gap-2.5' : 'gap-3 min-h-[var(--row)]',
+      isMarklessRow || isDenseRow ? 'rounded-[var(--corner-tile)]' : 'rounded-[var(--corner-lg)]',
+      isMarklessRow
+        ? 'py-[var(--space-3)] px-[var(--space-3-5)]'
+        : isDenseRow
+          ? 'py-[var(--space-2)] px-[var(--space-3)]'
+          : isCompactRow
+            ? 'p-[var(--space-3-5)]'
+            : 'p-[var(--space-4)]',
       layout === 'card' || layout === 'choice'
         ? 'flex-col'
-        : isCompactRow
+        : isCompactRow || isDenseRow
           ? 'items-center'
           : 'items-start',
       keepsLinksReadable ? 'isolate cursor-not-allowed' : surface,
@@ -399,9 +415,11 @@ export const RadioCardGroup = ({
       );
     }
 
-    const hintTone = isCompactRow
-      ? 'text-[var(--label-tertiary)]'
-      : 'text-[var(--label-secondary)]';
+    const hintTone =
+      isCompactRow || isMarklessRow
+        ? 'text-[var(--label-tertiary)]'
+        : 'text-[var(--label-secondary)]';
+    const hintSize = isMarklessRow ? 'text-footnote' : 'text-subheadline';
 
     return (
       <label key={option.value} className={cardClasses}>
@@ -435,8 +453,9 @@ export const RadioCardGroup = ({
           <span className={joinClasses('flex items-baseline gap-2 flex-wrap', piece)}>
             <span
               className={joinClasses(
-                isCompactRow ? 'text-body' : 'text-callout',
-                'font-semibold text-[var(--label)]',
+                isCompactRow ? 'text-body' : isDenseRow ? 'text-subheadline' : 'text-callout',
+                isDenseRow ? 'font-normal' : 'font-semibold',
+                'text-[var(--label)]',
               )}
             >
               {option.title}
@@ -451,7 +470,7 @@ export const RadioCardGroup = ({
             ) : null}
           </span>
           {keepsLinksReadable ? (
-            <span className={joinClasses('text-subheadline text-pretty', hintTone)}>
+            <span className={joinClasses(hintSize, 'text-pretty', hintTone)}>
               {option.hint ? <span className={FADED}>{option.hint} </span> : null}
               <span className="inline-flex flex-wrap gap-x-4 ml-[calc(var(--focus-width)+var(--focus-offset))]">
                 {links}
@@ -460,7 +479,7 @@ export const RadioCardGroup = ({
           ) : (
             <>
               {option.hint ? (
-                <span className={joinClasses('text-subheadline text-pretty', hintTone)}>
+                <span className={joinClasses(hintSize, 'text-pretty', hintTone)}>
                   {option.hint}
                 </span>
               ) : null}
@@ -511,6 +530,10 @@ export const RadioCardGroup = ({
               : 'grid-cols-[repeat(auto-fill,minmax(5rem,1fr))]',
           )}
         >
+          {cards}
+        </div>
+      ) : sideBySide && isMarklessRow ? (
+        <div className="grid gap-[var(--space-2-5)] grid-cols-1 sm:grid-flow-col sm:auto-cols-fr">
           {cards}
         </div>
       ) : sideBySide ? (

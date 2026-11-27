@@ -2,6 +2,7 @@ import * as React from 'react';
 
 export type SearchFieldSize = 'sm' | 'md' | 'lg';
 export type SearchFieldVariant = 'outlined' | 'inset';
+export type SearchFieldShape = 'capsule' | 'rounded';
 
 export interface SearchFieldProps extends Omit<
   React.ComponentPropsWithoutRef<'input'>,
@@ -14,6 +15,7 @@ export interface SearchFieldProps extends Omit<
   clearLabel?: string;
   size?: SearchFieldSize;
   variant?: SearchFieldVariant;
+  shape?: SearchFieldShape;
   isPrivate?: boolean;
 }
 
@@ -22,7 +24,7 @@ const joinClasses = (...names: (string | false | null | undefined)[]) =>
 
 const VARIANTS: Record<SearchFieldVariant, string> = {
   outlined:
-    'inline-flex rounded-[var(--corner-capsule)] bg-[var(--bg)] shadow-[inset_0_0_0_1px_var(--control-border)] focus-within:shadow-[inset_0_0_0_1px_var(--focus-color)] focus-within:outline-[length:var(--focus-width)] focus-within:outline-solid focus-within:outline-offset-1 focus-within:outline-[var(--focus-color)]',
+    'inline-flex bg-[var(--bg)] shadow-[inset_0_0_0_1px_var(--control-border)] focus-within:shadow-[inset_0_0_0_1px_var(--focus-color)] focus-within:outline-[length:var(--focus-width)] focus-within:outline-solid focus-within:outline-offset-1 focus-within:outline-[var(--focus-color)]',
   inset:
     'flex w-full min-h-[var(--row)] pl-3.5 pr-2 rounded-none bg-transparent focus-within:outline-[length:var(--stroke-strong)] focus-within:outline-solid focus-within:outline-offset-[calc(var(--stroke-strong)*-1)] focus-within:outline-[var(--focus-color)]',
 };
@@ -49,6 +51,7 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
       clearLabel = 'Clear search',
       size = 'md',
       variant = 'outlined',
+      shape = 'capsule',
       isPrivate = true,
       placeholder = 'Search',
       className,
@@ -70,7 +73,9 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
       <div
         className={joinClasses(
           'relative items-center gap-1.5 min-w-0 text-[var(--label-tertiary)]',
+          variant === 'outlined' && shape === 'capsule' && 'rounded-[var(--corner-capsule)]',
           VARIANTS[variant],
+          variant === 'outlined' && shape === 'rounded' && 'rounded-[var(--corner-md)]',
           disabled && 'opacity-[var(--opacity-disabled)]',
           variant === 'inset' ? INSET_TEXT[size] : SIZES[size],
           className,

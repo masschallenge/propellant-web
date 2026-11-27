@@ -4,6 +4,66 @@ All notable changes to `@masschallenge/propellant-web` are recorded here. The pr
 semantic versioning. The version is available at runtime as the `--propellant-version` custom
 property and from `@masschallenge/propellant-web/version`.
 
+## Unreleased
+
+### Added
+
+- `Table` takes `onRowClick` so a pointer click anywhere on a row opens it. Clicks on the row's own
+  links, buttons and inputs are left to them, and keyboard users keep the row's own control.
+- `ListSection` takes `subtitle` and `media` for a group header that names its source: a
+  logo in the list logo shape, then the title with a quiet line under it. The plain title is
+  unchanged.
+- `Banner` takes `hideIcon` for a plain note without a glyph. The icon and its gap are left out
+  entirely.
+- `Switch` takes `labelPlacement="leading"` for settings rows: a semibold label on the left and the
+  switch pushed to the right edge. Clicking the label still toggles it. The default, `trailing`, is
+  unchanged.
+- `RadioCardGroup` takes `control="none"` for cards without a selection mark: a 1px separator ring
+  at rest, and the tint ring and fill when selected, with 12px by 14px padding, a 10px corner and a
+  12px tertiary hint on row cards. With `sideBySide`, markless cards sit in one row of equal
+  columns with a 10px gap, stacking on narrow screens. The hidden native radios keep keyboard and
+  screen reader support.
+- `ScoreScale`, a single choice from a row of numbers, min to max, with an optional N/A. Each
+  score is a 34px square with an 8px corner and a separator ring, filled with the tint when chosen.
+  Optional low and high captions sit under the row, the high one ending under the last number
+  rather than under N/A, and describe the group. The squares are native radios in a `radiogroup`,
+  so the arrow keys move the choice.
+- `Sheet` takes `layout="sectioned"` for wide dialogs: a header bar with a 17px semibold title and
+  the close button, padded 20px by 24px over a hairline; a scrolling body on `--bg-grouped`, padded
+  20px by 24px, so white cards and lists stand out; and a footer bar on the elevated surface, padded
+  16px by 24px under a hairline. The panel has no outer padding. The focus trap, labelling, close
+  button and placements are unchanged.
+- `TextField` tags commit on comma and on blur as well as Enter. New optional props for a
+  recipient field: `onTagAdd` rewrites a draft or refuses it by returning `null`, which keeps the
+  draft; `getTagLabel` and `getTagIcon` show a display name and a leading icon for a tag;
+  `visibleTagLimit` shows only the first tags and a "2 more" button, named by `moreTagsLabel`, that
+  reveals the rest.
+- `Textarea` takes `accessory`, placed at the bottom right inside the border with the text kept
+  clear of it, and `footer`, a full width bar inside the border under the text. Both share the
+  field's focus ring, for dictation controls.
+- `TextField` with `readOnly` sits on the `--fill-tertiary` surface with the text in the label
+  color, not dimmed like a disabled field. `locked` adds a trailing lock glyph.
+- `FileRow` takes `badgeStyle="tile"` for a file list: the type, such as PDF, on a solid 36px tile
+  with a medium corner, in an outlined row with the content centered. `badge.tone` takes `warning`
+  for an orange tile. The default, `glyph`, is unchanged.
+- `Table` takes `rowBreakAfter`, a full-width row after any row, such as the line between startups
+  that advance and those that don't, on the secondary surface under a strong rule. `rowAccent` marks a
+  row with a 3px bar on its leading edge; `warning` flags rows tied at that line.
+- `SearchField` takes `shape="rounded"` for a full-width field with a medium corner instead of a
+  capsule. The default, `capsule`, is unchanged.
+- An inline plain `Button` takes `underline` to stay underlined at rest, like a text link, rather
+  than only on hover.
+- `Inspector` takes `variant="divided"` for list and detail sheets: a headline title, a plain
+  close glyph, a hairline under the header, 24px side padding and footer actions at their natural
+  width on the trailing edge. The default is unchanged.
+- `RadioCardGroup` rows take `density="dense"` for a scale of labeled levels: about 38px tall,
+  8px by 12px padding, the tile corner and a regular weight title beside the radio.
+
+### Changed
+
+- `Textarea` with `rows` takes its height from the rows instead of the size's minimum height, so
+  `rows={2}` gives a two line field. Without `rows` the minimum height is unchanged.
+
 ## 2.11.0 (2026-11-26)
 
 ### Added

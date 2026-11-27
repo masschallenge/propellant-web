@@ -127,7 +127,8 @@ export const FileUploader = ({
 };
 
 export type FileRowStatus = 'uploading' | 'done' | 'failed';
-export type FileRowBadgeTone = 'brand' | 'danger' | 'success';
+export type FileRowBadgeTone = 'brand' | 'danger' | 'success' | 'warning';
+export type FileRowBadgeStyle = 'glyph' | 'tile';
 
 export interface FileRowProps {
   name: string;
@@ -136,6 +137,7 @@ export interface FileRowProps {
   status?: FileRowStatus;
   progressStyle?: 'fill' | 'bar';
   badge?: { text: string; tone?: FileRowBadgeTone };
+  badgeStyle?: FileRowBadgeStyle;
   onRetry?: () => void;
   onRemove?: () => void;
   action?: React.ReactNode;
@@ -147,13 +149,33 @@ const BADGE_FILL: Record<FileRowBadgeTone, string> = {
   brand: 'fill-[var(--tint)]',
   danger: 'fill-[var(--critical-solid)]',
   success: 'fill-[var(--success-solid)]',
+  warning: 'fill-[var(--warning-solid)]',
 };
 
 const BADGE_TEXT: Record<FileRowBadgeTone, string> = {
   brand: 'fill-[var(--on-tint)]',
   danger: 'fill-[var(--on-critical)]',
   success: 'fill-[var(--on-success)]',
+  warning: 'fill-[var(--on-warning)]',
 };
+
+const TILE_TONE: Record<FileRowBadgeTone, string> = {
+  brand: 'bg-[var(--tint)] text-[var(--on-tint)]',
+  danger: 'bg-[var(--critical-solid)] text-[var(--on-critical)]',
+  success: 'bg-[var(--success-solid)] text-[var(--on-success)]',
+  warning: 'bg-[var(--warning-solid)] text-[var(--on-warning)]',
+};
+
+const FileTile = ({ badge }: { badge: NonNullable<FileRowProps['badge']> }) => (
+  <span
+    className={joinClasses(
+      'flex w-full h-full items-center justify-center rounded-[var(--corner-md)] text-caption font-bold tracking-wide',
+      TILE_TONE[badge.tone || 'brand'],
+    )}
+  >
+    {badge.text}
+  </span>
+);
 
 const STATUS_TONE: Record<FileRowStatus, string> = {
   failed: 'text-[var(--critical)]',
@@ -220,12 +242,14 @@ export const FileRow = ({
   status = 'done',
   progressStyle = 'fill',
   badge,
+  badgeStyle = 'glyph',
   onRetry,
   onRemove,
   action,
   showStatus = true,
   className,
 }: FileRowProps) => {
+  const isTile = badgeStyle === 'tile' && Boolean(badge);
   const statusText =
     status === 'done'
       ? 'Uploaded'
@@ -235,7 +259,10 @@ export const FileRow = ({
   return (
     <div
       className={joinClasses(
-        'relative flex items-start gap-3 p-3 overflow-hidden rounded-[var(--corner-lg)]',
+        'relative flex gap-3 overflow-hidden rounded-[var(--corner-lg)]',
+        isTile
+          ? 'items-center px-3 py-2.5 shadow-[inset_0_0_0_var(--hairline)_var(--separator)]'
+          : 'items-start p-3',
         status === 'failed' ? 'bg-[var(--critical-fill)]' : 'bg-[var(--bg)]',
         className,
       )}
@@ -248,7 +275,7 @@ export const FileRow = ({
         />
       ) : null}
       <span className="relative flex-none w-9 h-9" aria-hidden="true">
-        <FileGlyph badge={badge} />
+        {isTile && badge ? <FileTile badge={badge} /> : <FileGlyph badge={badge} />}
       </span>
       <div className="relative flex flex-col flex-1 gap-0.5 min-w-0">
         <span className="truncate text-callout font-medium text-[var(--label)]">{name}</span>

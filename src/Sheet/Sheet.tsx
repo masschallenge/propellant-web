@@ -10,7 +10,7 @@ const openSheetStack: object[] = [];
 
 export type SheetTone = 'neutral' | 'info' | 'success' | 'warning' | 'critical';
 export type SheetSize = 'sm' | 'md' | 'md-wide' | 'lg' | 'xl' | 'full';
-export type SheetLayout = 'stacked' | 'horizontal' | 'split';
+export type SheetLayout = 'stacked' | 'horizontal' | 'split' | 'sectioned';
 export type SheetPlacement = 'center' | 'side' | 'content';
 export type SheetTopOffset = 'sm' | 'md' | 'lg' | 'xl';
 export type SheetCloseButton = 'gray' | 'plain';
@@ -131,6 +131,8 @@ const CLOSE_BUTTON: Record<SheetCloseButton, { variant: 'gray' | 'plain'; glyph:
 };
 
 const PANEL_EDGE = { padding: 'p-6', headerBleed: '-mx-6 -mt-6 px-6' } as const;
+
+const SECTION_SEPARATOR = 'border-solid border-[var(--separator)]';
 
 const HEADING_TYPE: Record<SheetHeader, { wrapper: string; title: string; description: string }> = {
   default: {
@@ -301,13 +303,15 @@ export const Sheet = ({
     </IconButton>
   );
 
+  const isSectioned = layout === 'sectioned';
   const isDividedHeader = header === 'divided' && layout === 'stacked';
 
-  const closeControl = isDividedHeader ? null : (
-    <span className="absolute top-4 right-4 z-[2] flex">{closeButtonNode}</span>
-  );
+  const closeControl =
+    isDividedHeader || isSectioned ? null : (
+      <span className="absolute top-4 right-4 z-[2] flex">{closeButtonNode}</span>
+    );
 
-  const headingType = HEADING_TYPE[isDividedHeader ? 'divided' : 'default'];
+  const headingType = HEADING_TYPE[isDividedHeader || isSectioned ? 'divided' : 'default'];
 
   const heading = (
     <div className={headingType.wrapper}>
@@ -355,7 +359,7 @@ export const Sheet = ({
   const shownPlacement = placement === 'content' && !shell ? 'center' : placement;
   const isSide = shownPlacement === 'side';
   const isContent = shownPlacement === 'content';
-  const scrollsBody = layout === 'stacked' && (size !== 'full' || isSide);
+  const scrollsBody = (layout === 'stacked' || isSectioned) && (size !== 'full' || isSide);
 
   const footerNode = footer ? (
     <div className={joinClasses(FOOTER_LAYOUT[footerLayout], scrollsBody && 'shrink-0')}>
@@ -376,41 +380,68 @@ export const Sheet = ({
     </div>
   ) : null;
 
-  const content =
-    layout === 'horizontal' ? (
-      <div className="flex items-start gap-4">
-        {lead}
-        <div className="flex-1 min-w-0 flex flex-col gap-4">
-          {heading}
-          {body}
-          {footerNode}
-        </div>
-      </div>
-    ) : layout === 'split' ? (
-      <div className="flex items-stretch gap-4">
-        <div className="flex-none w-45 rounded-[var(--corner-lg)] overflow-hidden bg-[var(--bg-secondary)] flex items-center justify-center">
-          {media}
-        </div>
-        <div className="flex-1 min-w-0 flex flex-col gap-4">
-          {heading}
-          {body}
-          {footerNode}
-        </div>
-      </div>
-    ) : (
-      <>
-        {isDividedHeader ? (
-          dividedHeading
-        ) : (
-          <div className="shrink-0 flex flex-col gap-3">
-            {lead}
-            {heading}
-          </div>
+  const content = isSectioned ? (
+    <>
+      <div
+        className={joinClasses(
+          'shrink-0 flex items-center gap-3 py-[var(--space-5)] px-[var(--space-6)] border-b-[length:var(--hairline)]',
+          SECTION_SEPARATOR,
         )}
+      >
+        {heading}
+        <span className="flex-none flex">{closeButtonNode}</span>
+      </div>
+      {children ? (
+        <div className="flex-1 min-h-0 overflow-y-auto py-[var(--space-5)] px-[var(--space-6)] bg-[var(--bg-grouped)] text-callout text-[var(--label)]">
+          {children}
+        </div>
+      ) : null}
+      {footer ? (
+        <div
+          className={joinClasses(
+            'shrink-0 py-[var(--space-4)] px-[var(--space-6)] bg-[var(--bg-elevated)] border-t-[length:var(--hairline)]',
+            SECTION_SEPARATOR,
+            FOOTER_LAYOUT[footerLayout],
+          )}
+        >
+          {footer}
+        </div>
+      ) : null}
+    </>
+  ) : layout === 'horizontal' ? (
+    <div className="flex items-start gap-4">
+      {lead}
+      <div className="flex-1 min-w-0 flex flex-col gap-4">
+        {heading}
         {body}
         {footerNode}
-      </>
-    );
+      </div>
+    </div>
+  ) : layout === 'split' ? (
+    <div className="flex items-stretch gap-4">
+      <div className="flex-none w-45 rounded-[var(--corner-lg)] overflow-hidden bg-[var(--bg-secondary)] flex items-center justify-center">
+        {media}
+      </div>
+      <div className="flex-1 min-w-0 flex flex-col gap-4">
+        {heading}
+        {body}
+        {footerNode}
+      </div>
+    </div>
+  ) : (
+    <>
+      {isDividedHeader ? (
+        dividedHeading
+      ) : (
+        <div className="shrink-0 flex flex-col gap-3">
+          {lead}
+          {heading}
+        </div>
+      )}
+      {body}
+      {footerNode}
+    </>
+  );
 
   const sheet = (
     <div
@@ -446,8 +477,8 @@ export const Sheet = ({
         tabIndex={-1}
         data-placement={shownPlacement}
         className={joinClasses(
-          'relative w-full flex flex-col gap-5 outline-none bg-[var(--bg-elevated)] shadow-[var(--shadow-sheet)]',
-          PANEL_EDGE.padding,
+          'relative w-full flex flex-col outline-none bg-[var(--bg-elevated)] shadow-[var(--shadow-sheet)]',
+          isSectioned ? 'overflow-hidden' : joinClasses('gap-5', PANEL_EDGE.padding),
           isSide
             ? joinClasses('h-full max-w-none', SIDE_WIDTH[size])
             : joinClasses('rounded-[var(--corner-xl)]', WIDTH[size]),

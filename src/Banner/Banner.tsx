@@ -10,6 +10,7 @@ export interface BannerProps extends Omit<React.ComponentPropsWithoutRef<'div'>,
   full?: boolean;
   solid?: boolean;
   icon?: ReactNode;
+  hideIcon?: boolean;
   onDismiss?: () => void;
   dismissLabel?: string;
   children?: ReactNode;
@@ -57,6 +58,7 @@ export const Banner = ({
   full = false,
   solid,
   icon,
+  hideIcon = false,
   onDismiss,
   dismissLabel = 'Dismiss',
   className,
@@ -78,22 +80,24 @@ export const Banner = ({
       )}
       {...rest}
     >
-      <span className="flex-none flex text-(--banner-accent) mt-px" aria-hidden="true">
-        {icon || (
-          <svg
-            viewBox="0 0 24 24"
-            className="w-[var(--icon-lg)] h-[var(--icon-lg)]"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="12" cy="12" r="9" />
-            {GLYPHS[tone]}
-          </svg>
-        )}
-      </span>
+      {hideIcon ? null : (
+        <span className="flex-none flex text-(--banner-accent) mt-px" aria-hidden="true">
+          {icon || (
+            <svg
+              viewBox="0 0 24 24"
+              className="w-[var(--icon-lg)] h-[var(--icon-lg)]"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="12" cy="12" r="9" />
+              {GLYPHS[tone]}
+            </svg>
+          )}
+        </span>
+      )}
       <div
         className={joinClasses(
           'flex-1 min-w-0 flex',

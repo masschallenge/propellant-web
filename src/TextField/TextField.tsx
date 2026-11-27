@@ -32,6 +32,12 @@ export interface TextFieldProps extends NativeInputProps {
   tags?: string[];
   onTagsChange?: (tags: string[]) => void;
   tagPlacement?: 'inline' | 'outer';
+  getTagIcon?: (tag: string) => ReactNode;
+  getTagLabel?: (tag: string) => string;
+  visibleTagLimit?: number;
+  moreTagsLabel?: (hiddenCount: number) => string;
+  onTagAdd?: (draft: string) => string | null;
+  locked?: boolean;
   fileUpload?: boolean;
   onFileSelect?: (file: File) => void;
   onClear?: () => void;
@@ -76,6 +82,14 @@ const ICON_BUTTON = joinClasses(
   'flex flex-none items-center justify-center p-0 border-0 bg-transparent cursor-pointer rounded-[var(--corner-md)] text-[var(--label-tertiary)] hover:text-[var(--label-secondary)] disabled:cursor-not-allowed',
   INSET_FOCUS,
 );
+
+const MORE_TAGS_BUTTON = joinClasses(
+  'relative inline-flex items-center min-h-6 px-2.5 border-0 cursor-pointer rounded-[var(--corner-capsule)] text-subheadline font-normal whitespace-nowrap',
+  'bg-[var(--fill-secondary)] text-[var(--label)] hover:bg-[var(--fill)]',
+  'focus-visible:outline-[length:var(--focus-width)] focus-visible:outline-solid focus-visible:outline-offset-[var(--focus-offset)] focus-visible:outline-[var(--focus-color)]',
+);
+
+const defaultMoreTagsLabel = (hiddenCount: number) => `${hiddenCount} more`;
 
 const ICON_SLOT = '[&>svg]:block [&>svg]:w-[var(--icon-sm)] [&>svg]:h-[var(--icon-sm)]';
 
@@ -127,6 +141,12 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       tags,
       onTagsChange,
       tagPlacement = 'inline',
+      getTagIcon,
+      getTagLabel,
+      visibleTagLimit,
+      moreTagsLabel = defaultMoreTagsLabel,
+      onTagAdd,
+      locked = false,
       fileUpload = false,
       onFileSelect,
       onClear,
@@ -142,6 +162,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       placeholder,
       onKeyDown,
       onClick,
+      onBlur,
       'aria-describedby': describedByProp,
       ...rest
     },
@@ -158,9 +179,15 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     const fileInputRef = React.useRef<HTMLInputElement>(null);
     const [isRevealed, setIsRevealed] = React.useState(false);
     const [fileName, setFileName] = React.useState('');
+    const [areAllTagsShown, setAreAllTagsShown] = React.useState(false);
 
     const tagList = tags ?? [];
     const isTagField = tags !== undefined && tagPlacement === 'inline';
+    const isLockedLook = Boolean(readOnly) && !fileUpload;
+    const isTagListCut =
+      visibleTagLimit !== undefined && !areAllTagsShown && tagList.length > visibleTagLimit;
+    const shownTags = isTagListCut ? tagList.slice(0, visibleTagLimit) : tagList;
+    const hiddenTagCount = tagList.length - shownTags.length;
     const resolvedType = passwordToggle ? (isRevealed ? 'text' : 'password') : type;
 
     const minimum = toBound(min);
@@ -183,13 +210,20 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       if (onTagsChange && !disabled) onTagsChange(tagList.filter((existing) => existing !== tag));
     };
 
+    const commitDraft = (input: HTMLInputElement) => {
+      const draft = input.value.trim();
+      if (!draft) return;
+      const accepted = onTagAdd ? onTagAdd(draft) : draft;
+      if (accepted === null) return;
+      if (onTagsChange && !tagList.includes(accepted)) onTagsChange([...tagList, accepted]);
+      input.value = '';
+    };
+
     const handleTagKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
       const input = event.currentTarget;
-      const draft = input.value.trim();
-      if (event.key === 'Enter' && draft) {
+      if ((event.key === 'Enter' || event.key === ',') && input.value.trim()) {
         event.preventDefault();
-        if (onTagsChange && !tagList.includes(draft)) onTagsChange([...tagList, draft]);
-        input.value = '';
+        commitDraft(input);
       } else if (event.key === 'Backspace' && !input.value && tagList.length) {
         removeTag(tagList[tagList.length - 1]);
       }
@@ -209,11 +243,31 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     const renderTag = (tag: string) => (
       <Token
         key={tag}
-        label={tag}
+        label={getTagLabel ? getTagLabel(tag) : tag}
+        icon={getTagIcon?.(tag)}
         size="sm"
         className="fs-mask"
         onRemove={disabled ? undefined : () => removeTag(tag)}
       />
+    );
+
+    const renderTags = () => (
+      <>
+        {shownTags.map(renderTag)}
+        {hiddenTagCount > 0 ? (
+          <button
+            type="button"
+            className={MORE_TAGS_BUTTON}
+            disabled={disabled}
+            onClick={() => {
+              setAreAllTagsShown(true);
+              inputRef.current?.focus();
+            }}
+          >
+            {moreTagsLabel(hiddenTagCount)}
+          </button>
+        ) : null}
+      </>
     );
 
     const segmentWidth = SEGMENT_WIDTHS[size];
@@ -239,6 +293,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             disabled && 'cursor-not-allowed',
           )}
           data-invalid={invalid ? 'true' : undefined}
+          data-readonly={isLockedLook ? 'true' : undefined}
         >
           {stepper === 'horizontal' ? (
             <button
@@ -269,7 +324,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
               {iconLeading}
             </span>
           ) : null}
-          {isTagField ? tagList.map(renderTag) : null}
+          {isTagField ? renderTags() : null}
           <input
             id={fieldId}
             ref={inputRef}
@@ -300,6 +355,10 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             value={fileUpload ? fileName : value}
             placeholder={fileUpload ? placeholder || 'No file selected' : placeholder}
             onKeyDown={isTagField ? handleTagKeyDown : onKeyDown}
+            onBlur={(event) => {
+              if (isTagField) commitDraft(event.currentTarget);
+              onBlur?.(event);
+            }}
             onClick={(event) => {
               if (fileUpload) openFilePicker();
               onClick?.(event);
@@ -370,6 +429,25 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
               aria-hidden="true"
             >
               {iconTrailing}
+            </span>
+          ) : null}
+          {locked ? (
+            <span
+              className={joinClasses(
+                'flex flex-none items-center pr-3 text-[var(--label-tertiary)]',
+                ICON_SLOT,
+              )}
+              aria-hidden="true"
+            >
+              <Glyph
+                className="w-[var(--icon-sm)] h-[var(--icon-sm)]"
+                path={
+                  <>
+                    <rect x="5" y="11" width="14" height="10" rx="2" />
+                    <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+                  </>
+                }
+              />
             </span>
           ) : null}
           {trailingAddon ? (
@@ -455,7 +533,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           <span className="propellant-field-ring" aria-hidden="true" />
         </div>
         {tags !== undefined && tagPlacement === 'outer' ? (
-          <div className="flex flex-wrap gap-1.5">{tagList.map(renderTag)}</div>
+          <div className="flex flex-wrap gap-1.5">{renderTags()}</div>
         ) : null}
         <FieldHintRow
           hint={hint}

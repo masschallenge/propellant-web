@@ -70,4 +70,34 @@ describe('Switch', () => {
     render(<Switch aria-label="Email judges" className="ml-auto" />);
     expect(screen.getByRole('switch', { name: 'Email judges' })).toHaveClass('ml-auto');
   });
+
+  it('puts a semibold label first and pushes the switch to the far edge when leading', async () => {
+    const onChange = vi.fn();
+    render(<Switch label="Allow N/A" labelPlacement="leading" onChange={onChange} />);
+    const control = screen.getByRole('switch', { name: 'Allow N/A' });
+    const row = control.parentElement as HTMLElement;
+    expect(row).toHaveClass('justify-between');
+    expect(row.lastElementChild).toBe(control);
+    const label = screen.getByText('Allow N/A');
+    expect(label).toHaveClass('font-semibold');
+    await userEvent.click(label);
+    expect(control).toHaveAttribute('aria-checked', 'true');
+    expect(onChange).toHaveBeenCalledWith(true);
+  });
+
+  it('keeps the label after the switch by default', () => {
+    render(<Switch label="Email judges" />);
+    const control = screen.getByRole('switch');
+    expect(control.parentElement?.firstElementChild).toBe(control);
+    expect(screen.getByText('Email judges')).not.toHaveClass('font-semibold');
+  });
+});
+
+describe('Switch leading hint', () => {
+  it('puts a hint before the switch when there is no label', () => {
+    render(<Switch aria-label="Allow N/A" hint="Judges can skip" labelPlacement="leading" />);
+    const control = screen.getByRole('switch', { name: 'Allow N/A' });
+    expect(control.parentElement?.lastElementChild).toBe(control);
+    expect(screen.getByText('Judges can skip')).toBeInTheDocument();
+  });
 });

@@ -40,6 +40,68 @@ describe('RadioCardGroup side by side', () => {
   });
 });
 
+const TYPE_OPTIONS = [
+  { value: 'score', title: 'Score', hint: 'A number on a scale' },
+  { value: 'labeled', title: 'Labeled scale', hint: 'Pick one labeled level' },
+  { value: 'written', title: 'Written feedback', hint: 'Words, with a minimum' },
+];
+
+describe('RadioCardGroup without a selection mark', () => {
+  it('lays markless cards out in equal columns with no mark and keeps the native radios', () => {
+    render(
+      <RadioCardGroup
+        legend="Type"
+        control="none"
+        sideBySide
+        options={TYPE_OPTIONS}
+        defaultValue="score"
+      />,
+    );
+    const score = screen.getByRole('radio', { name: /Score/ });
+    const card = score.closest('label') as HTMLElement;
+    const grid = card.parentElement as HTMLElement;
+    expect(grid).toHaveClass(
+      'grid',
+      'sm:grid-flow-col',
+      'sm:auto-cols-fr',
+      'gap-[var(--space-2-5)]',
+    );
+    expect(card.querySelector('span[aria-hidden="true"]')).toBeNull();
+    expect(card).toHaveClass(
+      'rounded-[var(--corner-tile)]',
+      'py-[var(--space-3)]',
+      'px-[var(--space-3-5)]',
+    );
+    expect(card.className).toContain('shadow-[inset_0_0_0_var(--stroke-strong)_var(--tint)]');
+    const resting = screen.getByRole('radio', { name: /Written feedback/ }).closest('label');
+    expect(resting?.className).toContain('shadow-[inset_0_0_0_1px_var(--separator)]');
+    expect(screen.getByText('Words, with a minimum')).toHaveClass(
+      'text-footnote',
+      'text-[var(--label-tertiary)]',
+    );
+    expect(screen.getAllByRole('radio')).toHaveLength(3);
+  });
+
+  it('moves the selection with the arrow keys', async () => {
+    const onChange = vi.fn();
+    render(
+      <RadioCardGroup
+        legend="Type"
+        control="none"
+        sideBySide
+        options={TYPE_OPTIONS}
+        defaultValue="score"
+        onChange={onChange}
+      />,
+    );
+    await userEvent.tab();
+    expect(screen.getByRole('radio', { name: /Score/ })).toHaveFocus();
+    await userEvent.keyboard('{ArrowRight}');
+    expect(screen.getByRole('radio', { name: /Labeled scale/ })).toBeChecked();
+    expect(onChange).toHaveBeenCalledWith('labeled');
+  });
+});
+
 describe('RadioCardGroup tiles', () => {
   it('renders compact tiles named by their option labels with the caption under the value', () => {
     render(<RadioCardGroup layout="tile" legend="Problem" options={SCORES} />);
@@ -302,6 +364,29 @@ describe('RadioCardGroup density', () => {
     render(<RadioCardGroup legend="Apply as" defaultValue="careloop" options={companies} />);
     const defaultCard = screen.getByRole('radio', { name: /CareLoop/ }).closest('label');
     expect(defaultCard?.className).toContain('linear-gradient(var(--tint-fill),var(--tint-fill))');
+  });
+});
+
+describe('RadioCardGroup dense rows', () => {
+  it('sets each level as a short row with a regular weight title', () => {
+    render(
+      <RadioCardGroup
+        legend="Overall recommendation"
+        density="dense"
+        value="5"
+        options={[
+          { value: '4', title: '4 · Lean yes' },
+          { value: '5', title: '5 · Recommend' },
+        ]}
+      />,
+    );
+    const title = screen.getByText('5 · Recommend');
+    expect(title).toHaveClass('font-normal');
+    expect(title).toHaveClass('text-subheadline');
+    const card = title.closest('label');
+    expect(card).toHaveClass('py-[var(--space-2)]');
+    expect(card).not.toHaveClass('min-h-[var(--row)]');
+    expect(screen.getByRole('radio', { name: '5 · Recommend' })).toBeChecked();
   });
 });
 
