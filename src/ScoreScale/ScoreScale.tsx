@@ -74,7 +74,6 @@ export const ScoreScale = ({
     [ariaDescribedBy, lowLabelId, highLabelId].filter(Boolean).join(' ') || undefined;
 
   const select = (nextValue: ScoreScaleValue) => {
-    if (disabled) return;
     if (value === undefined) setInternalValue(nextValue);
     onChange?.(nextValue);
   };
